@@ -1,5 +1,7 @@
 # Project `CrowdinBridge`
 
+**Still in beta!**
+
 ![](https://github.com/georgringer/typo3-crowdin/workflows/Crowdin%20Build/badge.svg)
 ![](https://github.com/georgringer/typo3-crowdin/workflows/Crowdin%20Extract/badge.svg)
 
