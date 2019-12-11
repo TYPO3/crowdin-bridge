@@ -48,6 +48,6 @@ jobs:
           PORT: ${{ secrets.SCP_PORT }}
           KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         with:
-          source: "/home/runner/work/typo3-crowdin/typo3-crowdin/public/rsync"
+          source: "/home/runner/work/crowdin-bridge/crowdin-bridge/public/rsync"
           target: "/home/translation/www/test/"
 
