@@ -1,0 +1,34 @@
+name: Crowdin Build
+
+on:
+  push:
+  schedule:
+    # Every day at 1am
+    - cron:  '0 1 * * *'
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        php: ['7.3']
+    steps:
+      - uses: actions/checkout@v1
+      - name: Set up PHP Version
+        run: |
+          sudo update-alternatives --set php /usr/bin/php${{ matrix.php }}
+          php -v
+
+      - name: Install dependencies
+        run: composer install --no-progress --no-suggest
+
+      - name: Get configuration
+        run: |
+          wget ${{ secrets.CONFIGURATION_URL }}
+
+      - name: Build all projects
+        run: php app.php crowdin:meta:build
+
+      - name: Cleanup
+        run: rm -rf configuration.json

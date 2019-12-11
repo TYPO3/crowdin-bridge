@@ -1,0 +1,53 @@
+name: Crowdin Extract
+
+on:
+  push:
+  schedule:
+    # Every day at 5am
+    - cron:  '0 5 * * *'
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        php: ['7.3']
+    steps:
+      - uses: actions/checkout@v1
+      - name: Set up PHP Version
+        run: |
+          sudo update-alternatives --set php /usr/bin/php${{ matrix.php }}
+          php -v
+
+      - name: Install dependencies
+        run: composer install --no-progress --no-suggest
+
+      - name: Get configuration
+        run: |
+          wget ${{ secrets.CONFIGURATION_URL }}
+
+      - name: Extract translations
+        run: |
+          php app.php crowdin:meta:extractExt
+          php app.php crowdin:extract:core '*'
+
+      - name: Extract status
+        run: |
+          php app.php crowdin:meta:status.export
+          php app.php crowdin:management:status ${{ secrets.CROWDIN_USER_KEY }} --export=1
+
+      - name: Cleanup
+        run: rm -rf configuration.json
+
+      - name: Copy files to translation server
+        uses: appleboy/scp-action@master
+        env:
+          HOST: ${{ secrets.SCP_HOST }}
+          USERNAME: ${{ secrets.SCP_USERNAME }}
+          PORT: ${{ secrets.SCP_PORT }}
+          KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        with:
+          source: "/home/runner/work/typo3-crowdin/typo3-crowdin/public/rsync"
+          target: "/home/translation/www/test/"
+

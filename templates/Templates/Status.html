@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Crowdin TYPO3 Status</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.4.3/dist/css/foundation.min.css"
+          integrity="sha256-GSio8qamaXapM8Fq9JYdGNTvk/dgs+cMLgPeevOYEx0= sha384-wAweiGTn38CY2DSwAaEffed6iMeflc0FMiuptanbN4J+ib+342gKGpvYRWubPd/+ sha512-QHEb6jOC8SaGTmYmGU19u2FhIfeG+t/hSacIWPpDzOp5yygnthL3JwnilM7LM1dOAbJv62R+/FICfsrKUqv4Gg=="
+          crossorigin="anonymous">
+    <link rel="stylesheet" href="screen.css"/>
+</head>
+<body>
+
+<div class="grid-container fluid page__header">
+    <div class="grid-container">
+        <div class="grid-x grid-padding-x">
+            <div class="cell small-12 medium-shrink page__header--logo">
+                <img src="typo3_nomargins.svg" alt="TYPO3 Logo"/>
+            </div>
+            <div class="cell small-12 medium-auto">
+                <h1>Status TYPO3 Crowdin Bridge</h1>
+                <p class="lead">Date: {date}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="grid-container page__content">
+    <div class="grid-x grid-frame grid-padding-x">
+
+        <f:if condition="{configuration}">
+            <f:then>
+                <table class="table">
+                    <tr>
+                        <th>extensionKey</th>
+                        <th>crowdin key</th>
+                        <th>usable</th>
+                        <f:for each="{configuration.0.languages}" as="language" key="key">
+                            <th>{key}</th>
+                        </f:for>
+                    </tr>
+                    <f:for each="{configuration}" as="project">
+                        <tr>
+                            <th>
+                                <f:if condition="{project.crowdinKey} == 'typo3-cms'">
+                                    <f:then>
+                                        TYPO3 Core
+                                    </f:then>
+                                    <f:else>
+                                        <a href="https://extensions.typo3.org/extension/{project.extensionKey}/"
+                                           target="_blank" rel="noopener">
+                                            {project.extensionKey}
+                                        </a>
+                                    </f:else>
+                                </f:if>
+
+                            </th>
+                            <td>
+                                <a href="https://crowdin.com/project/{project.crowdinKey}" target="_blank"
+                                   rel="noopener">
+                                    {project.crowdinKey}
+                                </a>
+                            </td>
+                            <td>{f:if(condition:project.usable,then:'yes',else:'no')}</td>
+                            <f:for each="{project.languages}" as="language">
+                                <td>{language}</td>
+                            </f:for>
+                        </tr>
+                    </f:for>
+                </table>
+            </f:then>
+        </f:if>
+    </div>
+
+</div>
+
+<div class="grid-container fluid page__footer">
+    <div class="grid-container">
+        <div class="grid-x grid-padding-x">
+            <div class="cell small-12 medium-7">
+                <h3>Ready to get started?</h3>
+                <p>Get involved! <a
+                    href="https://typo3.org/community/teams/typo3-development/initiatives/localization-with-crowdin/"
+                    target="_blank">Localization with Crowdin Initiative</a></p>
+                <p><a
+                    href="https://docs.typo3.org/m/typo3/reference-coreapi/master/en-us/ApiOverview/Internationalization/TranslationServer/Crowdin/ExtensionIntegration.html"
+                    target="_blank">Translate your extension with Crowdin.</a>
+                </p>
+            </div>
+            <div class="cell small-12 medium-5">
+                <nav class="page__footer--menu menu vertical">
+                    <li class="menu-item">
+                        <a target="_blank" rel="noopener" href="https://typo3.org/legal-notice/">Legal notice</a>
+                    </li>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

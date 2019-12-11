@@ -1,0 +1,21 @@
+{
+	"paths": {
+		"entryPath": "\/app\/web\/crowdin\/",
+		"downloads": "downloads",
+		"final": "final",
+		"export": "export",
+		"rsync": "rsync",
+		"extracts": "extracts"
+	},
+	"projects": {
+		"typo3-cms": {
+			"key": "123456789012345678901234567890123",
+			"languages": "am,ar,bg,bs,cs,da,de,el,es-ES,et,fa,fi,fr,fr-CA,gl,hi,hr,hu,is,it,ja,km,lv,mi,nl,no,pl,pt-BR,ro,ru,sk,sl,sv-SE,th,tr,uk,zh-CN,zh-HK"
+		},
+		"typo3-extension-news": {
+			"key": "abcdefghijklmnopqrstuvwxyz1234567",
+			"languages": "cs,da,de,el,es-ES,fa,fi,fr,hr,hu,it,km,nl,no,pt-BR,ro,sv-SE,uk",
+			"extensionKey": "news"
+		}
+	}
+}

@@ -1,0 +1,23 @@
+
+.page__header {
+    background-color: #f49700;
+}
+
+.page__header--logo {
+    background-color: #fff;
+}
+
+.page__header--logo img {
+    width: 160px;
+    max-width: 90%;
+    height: auto;
+    margin: .8em 0;
+}
+
+.page__content {
+    overflow-x: auto;
+}
+
+.page__footer {
+    background-color: #f4f4f4;
+}

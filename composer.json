@@ -1,0 +1,32 @@
+{
+	"name": "typo3/crowdin-bridge",
+	"description": "Bridge for Crowdin->TYPO3",
+	"type": "project",
+	"license": "GPL-2.0-or-later",
+	"authors": [
+		{
+			"name": "Georg Ringer",
+			"email": "georg.ringer@gmail.com"
+		}
+	],
+	"config": {
+		"bin-dir": "bin",
+		"platform": {
+			"php": "7.3.11"
+		},
+		"sort-packages": true
+	},
+	"require": {
+		"php": "^7.3",
+		"ext-json": "*",
+		"ext-zip": "*",
+		"akeneo/crowdin-api": "dev-master#a19d7b3",
+		"symfony/console": "^4.3",
+		"typo3fluid/fluid": "^2.6"
+	},
+	"autoload": {
+		"psr-4": {
+			"TYPO3\\CrowdinBridge\\": "src"
+		}
+	}
+}
