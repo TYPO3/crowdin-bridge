@@ -15,8 +15,7 @@ class ProjectService extends BaseService
 
     public function getAllProjects(string $accountKey, string $username): array
     {
-        $data = $this->getApiResponse($accountKey, $username);
-        return $data['projects'] ?? [];
+        return $this->getApiResponse($accountKey, $username);
     }
 
     public function updateConfiguration(string $accountKey, string $username): AccountGetProjectsResponse
@@ -24,25 +23,21 @@ class ProjectService extends BaseService
         $existingProjects = $this->configurationService->getAllProjects();
         $data = $this->getApiResponse($accountKey, $username);
         $response = new AccountGetProjectsResponse();
-        if (isset($data['projects'])) {
-            foreach ($data['projects'] as $project) {
-                $identifier = $project['identifier'];
-                if (in_array($identifier, self::SKIPPED_PROJECTS, true)) {
-                    continue;
-                }
+        foreach ($data as $project) {
+            $identifier = $project['identifier'];
 
-                if (!isset($existingProjects[$identifier])) {
-                    $newProject = $this->configurationService->add($identifier, $project['key'], '');
-                    $response->addNewProject($newProject);
-                } else {
-                    // check if key is the same
-                    if ($existingProjects[$identifier]->getKey() !== $project['key']) {
-                        $response->addUpdatedProject($existingProjects[$identifier]);
-                        $this->configurationService->updateSingleConfiguration($identifier, 'key', $project['key']);
-                    }
+            if (!isset($existingProjects[$identifier])) {
+                $newProject = $this->configurationService->add($identifier, $project['key'], '');
+                $response->addNewProject($newProject);
+            } else {
+                // check if key is the same
+                if ($existingProjects[$identifier]->getKey() !== $project['key']) {
+                    $response->addUpdatedProject($existingProjects[$identifier]);
+                    $this->configurationService->updateSingleConfiguration($identifier, 'key', $project['key']);
                 }
             }
         }
+
 
         return $response;
     }
@@ -58,7 +53,21 @@ class ProjectService extends BaseService
         $response = new AccountGetProjectsResponse();
 
         if ($content = $apiResponse->getContents()) {
-            return json_decode($content, true);
+
+            $data = json_decode($content, true);
+            $data = $data['projects'];
+            usort($data, static function ($a, $b) {
+                return strcmp(strtolower($a['name']), strtolower($b['name']));
+            });
+
+            $allProjects = [];
+            foreach ($data as $project) {
+                if (in_array($project['identifier'], self::SKIPPED_PROJECTS, true)) {
+                    continue;
+                }
+                $allProjects[] = $project;
+            }
+            return $allProjects;
         }
 
         return [];

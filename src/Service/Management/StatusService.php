@@ -21,10 +21,6 @@ class StatusService extends BaseService
 
         $collection = [];
         foreach ($projects as $project) {
-            if (in_array($project['identifier'], ProjectService::SKIPPED_PROJECTS, true)) {
-                continue;
-            }
-
 //            if (!in_array($project['identifier'], ['typo3-cms', 'typo3-extension-news', 'typo3-extension-rxshariff', 'typo3-extension-ttaddress'], true)) {
 //                continue;
 //            }
@@ -80,6 +76,7 @@ class StatusService extends BaseService
             }
             $projectLine['languages'] = $languageInfo;
             $projectLine['usable'] = $projectUsable;
+            $projectLine['quality'] = $$projectUsable;
 
             $output[] = $projectLine;
         }

@@ -32,8 +32,8 @@
             <f:then>
                 <table class="table">
                     <tr>
-                        <th>extensionKey</th>
-                        <th>crowdin key</th>
+                        <th></th>
+                        <th>Crowdin key</th>
                         <th>usable</th>
                         <f:for each="{configuration.0.languages}" as="language" key="key">
                             <th>{key}</th>
@@ -63,7 +63,7 @@
                             </td>
                             <td>{f:if(condition:project.usable,then:'yes',else:'no')}</td>
                             <f:for each="{project.languages}" as="language">
-                                <td>{language}</td>
+                                <td class="{f:render(section:'translationStatus',arguments:{status:language})}">{language}</td>
                             </f:for>
                         </tr>
                     </f:for>
@@ -97,6 +97,26 @@
         </div>
     </div>
 </div>
+
+<f:section name="translationStatus">
+    <f:if condition="{status} == -">
+        <f:then>disabled</f:then>
+        <f:else>
+            <f:if condition="{status} == 100">
+                perfect
+            </f:if>
+            <f:if condition="{status} < 40">
+                <f:then>bad</f:then>
+                <f:else>
+                    <f:if condition="{status} > 80">
+                        <f:then>good</f:then>
+                        <f:else>ok</f:else>
+                    </f:if>
+                </f:else>
+            </f:if>
+        </f:else>
+    </f:if>
+</f:section>
 
 </body>
 </html>
