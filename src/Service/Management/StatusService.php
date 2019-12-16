@@ -76,7 +76,6 @@ class StatusService extends BaseService
             }
             $projectLine['languages'] = $languageInfo;
             $projectLine['usable'] = $projectUsable;
-            $projectLine['quality'] = $$projectUsable;
 
             $output[] = $projectLine;
         }
