@@ -4,113 +4,167 @@
     <meta charset="UTF-8">
     <title>Crowdin TYPO3 Status</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.4.3/dist/css/foundation.min.css"
-          integrity="sha256-GSio8qamaXapM8Fq9JYdGNTvk/dgs+cMLgPeevOYEx0= sha384-wAweiGTn38CY2DSwAaEffed6iMeflc0FMiuptanbN4J+ib+342gKGpvYRWubPd/+ sha512-QHEb6jOC8SaGTmYmGU19u2FhIfeG+t/hSacIWPpDzOp5yygnthL3JwnilM7LM1dOAbJv62R+/FICfsrKUqv4Gg=="
-          crossorigin="anonymous">
-    <link rel="stylesheet" href="screen.css"/>
+    <link rel="stylesheet" href="test.css"/>
 </head>
 <body>
 
-<div class="grid-container fluid page__header">
-    <div class="grid-container">
-        <div class="grid-x grid-padding-x">
-            <div class="cell small-12 medium-shrink page__header--logo">
-                <img src="typo3_nomargins.svg" alt="TYPO3 Logo"/>
+
+<div class="page-wrapper">
+    <header class="page-header">
+        <nav class="navbar navbar-mainnavigation navbar-dark bg-darkest navbar-expand-md" role="banner">
+            <div class="container">
+                <span class="navbar-brand"><i
+                    class="fab fa-typo3 text-primary"></i> <strong>TYPO3 Crowdin Bridge</strong></span>
+                <div class="collapse navbar-collapse" id="mainnavigation">
+                    <ul class="navbar-nav">
+
+
+                        <li class="nav-item">
+                            <a target="_blank"
+                               href="https://docs.typo3.org/m/typo3/reference-coreapi/master/en-us/ApiOverview/Internationalization/TranslationServer/Crowdin.html"
+                               class="nav-link">
+
+                                <span class="nav-item-icon"><i class="fa fa-question-circle"></i></span>
+
+                                <span class="nav-item-label">Documentation</span>
+
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-            <div class="cell small-12 medium-auto">
-                <h1>Status TYPO3 Crowdin Bridge</h1>
-                <p class="lead">Date: {date}</p>
+        </nav>
+    </header>
+
+    <main class="page-main">
+
+        <!--        <div class="content-section content-section-small bg-primary text-white">-->
+        <!--            <div class="container">-->
+        <!--                <h1 class="h2">Documentation deployments</h1>-->
+        <!--            </div>-->
+        <!--        </div>-->
+
+        <div class="content-section">
+            <div class="container">
+
+                <div class="card">
+
+
+                    <div class="datatable">
+                        <f:if condition="{configuration}">
+                            <table class="datatable-table">
+                                <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>usable</th>
+                                    <f:for each="{configuration.0.languages}" as="language" key="key">
+                                        <th>{key}</th>
+                                    </f:for>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <f:for each="{configuration}" as="project">
+                                    <tr>
+                                        <th>
+                                            <f:if condition="{project.crowdinKey} == 'typo3-cms'">
+                                                <f:then>
+                                                    TYPO3 Core
+                                                </f:then>
+                                                <f:else>
+                                                    <a href="https://extensions.typo3.org/extension/{project.extensionKey}/"
+                                                       target="_blank" rel="noopener">
+                                                        <strong>   {project.extensionKey}</strong>
+                                                    </a>
+                                                </f:else>
+                                            </f:if>
+                                            <br>
+                                            <small> <a href="https://crowdin.com/project/{project.crowdinKey}" target="_blank"
+                                                       rel="noopener">
+                                                Crowdin
+                                            </a></small>
+                                        </th>
+                                        <td>
+                                            <f:if condition="{project.usable}">
+                                                <f:then>
+                                                    <span class="badge badge-success">ok</span>
+                                                </f:then>
+                                                <f:else>
+                                                    <span class="badge badge-danger">no</span>
+                                                </f:else>
+                                                </f:if>
+                                           </td>
+                                        <f:for each="{project.languages}" as="language">
+                                            <td>
+
+                                                <span class="badge {f:render(section:'translationStatus',arguments:{status:language})}">{language}</span>
+                                            </td>
+                                        </f:for>
+                                    </tr>
+                                </f:for>
+                                </tbody>
+                            </table>
+                        </f:if>
+                    </div>
+                </div>
+
+
             </div>
         </div>
-    </div>
-</div>
 
-<div class="grid-container page__content">
-    <div class="grid-x grid-frame grid-padding-x">
 
-        <f:if condition="{configuration}">
-            <f:then>
-                <table class="table">
-                    <tr>
-                        <th></th>
-                        <th>Crowdin key</th>
-                        <th>usable</th>
-                        <f:for each="{configuration.0.languages}" as="language" key="key">
-                            <th>{key}</th>
-                        </f:for>
-                    </tr>
-                    <f:for each="{configuration}" as="project">
-                        <tr>
-                            <th>
-                                <f:if condition="{project.crowdinKey} == 'typo3-cms'">
-                                    <f:then>
-                                        TYPO3 Core
-                                    </f:then>
-                                    <f:else>
-                                        <a href="https://extensions.typo3.org/extension/{project.extensionKey}/"
-                                           target="_blank" rel="noopener">
-                                            {project.extensionKey}
-                                        </a>
-                                    </f:else>
-                                </f:if>
+    </main>
 
-                            </th>
-                            <td>
-                                <a href="https://crowdin.com/project/{project.crowdinKey}" target="_blank"
-                                   rel="noopener">
-                                    {project.crowdinKey}
-                                </a>
-                            </td>
-                            <td>{f:if(condition:project.usable,then:'yes',else:'no')}</td>
-                            <f:for each="{project.languages}" as="language">
-                                <td class="{f:render(section:'translationStatus',arguments:{status:language})}">{language}</td>
-                            </f:for>
-                        </tr>
-                    </f:for>
-                </table>
-            </f:then>
-        </f:if>
-    </div>
-
-</div>
-
-<div class="grid-container fluid page__footer">
-    <div class="grid-container">
-        <div class="grid-x grid-padding-x">
-            <div class="cell small-12 medium-7">
-                <h3>Ready to get started?</h3>
-                <p>Get involved! <a
-                    href="https://typo3.org/community/teams/typo3-development/initiatives/localization-with-crowdin/"
-                    target="_blank">Localization with Crowdin Initiative</a></p>
-                <p><a
-                    href="https://docs.typo3.org/m/typo3/reference-coreapi/master/en-us/ApiOverview/Internationalization/TranslationServer/Crowdin/ExtensionIntegration.html"
-                    target="_blank">Translate your extension with Crowdin.</a>
-                </p>
-            </div>
-            <div class="cell small-12 medium-5">
-                <nav class="page__footer--menu menu vertical">
-                    <li class="menu-item">
-                        <a target="_blank" rel="noopener" href="https://typo3.org/legal-notice/">Legal notice</a>
-                    </li>
-                </nav>
+    <footer class="page-footer">
+        <div class="content-section content-section-smallest bg-darkest text-white">
+            <div class="container">
+<!--                <div class="page-footer-copyright">-->
+<!--                    <span>© 2019 <a href="https://typo3.com" target="_blank">TYPO3 GmbH</a>.</span>-->
+<!--                </div>-->
+                <div class="page-footer-menu">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a target="_blank" rel="noopener" class="nav-link" href="https://typo3.org/legal-notice/">Legal
+                                notice</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
+    </footer>
 </div>
+
+
+<!--<div class="grid-container fluid page__footer">-->
+<!--    <div class="grid-container">-->
+<!--        <div class="grid-x grid-padding-x">-->
+<!--            <div class="cell small-12 medium-7">-->
+<!--                <h3>Ready to get started?</h3>-->
+<!--                <p>Get involved! <a-->
+<!--                    href="https://typo3.org/community/teams/typo3-development/initiatives/localization-with-crowdin/"-->
+<!--                    target="_blank">Localization with Crowdin Initiative</a></p>-->
+<!--                <p><a-->
+<!--                    href="https://docs.typo3.org/m/typo3/reference-coreapi/master/en-us/ApiOverview/Internationalization/TranslationServer/Crowdin/ExtensionIntegration.html"-->
+<!--                    target="_blank">Translate your extension with Crowdin.</a>-->
+<!--                </p>-->
+<!--            </div>-->
+
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
 
 <f:section name="translationStatus">
     <f:if condition="{status} == -">
-        <f:then>disabled</f:then>
+        <f:then>badge-light</f:then>
         <f:else>
             <f:if condition="{status} == 100">
-                perfect
+                badge-ok badge-perfect
             </f:if>
             <f:if condition="{status} < 40">
-                <f:then>bad</f:then>
+                <f:then>badge-danger</f:then>
                 <f:else>
                     <f:if condition="{status} > 80">
-                        <f:then>good</f:then>
-                        <f:else>ok</f:else>
+                        <f:then>badge-info</f:then>
+                        <f:else>badge-success</f:else>
                     </f:if>
                 </f:else>
             </f:if>
