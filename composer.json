@@ -22,6 +22,7 @@
 		"ext-zip": "*",
 		"akeneo/crowdin-api": "dev-master#a19d7b3",
 		"symfony/console": "^4.3",
+		"symfony/filesystem": "^5.0",
 		"typo3fluid/fluid": "^2.6"
 	},
 	"autoload": {

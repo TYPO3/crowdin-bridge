@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace TYPO3\CrowdinBridge\Service;
 
 use Akeneo\Crowdin\Api\Download;
+use Symfony\Component\Filesystem\Filesystem;
 use TYPO3\CrowdinBridge\Exception\NoTranslationsAvailableException;
 use TYPO3\CrowdinBridge\Info\CoreInformation;
 use TYPO3\CrowdinBridge\Info\LanguageInformation;
@@ -99,10 +100,16 @@ class DownloadCrowdinTranslationService extends BaseService
     protected function processDownloadDirectoryExtension(string $directory, $language, $branch)
     {
         $project = $this->configurationService->getProject();
+        $crowdinLanguageName = LanguageInformation::getLanguageForCrowdin($language);
         $dir = $directory . $branch;
         $extensionKey = $project->getExtensionkey();
 
-
+        if ($crowdinLanguageName !== $language) {
+            $newDirName = str_replace('/'. $crowdinLanguageName . '/', '/' . $language . '/', $dir);
+            $filesystem = new Filesystem();
+            $filesystem->rename($dir, $newDirName);
+            $dir = $newDirName;
+        }
         $exportPath = $this->configurationService->getPathFinal();
         FileHandling::mkdir_deep($exportPath);
 
