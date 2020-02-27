@@ -41,7 +41,10 @@ class CoreInformation
     private const CORE_EXTENSIONS_9 = [
         'info', 'rsaauth', 'sys_action', 'taskcenter'
     ];
-
+    
+    private const CORE_EXTENSIONS_10 = [
+        'dashboard'
+    ];
     /**
      * @return int[]
      */
@@ -82,14 +85,14 @@ class CoreInformation
     public static function getCoreExtensionKeys(int $version): array
     {
         if ($version >= 10) {
-            return self::CORE_EXTENSIONS;
+            return array_merge(self::CORE_EXTENSIONS, self::CORE_EXTENSIONS_10);
         }
         return array_merge(self::CORE_EXTENSIONS, self::CORE_EXTENSIONS_9);
     }
 
     public static function getAllCoreExtensionKeys(): array
     {
-        return array_merge(self::CORE_EXTENSIONS, self::CORE_EXTENSIONS_9);
+        return array_merge(self::CORE_EXTENSIONS, self::CORE_EXTENSIONS_9, self::CORE_EXTENSIONS_10);
     }
 
     public static function getAllCoreBranches(): array
