@@ -48,5 +48,5 @@ jobs:
           KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         with:
           source: "/home/runner/work/crowdin-bridge/crowdin-bridge/public/rsync"
-          target: "/home/translation/www/test/"
+          target: "/home/localize/www/export/"
 
