@@ -8,6 +8,7 @@ use TYPO3\CrowdinBridge\ExtendedApi\AccountGetProjects;
 use TYPO3\CrowdinBridge\ExtendedApi\AccountGetProjectsResponse;
 use TYPO3\CrowdinBridge\ExtendedApi\UpdateProject\Accounting;
 use TYPO3\CrowdinBridge\Service\BaseService;
+use TYPO3\CrowdinBridge\Service\StatusService as ProjectStatusService;
 
 class ProjectService extends BaseService
 {
@@ -26,20 +27,32 @@ class ProjectService extends BaseService
         foreach ($data as $project) {
             $identifier = $project['identifier'];
 
+            $singleProjectService = new ProjectStatusService($identifier);
+            $singleProjectStatus = $singleProjectService->get();
+            $languages = $this->collectAllLanguages($singleProjectStatus);
+
             if (!isset($existingProjects[$identifier])) {
-                $newProject = $this->configurationService->add($identifier, $project['key'], '');
+                $newProject = $this->configurationService->add($identifier, $project['key'], $languages);
                 $response->addNewProject($newProject);
             } else {
-                // check if key is the same
-                if ($existingProjects[$identifier]->getKey() !== $project['key']) {
+                $existingProject = $existingProjects[$identifier];
+                if ($existingProject->getKey() !== $project['key'] || $existingProject->getLanguages() !== $languages) {
                     $response->addUpdatedProject($existingProjects[$identifier]);
                     $this->configurationService->updateSingleConfiguration($identifier, 'key', $project['key']);
+                    $this->configurationService->updateSingleConfiguration($identifier, 'languages', $languages);
                 }
             }
         }
 
 
         return $response;
+    }
+
+    protected function collectAllLanguages(array $projectInfo): string
+    {
+        $languages = array_column($projectInfo, 'code');
+
+        return implode(',', $languages);
     }
 
     protected function getApiResponse(string $accountKey, string $username): array

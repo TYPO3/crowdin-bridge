@@ -15,6 +15,8 @@ use TYPO3\CrowdinBridge\Utility\FileHandling;
 final class Project
 {
 
+    private const ENABLE_T3_EXPORT = false;
+
     /** @var string */
     protected $identifier = '';
 
@@ -80,7 +82,7 @@ final class Project
      */
     public function getLanguages(bool $includeT3Language = true): array
     {
-        if ($includeT3Language) {
+        if ($includeT3Language && self::ENABLE_T3_EXPORT) {
             $this->languages[] = 't3';
         }
         return $this->languages;

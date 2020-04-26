@@ -45,12 +45,15 @@ class ConfigurationService
         return Project::initializeByArray($projectName, $data);
     }
 
-    public function add(string $project, string $key, string $extensionKey): Project
+    public function add(string $project, string $key, string $extensionKey, string $languages = ''): Project
     {
         $configuration = [
             'key' => $key,
             'extensionKey' => $extensionKey
         ];
+        if (!empty($languages)) {
+            $configuration['languages'] = $languages;
+        }
         $this->configuration['projects'][$project] = $configuration;
         $this->persistConfiguration();
         return Project::initializeByArray($project, $configuration);
