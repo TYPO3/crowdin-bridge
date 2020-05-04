@@ -37,12 +37,14 @@ class StatusService extends BaseService
             }
         }
 
+        $output = [];
+
         $languagesOfCore = [];
         foreach ($collection['typo3-cms']['languages'] as $language) {
             $languagesOfCore[] = $language['code'];
+            $output['languages'][$language['code']] = $language['name'];
         }
 
-        $output = [];
         foreach ($collection as $item) {
             /** @var Project $p */
             $p = $item['project'];
@@ -77,7 +79,7 @@ class StatusService extends BaseService
             $projectLine['languages'] = $languageInfo;
             $projectLine['usable'] = $projectUsable;
 
-            $output[] = $projectLine;
+            $output['projects'][] = $projectLine;
         }
 
         if ($exportConfiguration) {

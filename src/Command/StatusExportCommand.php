@@ -13,7 +13,6 @@ namespace TYPO3\CrowdinBridge\Command;
 use TYPO3\CrowdinBridge\Exception\ConfigurationException;
 use TYPO3\CrowdinBridge\Exception\NoApiCredentialsException;
 use TYPO3\CrowdinBridge\Service\ExportStatusService;
-use TYPO3\CrowdinBridge\Service\StatusService;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

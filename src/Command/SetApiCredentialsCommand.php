@@ -50,7 +50,6 @@ class SetApiCredentialsCommand extends BaseCommand
         $infoService = new InfoService($projectIdentifier);
         try {
             $data = $infoService->get();
-            $data->getContents();
             $io->success('Yes it works!');
         } catch (\Exception $e) {
             $io->error('Sorry, seems there is a problem: ' . $e->getMessage());

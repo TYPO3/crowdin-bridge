@@ -11,6 +11,7 @@ namespace TYPO3\CrowdinBridge\Command;
  */
 
 use TYPO3\CrowdinBridge\Exception\NoApiCredentialsException;
+use TYPO3\CrowdinBridge\Service\InfoService;
 use TYPO3\CrowdinBridge\Service\StatusService;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -41,16 +42,30 @@ class StatusCommand extends BaseCommand
         $io->title(sprintf('Project %s', $this->getProject()->getIdentifier()));
 
         try {
-            $service = new StatusService($this->getProject()->getIdentifier());
+            $statusService = new StatusService($this->getProject()->getIdentifier());
+            $infoService = new InfoService($this->getProject()->getIdentifier());
 
-            $status = $service->get();
+            $projectInformation = $infoService->get();
+
+            $io->section('General Information');
+            $io->table(
+                ['Name', 'Value'],
+                [
+                    ['Name', $projectInformation['details']['name']],
+                    ['Last Build', $projectInformation['details']['last_build']],
+                    ['Last Activity', $projectInformation['details']['last_activity']],
+                    ['Count strings', $projectInformation['details']['total_strings_count']],
+                    ['Count words', $projectInformation['details']['total_words_count']],
+                    ['Invite URL translator', $projectInformation['details']['invite_url']['translator']],
+                    ['Invite URL proof reader', $projectInformation['details']['invite_url']['proofreader']],
+                ]
+            );
+
+            $status = $statusService->get();
             if ($status) {
                 $languageCodes = [];
-//            $io->table(array_keys($status[0]), $status);
                 $headers = [
                     'Name',
-//                'phrases',
-//                'translated',
                     'Progress (%)'
                 ];
                 $items = [];
@@ -58,11 +73,11 @@ class StatusCommand extends BaseCommand
                     $languageCodes[] = $s['code'];
                     $items[] = [
                         sprintf('%s - %s', $s['name'], $s['code']),
-//                    $s['phrases'],
                         ($s['translated_progress'] === $s['approved_progress'] ? $s['approved_progress'] : (sprintf('%s / %s', $s['translated_progress'], $s['approved_progress'])))
 
                     ];
                 }
+                $io->section('Languages');
                 $io->table($headers, $items);
 
                 if (!empty(array_diff($languageCodes, $this->configurationService->getProject()->getLanguages()))) {

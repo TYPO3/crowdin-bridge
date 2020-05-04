@@ -12,7 +12,7 @@ use TYPO3\CrowdinBridge\Service\StatusService as ProjectStatusService;
 
 class ProjectService extends BaseService
 {
-    public const SKIPPED_PROJECTS = ['crowdin-playground-typo3'];
+    public const SKIPPED_PROJECTS = ['crowdin-playground-typo3', 'playground-trados'];
 
     public function getAllProjects(string $accountKey, string $username): array
     {

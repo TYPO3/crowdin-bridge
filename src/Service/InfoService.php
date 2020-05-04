@@ -12,6 +12,9 @@ class InfoService extends BaseService
     {
         /** @var Info $api */
         $api = $this->client->api('info');
-        return $api->execute();
+        $api->addUrlParameter('json', 1);
+        $response = $api->execute();
+
+        return json_decode($response->getContents(), true);
     }
 }

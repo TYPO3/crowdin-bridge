@@ -51,19 +51,19 @@
 
 
                     <div class="datatable">
-                        <f:if condition="{configuration}">
+                        <f:if condition="{configuration.projects}">
                             <table class="datatable-table">
                                 <thead>
                                 <tr>
                                     <th></th>
                                     <th>usable</th>
-                                    <f:for each="{configuration.0.languages}" as="language" key="key">
+                                    <f:for each="{configuration.projects.0.languages}" as="language" key="key">
                                         <th>{key}</th>
                                     </f:for>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <f:for each="{configuration}" as="project">
+                                <f:for each="{configuration.projects}" as="project">
                                     <tr>
                                         <th>
                                             <f:if condition="{project.crowdinKey} == 'typo3-cms'">

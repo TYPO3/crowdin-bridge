@@ -53,7 +53,7 @@ class StatusCommand extends Command
 
         $headers = $this->spread(['extensionKey', 'crowdin key', 'usable'], array_keys((array)$response[0]['languages']));
         $items = [];
-        foreach ($response as $item) {
+        foreach ($response['projects'] as $item) {
             $items[] = $this->spread([$item['extensionKey'], $item['crowdinKey'], $item['usable']], $item['languages']);
         }
 
