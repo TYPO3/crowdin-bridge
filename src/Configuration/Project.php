@@ -29,6 +29,9 @@ final class Project
     /** @var array */
     protected $languages = [];
 
+    /** @var string */
+    protected $branch = 'master';
+
     /**
      * Project constructor.
      * @param string $identifier
@@ -40,6 +43,7 @@ final class Project
         $this->key = $configuration['key'];
         $this->extensionkey = $configuration['extensionKey'] ?? '';
         $this->languages = FileHandling::trimExplode(',', $configuration['languages'] ?? '', true);
+        $this->branch = $configuration['branch'] ?? 'master';
     }
 
     /**
@@ -71,9 +75,7 @@ final class Project
 
     public function getBranch()
     {
-        // todo configuration
-
-        return 'master';
+        return $this->branch;
     }
 
     /**
