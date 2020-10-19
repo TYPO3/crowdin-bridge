@@ -21,9 +21,10 @@ class LanguageInformation
         'es-ES' => 'es',
         'sv-SE' => 'sv',
         'fr-CA' => 'fr_CA',
-        'pt-BR' => 'pt_br',
+        'pt-BR' => 'pt_BR',
         'zh-CN' => 'ch',
         'zh-HK' => 'zh',
+        'pt-PT' => 'pt',
     ];
 
     public static function getLanguageForTypo3(string $language): string
