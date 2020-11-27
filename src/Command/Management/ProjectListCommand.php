@@ -28,9 +28,6 @@ class ProjectListCommand extends Command
     {
         $this
             ->setName('crowdin:management:projectList')
-            ->addArgument('accountKey', InputArgument::REQUIRED, 'Account key')
-            ->addArgument('username', InputArgument::REQUIRED, 'Username')
-            ->addArgument('export', InputArgument::OPTIONAL, 'Export output', false)
             ->setDescription('Account listing');
     }
 
@@ -42,21 +39,20 @@ class ProjectListCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $io->title('Update of all accounts');
 
-        $service = new ProjectService('');
-        $response = $service->updateConfiguration(
-            $input->getArgument('accountKey'),
-            $input->getArgument('username')
-        );
+        $service = new ProjectService();
+        $response = $service->updateConfiguration();
 
         if ($new = $response->getNewProjects()) {
-            $io->success(sprintf('The following projects have been added: %s', implode(', ', $this->getIdentifiersOfProjects($new))));
+            $io->success(sprintf('The following projects have been added: %s', implode(', ', $new)));
         }
         if ($updated = $response->getUpdatedProjects()) {
-            $io->success(sprintf('The following projects have been updated: %s', implode(', ', $this->getIdentifiersOfProjects($updated))));
+            $io->success(sprintf('The following projects have been updated: %s', implode(', ', $updated)));
         }
         if ($response->noChanges()) {
             $io->success('No changes, all fine!');
         }
+
+        return 0;
     }
 
     /**

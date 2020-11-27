@@ -1,9 +1,9 @@
 name: Crowdin Extract
 
 on:
-  push:
-  schedule:
-    - cron:  '30 1,3,5,7,9,11,13,15,17,19,21,23 * * *'
+#  push:
+#  schedule:
+#    - cron:  '30 1,3,5,7,9,11,13,15,17,19,21,23 * * *'
 jobs:
   build:
 
@@ -11,7 +11,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php: ['7.3']
+        php: ['7.4']
     steps:
       - uses: actions/checkout@v1
       - name: Set up PHP Version
@@ -34,7 +34,7 @@ jobs:
       - name: Extract status
         run: |
           php app.php crowdin:meta:status.export
-          php app.php crowdin:management:status ${{ secrets.CROWDIN_USER_KEY }} --export=1
+          php app.php crowdin:management:status --export=1
 
       - name: Cleanup
         run: rm -rf configuration.json

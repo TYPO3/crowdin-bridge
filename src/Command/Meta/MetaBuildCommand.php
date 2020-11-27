@@ -10,6 +10,7 @@ namespace TYPO3\CrowdinBridge\Command\Meta;
  * LICENSE.txt file that was distributed with this source code.
  */
 
+use Symfony\Component\Console\Command\Command;
 use TYPO3\CrowdinBridge\Command\BaseCommand;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputArgument;
@@ -17,7 +18,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class MetaBuildCommand extends BaseCommand
+class MetaBuildCommand extends Command
 {
 
     /**

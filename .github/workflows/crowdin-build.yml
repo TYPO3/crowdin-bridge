@@ -1,9 +1,9 @@
 name: Crowdin Build
 
 on:
-  push:
-  schedule:
-    - cron:  '0 */2 * * *'
+#  push:
+#  schedule:
+#    - cron:  '0 */2 * * *'
 jobs:
   build:
 
@@ -11,7 +11,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php: ['7.3']
+        php: ['7.4']
     steps:
       - uses: actions/checkout@v1
       - name: Set up PHP Version

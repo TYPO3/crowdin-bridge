@@ -1,31 +1,24 @@
 <?php
 declare(strict_types=1);
 
-namespace TYPO3\CrowdinBridge\Configuration;
+namespace TYPO3\CrowdinBridge\Entity;
 
 use TYPO3\CrowdinBridge\Exception\ConfigurationException;
+use TYPO3\CrowdinBridge\Exception\NoApiCredentialsException;
 use TYPO3\CrowdinBridge\Utility\FileHandling;
 
-/**
- * This file is part of the "crowdin" Extension for TYPO3 CMS.
- *
- * For the full copyright and license information, please read the
- * LICENSE.txt file that was distributed with this source code.
- */
-final class Project
+final class ProjectConfiguration
 {
 
     private const ENABLE_T3_EXPORT = false;
 
     protected int $id;
 
-    protected string $identifier = '';
-
-    protected string $key = '';
-
     protected string $extensionkey = '';
 
     protected array $languages = [];
+
+    protected string $crowdinIdentifier;
 
     protected string $branch = 'master';
 
@@ -35,12 +28,11 @@ final class Project
      * @param string $identifier
      * @param array $configuration
      */
-    public function __construct(string $identifier, array $configuration)
+    public function __construct(string $crowdinIdentifier, array $configuration)
     {
-        $this->identifier = $identifier;
-        $this->key = $configuration['key'];
+        $this->crowdinIdentifier = $crowdinIdentifier;
+        $this->extensionkey = $configuration['extensionKey'];
         $this->id = (int)($configuration['id'] ?? 0);
-        $this->extensionkey = $configuration['extensionKey'] ?? '';
         $this->languages = FileHandling::trimExplode(',', $configuration['languages'] ?? '', true);
         $this->branch = $configuration['branch'] ?? 'master';
     }
@@ -50,21 +42,8 @@ final class Project
         return $this->id;
     }
 
-    public function getIdentifier(): string
-    {
-        return $this->identifier;
-    }
-
-    public function getKey(): string
-    {
-        return $this->key;
-    }
-
     public function getExtensionkey(): string
     {
-        if (empty($this->extensionkey)) {
-            throw new ConfigurationException('No extension key defined', 1574599928);
-        }
         return $this->extensionkey;
     }
 
@@ -85,16 +64,26 @@ final class Project
         return $this->languages;
     }
 
-    public static function initializeByArray(string $identifier, $data)
+
+    /**
+     * @return bool
+     * @throws NoApiCredentialsException
+     */
+    public function isCoreProject(): bool
     {
-        return new self($identifier, $data);
+        die('hm');
+        return $this->identifier === 'typo3-cms';
+    }
+
+    public static function initializeByArray(string $extensionKey, $data)
+    {
+        return new self($extensionKey, $data);
     }
 
     public function __toString()
     {
         return json_encode([
             'identifier' => $this->identifier,
-            'password' => $this->key
         ]);
     }
 }

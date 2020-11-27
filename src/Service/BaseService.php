@@ -4,29 +4,10 @@ declare(strict_types=1);
 
 namespace TYPO3\CrowdinBridge\Service;
 
-use Akeneo\Crowdin\Client;
 use TYPO3\CrowdinBridge\Utility\FileHandling;
 
 class BaseService
 {
-
-    /** @var Client */
-    protected $client;
-
-    /** @var ConfigurationService */
-    protected $configurationService;
-
-    public function __construct(string $projectIdentifier)
-    {
-        if ($projectIdentifier) {
-            $this->configurationService = new ConfigurationService($projectIdentifier);
-            $project = $this->configurationService->getProject();
-            $this->client = new Client($project->getIdentifier(), $project->getKey());
-        } else {
-            $this->client = new Client('', '');
-            $this->configurationService = new ConfigurationService('');
-        }
-    }
 
     /**
      * Unzip an language zip file
@@ -74,8 +55,5 @@ class BaseService
         }
     }
 
-    public function getProjectIdentifier(): string
-    {
-        return $this->client->getProjectIdentifier();
-    }
+
 }

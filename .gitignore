@@ -1,5 +1,8 @@
 /configuration.json
+/configuration2.json
 /vendor
 /keys
 /bin
 /export/
+.env
+.env.dev

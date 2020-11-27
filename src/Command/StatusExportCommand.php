@@ -10,15 +10,16 @@ namespace TYPO3\CrowdinBridge\Command;
  * LICENSE.txt file that was distributed with this source code.
  */
 
-use TYPO3\CrowdinBridge\Exception\ConfigurationException;
-use TYPO3\CrowdinBridge\Exception\NoApiCredentialsException;
-use TYPO3\CrowdinBridge\Service\ExportStatusService;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use TYPO3\CrowdinBridge\Exception\ConfigurationException;
+use TYPO3\CrowdinBridge\Exception\NoApiCredentialsException;
+use TYPO3\CrowdinBridge\Service\ExportStatusService;
 
-class StatusExportCommand extends BaseCommand
+class StatusExportCommand extends Command
 {
 
     /**
@@ -28,7 +29,7 @@ class StatusExportCommand extends BaseCommand
     {
         $this
             ->setName('crowdin:status.export')
-            ->addArgument('project', InputArgument::REQUIRED, 'Project identifier')
+            ->addArgument('extensionKey', InputArgument::REQUIRED, 'Extension Key')
             ->setDescription('Export status');
     }
 
@@ -37,19 +38,20 @@ class StatusExportCommand extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->setupConfigurationService($input->getArgument('project'));
+        $extensionKey = $input->getArgument('extensionKey');
         $io = new SymfonyStyle($input, $output);
-        $io->title(sprintf('Project %s', $this->getProject()->getIdentifier()));
+        $io->title(sprintf('Extension %s', $extensionKey));
 
 
         try {
-            $exportService = new ExportStatusService($this->configurationService->getProject()->getIdentifier());
-            $exportService->export();
+            $exportService = new ExportStatusService();
+            $exportService->export($extensionKey);
         } catch (NoApiCredentialsException $e) {
             $io->error($e->getMessage());
         } catch (ConfigurationException $e) {
             $io->error($e->getMessage());
         }
 
+        return 0;
     }
 }

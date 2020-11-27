@@ -4,86 +4,53 @@ declare(strict_types=1);
 
 namespace TYPO3\CrowdinBridge\Service\Management;
 
-use TYPO3\CrowdinBridge\ExtendedApi\AccountGetProjects;
+use TYPO3\CrowdinBridge\Api\Wrapper\ProjectApi;
 use TYPO3\CrowdinBridge\ExtendedApi\AccountGetProjectsResponse;
 use TYPO3\CrowdinBridge\ExtendedApi\UpdateProject\Accounting;
-use TYPO3\CrowdinBridge\Service\BaseService;
-use TYPO3\CrowdinBridge\Service\StatusService as ProjectStatusService;
+use TYPO3\CrowdinBridge\Utility\FileHandling;
 
-class ProjectService extends BaseService
+class ProjectService
 {
-    public const SKIPPED_PROJECTS = ['crowdin-playground-typo3', 'playground-trados'];
+    /** @var ProjectApi */
+    protected ProjectApi $projectApi;
 
-    public function getAllProjects(string $accountKey, string $username): array
+    public function __construct()
     {
-        return $this->getApiResponse($accountKey, $username);
+        $this->projectApi = new ProjectApi();
     }
 
-    public function updateConfiguration(string $accountKey, string $username): AccountGetProjectsResponse
+    public function updateConfiguration(): AccountGetProjectsResponse
     {
-        $existingProjects = $this->configurationService->getAllProjects();
-        $data = $this->getApiResponse($accountKey, $username);
+        $remoteProjects = $this->projectApi->getAll();
         $response = new AccountGetProjectsResponse();
-        foreach ($data as $project) {
-            $identifier = $project['identifier'];
+        $fileConfiguration = $this->projectApi->getConfiguration();
+        foreach ($remoteProjects as $remoteProject) {
+            $identifier = $remoteProject->getIdentifier();
 
-            $singleProjectService = new ProjectStatusService($identifier);
-            $singleProjectStatus = $singleProjectService->get();
-            $languages = $this->collectAllLanguages($singleProjectStatus);
+            $remoteLanguages = $remoteProject->getTargetLanguageIds();
+            sort($remoteLanguages);
 
-            if (!isset($existingProjects[$identifier])) {
-                $newProject = $this->configurationService->add($identifier, $project['key'], $languages);
-                $response->addNewProject($newProject);
-            } else {
-                $existingProject = $existingProjects[$identifier];
-                if ($existingProject->getKey() !== $project['key'] || $existingProject->getLanguages() !== $languages) {
-                    $response->addUpdatedProject($existingProjects[$identifier]);
-                    $this->configurationService->updateSingleConfiguration($identifier, 'key', $project['key']);
-                    $this->configurationService->updateSingleConfiguration($identifier, 'languages', $languages);
-                }
-            }
+            $key = $this->generateExtensionKey($identifier, $remoteProject->getName());
+            $newData = [
+                'id' => $remoteProject->getId(),
+                'extensionKey' => $key,
+                'languages' => implode(',', $remoteLanguages)
+            ];
+            $fileConfiguration->add($identifier, $newData);
+            $response->addNewProject($key);
         }
-
-
         return $response;
     }
 
-    protected function collectAllLanguages(array $projectInfo): string
+    protected function generateExtensionKey(string $identifier, string $name)
     {
-        $languages = array_column($projectInfo, 'code');
-
-        return implode(',', $languages);
-    }
-
-    protected function getApiResponse(string $accountKey, string $username): array
-    {
-        $api = new AccountGetProjects($this->client);
-        $api
-            ->setAccountKey($accountKey)
-            ->setUsername($username);
-        $apiResponse = $api->execute();
-
-        $response = new AccountGetProjectsResponse();
-
-        if ($content = $apiResponse->getContents()) {
-
-            $data = json_decode($content, true);
-            $data = $data['projects'];
-            usort($data, static function ($a, $b) {
-                return strcmp(strtolower($a['name']), strtolower($b['name']));
-            });
-
-            $allProjects = [];
-            foreach ($data as $project) {
-                if (in_array($project['identifier'], self::SKIPPED_PROJECTS, true)) {
-                    continue;
-                }
-                $allProjects[] = $project;
-            }
-            return $allProjects;
+        if ($identifier === 'typo3-cms') {
+            return $identifier;
         }
+        if (FileHandling::beginsWith($identifier, 'typo3-extension-')) {
 
-        return [];
+            return trim(str_replace('typo3 extension', '', strtolower($name)));
+        }
+        throw new \UnexpectedValueException(sprintf('Identifier "%s" not allowed!', $identifier));
     }
-
 }

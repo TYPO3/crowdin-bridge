@@ -4,44 +4,52 @@ declare(strict_types=1);
 
 namespace TYPO3\CrowdinBridge\Service;
 
-use Akeneo\Crowdin\Api\Download;
-use TYPO3\CrowdinBridge\Exception\NoTranslationsAvailableException;
-use TYPO3\CrowdinBridge\Info\CoreInformation;
+use CrowdinApiClient\Model\Progress;
+use TYPO3\CrowdinBridge\Api\Wrapper\ProjectApi;
 use TYPO3\CrowdinBridge\Info\LanguageInformation;
 use TYPO3\CrowdinBridge\Utility\FileHandling;
-use ZipArchive;
 
-class ExportStatusService extends BaseService
+class ExportStatusService
 {
 
-    public function export(): void
+    /** @var ProjectApi */
+    protected ProjectApi $projectApi;
+
+    public function __construct()
     {
-        $project = $this->configurationService->getProject();
-        $statusService = new StatusService($project->getIdentifier());
+        $this->projectApi = new ProjectApi();
+    }
 
-        $status = $statusService->get();
-        if ($status) {
-            $extensionName = $project->getExtensionkey();
+    public function export(string $extensionKey): void
+    {
+        $localProject = $this->projectApi->getConfiguration()->getProjectByExtensionKey($extensionKey);
+        $translationStatus = $this->projectApi->getTranslationStatusByCrowdinId($localProject->getId());
+        if ($translationStatus) {
+            $extensionName = $localProject->getExtensionkey();
 
-            $projectSubDir = $this->configurationService->getPathRsync() . sprintf('%s/%s/%s-l10n/', $extensionName{0}, $extensionName{1}, $extensionName);
+            $projectSubDir = $this->projectApi->getConfiguration()->getPathRsync() . sprintf('%s/%s/%s-l10n/', $extensionName[0], $extensionName[1], $extensionName);
             FileHandling::mkdir_deep($projectSubDir);
 
             $filename = $projectSubDir . $extensionName . '.json';
-            file_put_contents($filename, $this->simplifyStatus($status));
+            file_put_contents($filename, $this->simplifyStatus($translationStatus));
         }
     }
 
-    protected function simplifyStatus(array $languages): string
+    /**
+     * @param Progress[] $translationStatus
+     * @return string
+     */
+    protected function simplifyStatus(array $translationStatus): string
     {
         $simple = [];
 
-        foreach ($languages as $language) {
-            $simple[$language['code']] = [
-                'name' => $language['name'],
-                'code' => $language['code'],
-                'code_typo3' => LanguageInformation::getLanguageForTypo3($language['code']),
-                'phrases' => $language['phrases'],
-                'progress' => $language['approved_progress'],
+        foreach ($translationStatus as $language) {
+            $simple[$language->getLanguageId()] = [
+                'name' => $language->getLanguageId(),
+                'code' => $language->getLanguageId(),
+                'code_typo3' => LanguageInformation::getLanguageForTypo3($language->getLanguageId()),
+                'phrases' => $language->getPhrases(),
+                'progress' => $language->getApprovalProgress(),
             ];
         }
         return json_encode($simple, JSON_PRETTY_PRINT);

@@ -3,27 +3,18 @@ declare(strict_types=1);
 
 namespace TYPO3\CrowdinBridge\Command;
 
-/**
- * This file is part of the "crowdin" Extension for TYPO3 CMS.
- *
- * For the full copyright and license information, please read the
- * LICENSE.txt file that was distributed with this source code.
- */
-
-use TYPO3\CrowdinBridge\Exception\NoApiCredentialsException;
-use TYPO3\CrowdinBridge\Service\InfoService;
-use TYPO3\CrowdinBridge\Service\StatusService;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use TYPO3\CrowdinBridge\Api\Wrapper\LanguageApi;
+use TYPO3\CrowdinBridge\Api\Wrapper\ProjectApi;
+use TYPO3\CrowdinBridge\Exception\NoApiCredentialsException;
 
-class StatusCommand extends BaseCommand
+class StatusCommand extends Command
 {
 
-    /**
-     * @inheritdoc
-     */
     protected function configure()
     {
         $this
@@ -37,56 +28,56 @@ class StatusCommand extends BaseCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->setupConfigurationService($input->getArgument('project'));
+        $projectIdentifier = $input->getArgument('project');
+
         $io = new SymfonyStyle($input, $output);
-        $io->title(sprintf('Project %s', $this->getProject()->getIdentifier()));
+        $io->title(sprintf('Project %s', $projectIdentifier));
+
+        $languageApi = new LanguageApi();
+        $allLanguages = $languageApi->get();
 
         try {
-            $statusService = new StatusService($this->getProject()->getIdentifier());
-            $infoService = new InfoService($this->getProject()->getIdentifier());
+            $projectApi = new ProjectApi();
+            $projectDetails = $projectApi->getProject($projectIdentifier);
+            if ($projectDetails) {
+                $io->section('General Information');
+                $io->table(
+                    ['Name', 'Value'],
+                    [
+                        ['Name', $projectDetails->getName()],
+                        ['Last Activity', $projectDetails->getLastActivity()],
+//                        ['Count strings', $projectDetails->get^],
+//                        ['Count words', $projectInformation['details']['total_words_count']],
+                    ]
+                );
+            }
 
-            $projectInformation = $infoService->get();
-
-            $io->section('General Information');
-            $io->table(
-                ['Name', 'Value'],
-                [
-                    ['Name', $projectInformation['details']['name']],
-                    ['Last Build', $projectInformation['details']['last_build']],
-                    ['Last Activity', $projectInformation['details']['last_activity']],
-                    ['Count strings', $projectInformation['details']['total_strings_count']],
-                    ['Count words', $projectInformation['details']['total_words_count']],
-                    ['Invite URL translator', $projectInformation['details']['invite_url']['translator']],
-                    ['Invite URL proof reader', $projectInformation['details']['invite_url']['proofreader']],
-                ]
-            );
-
-            $status = $statusService->get();
+            $status = $projectApi->getTranslationStatus($projectIdentifier);
             if ($status) {
-                $languageCodes = [];
                 $headers = [
                     'Name',
                     'Progress (%)'
                 ];
                 $items = [];
                 foreach ($status as $s) {
-                    $languageCodes[] = $s['code'];
+                    if (isset($allLanguages[$s->getLanguageId()])) {
+                        $languageInfo = $allLanguages[$s->getLanguageId()];
+                        $languageName = sprintf('%s - %s', $languageInfo->getName(), $languageInfo->getId());
+                    } else {
+                        $languageName = $s->getLanguageId();
+                    }
                     $items[] = [
-                        sprintf('%s - %s', $s['name'], $s['code']),
-                        ($s['translated_progress'] === $s['approved_progress'] ? $s['approved_progress'] : (sprintf('%s / %s', $s['translated_progress'], $s['approved_progress'])))
-
+                        $languageName,
+                        ($s->getTranslationProgress() === $s->getApprovalProgress() ? $s->getApprovalProgress() : (sprintf('%s / %s', $s->getTranslationProgress(), $s->getApprovalProgress())))
                     ];
                 }
                 $io->section('Languages');
                 $io->table($headers, $items);
-
-                if (!empty(array_diff($languageCodes, $this->configurationService->getProject()->getLanguages()))) {
-                    sort($languageCodes);
-                    $this->configurationService->updateSingleConfiguration($this->getProject()->getIdentifier(), 'languages', implode(',', $languageCodes));
-                }
             }
         } catch (NoApiCredentialsException $exception) {
             $io->warning(sprintf('Skipped: %s', $exception->getMessage()));
         }
+
+        return 0;
     }
 }

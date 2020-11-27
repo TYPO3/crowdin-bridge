@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace TYPO3\CrowdinBridge\ExtendedApi;
 
-use TYPO3\CrowdinBridge\Configuration\Project;
-
 /**
  * This file is part of the "crowdin" Extension for TYPO3 CMS.
  *
@@ -14,14 +12,14 @@ use TYPO3\CrowdinBridge\Configuration\Project;
 class AccountGetProjectsResponse
 {
 
-    /** @var Project[] */
-    protected $newProjects = [];
+    /** @var string[] */
+    protected array $newProjects = [];
 
-    /** @var Project[] */
+    /** @var string[] */
     protected $updatedProjects = [];
 
     /**
-     * @return Project[]
+     * @return string[]
      */
     public function getNewProjects(): array
     {
@@ -29,21 +27,21 @@ class AccountGetProjectsResponse
     }
 
     /**
-     * @return Project[]
+     * @return string[]
      */
     public function getUpdatedProjects(): array
     {
         return $this->updatedProjects;
     }
 
-    public function addUpdatedProject(Project $project): void
+    public function addUpdatedProject(string $extensionKey): void
     {
-        $this->updatedProjects[] = $project;
+        $this->updatedProjects[] = $extensionKey;
     }
 
-    public function addNewProject(Project $project): void
+    public function addNewProject(string $identifier): void
     {
-        $this->newProjects[] = $project;
+        $this->newProjects[] = $identifier;
     }
 
     public function noChanges(): bool

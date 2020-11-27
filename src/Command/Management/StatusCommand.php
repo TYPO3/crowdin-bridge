@@ -30,8 +30,6 @@ class StatusCommand extends Command
     {
         $this
             ->setName('crowdin:management:status')
-            ->addArgument('accountKey', InputArgument::REQUIRED, 'Account key')
-            ->addArgument('username', InputArgument::OPTIONAL, 'Username', 'TYPO3')
             ->addOption('export', null, InputOption::VALUE_OPTIONAL, 'Export output')
             ->setDescription('Status of all Crowdin Projects');
     }
@@ -44,12 +42,9 @@ class StatusCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $io->title('Status of all projects');
 
-        $service = new StatusService('');
-        $response = $service->getStatus(
-            $input->getArgument('accountKey'),
-            $input->getArgument('username'),
-            (bool)$input->getOption('export')
-        );
+        $exportStatus = (bool)$input->getOption('export');
+        $service = new StatusService();
+        $response = $service->getStatus($exportStatus);
 
         $headers = $this->spread(['extensionKey', 'crowdin key', 'usable'], array_keys((array)$response[0]['languages']));
         $items = [];
@@ -58,6 +53,11 @@ class StatusCommand extends Command
         }
 
         $io->table($headers, $items);
+
+        if ($exportStatus) {
+            $io->note('Status has been exported!');
+        }
+        return 0;
     }
 
     private function spread(array $existing, array $add): array

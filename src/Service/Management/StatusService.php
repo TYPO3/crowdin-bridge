@@ -4,60 +4,64 @@ declare(strict_types=1);
 
 namespace TYPO3\CrowdinBridge\Service\Management;
 
-use TYPO3\CrowdinBridge\Configuration\Project;
-use TYPO3\CrowdinBridge\Exception\ConfigurationException;
-use TYPO3\CrowdinBridge\Exception\NoApiCredentialsException;
+use CrowdinApiClient\Model\Progress;
+use CrowdinApiClient\Model\Project as CrowdinProject;
+use TYPO3\CrowdinBridge\Api\Wrapper\ProjectApi;
+use TYPO3\CrowdinBridge\Configuration\Project as LocalProject;
+use TYPO3\CrowdinBridge\Exception\ExtensionNotAvailableInFileConfigurationException;
 use TYPO3\CrowdinBridge\ExtendedApi\UpdateProject\Accounting;
-use TYPO3\CrowdinBridge\Service\BaseService;
-use TYPO3\CrowdinBridge\Service\StatusService as ProjectStatusService;
 use TYPO3\CrowdinBridge\Utility\FileHandling;
+use TYPO3Fluid\Fluid\View\TemplateView;
 
-class StatusService extends BaseService
+class StatusService
 {
-    public function getStatus(string $accountKey, string $username, bool $exportConfiguration = false): array
+    /** @var ProjectApi */
+    protected ProjectApi $projectApi;
+
+    public function __construct()
     {
-        $projectService = new ProjectService('');
-        $projects = $projectService->getAllProjects($accountKey, $username);
+        $this->projectApi = new ProjectApi();
+    }
+
+    public function getStatus(bool $exportConfiguration = false): array
+    {
+        $projects = $this->projectApi->getAll();
 
         $collection = [];
         foreach ($projects as $project) {
-//            if (!in_array($project['identifier'], ['typo3-cms', 'typo3-extension-news', 'typo3-extension-rxshariff', 'typo3-extension-ttaddress'], true)) {
-//                continue;
-//            }
+            $tmp = [
+                'crowdinProject' => $project,
+                'localProject' => null,
+                'translationStatus' => $this->projectApi->getTranslationStatusByCrowdinId($project->getId())
+            ];
             try {
-                $service = new ProjectStatusService($project['identifier']);
-                $project = $service->configurationService->getProject();
-
-                $collection[$project->getIdentifier()] = [
-                    'project' => $project,
-                    'languages' => $service->get()
-                ];
-            } catch (NoApiCredentialsException $e) {
-                // skip ext
+                $tmp['localProject'] = $this->projectApi->getConfiguration()->getProjectByCrowdinId($project->getId());
+            } catch (ExtensionNotAvailableInFileConfigurationException $e) {
+                // do nothing
             }
+            $collection[$project->getIdentifier()] = $tmp;
         }
 
         $output = [];
 
         $languagesOfCore = [];
-        foreach ($collection['typo3-cms']['languages'] as $language) {
-            $languagesOfCore[] = $language['code'];
-            $output['languages'][$language['code']] = $language['name'];
+        foreach ($collection['typo3-cms']['crowdinProject']->getTargetLanguages() as $language) {
+            $languagesOfCore[] = $language['id'];
+            $output['languages'][$language['id']] = $language['name'];
         }
 
-        foreach ($collection as $item) {
-            /** @var Project $p */
-            $p = $item['project'];
-            $languages = $item['languages'];
+        asort($output['languages']);
+        sort($languagesOfCore);
 
-            try {
-                $extensionKey = $p->getExtensionkey();
-            } catch (ConfigurationException $e) {
-                $extensionKey = '';
-            }
+        foreach ($collection as $item) {
+            /** @var LocalProject $localProject */
+            $localProject = $item['localProject'];
+            /** @var CrowdinProject $crowdinProject */
+            $crowdinProject = $item['crowdinProject'];
+
             $projectLine = [
-                'extensionKey' => $extensionKey,
-                'crowdinKey' => $p->getIdentifier(),
+                'extensionKey' => $localProject ? $localProject->getExtensionkey() : '',
+                'crowdinKey' => $crowdinProject->getIdentifier()
             ];
 
             $languageInfo = [];
@@ -65,10 +69,11 @@ class StatusService extends BaseService
 
             foreach ($languagesOfCore as $languageOfCore) {
                 $status = '-';
-                foreach ($languages as $language) {
-                    if ($language['code'] === $languageOfCore) {
-                        $status = $language['translated_progress'];
-                        if ($status !== '-' && $status > 0) {
+                foreach ($item['translationStatus'] as $language) {
+                    /** @var Progress $language */
+                    if ($language->getLanguageId() === $languageOfCore) {
+                        $status = $language->getTranslationProgress();
+                        if ($status > 0) {
                             $projectUsable = true;
                         }
                         continue;
@@ -91,30 +96,22 @@ class StatusService extends BaseService
 
     protected function exportJson(array $configuration): void
     {
-        $filename = $this->configurationService->getPathRsync() . 'status.json';
+        $filename = $this->projectApi->getConfiguration()->getPathRsync() . 'status.json';
         file_put_contents($filename, json_encode($configuration, JSON_PRETTY_PRINT));
     }
 
     protected function exportHtml(array $configuration): void
     {
         $pathToRoot = __DIR__ . '/../../../';
-        $view = new \TYPO3Fluid\Fluid\View\TemplateView();
+        $view = new TemplateView();
         $view->getTemplatePaths()->setTemplatePathAndFilename($pathToRoot . 'templates/Templates/Status.html');
         $view->assignMultiple([
             'date' => date('r'),
             'configuration' => $configuration
         ]);
 
-        $filename = $this->configurationService->getPathRsync() . 'status.html';
-        FileHandling::copyDirectory($pathToRoot . 'public/frontend/', $this->configurationService->getPathRsync());
+        $filename = $this->projectApi->getConfiguration()->getPathRsync() . 'status.html';
+        FileHandling::copyDirectory($pathToRoot . 'public/frontend/', $this->projectApi->getConfiguration()->getPathRsync());
         file_put_contents($filename, $view->render());
-    }
-
-    private function spread(array $existing, array $add): array
-    {
-        foreach ($add as $value) {
-            $existing[] = $value;
-        }
-        return $existing;
     }
 }

@@ -10,6 +10,7 @@ namespace TYPO3\CrowdinBridge\Command;
  * LICENSE.txt file that was distributed with this source code.
  */
 
+use Symfony\Component\Console\Command\Command;
 use TYPO3\CrowdinBridge\Info\LanguageInformation;
 use TYPO3\CrowdinBridge\Service\DownloadCrowdinTranslationService;
 use TYPO3\CrowdinBridge\Utility\FileHandling;
@@ -18,7 +19,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-class CrowdinExtractCoreCommand extends BaseCommand
+class CrowdinExtractCoreCommand extends Command
 {
 
     /**
