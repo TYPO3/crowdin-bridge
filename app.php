@@ -12,7 +12,6 @@ $app->add(new \TYPO3\CrowdinBridge\Command\CrowdinExtractExtCommand());
 $app->add(new \TYPO3\CrowdinBridge\Command\CrowdinExtractCoreCommand());
 $app->add(new \TYPO3\CrowdinBridge\Command\StatusCommand());
 $app->add(new \TYPO3\CrowdinBridge\Command\StatusExportCommand());
-$app->add(new \TYPO3\CrowdinBridge\Command\Meta\MetaStatusCommand());
 $app->add(new \TYPO3\CrowdinBridge\Command\Meta\MetaBuildCommand());
 $app->add(new \TYPO3\CrowdinBridge\Command\Meta\MetaExtractExtCommand());
 $app->add(new \TYPO3\CrowdinBridge\Command\Meta\MetaStatusExportCommand());

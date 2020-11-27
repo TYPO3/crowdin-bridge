@@ -11,12 +11,11 @@ namespace TYPO3\CrowdinBridge\Command\Meta;
  */
 
 use Symfony\Component\Console\Command\Command;
-use TYPO3\CrowdinBridge\Command\BaseCommand;
 use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
+use TYPO3\CrowdinBridge\Command\BaseCommand;
+use TYPO3\CrowdinBridge\Entity\BridgeConfiguration;
 
 class MetaStatusExportCommand extends Command
 {
@@ -36,19 +35,20 @@ class MetaStatusExportCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->setupConfigurationService('');
-
         $command = $this->getApplication()->find('crowdin:status.export');
-        foreach ($this->configurationService->getAllProjects() as $project) {
-            if ($project->getIdentifier() === 'typo3-cms') {
+        $bridgeConfiguration = new BridgeConfiguration();
+        foreach ($bridgeConfiguration->getAllProjects() as $project) {
+            if ($project->isCoreProject()) {
                 continue;
             }
             $arguments = [
                 'command' => 'crowdin:status.export',
-                'project' => $project->getIdentifier()
+                'extensionKey' => $project->getExtensionkey()
             ];
             $input = new ArrayInput($arguments);
-            $returnCode = $command->run($input, $output);
+            $command->run($input, $output);
         }
+
+        return 0;
     }
 }

@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace TYPO3\CrowdinBridge\Entity;
 
-use TYPO3\CrowdinBridge\Exception\ConfigurationException;
 use TYPO3\CrowdinBridge\Exception\NoApiCredentialsException;
 use TYPO3\CrowdinBridge\Utility\FileHandling;
 
@@ -31,6 +30,9 @@ final class ProjectConfiguration
     public function __construct(string $crowdinIdentifier, array $configuration)
     {
         $this->crowdinIdentifier = $crowdinIdentifier;
+        if (!isset($configuration['extensionKey'])) {
+            print_r($configuration);die;
+        }
         $this->extensionkey = $configuration['extensionKey'];
         $this->id = (int)($configuration['id'] ?? 0);
         $this->languages = FileHandling::trimExplode(',', $configuration['languages'] ?? '', true);
@@ -71,13 +73,20 @@ final class ProjectConfiguration
      */
     public function isCoreProject(): bool
     {
-        die('hm');
-        return $this->identifier === 'typo3-cms';
+        return $this->crowdinIdentifier === 'typo3-cms';
     }
 
-    public static function initializeByArray(string $extensionKey, $data)
+    /**
+     * @return string
+     */
+    public function getCrowdinIdentifier(): string
     {
-        return new self($extensionKey, $data);
+        return $this->crowdinIdentifier;
+    }
+
+    public static function initializeByArray(string $crowdinIdentifier, $configuration): ProjectConfiguration
+    {
+        return new self($crowdinIdentifier, $configuration);
     }
 
     public function __toString()

@@ -3,20 +3,12 @@ declare(strict_types=1);
 
 namespace TYPO3\CrowdinBridge\Command\Meta;
 
-/**
- * This file is part of the "crowdin" Extension for TYPO3 CMS.
- *
- * For the full copyright and license information, please read the
- * LICENSE.txt file that was distributed with this source code.
- */
-
 use Symfony\Component\Console\Command\Command;
-use TYPO3\CrowdinBridge\Command\BaseCommand;
 use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
+use TYPO3\CrowdinBridge\Command\BaseCommand;
+use TYPO3\CrowdinBridge\Entity\BridgeConfiguration;
 
 class MetaBuildCommand extends Command
 {
@@ -37,17 +29,18 @@ class MetaBuildCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->setupConfigurationService('');
+        $bridgeConfiguration = new BridgeConfiguration();
 
         $command = $this->getApplication()->find('crowdin:build');
-        foreach ($this->configurationService->getAllProjects() as $project) {
+        foreach ($bridgeConfiguration->getAllProjects() as $project) {
             $arguments = [
                 'command' => 'crowdin:build',
-                'project' => $project->getIdentifier(),
-                'async' => true,
+                'project' => $project->getCrowdinIdentifier(),
             ];
             $input = new ArrayInput($arguments);
             $command->run($input, $output);
         }
+
+        return 0;
     }
 }

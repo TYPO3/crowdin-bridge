@@ -11,10 +11,10 @@ namespace TYPO3\CrowdinBridge\Command\Meta;
  */
 
 use Symfony\Component\Console\Command\Command;
-use TYPO3\CrowdinBridge\Command\BaseCommand;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use TYPO3\CrowdinBridge\Command\BaseCommand;
 
 class MetaExtractExtCommand extends Command
 {

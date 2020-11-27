@@ -5,19 +5,21 @@ declare(strict_types=1);
 namespace TYPO3\CrowdinBridge\Service;
 
 use Akeneo\Crowdin\Api\Export;
+use CrowdinApiClient\Model\TranslationProjectBuild;
+use TYPO3\CrowdinBridge\Api\Wrapper\TranslationApi;
 
-class ExportService extends BaseService
+class ExportService
 {
-    public function export(string $branch = '', bool $async = false)
+    /** @var TranslationApi */
+    protected TranslationApi $translationApi;
+
+    public function __construct()
     {
-        /** @var Export $api */
-        $api = $this->client->api('export');
-        if ($branch) {
-            $api->setBranch($branch);
-        }
-        if ($async || $this->configurationService->isCoreProject()) {
-            $api->addUrlParameter('async', 1);
-        }
-        $api->execute();
+        $this->translationApi = new TranslationApi();
+    }
+
+    public function export(string $projectIdentifier): ?TranslationProjectBuild
+    {
+        return $this->translationApi->buildProject($projectIdentifier);
     }
 }
