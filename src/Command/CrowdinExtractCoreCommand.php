@@ -11,13 +11,13 @@ namespace TYPO3\CrowdinBridge\Command;
  */
 
 use Symfony\Component\Console\Command\Command;
-use TYPO3\CrowdinBridge\Info\LanguageInformation;
-use TYPO3\CrowdinBridge\Service\DownloadCrowdinTranslationService;
-use TYPO3\CrowdinBridge\Utility\FileHandling;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use TYPO3\CrowdinBridge\Entity\BridgeConfiguration;
+use TYPO3\CrowdinBridge\Service\DownloadCrowdinTranslationService;
+use TYPO3\CrowdinBridge\Utility\FileHandling;
 
 class CrowdinExtractCoreCommand extends Command
 {
@@ -29,8 +29,8 @@ class CrowdinExtractCoreCommand extends Command
     {
         $this
             ->setName('crowdin:extract:core')
-            ->setDescription('Download CORE translations')
-            ->addArgument('language', InputArgument::REQUIRED, 'Language');
+            ->setDescription('Download translations of TYPO3 core')
+            ->addArgument('language', InputArgument::REQUIRED, 'List of languages or use "*" for all');
     }
 
     /**
@@ -38,30 +38,18 @@ class CrowdinExtractCoreCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->setupConfigurationService('typo3-cms');
+        $bridgeConfiguration = new BridgeConfiguration();
+        $project = $bridgeConfiguration->getProject('typo3-cms');
 
         $io = new SymfonyStyle($input, $output);
-        $project = $this->getProject();
-        $io->title(sprintf('Project %s', $project->getIdentifier()));
+        $io->title('Project typo3-cms');
 
         $languages = $input->getArgument('language') ?? '*';
         $languageList = $languages === '*' ? $project->getLanguages() : FileHandling::trimExplode(',', $languages, true);
 
-        $service = new DownloadCrowdinTranslationService($this->getProject()->getIdentifier());
-        foreach ($languageList as $language) {
-            try {
-                $service->downloadPackage($language);
+        $service = new DownloadCrowdinTranslationService();
+        $service->downloadPackage('typo3-cms', $languageList);
 
-                $message = sprintf('Data has been downloaded for %s!', $language);
-
-                $typo3LanguageIdentifier = LanguageInformation::getLanguageForTypo3($language);
-                if ($typo3LanguageIdentifier !== $language) {
-                    $message .= sprintf("\nTYPO3 language identifier is %s.", $typo3LanguageIdentifier);
-                }
-                $io->success($message);
-            } catch (\Exception $e) {
-                $io->error($e->getMessage());
-            }
-        }
+        $io->success(sprintf('Core process finished for the following languages: %s', implode(', ', $languageList)));
     }
 }

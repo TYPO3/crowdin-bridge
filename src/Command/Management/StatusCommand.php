@@ -11,13 +11,10 @@ namespace TYPO3\CrowdinBridge\Command\Management;
  */
 
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use TYPO3\CrowdinBridge\Configuration\Project;
-use TYPO3\CrowdinBridge\Service\Management\ProjectService;
 use TYPO3\CrowdinBridge\Service\Management\StatusService;
 
 class StatusCommand extends Command
@@ -30,7 +27,6 @@ class StatusCommand extends Command
     {
         $this
             ->setName('crowdin:management:status')
-            ->addOption('export', null, InputOption::VALUE_OPTIONAL, 'Export output')
             ->setDescription('Status of all Crowdin Projects');
     }
 
@@ -42,9 +38,8 @@ class StatusCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $io->title('Status of all projects');
 
-        $exportStatus = (bool)$input->getOption('export');
         $service = new StatusService();
-        $response = $service->getStatus($exportStatus);
+        $response = $service->getStatus(true);
 
         $headers = $this->spread(['extensionKey', 'crowdin key', 'usable'], array_keys((array)$response[0]['languages']));
         $items = [];
@@ -53,10 +48,7 @@ class StatusCommand extends Command
         }
 
         $io->table($headers, $items);
-
-        if ($exportStatus) {
-            $io->note('Status has been exported!');
-        }
+        $io->note('Status has been exported!');
         return 0;
     }
 

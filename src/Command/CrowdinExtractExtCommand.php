@@ -11,13 +11,12 @@ namespace TYPO3\CrowdinBridge\Command;
  */
 
 use Symfony\Component\Console\Command\Command;
-use TYPO3\CrowdinBridge\Info\LanguageInformation;
-use TYPO3\CrowdinBridge\Service\DownloadCrowdinTranslationService;
-use TYPO3\CrowdinBridge\Utility\FileHandling;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use TYPO3\CrowdinBridge\Info\LanguageInformation;
+use TYPO3\CrowdinBridge\Service\DownloadCrowdinTranslationService;
 
 class CrowdinExtractExtCommand extends Command
 {
@@ -38,30 +37,20 @@ class CrowdinExtractExtCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->setupConfigurationService($input->getArgument('project'));
-
+        $projectIdentifier = $input->getArgument('project');
         $io = new SymfonyStyle($input, $output);
-        $project = $this->getProject();
-        $io->title(sprintf('Project %s', $project->getIdentifier()));
+        $io->title(sprintf('Project %s', $projectIdentifier));
 
-        $languageList = $project->getLanguages();
-        $branch = $project->getBranch();
+        try {
+            $service = new DownloadCrowdinTranslationService();
+            $service->downloadPackage($projectIdentifier);
 
-        foreach ($languageList as $language) {
-            try {
-                $service = new DownloadCrowdinTranslationService($project->getIdentifier());
-                $service->downloadPackage($language, $branch);
-
-                $message = sprintf('Data has been downloaded for %s!', $language);
-
-                $typo3LanguageIdentifier = LanguageInformation::getLanguageForTypo3($language);
-                if ($typo3LanguageIdentifier !== $language) {
-                    $message .= sprintf("\nTYPO3 language identifier is %s.", $typo3LanguageIdentifier);
-                }
-                $io->success($message);
-            } catch (\Exception $e) {
-                $io->error($e->getMessage());
-            }
+            $message = 'Data has been downloaded!';
+            $io->success($message);
+        } catch (\Exception $e) {
+            $io->error($e->getMessage());
         }
+
+        return 0;
     }
 }

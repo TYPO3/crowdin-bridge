@@ -5,26 +5,25 @@ declare(strict_types=1);
 namespace TYPO3\CrowdinBridge\Service\Management;
 
 use TYPO3\CrowdinBridge\Api\Wrapper\ProjectApi;
+use TYPO3\CrowdinBridge\Entity\BridgeConfiguration;
 use TYPO3\CrowdinBridge\ExtendedApi\AccountGetProjectsResponse;
 use TYPO3\CrowdinBridge\ExtendedApi\UpdateProject\Accounting;
 use TYPO3\CrowdinBridge\Utility\FileHandling;
 
 class ProjectService
 {
-    /** @var ProjectApi */
-    protected ProjectApi $projectApi;
-
-    public function __construct()
-    {
-        $this->projectApi = new ProjectApi();
-    }
 
     public function updateConfiguration(): AccountGetProjectsResponse
     {
-        $remoteProjects = $this->projectApi->getAll();
+        // initialize with false to create new configuration file
+        $bridgeConfiguration = new BridgeConfiguration(false);
+        $bridgeConfiguration->getPathRsync(); // just call to avoid false positive no usage
+
+        $projectApi = new ProjectApi();
         $response = new AccountGetProjectsResponse();
-        $fileConfiguration = $this->projectApi->getConfiguration();
-        foreach ($remoteProjects as $remoteProject) {
+
+        $fileConfiguration = $projectApi->getConfiguration();
+        foreach ($projectApi->getAll() as $remoteProject) {
             $identifier = $remoteProject->getIdentifier();
 
             $remoteLanguages = $remoteProject->getTargetLanguageIds();

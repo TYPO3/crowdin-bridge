@@ -23,7 +23,7 @@ class BuildCommand extends Command
         $this
             ->setName('crowdin:build')
             ->setDescription('Trigger build of a project')
-            ->setHelp('Only if a project has been exported it is possible to get the latest translations. ')
+            ->setHelp('A build is required to get later access to the translations.')
             ->addArgument('project', InputArgument::REQUIRED, 'Project identifier');
     }
 

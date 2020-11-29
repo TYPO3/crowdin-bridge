@@ -21,7 +21,7 @@ class MetaBuildCommand extends Command
         $this
             ->setName('crowdin:meta:build')
             ->setDescription('Meta :: Trigger build of a project')
-            ->setHelp('Only if a project has been exported it is possible to get the latest translations. ');
+            ->setHelp('Build all projects by running the "crowdin:build" command for *all* projects.');
     }
 
     /**

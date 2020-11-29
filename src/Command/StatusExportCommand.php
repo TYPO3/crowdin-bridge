@@ -42,7 +42,6 @@ class StatusExportCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $io->title(sprintf('Extension %s', $extensionKey));
 
-
         try {
             $exportService = new ExportStatusService();
             $exportService->export($extensionKey);

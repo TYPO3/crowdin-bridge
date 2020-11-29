@@ -92,7 +92,7 @@ final class ProjectConfiguration
     public function __toString()
     {
         return json_encode([
-            'identifier' => $this->identifier,
+            'identifier' => $this->crowdinIdentifier,
         ]);
     }
 }

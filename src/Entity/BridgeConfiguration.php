@@ -13,14 +13,16 @@ class BridgeConfiguration
     private string $configurationFile = '';
     protected $data = [];
 
-    public function __construct()
+    public function __construct(bool $exceptionIfConfigurationFileMissing = true)
     {
-        $this->configurationFile = __DIR__ . '/../../configuration2.json';
+        $this->configurationFile = __DIR__ . '/../../configuration.json';
         if (!is_file($this->configurationFile)) {
-            throw new \RuntimeException(sprintf('Configuration file %s not found', $this->configurationFile));
+            if ($exceptionIfConfigurationFileMissing) {
+                throw new \RuntimeException(sprintf('Configuration file %s not found', $this->configurationFile));
+            }
+            file_put_contents($this->configurationFile, '{}');
         }
-        $this->data = json_decode(file_get_contents($this->configurationFile), true);
-
+        $this->data = json_decode((string)@file_get_contents($this->configurationFile), true);
     }
 
     /**
@@ -132,14 +134,17 @@ class BridgeConfiguration
 
     protected function getPath(string $key): string
     {
-        $mainPath = $this->data['paths']['entryPath'];
+        $mainPath = getcwd() . '/export/';
+        if (!is_dir($mainPath)) {
+            FileHandling::mkdir_deep($subPath);
+        }
         if (!is_dir($mainPath)) {
             throw new \RuntimeException(sprintf('Path "%s" does not exist', $mainPath), 1573629792);
         }
-        $subPath = rtrim($mainPath, '/') . '/' . trim($this->data['paths'][$key], '/') . '/';
+        $subPathKey = $_ENV['PATH_' . $key] ?? $key;
+        $subPath = rtrim($mainPath, '/') . '/' . trim($subPathKey, '/') . '/';
         if (!is_dir($subPath)) {
             FileHandling::mkdir_deep($subPath);
-//            throw new \RuntimeException(sprintf('Path "%s" does not exist', $subPath), 1573629793);
         }
 
         return $subPath;

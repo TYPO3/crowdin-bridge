@@ -13,31 +13,34 @@ jobs:
       matrix:
         php: ['7.4']
     steps:
-      - uses: actions/checkout@v1
-      - name: Set up PHP Version
-        run: |
-          sudo update-alternatives --set php /usr/bin/php${{ matrix.php }}
-          php -v
+      - name: Setup PHP with composer v2
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          tools: composer:v2
 
       - name: Install dependencies
         run: composer install --no-progress --no-suggest
 
-      - name: Get configuration
+      - name: Generate configuration
+        env:
+          CROWDIN_ACCESS_TOKEN: ${{ secrets.CROWDIN_ACCESS_TOKEN }}
         run: |
-          wget ${{ secrets.CONFIGURATION_URL }}
+          php app.php crowdin:management:projectList
 
       - name: Extract translations
+        env:
+          CROWDIN_ACCESS_TOKEN: ${{ secrets.CROWDIN_ACCESS_TOKEN }}
         run: |
           php app.php crowdin:meta:extractExt
           php app.php crowdin:extract:core '*'
 
       - name: Extract status
+        env:
+          CROWDIN_ACCESS_TOKEN: ${{ secrets.CROWDIN_ACCESS_TOKEN }}
         run: |
           php app.php crowdin:meta:status.export
-          php app.php crowdin:management:status --export=1
-
-      - name: Cleanup
-        run: rm -rf configuration.json
+          php app.php crowdin:management:status
 
       - name: Copy files to translation server
         uses: appleboy/scp-action@master

@@ -15,6 +15,7 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use TYPO3\CrowdinBridge\Command\BaseCommand;
+use TYPO3\CrowdinBridge\Entity\BridgeConfiguration;
 
 class MetaExtractExtCommand extends Command
 {
@@ -35,16 +36,16 @@ class MetaExtractExtCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->setupConfigurationService('');
+        $bridgeConfiguration = new BridgeConfiguration();
 
         $command = $this->getApplication()->find('crowdin:extract:ext');
-        foreach ($this->configurationService->getAllProjects() as $project) {
-            if ($project->getIdentifier() === 'typo3-cms') {
+        foreach ($bridgeConfiguration->getAllProjects() as $project) {
+            if ($project->getCrowdinIdentifier() === 'typo3-cms') {
                 continue;
             }
             $arguments = [
                 'command' => 'crowdin:extract:ext',
-                'project' => $project->getIdentifier()
+                'project' => $project->getCrowdinIdentifier()
             ];
             $input = new ArrayInput($arguments);
             $command->run($input, $output);

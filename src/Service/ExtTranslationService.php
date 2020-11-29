@@ -20,8 +20,8 @@ class ExtTranslationService extends BaseTranslationServerService
     protected function getExtensionUrl(string $key, string $language): string
     {
         return sprintf('https://typo3.org/fileadmin/ter/%s/%s/%s-l10n/%s-l10n-%s.zip',
-            $key{0},
-            $key{1},
+            $key[0],
+            $key[1],
             $key,
             $key,
             $language
