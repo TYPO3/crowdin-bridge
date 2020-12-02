@@ -16,7 +16,7 @@ Builds are required to package translation on Crowdin as only packaged translati
 
 The following steps are taken:
 
-1. Generate local configuration file `crowdin:management:projectList`
+1. Generate local configuration file `crowdin:setup`
 1. Download & process all translations
    2. From Extensions: `crowdin:meta:extractExt`
    3. From Core: `crowdin:extract:core '*'`

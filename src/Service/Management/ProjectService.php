@@ -6,21 +6,19 @@ namespace TYPO3\CrowdinBridge\Service\Management;
 
 use TYPO3\CrowdinBridge\Api\Wrapper\ProjectApi;
 use TYPO3\CrowdinBridge\Entity\BridgeConfiguration;
-use TYPO3\CrowdinBridge\ExtendedApi\AccountGetProjectsResponse;
-use TYPO3\CrowdinBridge\ExtendedApi\UpdateProject\Accounting;
 use TYPO3\CrowdinBridge\Utility\FileHandling;
 
 class ProjectService
 {
 
-    public function updateConfiguration(): AccountGetProjectsResponse
+    public function updateConfiguration(): array
     {
+        $projects = [];
         // initialize with false to create new configuration file
         $bridgeConfiguration = new BridgeConfiguration(false);
         $bridgeConfiguration->getPathRsync(); // just call to avoid false positive no usage
 
         $projectApi = new ProjectApi();
-        $response = new AccountGetProjectsResponse();
 
         $fileConfiguration = $projectApi->getConfiguration();
         foreach ($projectApi->getAll() as $remoteProject) {
@@ -36,9 +34,9 @@ class ProjectService
                 'languages' => implode(',', $remoteLanguages)
             ];
             $fileConfiguration->add($identifier, $newData);
-            $response->addNewProject($key);
+            $projects[] = $key;
         }
-        return $response;
+        return $projects;
     }
 
     protected function generateExtensionKey(string $identifier, string $name)
