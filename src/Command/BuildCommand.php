@@ -39,7 +39,7 @@ class BuildCommand extends Command
 
         $service = new ExportService();
         $response = $service->export($projectIdentifier);
-        $io->success('Project has been exported with *all branches*!');
+        $io->success('Project has been exported!');
         if ($response) {
             $io->note(sprintf('Progress "%s" with %s%%.', $response->getStatus(), $response->getProgress()));
         }

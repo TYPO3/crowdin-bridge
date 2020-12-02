@@ -9,7 +9,7 @@ use TYPO3\CrowdinBridge\Api\Wrapper\ProjectApi;
 use TYPO3\CrowdinBridge\Info\LanguageInformation;
 use TYPO3\CrowdinBridge\Utility\FileHandling;
 
-class ExportStatusService
+class ExportExtensionTranslationStatusService
 {
 
     /** @var ProjectApi */

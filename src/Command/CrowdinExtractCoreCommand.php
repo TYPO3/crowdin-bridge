@@ -30,7 +30,7 @@ class CrowdinExtractCoreCommand extends Command
         $this
             ->setName('crowdin:extract:core')
             ->setDescription('Download translations of TYPO3 core')
-            ->addArgument('language', InputArgument::REQUIRED, 'List of languages or use "*" for all');
+            ->addArgument('language', InputArgument::OPTIONAL, 'List of languages or use "*" for all', '*');
     }
 
     /**
@@ -48,8 +48,9 @@ class CrowdinExtractCoreCommand extends Command
         $languageList = $languages === '*' ? $project->getLanguages() : FileHandling::trimExplode(',', $languages, true);
 
         $service = new DownloadCrowdinTranslationService();
-        $service->downloadPackage('typo3-cms', $languageList);
+        $service->downloadPackageCore('typo3-cms', $languageList);
 
         $io->success(sprintf('Core process finished for the following languages: %s', implode(', ', $languageList)));
+        return 0;
     }
 }

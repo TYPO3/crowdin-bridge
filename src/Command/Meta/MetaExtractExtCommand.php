@@ -37,9 +37,11 @@ class MetaExtractExtCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $bridgeConfiguration = new BridgeConfiguration();
+        $allProjects = $bridgeConfiguration->getAllProjects();
+        $allProjects = ['typo3-extension-mask', 'typo3-extension-news'];
 
         $command = $this->getApplication()->find('crowdin:extract:ext');
-        foreach ($bridgeConfiguration->getAllProjects() as $project) {
+        foreach ($allProjects as $project) {
             if ($project->getCrowdinIdentifier() === 'typo3-cms') {
                 continue;
             }

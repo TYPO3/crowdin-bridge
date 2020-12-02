@@ -43,7 +43,7 @@ class CrowdinExtractExtCommand extends Command
 
         try {
             $service = new DownloadCrowdinTranslationService();
-            $service->downloadPackage($projectIdentifier);
+            $service->downloadPackageExtension($projectIdentifier);
 
             $message = 'Data has been downloaded!';
             $io->success($message);
