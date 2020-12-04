@@ -68,7 +68,7 @@ class DownloadCrowdinTranslationService
             $this->processDownloadDirectoryCore($downloadLanguageTarget, $language);
         }
         $this->moveAllToRsyncDestination();
-        $this->cleanup($downloadTarget);
+     //   $this->cleanup($downloadTarget);
     }
 
     public function downloadPackageExtension(string $projectIdentifier, array $listOfLanguages = [])
