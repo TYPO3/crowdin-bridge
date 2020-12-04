@@ -113,12 +113,13 @@ class BridgeConfiguration
     {
         $mainPath = getcwd() . '/export/';
         if (!is_dir($mainPath)) {
-            FileHandling::mkdir_deep($subPath);
+            FileHandling::mkdir_deep($mainPath);
         }
         if (!is_dir($mainPath)) {
             throw new \RuntimeException(sprintf('Path "%s" does not exist', $mainPath), 1573629792);
         }
-        $subPathKey = $_ENV['PATH_' . $key] ?? $key;
+        $alternativePath = (string)getenv('PATH_' . $key);
+        $subPathKey = $alternativePath ?: $key;
         $subPath = rtrim($mainPath, '/') . '/' . trim($subPathKey, '/') . '/';
         if (!is_dir($subPath)) {
             FileHandling::mkdir_deep($subPath);

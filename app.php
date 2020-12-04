@@ -2,8 +2,11 @@
 
 require __DIR__ . '/vendor/autoload.php';
 
-$dotenv = new \Symfony\Component\Dotenv\Dotenv();
-$dotenv->load(__DIR__ . '/.env');
+$envFile = __DIR__ . '/.env';
+if (file_exists($envFile)) {
+    $dotenv = new \Symfony\Component\Dotenv\Dotenv();
+    $dotenv->load($envFile);
+}
 
 $app = new \Symfony\Component\Console\Application('Crowdin-TYPO3 Bridge', '2.0');
 
