@@ -175,6 +175,9 @@ class DownloadCrowdinTranslationService
 
         $newDirName = $directory . $extensionKey . '/' . $crowdinLanguageName;
 
+        if (!is_dir($dir)) {
+            throw new \UnexpectedValueException(sprintf('Directory "%s" for processing %s does not exist, no translations probably available', $dir, $extensionKey));
+        }
         $filesystem = new Filesystem();
         $filesystem->rename($dir, $newDirName);
 
@@ -252,8 +255,7 @@ class DownloadCrowdinTranslationService
             $fileContent = file_get_contents($downloadFile->getUrl());
 
             if (strlen($fileContent) < 130) {
-                unlink($downloadName);
-                throw new NoTranslationsAvailableException(sprintf('No translations found for %s and %s', $langage, $this->projectIdentifier));
+                throw new NoTranslationsAvailableException(sprintf('No translations found for %s', $this->projectIdentifier));
             }
             file_put_contents($finalName, $fileContent);
         }

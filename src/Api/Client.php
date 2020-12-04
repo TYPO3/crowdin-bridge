@@ -20,7 +20,7 @@ class Client
     {
         $this->configuration = new BridgeConfiguration();
 
-        $accessToken = (string)getenv('CROWDIN_ACCESS_TOKEN');
+        $accessToken = $_ENV['CROWDIN_ACCESS_TOKEN'] ?? (string)getenv('CROWDIN_ACCESS_TOKEN');
         if (!$accessToken) {
             throw new \UnexpectedValueException('env CROWDIN_ACCESS_TOKEN missing');
         }
