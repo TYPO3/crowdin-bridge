@@ -1,4 +1,4 @@
-# Project `CrowdinBridge`
+# Project `CrowdinBridge` v2
 
 ![](https://github.com/typo3/crowdin-bridge/workflows/Crowdin%20Build/badge.svg)
 ![](https://github.com/typo3/crowdin-bridge/workflows/Crowdin%20Extract/badge.svg)
