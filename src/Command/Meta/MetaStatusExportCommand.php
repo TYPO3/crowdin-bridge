@@ -26,7 +26,7 @@ class MetaStatusExportCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('crowdin:meta:status.export')
+            ->setName('meta:status.export')
             ->setDescription('Meta :: Export status of projects');
     }
 
@@ -35,14 +35,14 @@ class MetaStatusExportCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $command = $this->getApplication()->find('crowdin:status.export');
+        $command = $this->getApplication()->find('status.export');
         $bridgeConfiguration = new BridgeConfiguration();
         foreach ($bridgeConfiguration->getAllProjects() as $project) {
             if ($project->isCoreProject()) {
                 continue;
             }
             $arguments = [
-                'command' => 'crowdin:status.export',
+                'command' => 'status.export',
                 'extensionKey' => $project->getExtensionkey()
             ];
             $input = new ArrayInput($arguments);

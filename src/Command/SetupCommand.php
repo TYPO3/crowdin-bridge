@@ -19,7 +19,7 @@ class SetupCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('crowdin:setup')
+            ->setName('setup')
             ->setDescription('Create configuration file')
             ->setHelp('The configuration.json file contains the crowdin ID and languages and '
                 . 'reduces the amount of needed API calls.');
@@ -36,8 +36,8 @@ class SetupCommand extends Command
         $service = new ProjectService();
         $projects = $service->updateConfiguration();
         sort($projects);
-        $io->success(sprintf('%s projects have been configured', count($projects)));
-        $io->note(implode(', ', $projects));
+        $io->success(sprintf('%s projects have been configured!', count($projects)));
+        $io->comment(implode(', ', $projects));
 
         return 0;
     }

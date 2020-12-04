@@ -10,7 +10,7 @@ use TYPO3\CrowdinBridge\Utility\FileHandling;
 
 class BridgeConfiguration
 {
-    private string $configurationFile = '';
+    private string $configurationFile;
     protected $data = [];
 
     public function __construct(bool $exceptionIfConfigurationFileMissing = true)
@@ -22,7 +22,7 @@ class BridgeConfiguration
             }
             file_put_contents($this->configurationFile, '{}');
         }
-        $this->data = json_decode((string)@file_get_contents($this->configurationFile), true);
+        $this->data = json_decode((string)@file_get_contents($this->configurationFile), true, 512, JSON_THROW_ON_ERROR);
     }
 
     /**
@@ -70,29 +70,6 @@ class BridgeConfiguration
         $this->persistConfiguration();
         return ProjectConfiguration::initializeByArray($project, $data);
     }
-
-    public function addToDo(string $identifier, array $data): void
-    {
-        $this->data['todo'][$identifier] = $data;
-        $this->persistConfiguration();
-    }
-
-    public function updateSingleConfiguration(string $extensionKey, string $key, $value): bool
-    {
-        try {
-            if ($value === null) {
-                unset($this->data['projects'][$extensionKey][$key]);
-            } else {
-                $this->data['projects'][$extensionKey][$key] = $value;
-            }
-            $this->persistConfiguration();
-            return true;
-        } catch (NoApiCredentialsException $e) {
-        }
-
-        return false;
-    }
-
 
     /**
      * @return ProjectConfiguration[]
@@ -152,7 +129,7 @@ class BridgeConfiguration
 
     protected function persistConfiguration(): void
     {
-        file_put_contents($this->configurationFile, json_encode($this->data, JSON_PRETTY_PRINT));
+        file_put_contents($this->configurationFile, json_encode($this->data, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT));
     }
 
 }

@@ -15,10 +15,9 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use TYPO3\CrowdinBridge\Info\LanguageInformation;
 use TYPO3\CrowdinBridge\Service\DownloadCrowdinTranslationService;
 
-class CrowdinExtractExtCommand extends Command
+class ExtractExtensionCommand extends Command
 {
 
     /**
@@ -27,7 +26,7 @@ class CrowdinExtractExtCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('crowdin:extract:ext')
+            ->setName('extract:extension')
             ->addArgument('project', InputArgument::REQUIRED, 'Project identifier')
             ->setDescription('Download Extension translations');
     }

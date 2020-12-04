@@ -19,7 +19,7 @@ class MetaBuildCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('crowdin:meta:build')
+            ->setName('meta:build')
             ->setDescription('Meta :: Trigger build of a project')
             ->setHelp('Build all projects by running the "crowdin:build" command for *all* projects.');
     }
@@ -31,10 +31,10 @@ class MetaBuildCommand extends Command
     {
         $bridgeConfiguration = new BridgeConfiguration();
 
-        $command = $this->getApplication()->find('crowdin:build');
+        $command = $this->getApplication()->find('build');
         foreach ($bridgeConfiguration->getAllProjects() as $project) {
             $arguments = [
-                'command' => 'crowdin:build',
+                'command' => 'build',
                 'project' => $project->getCrowdinIdentifier(),
             ];
             $input = new ArrayInput($arguments);

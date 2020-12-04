@@ -1,7 +1,7 @@
 name: Crowdin Build
 
 on:
-#  push:
+  push:
 #  schedule:
 #    - cron:  '0 */2 * * *'
 jobs:
@@ -20,13 +20,15 @@ jobs:
           tools: composer:v2
 
       - name: Install dependencies
-        run: composer install --no-progress --no-suggest
+        run: composer install --no-progress
 
-      - name: Get configuration
+      - name: Generate configuration
+        env:
+          CROWDIN_ACCESS_TOKEN: ${{ secrets.CROWDIN_ACCESS_TOKEN }}
         run: |
-          wget ${{ secrets.CONFIGURATION_URL }}
+          php app.php setup
 
       - name: Build all projects
         env:
           CROWDIN_ACCESS_TOKEN: ${{ secrets.CROWDIN_ACCESS_TOKEN }}
-        run: php app.php crowdin:meta:build
+        run: php app.php meta:build

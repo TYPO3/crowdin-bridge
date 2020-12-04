@@ -31,11 +31,6 @@ class Client
         $this->client = new Crowdin($crowdinConfiguration);
     }
 
-    public function getClient(): Crowdin
-    {
-        return $this->client;
-    }
-
     /**
      * @return BridgeConfiguration
      */

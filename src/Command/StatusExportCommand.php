@@ -19,7 +19,7 @@ class StatusExportCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('crowdin:status.export')
+            ->setName('status.export')
             ->addArgument('extensionKey', InputArgument::REQUIRED, 'Extension Key')
             ->setDescription('Export extension translation status');
     }

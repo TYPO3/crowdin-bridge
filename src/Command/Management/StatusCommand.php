@@ -19,7 +19,7 @@ class StatusCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('crowdin:management:status')
+            ->setName('management:status')
             ->setDescription('Status of all Crowdin Projects');
     }
 

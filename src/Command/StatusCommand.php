@@ -18,7 +18,7 @@ class StatusCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('crowdin:status')
+            ->setName('status')
             ->addArgument('project', InputArgument::REQUIRED, 'Project identifier')
             ->setDescription('Get status');
     }

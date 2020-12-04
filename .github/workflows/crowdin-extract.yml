@@ -1,7 +1,7 @@
 name: Crowdin Extract
 
 on:
-#  push:
+  push:
 #  schedule:
 #    - cron:  '30 1,3,5,7,9,11,13,15,17,19,21,23 * * *'
 jobs:
@@ -20,27 +20,27 @@ jobs:
           tools: composer:v2
 
       - name: Install dependencies
-        run: composer install --no-progress --no-suggest
+        run: composer install --no-progress
 
       - name: Generate configuration
         env:
           CROWDIN_ACCESS_TOKEN: ${{ secrets.CROWDIN_ACCESS_TOKEN }}
         run: |
-          php app.php crowdin:management:projectList
+          php app.php setup
 
       - name: Extract translations
         env:
           CROWDIN_ACCESS_TOKEN: ${{ secrets.CROWDIN_ACCESS_TOKEN }}
         run: |
-          php app.php crowdin:meta:extractExt
-          php app.php crowdin:extract:core '*'
+          php app.php meta:extractExtensions
+          php app.php extract:core
 
       - name: Extract status
         env:
           CROWDIN_ACCESS_TOKEN: ${{ secrets.CROWDIN_ACCESS_TOKEN }}
         run: |
-          php app.php crowdin:meta:status.export
-          php app.php crowdin:management:status
+          php app.php meta:status.export
+          php app.php management:status
 
       - name: Copy files to translation server
         uses: appleboy/scp-action@master
@@ -51,5 +51,5 @@ jobs:
           KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         with:
           source: "/home/runner/work/crowdin-bridge/crowdin-bridge/public/rsync"
-          target: "/home/localize/www/export/"
+          target: "/home/localize/www/export_v2/"
 

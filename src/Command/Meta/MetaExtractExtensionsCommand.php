@@ -17,7 +17,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use TYPO3\CrowdinBridge\Command\BaseCommand;
 use TYPO3\CrowdinBridge\Entity\BridgeConfiguration;
 
-class MetaExtractExtCommand extends Command
+class MetaExtractExtensionsCommand extends Command
 {
 
     /**
@@ -26,9 +26,9 @@ class MetaExtractExtCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('crowdin:meta:extractExt')
+            ->setName('meta:extractExtensions')
             ->setDescription('Meta :: Extract all extensions')
-            ->setHelp('Download all translations of extensions');
+            ->setHelp('Download & process translations of all extensions');
     }
 
     /**
@@ -38,19 +38,20 @@ class MetaExtractExtCommand extends Command
     {
         $bridgeConfiguration = new BridgeConfiguration();
         $allProjects = $bridgeConfiguration->getAllProjects();
-        $allProjects = ['typo3-extension-mask', 'typo3-extension-news'];
 
-        $command = $this->getApplication()->find('crowdin:extract:ext');
+        $command = $this->getApplication()->find('extract:ext');
         foreach ($allProjects as $project) {
             if ($project->getCrowdinIdentifier() === 'typo3-cms') {
                 continue;
             }
             $arguments = [
-                'command' => 'crowdin:extract:ext',
+                'command' => 'extract:extension',
                 'project' => $project->getCrowdinIdentifier()
             ];
             $input = new ArrayInput($arguments);
             $command->run($input, $output);
         }
+
+        return 0;
     }
 }

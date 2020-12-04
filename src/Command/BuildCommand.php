@@ -13,15 +13,10 @@ use TYPO3\CrowdinBridge\Service\ExportService;
 class BuildCommand extends Command
 {
 
-    /**
-     * Defines the allowed options for this command
-     *
-     * @inheritdoc
-     */
     protected function configure()
     {
         $this
-            ->setName('crowdin:build')
+            ->setName('build')
             ->setDescription('Trigger build of a project')
             ->setHelp('A build is required to get later access to the translations.')
             ->addArgument('project', InputArgument::REQUIRED, 'Project identifier');
@@ -35,13 +30,21 @@ class BuildCommand extends Command
         $projectIdentifier = $input->getArgument('project');
 
         $io = new SymfonyStyle($input, $output);
-        $io->title(sprintf('Project %s', $projectIdentifier));
 
         $service = new ExportService();
         $response = $service->export($projectIdentifier);
-        $io->success('Project has been exported!');
+        $text = sprintf('Project "%s" has been exported!', $projectIdentifier);
+        $status = 'comment';
         if ($response) {
-            $io->note(sprintf('Progress "%s" with %s%%.', $response->getStatus(), $response->getProgress()));
+            if ($response->getStatus() === 'finished' && $response->getProgress() === 100) {
+                $status = 'info';
+            }
+            $text .= chr(10) . sprintf('   ... with progress "%s": %s%%.', $response->getStatus(), $response->getProgress());
+        }
+        if ($status === 'info') {
+            $io->writeln('<info>' . $text . '</info>' . chr(10));
+        } else {
+            $io->writeln('<comment>' . $text . '</comment>' . chr(10));
         }
 
         return 0;

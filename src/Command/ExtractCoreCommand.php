@@ -19,7 +19,7 @@ use TYPO3\CrowdinBridge\Entity\BridgeConfiguration;
 use TYPO3\CrowdinBridge\Service\DownloadCrowdinTranslationService;
 use TYPO3\CrowdinBridge\Utility\FileHandling;
 
-class CrowdinExtractCoreCommand extends Command
+class ExtractCoreCommand extends Command
 {
 
     /**
@@ -28,7 +28,7 @@ class CrowdinExtractCoreCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('crowdin:extract:core')
+            ->setName('extract:core')
             ->setDescription('Download translations of TYPO3 core')
             ->addArgument('language', InputArgument::OPTIONAL, 'List of languages or use "*" for all', '*');
     }
