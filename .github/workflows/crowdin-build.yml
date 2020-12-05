@@ -2,8 +2,8 @@ name: Crowdin Build
 
 on:
   push:
-#  schedule:
-#    - cron:  '0 */2 * * *'
+  schedule:
+    - cron:  '0 */2 * * *'
 jobs:
   build:
 
