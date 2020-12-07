@@ -33,8 +33,7 @@ class StatusCommand extends Command
 
         $service = new StatusService();
         $response = $service->getStatus(true);
-
-        $headers = $this->spread(['extensionKey', 'crowdin key', 'usable'], array_keys((array)$response[0]['languages']));
+        $headers = $this->spread(['extensionKey', 'crowdin key', 'usable'], array_keys((array)$response['languages']));
         $items = [];
         foreach ($response['projects'] as $item) {
             $items[] = $this->spread([$item['extensionKey'], $item['crowdinKey'], $item['usable']], $item['languages']);
