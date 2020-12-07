@@ -14,11 +14,9 @@
         <nav class="navbar navbar-mainnavigation navbar-dark bg-darkest navbar-expand-md" role="banner">
             <div class="container">
                 <span class="navbar-brand"><i
-                    class="fab fa-typo3 text-primary"></i> <strong>TYPO3 Crowdin Bridge</strong></span>
+                    class="fab fa-typo3 text-primary"></i> <strong>TYPO3 Crowdin Bridge</strong> &middot; <small>(Last rendering: {date})</small></span>
                 <div class="collapse navbar-collapse" id="mainnavigation">
                     <ul class="navbar-nav">
-
-
                         <li class="nav-item">
                             <a target="_blank"
                                href="https://docs.typo3.org/m/typo3/reference-coreapi/master/en-us/ApiOverview/Internationalization/TranslationServer/Crowdin.html"
@@ -38,76 +36,55 @@
 
     <main class="page-main">
 
-        <!--        <div class="content-section content-section-small bg-primary text-white">-->
-        <!--            <div class="container">-->
-        <!--                <h1 class="h2">Documentation deployments</h1>-->
-        <!--            </div>-->
-        <!--        </div>-->
-
         <div class="content-section">
             <div class="container">
 
+                <h3 id="projects">Usable projects ({countUsableProjects})</h3>
                 <div class="card">
-
-
                     <div class="datatable">
-                        <f:if condition="{configuration.projects}">
+                        <table class="datatable-table">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <f:for each="{coreProject.languages}" as="language" key="key">
+                                    <th>{key}</th>
+                                </f:for>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <f:render section="singleProject" arguments="{project:coreProject}"/>
+
+                            <f:for each="{usableProjects}" as="project">
+                                <f:render section="singleProject" arguments="{project:project}"/>
+                            </f:for>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <f:if condition="{notUsableProjects}">
+                    <h3 id="todo">Unfinished projects ({notUsableProjects -> f:count()})</h3>
+                    <div class="card">
+                        <div class="datatable">
                             <table class="datatable-table">
                                 <thead>
                                 <tr>
-                                    <th></th>
-                                    <th>usable</th>
-                                    <f:for each="{configuration.projects.0.languages}" as="language" key="key">
-                                        <th>{key}</th>
-                                    </f:for>
+                                    <th>Name</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <f:for each="{configuration.projects}" as="project">
-                                    <tr>
-                                        <th>
-                                            <f:if condition="{project.crowdinKey} == 'typo3-cms'">
-                                                <f:then>
-                                                    TYPO3 Core
-                                                </f:then>
-                                                <f:else>
-                                                    <a href="https://extensions.typo3.org/extension/{project.extensionKey}/"
-                                                       target="_blank" rel="noopener">
-                                                        <strong>   {project.extensionKey}</strong>
-                                                    </a>
-                                                </f:else>
-                                            </f:if>
-                                            <br>
-                                            <small> <a href="https://crowdin.com/project/{project.crowdinKey}" target="_blank"
-                                                       rel="noopener">
-                                                Crowdin
-                                            </a></small>
-                                        </th>
-                                        <td>
-                                            <f:if condition="{project.usable}">
-                                                <f:then>
-                                                    <span class="badge badge-success">ok</span>
-                                                </f:then>
-                                                <f:else>
-                                                    <span class="badge badge-danger">no</span>
-                                                </f:else>
-                                                </f:if>
-                                           </td>
-                                        <f:for each="{project.languages}" as="language">
-                                            <td>
 
-                                                <span class="badge {f:render(section:'translationStatus',arguments:{status:language})}">{language}</span>
-                                            </td>
-                                        </f:for>
+                                <f:for each="{notUsableProjects}" as="project">
+                                    <tr>
+                                        <td><a href="https://crowdin.com/project/{project.crowdinKey}" target="_blank"
+                                               rel="noopener">{project.extensionKey}</a></td>
                                     </tr>
                                 </f:for>
                                 </tbody>
                             </table>
-                        </f:if>
+                        </div>
                     </div>
-                </div>
-
-
+                </f:if>
             </div>
         </div>
 
@@ -117,9 +94,9 @@
     <footer class="page-footer">
         <div class="content-section content-section-smallest bg-darkest text-white">
             <div class="container">
-<!--                <div class="page-footer-copyright">-->
-<!--                    <span>© 2019 <a href="https://typo3.com" target="_blank">TYPO3 GmbH</a>.</span>-->
-<!--                </div>-->
+                <!--                <div class="page-footer-copyright">-->
+                <!--                    <span>© 2019 <a href="https://typo3.com" target="_blank">TYPO3 GmbH</a>.</span>-->
+                <!--                </div>-->
                 <div class="page-footer-menu">
                     <ul class="navbar-nav">
                         <li class="nav-item">
@@ -134,23 +111,33 @@
 </div>
 
 
-<!--<div class="grid-container fluid page__footer">-->
-<!--    <div class="grid-container">-->
-<!--        <div class="grid-x grid-padding-x">-->
-<!--            <div class="cell small-12 medium-7">-->
-<!--                <h3>Ready to get started?</h3>-->
-<!--                <p>Get involved! <a-->
-<!--                    href="https://typo3.org/community/teams/typo3-development/initiatives/localization-with-crowdin/"-->
-<!--                    target="_blank">Localization with Crowdin Initiative</a></p>-->
-<!--                <p><a-->
-<!--                    href="https://docs.typo3.org/m/typo3/reference-coreapi/master/en-us/ApiOverview/Internationalization/TranslationServer/Crowdin/ExtensionIntegration.html"-->
-<!--                    target="_blank">Translate your extension with Crowdin.</a>-->
-<!--                </p>-->
-<!--            </div>-->
-
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
+<f:section name="singleProject">
+    <tr>
+        <th>
+            <f:if condition="{project.crowdinKey} == 'typo3-cms'">
+                <f:then>
+                    TYPO3 Core
+                </f:then>
+                <f:else>
+                    <a href="https://extensions.typo3.org/extension/{project.extensionKey}/"
+                       target="_blank" rel="noopener">
+                        <strong> {project.extensionKey}</strong>
+                    </a>
+                </f:else>
+            </f:if>
+            <br>
+            <small> <a href="https://crowdin.com/project/{project.crowdinKey}" target="_blank"
+                       rel="noopener">
+                Crowdin
+            </a></small>
+        </th>
+        <f:for each="{project.languages}" as="language">
+            <td>
+                <span class="badge {f:render(section:'translationStatus',arguments:{status:language})}">{language}</span>
+            </td>
+        </f:for>
+    </tr>
+</f:section>
 
 <f:section name="translationStatus">
     <f:if condition="{status} == -">

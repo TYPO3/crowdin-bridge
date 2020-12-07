@@ -33,14 +33,8 @@ class StatusCommand extends Command
 
         $service = new StatusService();
         $response = $service->getStatus(true);
-        $headers = $this->spread(['extensionKey', 'crowdin key', 'usable'], array_keys((array)$response['languages']));
-        $items = [];
-        foreach ($response['projects'] as $item) {
-            $items[] = $this->spread([$item['extensionKey'], $item['crowdinKey'], $item['usable']], $item['languages']);
-        }
 
-        $io->table($headers, $items);
-        $io->note('Status has been exported!');
+        $io->info('Status has been exported!');
         return 0;
     }
 

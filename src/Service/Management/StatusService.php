@@ -100,14 +100,33 @@ class StatusService
         file_put_contents($filename, json_encode($configuration, JSON_PRETTY_PRINT));
     }
 
-    protected function exportHtml(array $configuration): void
+    protected function exportHtml(array $data): void
     {
         $pathToRoot = __DIR__ . '/../../../';
         $view = new TemplateView();
         $view->getTemplatePaths()->setTemplatePathAndFilename($pathToRoot . 'templates/Templates/Status.html');
         $view->assignMultiple([
             'date' => date('r'),
-            'configuration' => $configuration
+        ]);
+
+        $coreProject = null;
+        $usableProjects = $notUsableProjects = [];
+        foreach($data['projects'] as $p) {
+            if ($p['crowdinKey'] === 'typo3-cms') {
+                $coreProject = $p;
+            } else {
+                if ($p['usable']) {
+                    $usableProjects[] = $p;
+                } else {
+                    $notUsableProjects[] = $p;
+                }
+            }
+        }
+        $view->assignMultiple([
+            'coreProject' => $coreProject,
+            'usableProjects' => $usableProjects,
+            'countUsableProjects' => count($usableProjects) + 1, // add core
+            'notUsableProjects' => $notUsableProjects
         ]);
 
         $filename = $this->projectApi->getConfiguration()->getPathRsync() . 'status.html';
