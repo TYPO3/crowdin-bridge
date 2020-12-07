@@ -68,7 +68,7 @@ class DownloadCrowdinTranslationService
             $this->processDownloadDirectoryCore($downloadLanguageTarget, $language);
         }
         $this->moveAllToRsyncDestination();
-     //   $this->cleanup($downloadTarget);
+        //   $this->cleanup($downloadTarget);
     }
 
     public function downloadPackageExtension(string $projectIdentifier, array $listOfLanguages = [])
@@ -80,14 +80,17 @@ class DownloadCrowdinTranslationService
         $download = $this->translationApi->downloadProject($localProject->getId(), $buildId);
         $zipFile = $this->downloadFromCrowdin2($download);
 
+        $downloadTargetBase = $this->projectApi->getConfiguration()->getPathDownloads() . $projectIdentifier . '-base/';
+        FileHandling::mkdir_deep($downloadTargetBase);
+        $this->unzip($zipFile, $downloadTargetBase);
+
         $listOfLanguages = $listOfLanguages ?: $localProject->getLanguages();
         foreach ($listOfLanguages as $language) {
             $downloadTarget = $this->projectApi->getConfiguration()->getPathDownloads() . $projectIdentifier . '-' . $language . '/';
-            FileHandling::mkdir_deep($downloadTarget);
-            $this->unzip($zipFile, $downloadTarget);
-        }
 
-        usleep(count($listOfLanguages) * 80); // wait until everything is extracted
+            $filesystem = new Filesystem();
+            $filesystem->mirror($downloadTargetBase, $downloadTarget);
+        }
 
         foreach ($listOfLanguages as $language) {
             $downloadTarget = $this->projectApi->getConfiguration()->getPathDownloads() . $projectIdentifier . '-' . $language . '/';
@@ -175,11 +178,13 @@ class DownloadCrowdinTranslationService
 
         $newDirName = $directory . $extensionKey . '/' . $crowdinLanguageName;
 
-        if (!is_dir($dir)) {
-            throw new \UnexpectedValueException(sprintf('Directory "%s" for processing %s does not exist, no translations probably available', $dir, $extensionKey));
+        if (!is_dir($newDirName)) {
+            if (!is_dir($dir)) {
+                throw new \UnexpectedValueException(sprintf('Directory "%s" for processing %s in %s does not exist, no translations probably available', $dir, $extensionKey, $language));
+            }
+            $filesystem = new Filesystem();
+            $filesystem->rename($dir, $newDirName);
         }
-        $filesystem = new Filesystem();
-        $filesystem->rename($dir, $newDirName);
 
         $exportPath = $this->projectApi->getConfiguration()->getPathFinal();
 

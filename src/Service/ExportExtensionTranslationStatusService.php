@@ -44,11 +44,14 @@ class ExportExtensionTranslationStatusService
         $simple = [];
 
         foreach ($translationStatus as $language) {
+            $phrases = $language->getPhrases();
             $simple[$language->getLanguageId()] = [
                 'name' => $language->getLanguageId(),
                 'code' => $language->getLanguageId(),
                 'code_typo3' => LanguageInformation::getLanguageForTypo3($language->getLanguageId()),
-                'phrases' => $language->getPhrases(),
+                'phrases' => $phrases['total'] ?? '', // fallback
+                'phrasesTranslated' => $phrases['translated'] ?? '',
+                'phrasesApproved' => $phrases['approved'] ?? '',
                 'progress' => $language->getApprovalProgress(),
             ];
         }

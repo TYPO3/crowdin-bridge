@@ -25,6 +25,13 @@ class ProjectService
             $identifier = $remoteProject->getIdentifier();
 
             $remoteLanguages = $remoteProject->getTargetLanguageIds();
+
+            // add custom language t3
+            $languageMapping = $remoteProject->getInContextPseudoLanguage();
+            if ($languageMapping['id'] ?? '' === 't3') {
+                $remoteLanguages[] = 't3';
+            }
+
             sort($remoteLanguages);
 
             $key = $this->generateExtensionKey($identifier, $remoteProject->getName());

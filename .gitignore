@@ -7,3 +7,4 @@
 /export/
 .env
 .env.dev
+/backup

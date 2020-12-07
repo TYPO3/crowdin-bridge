@@ -9,7 +9,7 @@ use TYPO3\CrowdinBridge\Utility\FileHandling;
 final class ProjectConfiguration
 {
 
-    private const ENABLE_T3_EXPORT = false;
+    private const ENABLE_T3_EXPORT = true;
 
     protected int $id;
 
