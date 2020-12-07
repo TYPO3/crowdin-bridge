@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace TYPO3\CrowdinBridge\Info;
 
+use CrowdinApiClient\Model\Language;
+
 /**
  * This file is part of the "crowdin" Extension for TYPO3 CMS.
  *
@@ -42,6 +44,20 @@ class LanguageInformation
             return $language;
         }
         return $found;
+    }
+
+    /**
+     * @return Language[]
+     */
+    public static function getDetailedLanguageInformation(): array
+    {
+        $languages = [];
+        $file = __DIR__ . '/../../assets/languages.json';
+        $data = json_decode(file_get_contents($file), true);
+        foreach($data as $id => $tmp) {
+            $languages[$id] = new Language($tmp);
+        }
+        return $languages;
     }
 
 }

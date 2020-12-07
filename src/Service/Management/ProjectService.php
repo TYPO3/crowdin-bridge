@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TYPO3\CrowdinBridge\Service\Management;
 
+use TYPO3\CrowdinBridge\Api\Wrapper\LanguageApi;
 use TYPO3\CrowdinBridge\Api\Wrapper\ProjectApi;
 use TYPO3\CrowdinBridge\Entity\BridgeConfiguration;
 use TYPO3\CrowdinBridge\Utility\FileHandling;
@@ -43,7 +44,28 @@ class ProjectService
             $fileConfiguration->add($identifier, $newData);
             $projects[] = $key;
         }
+
+        $this->updateLanguages();
+
         return $projects;
+    }
+
+    /**
+     * Fill assets/languages.json with detailed language information
+     * As this information won't change that much, it is fine to save it in files
+     * + it will be updated during running setup anyway
+     */
+    protected function updateLanguages(): void
+    {
+        $collectedLanguages = [];
+        $languageApi = new LanguageApi();
+        $allLanguages = $languageApi->get();
+
+        foreach ($allLanguages as $language) {
+            $collectedLanguages[$language->getId()] = $language->getData();
+        }
+        $file = __DIR__ . '/../../../assets/languages.json';
+        file_put_contents($file, json_encode($collectedLanguages, JSON_PRETTY_PRINT));
     }
 
     protected function generateExtensionKey(string $identifier, string $name)

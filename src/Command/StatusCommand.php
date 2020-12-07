@@ -8,9 +8,9 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use TYPO3\CrowdinBridge\Api\Wrapper\LanguageApi;
 use TYPO3\CrowdinBridge\Api\Wrapper\ProjectApi;
 use TYPO3\CrowdinBridge\Exception\NoApiCredentialsException;
+use TYPO3\CrowdinBridge\Info\LanguageInformation;
 
 class StatusCommand extends Command
 {
@@ -33,8 +33,7 @@ class StatusCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $io->title(sprintf('Project %s', $projectIdentifier));
 
-        $languageApi = new LanguageApi();
-        $allLanguages = $languageApi->get();
+        $allLanguages = LanguageInformation::getDetailedLanguageInformation();
 
         try {
             $projectApi = new ProjectApi();
