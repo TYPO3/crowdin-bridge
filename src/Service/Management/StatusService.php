@@ -111,7 +111,7 @@ class StatusService
 
         $coreProject = null;
         $usableProjects = $notUsableProjects = [];
-        foreach($data['projects'] as $p) {
+        foreach ($data['projects'] as $p) {
             if ($p['crowdinKey'] === 'typo3-cms') {
                 $coreProject = $p;
             } else {

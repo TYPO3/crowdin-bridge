@@ -60,7 +60,8 @@ class ProjectApi extends Client
     public function getTranslationStatusByCrowdinId(int $projectId): array
     {
         $result = [];
-        $collection = $this->client->translationStatus->getProjectProgress($projectId);
+        $params = ['limit' => 100];
+        $collection = $this->client->translationStatus->getProjectProgress($projectId, $params);
         if ($collection) {
             foreach ($collection as $item) {
                 $result[] = $item;
