@@ -24,8 +24,9 @@ class ProjectApi extends Client
             if (in_array($item->getIdentifier(), self::SKIPPED_PROJECTS, true)) {
                 continue;
             }
-            $projects[] = $item;
+            $projects[$item->getIdentifier()] = $item;
         }
+        ksort($projects);
         return $projects;
     }
 
