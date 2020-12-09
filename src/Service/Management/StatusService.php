@@ -72,7 +72,7 @@ class StatusService
                 foreach ($item['translationStatus'] as $language) {
                     /** @var Progress $language */
                     if ($language->getLanguageId() === $languageOfCore) {
-                        $status = $language->getTranslationProgress();
+                        $status = $language->getApprovalProgress();
                         if ($status > 0) {
                             $projectUsable = true;
                         }
