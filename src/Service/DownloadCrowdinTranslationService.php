@@ -63,7 +63,7 @@ class DownloadCrowdinTranslationService
             }
 
             $this->originalLanguageKey = $language;
-            $language = $this->finalLanguageKey = LanguageInformation::getLanguageForTypo3($language);
+            $this->finalLanguageKey = LanguageInformation::getLanguageForTypo3($language);
 
             $this->processDownloadDirectoryCore($downloadLanguageTarget, $language);
         }
@@ -93,18 +93,27 @@ class DownloadCrowdinTranslationService
         }
 
         foreach ($listOfLanguages as $language) {
-            $downloadTarget = $this->projectApi->getConfiguration()->getPathDownloads() . $projectIdentifier . '-' . $language . '/';
+            try {
+                $downloadTarget = $this->projectApi->getConfiguration()->getPathDownloads() . $projectIdentifier . '-' . $language . '/';
+                $finder = new Finder();
+                $finder->files()->in($downloadTarget)->notName($language . '.*');
+                foreach ($finder as $file) {
+                    unlink($file->getRealPath());
+                }
 
-            $finder = new Finder();
-            $finder->files()->in($downloadTarget)->notName($language . '.*');
-            foreach ($finder as $file) {
-                unlink($file->getRealPath());
+                // skip empty directories
+                $finder = new Finder();
+                $count = $finder->files()->in($downloadTarget)->name($language . '.*')->count();
+                if ($count === 0) {
+                    FileHandling::rmdir($downloadTarget);
+//                    echo 'Removing' . $downloadTarget . chr(10);
+                    continue;
+                }
+
+                $this->processDownloadDirectoryExtension($localProject, $downloadTarget, $language, $localProject->getBranch());
+            } catch (\Exception $e) {
+//                echo 'ERROR:' . $e->getMessage();
             }
-
-            $this->originalLanguageKey = $language;
-            $language = $this->finalLanguageKey = LanguageInformation::getLanguageForTypo3($language);
-
-            $this->processDownloadDirectoryExtension($localProject, $downloadTarget, $language, $localProject->getBranch());
         }
         $this->moveAllToRsyncDestination();
         $this->cleanup($downloadTarget);
@@ -172,8 +181,14 @@ class DownloadCrowdinTranslationService
 
     protected function processDownloadDirectoryExtension(ProjectConfiguration $localProject, string $directory, $language, $branch)
     {
+        $this->originalLanguageKey = $language;
+
         $crowdinLanguageName = LanguageInformation::getLanguageForTypo3($language);
         $dir = $directory . $branch;
+        if (!is_dir($dir)) {
+            $dir = $directory. $language . '/'. $branch;
+        }
+
         $extensionKey = $localProject->getExtensionkey();
 
         $newDirName = $directory . $extensionKey . '/' . $crowdinLanguageName;
@@ -188,7 +203,8 @@ class DownloadCrowdinTranslationService
 
         $exportPath = $this->projectApi->getConfiguration()->getPathFinal();
 
-        $zipPath = $exportPath . sprintf('%s-l10n-%s.zip', $extensionKey, $language);
+        $t3Language = $this->finalLanguageKey = LanguageInformation::getLanguageForTypo3($language);
+        $zipPath = $exportPath . sprintf('%s-l10n-%s.zip', $extensionKey, $t3Language);
         $result = $this->zipDir($newDirName, $zipPath, $extensionKey);
     }
 
