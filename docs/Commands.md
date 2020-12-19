@@ -1,77 +1,78 @@
-## Commands
+# Commands
 
 The following commands are available:
 
-### `crowdin:management:projectList`
+## `management:projectList`
 
-Running this command is required by most of the other commands and generates a local configuration file.
+Running this command is required by most of the other commands and generates a
+local configuration file.
 
-`php app.php crowdin:management:projectList`
+`php app.php management:projectList`
 
-### `crowdin:management:status`
+## `management:status`
 
 Generate a stauts overview.
 
-`php app.php crowdin:management:status`
+`php app.php management:status`
 
-### `crowdin:build`
+## `build`
 
-This command triggers the build process of a project at Crowdin.
-Updated translations are only after a build process available for downloads.
+This command triggers the build process of a project at Crowdin. Updated
+translations are only after a build process available for downloads.
 
-`php app.php crowdin:build`
+`php app.php build`
 
-**Arguments**
+**Arguments:**
 
-- `project` *required*: Project identifier
+* `project` *required*: Project identifier
 
-### `crowdin:extract:core`
+## `extract:core`
 
 Trigger the download of core translations.
 
-**Arguments**
+**Arguments:**
 
-- `language` *required*: Languages to download, use `'*'` for all languages of this project
+* `language` *required*: Languages to download, use `'*'` for all languages of
+  this project
 
-`php app.php crowdin:extract:core '*'`
+`php app.php extract:core '*'`
 
-### `crowdin:extract:ext`
+## `extract:ext`
 
 Download of extension translations. Always all languages are downloaded.
 
-**Arguments**
+**Arguments:**
 
-- `project` *required*: Project identifier
+* `project` *required*: Project identifier
 
-`php app.php crowdin:extract:ext typo3-extension-news`
+`php app.php extract:ext typo3-extension-news`
 
-### `crowdin:status`
+## `status`
 
 Show status of a project
 
-**Arguments**
+**Arguments:**
 
-- `project` *required*: Project identifier
+* `project` *required*: Project identifier
 
-`php app.php crowdin:status typo3-extension-news`
+`php app.php status typo3-extension-news`
 
-### `crowdin:status.export`
+## `status.export`
 
-Export simplified status of a project as json file to the same directory as translations.
+Export simplified status of a project as json file to the same directory as
+translations.
 
-**Arguments**
+**Arguments:**
 
-- `project` *required*: Project identifier
+* `project` *required*: Project identifier
 
-`php app.php crowdin:status.export typo3-extension-news`
+`php app.php status.export typo3-extension-news`
 
-### Meta commands
+## Meta commands
 
-The following meta commands group the subcommands together and makes it easier for automatic builds:
+The following meta commands group the subcommands together and makes it easier
+for automatic builds:
 
-- `crowdin:meta:build`: Trigger build all projects
-- `crowdin:meta:extractExt`: Download translations of all extensions
-- `crowdin:meta:status.export`: Export status of all extensions
-
-
-
+* `meta:build`: Trigger build all projects
+* `meta:extractExt`: Download translations of all extensions
+* `meta:status.export`: Export status of all extensions
