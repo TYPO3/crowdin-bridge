@@ -19,14 +19,14 @@ class CoreInformation
     /**
      * Important: highest first
      */
-    private const VERSIONS = [10, 9, 8];
+    private const VERSIONS = [11, 10, 9];
 
     /**
      * Important: latest version will map to master automatically
      */
     private const BRANCHMAPPING = [
-        9 => '9.5',
-        8 => '8.7'
+        10 => '10.4',
+        9 => '9.5'
     ];
 
     // rte_ckeditor got no translations
@@ -41,7 +41,7 @@ class CoreInformation
     private const CORE_EXTENSIONS_9 = [
         'info', 'rsaauth', 'sys_action', 'taskcenter'
     ];
-    
+
     private const CORE_EXTENSIONS_10 = [
         'dashboard'
     ];
