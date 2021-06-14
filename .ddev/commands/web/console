@@ -1,0 +1,7 @@
+#!/bin/bash
+
+## Description: Run console application
+## Usage: console command [options] [arguments]
+## Example: ddev console\nddev console build\nddev console management:status
+
+php app.php $@
