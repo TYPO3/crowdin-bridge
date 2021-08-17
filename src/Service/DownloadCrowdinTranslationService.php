@@ -96,14 +96,14 @@ class DownloadCrowdinTranslationService
             try {
                 $downloadTarget = $this->projectApi->getConfiguration()->getPathDownloads() . $projectIdentifier . '-' . $language . '/';
                 $finder = new Finder();
-                $finder->files()->in($downloadTarget)->notName($language . '.*');
+                $finder->files()->in($downloadTarget)->notName($language . '.*')->notName(LanguageInformation::getLanguageForTypo3($language) . '.*');
                 foreach ($finder as $file) {
                     unlink($file->getRealPath());
                 }
 
                 // skip empty directories
                 $finder = new Finder();
-                $count = $finder->files()->in($downloadTarget)->name($language . '.*')->count();
+                $count = $finder->files()->in($downloadTarget)->name($language . '.*')->name(LanguageInformation::getLanguageForTypo3($language) . '.*')->count();
                 if ($count === 0) {
                     FileHandling::rmdir($downloadTarget);
 //                    echo 'Removing' . $downloadTarget . chr(10);
