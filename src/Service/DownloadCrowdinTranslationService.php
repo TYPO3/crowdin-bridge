@@ -165,7 +165,7 @@ class DownloadCrowdinTranslationService
 
             $exportPath = $this->projectApi->getConfiguration()->getPathFinal();
             FileHandling::mkdir_deep($exportPath);
-
+            $language = LanguageInformation::getLanguageForTypo3($language);
             foreach ($sysExtList as $extensionKey) {
                 $source = $sysExtDir . $extensionKey;
                 if (in_array($extensionKey, CoreInformation::getAllCoreExtensionKeys(), true)) {
