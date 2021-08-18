@@ -57,7 +57,7 @@ class DownloadCrowdinTranslationService
             $downloadLanguageTarget = $downloadTarget . $language . '/';
 
             $finder = new Finder();
-            $finder->files()->in($downloadLanguageTarget)->notName($language . '.*');
+            $finder->files()->in($downloadLanguageTarget)->notName($language . '.*')->notName(LanguageInformation::getLanguageForTypo3($language) . '.*');
             foreach ($finder as $file) {
                 unlink($file->getRealPath());
             }
