@@ -92,6 +92,7 @@ class DownloadCrowdinTranslationService
             $filesystem->mirror($downloadTargetBase, $downloadTarget);
         }
 
+
         foreach ($listOfLanguages as $language) {
             try {
                 $downloadTarget = $this->projectApi->getConfiguration()->getPathDownloads() . $projectIdentifier . '-' . $language . '/';
@@ -110,7 +111,7 @@ class DownloadCrowdinTranslationService
                     continue;
                 }
 
-                $this->processDownloadDirectoryExtension($localProject, $downloadTarget, $language, $localProject->getBranch());
+                $this->processDownloadDirectoryExtension($localProject, $downloadTarget, $language);
             } catch (\Exception $e) {
 //                echo 'ERROR:' . $e->getMessage();
             }
@@ -179,15 +180,28 @@ class DownloadCrowdinTranslationService
         }
     }
 
-    protected function processDownloadDirectoryExtension(ProjectConfiguration $localProject, string $directory, $language, $branch)
+    protected function processDownloadDirectoryExtension(ProjectConfiguration $localProject, string $directory, $language)
     {
         $this->originalLanguageKey = $language;
+
+        $firstDirFinder = new Finder();
+
+        // is actually not the branch but the first sub dir
+        $branch = 'master';
+        $count = 0;
+        foreach ($firstDirFinder->directories()->in($directory) as $branches) {
+            if ($count === 0) {
+                $branch = $branches->getBasename();
+                $count++;
+            }
+        }
 
         $crowdinLanguageName = LanguageInformation::getLanguageForTypo3($language);
         $dir = $directory . $branch;
         if (!is_dir($dir)) {
-            $dir = $directory. $language . '/'. $branch;
+            $dir = $directory . $language . '/' . $branch;
         }
+
 
         $extensionKey = $localProject->getExtensionkey();
 
