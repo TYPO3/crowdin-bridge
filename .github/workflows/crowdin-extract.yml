@@ -1,6 +1,7 @@
 name: Crowdin Extract
 
 on:
+  workflow_dispatch:
   push:
   schedule:
     - cron:  '30 */2 * * *'
