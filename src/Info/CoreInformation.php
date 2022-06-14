@@ -22,7 +22,7 @@ class CoreInformation
     private const VERSIONS = [11, 10, 9];
 
     /**
-     * Important: latest version will map to master automatically
+     * Important: latest version will map to main automatically
      */
     private const BRANCHMAPPING = [
         10 => '10.4',
@@ -45,6 +45,7 @@ class CoreInformation
     private const CORE_EXTENSIONS_10 = [
         'dashboard'
     ];
+
     /**
      * @return int[]
      */
@@ -61,7 +62,7 @@ class CoreInformation
 
     public static function getVersionForBranchName(string $branch): int
     {
-        if ($branch === 'master') {
+        if ($branch === 'main') {
             return self::getLatestVersion();
         }
         $version = array_search($branch, self::BRANCHMAPPING, true);
@@ -77,7 +78,7 @@ class CoreInformation
             throw new \UnexpectedValueException(sprintf('Version "%s" is not supported', $version), 1567647856);
         }
         if ($version === self::getLatestVersion()) {
-            return 'master';
+            return 'main';
         }
         return self::BRANCHMAPPING[$version];
     }
@@ -98,7 +99,7 @@ class CoreInformation
     public static function getAllCoreBranches(): array
     {
         $branches = array_values(self::BRANCHMAPPING);
-        $branches[] = 'master';
+        $branches[] = 'main';
 
         return $branches;
     }
