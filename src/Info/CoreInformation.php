@@ -34,9 +34,9 @@ class CoreInformation
         'about', 'adminpanel',
         'backend', 'beuser', 'belog', 'core', 'extbase', 'extensionmanager', 'felogin', 'filelist',
         'filemetadata', 'fluid', 'frontend', 'fluid_styled_content', 'form', 'frontend', 'impexp',
-        'indexed_search', 'info', 'install', 'linkvalidator', 'lowlevel', 'opendocs', 'recordlist',
-        'recycler', 'redirects', 'reports', 'scheduler', 'seo', 'setup', 'sys_note', 't3editor',
-        'tstemplate', 'viewpage', 'workspaces',
+        'indexed_search', 'info', 'install', 'linkvalidator', 'lowlevel', 'opendocs', 'reactions',
+        'recordlist', 'recycler', 'redirects', 'reports', 'scheduler', 'seo', 'setup', 'sys_note',
+        't3editor', 'tstemplate', 'viewpage', 'workspaces',
     ];
     private const CORE_EXTENSIONS_9 = [
         'info', 'rsaauth', 'sys_action', 'taskcenter'
