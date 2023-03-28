@@ -37,7 +37,7 @@ class CoreInformation
         'filemetadata', 'fluid', 'frontend', 'fluid_styled_content', 'form', 'frontend', 'impexp',
         'indexed_search', 'info', 'install', 'linkvalidator', 'lowlevel', 'opendocs', 'reactions',
         'recordlist', 'recycler', 'redirects', 'reports', 'scheduler', 'seo', 'setup', 'sys_note',
-         't3editor', 'tstemplate', 'viewpage', 'workspaces',
+         't3editor', 'tstemplate', 'viewpage', 'webhooks', 'workspaces',
     ];
     private const CORE_EXTENSIONS_9 = [
         'info', 'rsaauth', 'sys_action', 'taskcenter'
