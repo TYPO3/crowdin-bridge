@@ -46,7 +46,7 @@ jobs:
           php app.php management:status
 
       - name: Copy files to translation server
-        uses: appleboy/scp-action@master
+        uses: appleboy/scp-action@v0.1.4
         env:
           HOST: ${{ secrets.SCP_HOST }}
           USERNAME: ${{ secrets.SCP_USERNAME }}
