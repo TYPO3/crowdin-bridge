@@ -47,12 +47,11 @@ jobs:
 
       - name: Copy files to translation server
         uses: appleboy/scp-action@v0.1.4
-        env:
-          HOST: ${{ secrets.SCP_HOST }}
-          USERNAME: ${{ secrets.SCP_USERNAME }}
-          PORT: ${{ secrets.SCP_PORT }}
-          KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         with:
+          host: ${{ secrets.SCP_HOST }}
+          username: ${{ secrets.SCP_USERNAME }}
+          port: ${{ secrets.SCP_PORT }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: "export/rsync"
           target: "/home/localize/www/export_v2/"
 
