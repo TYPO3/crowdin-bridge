@@ -19,12 +19,13 @@ class CoreInformation
     /**
      * Important: highest first
      */
-    private const VERSIONS = [12, 11, 10, 9];
+    private const VERSIONS = [13, 12, 11, 10, 9];
 
     /**
      * Important: latest version will map to main automatically
      */
     private const BRANCHMAPPING = [
+        12 => '12.4',
         11 => '11.5',
         10 => '10.4',
         9 => '9.5'
