@@ -28,20 +28,24 @@ class BuildCommand extends Command
 
         $io = new SymfonyStyle($input, $output);
 
-        $service = new ExportService();
-        $response = $service->export($projectIdentifier);
-        $text = sprintf('Project "%s" has been exported!', $projectIdentifier);
-        $status = 'comment';
-        if ($response) {
-            if ($response->getStatus() === 'finished' && $response->getProgress() === 100) {
-                $status = 'info';
+        try {
+            $service = new ExportService();
+            $response = $service->export($projectIdentifier);
+            $text = sprintf('Project "%s" has been exported', $projectIdentifier);
+            $status = 'comment';
+            if ($response) {
+                if ($response->getStatus() === 'finished' && $response->getProgress() === 100) {
+                    $status = 'info';
+                }
+                $text .= sprintf(' with progress "%s": %s%%.', $response->getStatus(), $response->getProgress());
             }
-            $text .= chr(10) . sprintf('   ... with progress "%s": %s%%.', $response->getStatus(), $response->getProgress());
-        }
-        if ($status === 'info') {
-            $io->writeln('<info>' . $text . '</info>' . chr(10));
-        } else {
-            $io->writeln('<comment>' . $text . '</comment>' . chr(10));
+            if ($status === 'info') {
+                $io->info($text);
+            } else {
+                $io->comment($text);
+            }
+        } catch (\Exception $e) {
+            $io->error(sprintf('ERROR with project "%s": %s', $projectIdentifier, $e->getMessage()));
         }
 
         return 0;

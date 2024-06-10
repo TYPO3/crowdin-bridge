@@ -32,7 +32,7 @@ class ExtractExtensionCommand extends Command
     {
         $projectIdentifier = $input->getArgument('project');
         $io = new SymfonyStyle($input, $output);
-        $io->title(sprintf('Project %s', $projectIdentifier));
+        $io->title(sprintf('Extension "%s"', $projectIdentifier));
 
         try {
             $service = new DownloadCrowdinTranslationService();
