@@ -12,19 +12,19 @@
 	"config": {
 		"bin-dir": "bin",
 		"platform": {
-			"php": "7.4"
+			"php": "8.3"
 		},
 		"sort-packages": true
 	},
 	"require": {
-		"php": "^7.4",
+		"php": "^8.3",
 		"ext-json": "*",
 		"ext-zip": "*",
 		"crowdin/crowdin-api-client": "^1.4",
-		"symfony/console": "^5",
-		"symfony/dotenv": "^5.1",
-		"symfony/filesystem": "^5.0",
-		"symfony/finder": "^5.1",
+		"symfony/console": "^7",
+		"symfony/dotenv": "^7.1",
+		"symfony/filesystem": "^7.0",
+		"symfony/finder": "^7",
 		"typo3fluid/fluid": "^2.6"
 	},
 	"autoload": {

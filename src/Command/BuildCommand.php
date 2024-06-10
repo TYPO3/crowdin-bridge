@@ -22,10 +22,7 @@ class BuildCommand extends Command
             ->addArgument('project', InputArgument::REQUIRED, 'Project identifier');
     }
 
-    /**
-     * @inheritdoc
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $projectIdentifier = $input->getArgument('project');
 

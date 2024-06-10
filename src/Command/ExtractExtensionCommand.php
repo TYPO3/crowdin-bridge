@@ -20,9 +20,6 @@ use TYPO3\CrowdinBridge\Service\DownloadCrowdinTranslationService;
 class ExtractExtensionCommand extends Command
 {
 
-    /**
-     * @inheritdoc
-     */
     protected function configure()
     {
         $this
@@ -31,10 +28,7 @@ class ExtractExtensionCommand extends Command
             ->setDescription('Download Extension translations');
     }
 
-    /**
-     * @inheritdoc
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $projectIdentifier = $input->getArgument('project');
         $io = new SymfonyStyle($input, $output);

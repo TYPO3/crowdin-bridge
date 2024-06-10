@@ -13,9 +13,6 @@ use TYPO3\CrowdinBridge\Service\ExportExtensionTranslationStatusService;
 class StatusExportCommand extends Command
 {
 
-    /**
-     * @inheritdoc
-     */
     protected function configure()
     {
         $this
@@ -24,10 +21,7 @@ class StatusExportCommand extends Command
             ->setDescription('Export extension translation status');
     }
 
-    /**
-     * @inheritdoc
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $extensionKey = $input->getArgument('extensionKey');
         $io = new SymfonyStyle($input, $output);

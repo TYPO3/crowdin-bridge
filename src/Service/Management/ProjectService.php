@@ -7,7 +7,6 @@ namespace TYPO3\CrowdinBridge\Service\Management;
 use TYPO3\CrowdinBridge\Api\Wrapper\LanguageApi;
 use TYPO3\CrowdinBridge\Api\Wrapper\ProjectApi;
 use TYPO3\CrowdinBridge\Entity\BridgeConfiguration;
-use TYPO3\CrowdinBridge\Utility\FileHandling;
 
 class ProjectService
 {
@@ -39,7 +38,7 @@ class ProjectService
             $newData = [
                 'id' => $remoteProject->getId(),
                 'extensionKey' => $key,
-                'languages' => implode(',', $remoteLanguages)
+                'languages' => implode(',', $remoteLanguages),
             ];
             $fileConfiguration->add($identifier, $newData);
             $projects[] = $key;
@@ -68,12 +67,12 @@ class ProjectService
         file_put_contents($file, json_encode($collectedLanguages, JSON_PRETTY_PRINT));
     }
 
-    protected function generateExtensionKey(string $identifier, string $name)
+    protected function generateExtensionKey(string $identifier, string $name): string
     {
         if ($identifier === 'typo3-cms') {
             return $identifier;
         }
-        if (FileHandling::beginsWith($identifier, 'typo3-extension-')) {
+        if (str_starts_with($identifier, 'typo3-extension-')) {
 
             return trim(str_replace('typo3 extension', '', strtolower($name)));
         }

@@ -16,10 +16,8 @@ class LanguageInformation
 
     /**
      * Mapping Crowdin => TYPO3
-     *
-     * @var array
      */
-    protected static $extraMapping = [
+    protected static array $extraMapping = [
         'es-ES' => 'es',
         'sv-SE' => 'sv',
         'fr-CA' => 'fr_CA',

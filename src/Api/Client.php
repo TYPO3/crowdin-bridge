@@ -10,10 +10,7 @@ use TYPO3\CrowdinBridge\Entity\BridgeConfiguration;
 class Client
 {
 
-    /** @var Crowdin */
     protected Crowdin $client;
-
-    /** @var BridgeConfiguration */
     protected BridgeConfiguration $configuration;
 
     public function __construct()
@@ -32,9 +29,6 @@ class Client
         $this->client = new Crowdin($crowdinConfiguration);
     }
 
-    /**
-     * @return BridgeConfiguration
-     */
     public function getConfiguration(): BridgeConfiguration
     {
         return $this->configuration;

@@ -13,9 +13,6 @@ use TYPO3\CrowdinBridge\Service\Management\StatusService;
 class StatusCommand extends Command
 {
 
-    /**
-     * @inheritdoc
-     */
     protected function configure()
     {
         $this
@@ -23,10 +20,7 @@ class StatusCommand extends Command
             ->setDescription('Status of all Crowdin Projects');
     }
 
-    /**
-     * @inheritdoc
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
         $io->title('Status of all projects');

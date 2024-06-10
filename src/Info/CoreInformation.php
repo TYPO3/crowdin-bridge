@@ -24,7 +24,7 @@ class CoreInformation
     /**
      * Important: latest version will map to main automatically
      */
-    private const BRANCHMAPPING = [
+    private const array BRANCHMAPPING = [
         12 => '12.4',
         11 => '11.5',
         10 => '10.4',
@@ -32,7 +32,7 @@ class CoreInformation
     ];
 
     // rte_ckeditor got no translations
-    private const CORE_EXTENSIONS = [
+    private const array CORE_EXTENSIONS = [
         'about', 'adminpanel',
         'backend', 'beuser', 'belog', 'core', 'extbase', 'extensionmanager', 'felogin', 'filelist',
         'filemetadata', 'fluid', 'frontend', 'fluid_styled_content', 'form', 'frontend', 'impexp',
@@ -40,11 +40,11 @@ class CoreInformation
         'recordlist', 'recycler', 'redirects', 'reports', 'scheduler', 'seo', 'setup', 'sys_note',
          't3editor', 'tstemplate', 'viewpage', 'webhooks', 'workspaces',
     ];
-    private const CORE_EXTENSIONS_9 = [
+    private const array CORE_EXTENSIONS_9 = [
         'info', 'rsaauth', 'sys_action', 'taskcenter'
     ];
 
-    private const CORE_EXTENSIONS_10 = [
+    private const array CORE_EXTENSIONS_10 = [
         'dashboard'
     ];
 

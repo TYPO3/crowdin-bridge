@@ -203,7 +203,7 @@ class DownloadCrowdinTranslationService
         }
 
 
-        $extensionKey = $localProject->getExtensionkey();
+        $extensionKey = $localProject->getExtensionKey();
 
         $newDirName = $directory . $extensionKey . '/' . $crowdinLanguageName;
 

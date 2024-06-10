@@ -22,9 +22,6 @@ use TYPO3\CrowdinBridge\Utility\FileHandling;
 class ExtractCoreCommand extends Command
 {
 
-    /**
-     * @inheritdoc
-     */
     protected function configure()
     {
         $this
@@ -33,10 +30,7 @@ class ExtractCoreCommand extends Command
             ->addArgument('language', InputArgument::OPTIONAL, 'List of languages or use "*" for all', '*');
     }
 
-    /**
-     * @inheritdoc
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $bridgeConfiguration = new BridgeConfiguration();
         $project = $bridgeConfiguration->getProject('typo3-cms');

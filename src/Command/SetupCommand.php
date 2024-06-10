@@ -13,9 +13,6 @@ use TYPO3\CrowdinBridge\Service\Management\ProjectService;
 class SetupCommand extends Command
 {
 
-    /**
-     * @inheritdoc
-     */
     protected function configure()
     {
         $this
@@ -25,10 +22,7 @@ class SetupCommand extends Command
                 . 'reduces the amount of needed API calls.');
     }
 
-    /**
-     * @inheritdoc
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
         $io->title('Create `configuration.json` file');

@@ -8,3 +8,7 @@
 .env
 .env.dev
 /backup
+.DS_Store
+.ddev
+.idea
+public/.DS_Store

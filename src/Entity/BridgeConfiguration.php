@@ -11,7 +11,7 @@ use TYPO3\CrowdinBridge\Utility\FileHandling;
 class BridgeConfiguration
 {
     private string $configurationFile;
-    protected $data = [];
+    protected array $data = [];
 
     public function __construct(bool $exceptionIfConfigurationFileMissing = true)
     {
@@ -41,7 +41,7 @@ class BridgeConfiguration
 
     /**
      * @return ProjectConfiguration
-     * @throws NoApiCredentialsException
+     * @throws NoApiCredentialsException|ExtensionNotAvailableInFileConfigurationException
      */
     public function getProjectByExtensionKey(string $extensionKey): ProjectConfiguration
     {

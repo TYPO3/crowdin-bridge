@@ -3581,6 +3581,28 @@
         "textDirection": "ltr",
         "dialectOf": null
     },
+    "lol": {
+        "id": "lol",
+        "name": "LOLCAT",
+        "editorCode": "lol",
+        "twoLettersCode": "lol",
+        "threeLettersCode": "lol",
+        "locale": "lol-US",
+        "androidCode": "lol-rUS",
+        "osxCode": "lol.lproj",
+        "osxLocale": "lol",
+        "pluralCategoryNames": [
+            "one",
+            "other"
+        ],
+        "pluralRules": "(n != 1)",
+        "pluralExamples": [
+            "1",
+            "0, 2-999; 1.2, 2.07..."
+        ],
+        "textDirection": "ltr",
+        "dialectOf": null
+    },
     "lo": {
         "id": "lo",
         "name": "Lao",
@@ -3638,11 +3660,11 @@
             "one",
             "other"
         ],
-        "pluralRules": "(n==0 ? 0 : n%10==1 && n%100!=11 ? 1 : 2)",
+        "pluralRules": "n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2",
         "pluralExamples": [
-            "0",
-            "1, 21, 31, 41, 51, 61...",
-            "2-20, 22-30, 32-40...; 0.2, 1.07, 2.94..."
+            "0, 10-20, 30, 40...; 0.0, 10.0, 11.0, 12.0...",
+            "1, 21, 31, 41...; 0.1, 1.0, 1.1, 2.1...",
+            "2-9, 22-29, 102, 1002...; 0.2-0.9, 1.2-1.9, 10.2, 100.2..."
         ],
         "textDirection": "ltr",
         "dialectOf": null
@@ -3755,28 +3777,6 @@
         "pluralRules": "0",
         "pluralExamples": [
             "0-999; 1.2..."
-        ],
-        "textDirection": "ltr",
-        "dialectOf": null
-    },
-    "lol": {
-        "id": "lol",
-        "name": "LOLCAT",
-        "editorCode": "lol",
-        "twoLettersCode": "lol",
-        "threeLettersCode": "lol",
-        "locale": "lol-US",
-        "androidCode": "lol-rUS",
-        "osxCode": "lol.lproj",
-        "osxLocale": "lol",
-        "pluralCategoryNames": [
-            "one",
-            "other"
-        ],
-        "pluralRules": "(n != 1)",
-        "pluralExamples": [
-            "1",
-            "0, 2-999; 1.2, 2.07..."
         ],
         "textDirection": "ltr",
         "dialectOf": null
@@ -5023,32 +5023,6 @@
         "textDirection": "ltr",
         "dialectOf": "ru"
     },
-    "ru-UA": {
-        "id": "ru-UA",
-        "name": "Russian, Ukraine",
-        "editorCode": "ruua",
-        "twoLettersCode": "ru",
-        "threeLettersCode": "rus",
-        "locale": "ru-UA",
-        "androidCode": "ru-rUA",
-        "osxCode": "ru-UA.lproj",
-        "osxLocale": "ru_UA",
-        "pluralCategoryNames": [
-            "one",
-            "few",
-            "many",
-            "other"
-        ],
-        "pluralRules": "((n%10==1 && n%100!=11) ? 0 : ((n%10 >= 2 && n%10 <=4 && (n%100 < 12 || n%100 > 14)) ? 1 : ((n%10 == 0 || (n%10 >= 5 && n%10 <=9)) || (n%100 >= 11 && n%100 <= 14)) ? 2 : 3))",
-        "pluralExamples": [
-            "1, 21, 31, 41, 51, 61, 71, 81...",
-            "2-4, 22-24, 32-34, 42-44, 52-54, 62...",
-            "0, 5-19, 100, 1000, 10000...",
-            "0.0-0.9, 1.1-1.6, 10.0, 100.0..."
-        ],
-        "textDirection": "ltr",
-        "dialectOf": "ru"
-    },
     "ry-UA": {
         "id": "ry-UA",
         "name": "Rusyn",
@@ -5073,6 +5047,32 @@
         "textDirection": "ltr",
         "dialectOf": null
     },
+    "ru-UA": {
+        "id": "ru-UA",
+        "name": "R\u057dssian, \u054dkraine",
+        "editorCode": "ruua",
+        "twoLettersCode": "ru",
+        "threeLettersCode": "rus",
+        "locale": "ru-UA",
+        "androidCode": "ru-rUA",
+        "osxCode": "ru-UA.lproj",
+        "osxLocale": "ru_UA",
+        "pluralCategoryNames": [
+            "one",
+            "few",
+            "many",
+            "other"
+        ],
+        "pluralRules": "((n%10==1 && n%100!=11) ? 0 : ((n%10 >= 2 && n%10 <=4 && (n%100 < 12 || n%100 > 14)) ? 1 : ((n%10 == 0 || (n%10 >= 5 && n%10 <=9)) || (n%100 >= 11 && n%100 <= 14)) ? 2 : 3))",
+        "pluralExamples": [
+            "1, 21, 31, 41, 51, 61, 71, 81...",
+            "2-4, 22-24, 32-34, 42-44, 52-54, 62...",
+            "0, 5-19, 100, 1000, 10000...",
+            "0.0-0.9, 1.1-1.6, 10.0, 100.0..."
+        ],
+        "textDirection": "ltr",
+        "dialectOf": "ru"
+    },
     "sah": {
         "id": "sah",
         "name": "Sakha",
@@ -5088,8 +5088,7 @@
         ],
         "pluralRules": "0",
         "pluralExamples": [
-            "0~15, 100, 1000, 10000, 100000, 1000000, ...",
-            "0.0~1.5, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, ..."
+            "0-999; 1.2..."
         ],
         "textDirection": "ltr",
         "dialectOf": null
@@ -5262,8 +5261,8 @@
         "threeLettersCode": "srp",
         "locale": "sr-CS",
         "androidCode": "sr-rCS",
-        "osxCode": "sr-CS.lproj",
-        "osxLocale": "sr_CS",
+        "osxCode": "sr-Latn.lproj",
+        "osxLocale": "sr_Latn",
         "pluralCategoryNames": [
             "one",
             "few",
@@ -5454,12 +5453,12 @@
             "few",
             "other"
         ],
-        "pluralRules": "(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n%100==4 ? 3 : 0)",
+        "pluralRules": "n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3",
         "pluralExamples": [
-            "1, 101, 201, 301, 401, 501...",
-            "2, 102, 202, 302, 402, 502...",
-            "3, 4, 103, 104, 203, 204...",
-            "0, 5-100, 105-200, 205-300...; 1.2, 2.07, 3.94, 5.81..."
+            "1, 101, 201, 301, 401...",
+            "2, 102, 202, 302, 402...",
+            "3, 4, 103, 104, 203, 204...; 0.0-1.5, 10.0, 100.0...",
+            "0, 5-19, 100, 1000..."
         ],
         "textDirection": "ltr",
         "dialectOf": null
@@ -5862,6 +5861,28 @@
         "textDirection": "ltr",
         "dialectOf": "es-ES"
     },
+    "es-419": {
+        "id": "es-419",
+        "name": "Spanish, Latin America",
+        "editorCode": "es419",
+        "twoLettersCode": "es",
+        "threeLettersCode": "spa",
+        "locale": "es-419",
+        "androidCode": "es-r419",
+        "osxCode": "es-419.lproj",
+        "osxLocale": "es_419",
+        "pluralCategoryNames": [
+            "one",
+            "other"
+        ],
+        "pluralRules": "(n != 1)",
+        "pluralExamples": [
+            "1",
+            "0, 2-999; 1.2, 2.07..."
+        ],
+        "textDirection": "ltr",
+        "dialectOf": "es-ES"
+    },
     "es-MX": {
         "id": "es-MX",
         "name": "Spanish, Mexico",
@@ -6234,6 +6255,28 @@
         "textDirection": "rtl",
         "dialectOf": null
     },
+    "t3": {
+        "id": "t3",
+        "name": "TYPO3 In-Context Localization",
+        "editorCode": "t3",
+        "twoLettersCode": "t3",
+        "threeLettersCode": "ter",
+        "locale": "t3-T3",
+        "androidCode": "t3-rT3",
+        "osxCode": "t3.lproj",
+        "osxLocale": "t3",
+        "pluralCategoryNames": [
+            "one",
+            "other"
+        ],
+        "pluralRules": "(n != 1)",
+        "pluralExamples": [
+            "1",
+            "0, 2-999; 1.2, 2.07..."
+        ],
+        "textDirection": "ltr",
+        "dialectOf": "en"
+    },
     "tl": {
         "id": "tl",
         "name": "Tagalog",
@@ -6579,28 +6622,6 @@
         ],
         "textDirection": "ltr",
         "dialectOf": null
-    },
-    "t3": {
-        "id": "t3",
-        "name": "TYPO3 In-Context Localization",
-        "editorCode": "t3",
-        "twoLettersCode": "t3",
-        "threeLettersCode": "ter",
-        "locale": "t3-T3",
-        "androidCode": "t3-rT3",
-        "osxCode": "t3.lproj",
-        "osxLocale": "t3",
-        "pluralCategoryNames": [
-            "one",
-            "other"
-        ],
-        "pluralRules": "(n != 1)",
-        "pluralExamples": [
-            "1",
-            "0, 2-999; 1.2, 2.07..."
-        ],
-        "textDirection": "ltr",
-        "dialectOf": "en"
     },
     "uk": {
         "id": "uk",

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace TYPO3\CrowdinBridge\Service;
 
-use Akeneo\Crowdin\Api\Export;
 use CrowdinApiClient\Model\TranslationProjectBuild;
 use TYPO3\CrowdinBridge\Api\Wrapper\TranslationApi;
 

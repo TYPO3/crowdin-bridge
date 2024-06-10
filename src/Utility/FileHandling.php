@@ -6,35 +6,6 @@ namespace TYPO3\CrowdinBridge\Utility;
 class FileHandling
 {
 
-    /**
-     * Returns TRUE if $haystack begins with $needle.
-     * The input string is not trimmed before and search is done case sensitive.
-     *
-     * @param string $haystack Full string to check
-     * @param string $needle Reference string which must be found as the "first part" of the full string
-     * @return bool TRUE if $needle was found to be equal to the first part of $haystack
-     * @throws \InvalidArgumentException
-     */
-    public static function beginsWith($haystack, $needle)
-    {
-        // Sanitize $haystack and $needle
-        if (is_array($haystack) || is_object($haystack) || $haystack === null || (string)$haystack != $haystack) {
-            throw new \InvalidArgumentException(
-                '$haystack can not be interpreted as string',
-                1347135546
-            );
-        }
-        if (is_array($needle) || is_object($needle) || (string)$needle != $needle || strlen($needle) < 1) {
-            throw new \InvalidArgumentException(
-                '$needle can not be interpreted as string or has zero length',
-                1347135547
-            );
-        }
-        $haystack = (string)$haystack;
-        $needle = (string)$needle;
-        return $needle !== '' && strpos($haystack, $needle) === 0;
-    }
-
 
     /**
      * Wrapper function for rmdir, allowing recursive deletion of folders and files

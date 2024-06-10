@@ -30,7 +30,7 @@ class ExportExtensionTranslationStatusService
         $localProject = $this->projectApi->getConfiguration()->getProjectByExtensionKey($extensionKey);
         $translationStatus = $this->projectApi->getTranslationStatusByCrowdinId($localProject->getId());
         if ($translationStatus) {
-            $extensionName = $localProject->getExtensionkey();
+            $extensionName = $localProject->getExtensionKey();
 
             $projectSubDir = $this->projectApi->getConfiguration()->getPathRsync() . sprintf('%s/%s/%s-l10n/', $extensionName[0], $extensionName[1], $extensionName);
             FileHandling::mkdir_deep($projectSubDir);

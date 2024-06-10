@@ -20,9 +20,6 @@ use TYPO3\CrowdinBridge\Entity\BridgeConfiguration;
 class MetaStatusExportCommand extends Command
 {
 
-    /**
-     * @inheritdoc
-     */
     protected function configure()
     {
         $this
@@ -30,10 +27,7 @@ class MetaStatusExportCommand extends Command
             ->setDescription('Meta :: Export status of projects');
     }
 
-    /**
-     * @inheritdoc
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $command = $this->getApplication()->find('status.export');
         $bridgeConfiguration = new BridgeConfiguration();
@@ -43,7 +37,7 @@ class MetaStatusExportCommand extends Command
             }
             $arguments = [
                 'command' => 'status.export',
-                'extensionKey' => $project->getExtensionkey()
+                'extensionKey' => $project->getExtensionKey()
             ];
             $input = new ArrayInput($arguments);
             $command->run($input, $output);

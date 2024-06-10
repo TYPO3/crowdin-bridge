@@ -9,11 +9,11 @@ use TYPO3\CrowdinBridge\Utility\FileHandling;
 final class ProjectConfiguration
 {
 
-    private const ENABLE_T3_EXPORT = true;
+    private const bool ENABLE_T3_EXPORT = true;
 
     protected int $id;
 
-    protected string $extensionkey = '';
+    protected string $extensionKey = '';
 
     protected array $languages = [];
 
@@ -21,19 +21,13 @@ final class ProjectConfiguration
 
     protected string $branch = 'master';
 
-
-    /**
-     * Project constructor.
-     * @param string $identifier
-     * @param array $configuration
-     */
     public function __construct(string $crowdinIdentifier, array $configuration)
     {
         $this->crowdinIdentifier = $crowdinIdentifier;
         if (!isset($configuration['extensionKey'])) {
             print_r($configuration);die;
         }
-        $this->extensionkey = $configuration['extensionKey'];
+        $this->extensionKey = $configuration['extensionKey'];
         $this->id = (int)($configuration['id'] ?? 0);
         $this->languages = FileHandling::trimExplode(',', $configuration['languages'] ?? '', true);
         $this->branch = $configuration['branch'] ?? 'master';
@@ -44,9 +38,9 @@ final class ProjectConfiguration
         return $this->id;
     }
 
-    public function getExtensionkey(): string
+    public function getExtensionKey(): string
     {
-        return $this->extensionkey;
+        return $this->extensionKey;
     }
 
     public function getBranch()
@@ -67,18 +61,11 @@ final class ProjectConfiguration
     }
 
 
-    /**
-     * @return bool
-     * @throws NoApiCredentialsException
-     */
     public function isCoreProject(): bool
     {
         return $this->crowdinIdentifier === 'typo3-cms';
     }
 
-    /**
-     * @return string
-     */
     public function getCrowdinIdentifier(): string
     {
         return $this->crowdinIdentifier;
@@ -91,7 +78,7 @@ final class ProjectConfiguration
 
     public function __toString()
     {
-        return json_encode([
+        return (string)json_encode([
             'identifier' => $this->crowdinIdentifier,
         ]);
     }

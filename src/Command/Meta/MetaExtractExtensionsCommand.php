@@ -20,9 +20,6 @@ use TYPO3\CrowdinBridge\Entity\BridgeConfiguration;
 class MetaExtractExtensionsCommand extends Command
 {
 
-    /**
-     * @inheritdoc
-     */
     protected function configure()
     {
         $this
@@ -31,10 +28,7 @@ class MetaExtractExtensionsCommand extends Command
             ->setHelp('Download & process translations of all extensions');
     }
 
-    /**
-     * @inheritdoc
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $bridgeConfiguration = new BridgeConfiguration();
         $allProjects = $bridgeConfiguration->getAllProjects();

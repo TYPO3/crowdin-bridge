@@ -13,9 +13,6 @@ use TYPO3\CrowdinBridge\Entity\BridgeConfiguration;
 class MetaBuildCommand extends Command
 {
 
-    /**
-     * @inheritdoc
-     */
     protected function configure()
     {
         $this
@@ -24,10 +21,7 @@ class MetaBuildCommand extends Command
             ->setHelp('Build all projects by running the "crowdin:build" command for *all* projects.');
     }
 
-    /**
-     * @inheritdoc
-     */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $bridgeConfiguration = new BridgeConfiguration();
 
