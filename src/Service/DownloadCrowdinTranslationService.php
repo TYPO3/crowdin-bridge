@@ -20,8 +20,8 @@ use ZipArchive;
 class DownloadCrowdinTranslationService
 {
 
-    protected $originalLanguageKey = '';
-    protected $finalLanguageKey = '';
+    protected string $originalLanguageKey = '';
+    protected string $finalLanguageKey = '';
     protected string $projectIdentifier;
 
     /** @var ProjectApi */
@@ -45,14 +45,14 @@ class DownloadCrowdinTranslationService
 
         $buildId = $this->translationApi->getLastFinishedBuildId($localProject->getId());
         $download = $this->translationApi->downloadProject($localProject->getId(), $buildId);
-        $zipFile = $this->downloadFromCrowdin2($download);
+        $zipFile = $this->downloadFromCrowdin($download);
 
         $downloadTarget = $this->projectApi->getConfiguration()->getPathDownloads() . $projectIdentifier . '/';
         $this->unzip($zipFile, $downloadTarget);
 
         FileHandling::mkdir_deep($downloadTarget);
 
-        $listOfLanguages = $listOfLanguages ?: $localProject->getLanguages();
+        $listOfLanguages = array_unique($listOfLanguages ?: $localProject->getLanguages());
         foreach ($listOfLanguages as $language) {
             $downloadLanguageTarget = $downloadTarget . $language . '/';
 
@@ -76,51 +76,55 @@ class DownloadCrowdinTranslationService
         $this->projectIdentifier = $projectIdentifier;
         $localProject = $this->projectApi->getConfiguration()->getProject($projectIdentifier);
 
-        $buildId = $this->translationApi->getLastFinishedBuildId($localProject->getId());
-        $download = $this->translationApi->downloadProject($localProject->getId(), $buildId);
-        $zipFile = $this->downloadFromCrowdin2($download);
 
+        $zipFile = $this->downloadFromCrowdin($localProject);
+
+        // 1st: Generate base directory
         $downloadTargetBase = $this->projectApi->getConfiguration()->getPathDownloads() . $projectIdentifier . '-base/';
+        FileHandling::rmdir($downloadTargetBase);
         FileHandling::mkdir_deep($downloadTargetBase);
         $this->unzip($zipFile, $downloadTargetBase);
 
-        $listOfLanguages = $listOfLanguages ?: $localProject->getLanguages();
+        // 2nd: Duplicate base directory for each language
+        $listOfLanguages = array_unique($listOfLanguages ?: $localProject->getLanguages());
         foreach ($listOfLanguages as $language) {
             $downloadTarget = $this->projectApi->getConfiguration()->getPathDownloads() . $projectIdentifier . '-' . $language . '/';
+            FileHandling::rmdir($downloadTarget);
 
             $filesystem = new Filesystem();
             $filesystem->mirror($downloadTargetBase, $downloadTarget);
         }
-
-
         foreach ($listOfLanguages as $language) {
+            clearstatcache(true);
             try {
                 $downloadTarget = $this->projectApi->getConfiguration()->getPathDownloads() . $projectIdentifier . '-' . $language . '/';
+
+                // 3rd: Iterate over every language directory
+                // and remove all files that are not for the current language
                 $finder = new Finder();
                 $finder->files()->in($downloadTarget)->notName($language . '.*')->notName(LanguageInformation::getLanguageForTypo3($language) . '.*');
                 foreach ($finder as $file) {
                     unlink($file->getRealPath());
                 }
 
-                // skip empty directories
+                // 4th: Skip empty directories
                 $finder = new Finder();
                 $count = $finder->files()->in($downloadTarget)->name($language . '.*')->name(LanguageInformation::getLanguageForTypo3($language) . '.*')->count();
                 if ($count === 0) {
                     FileHandling::rmdir($downloadTarget);
-//                    echo 'Removing' . $downloadTarget . chr(10);
                     continue;
                 }
-
                 $this->processDownloadDirectoryExtension($localProject, $downloadTarget, $language);
             } catch (\Exception $e) {
-//                echo 'ERROR:' . $e->getMessage();
+                echo 'ERROR:' . $e->getMessage();
+                die('TBD');
             }
         }
         $this->moveAllToRsyncDestination();
-        $this->cleanup($downloadTarget);
+//        $this->cleanup();
     }
 
-    protected function cleanup($downloadDir)
+    protected function cleanup(): void
     {
         if (self::REMOVE_ZIPS) {
             $exportDir = $this->projectApi->getConfiguration()->getPathExport();
@@ -186,20 +190,28 @@ class DownloadCrowdinTranslationService
 
         $firstDirFinder = new Finder();
 
-        // is actually not the branch but the first sub dir
-        $branch = 'master';
-        $count = 0;
-        foreach ($firstDirFinder->directories()->in($directory) as $branches) {
-            if ($count === 0) {
-                $branch = $branches->getBasename();
-                $count++;
+        $branchName = '';
+        $allowedBranchNames = ['main', 'master', 'develop'];
+        foreach ($firstDirFinder->directories()->in($directory)->depth(0) as $branches) {
+            if (!$branchName && in_array($branches->getBasename(), $allowedBranchNames, true)) {
+                $branchName = $branches->getBasename();
+                break;
             }
         }
 
+
+        if (!$branchName) {
+            $all = [];
+            foreach ($firstDirFinder->directories()->in($directory) as $branches) {
+                $all[] = $branches->getBasename();
+            }
+            throw new \RuntimeException(sprintf('No branch found in: %s, found: %s', $directory, implode(', ', $all)), 1566422270);
+        }
+
         $crowdinLanguageName = LanguageInformation::getLanguageForTypo3($language);
-        $dir = $directory . $branch;
+        $dir = $directory . $branchName;
         if (!is_dir($dir)) {
-            $dir = $directory . $language . '/' . $branch;
+            $dir = $directory . $language . '/' . $branchName;
         }
 
 
@@ -238,7 +250,9 @@ class DownloadCrowdinTranslationService
         if (is_dir($source) === true) {
             $files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($source), \RecursiveIteratorIterator::SELF_FIRST);
 
-            foreach ($files as $file) {
+            foreach ($files as $fileObject) {
+                /** @var \SplFileInfo $fileObject */
+                $file = (string)$fileObject->getRealPath();
                 $file = str_replace('\\', '/', $file);
 
                 // Ignore "." and ".." folders
@@ -274,12 +288,7 @@ class DownloadCrowdinTranslationService
         }
     }
 
-    /**
-     * @param string $langage
-     * @param string $branch
-     * @throws NoTranslationsAvailableException
-     */
-    protected function downloadFromCrowdin2(DownloadFile $downloadFile = null): string
+    protected function downloadFromCrowdin(ProjectConfiguration $localProject): string
     {
         $path = $this->projectApi->getConfiguration()->getPathExport();
         FileHandling::mkdir_deep($path);
@@ -287,6 +296,9 @@ class DownloadCrowdinTranslationService
         $finalName = $path . $this->projectIdentifier . '.zip';
 
         if (!is_file($finalName)) {
+            $buildId = $this->translationApi->getLastFinishedBuildId($localProject->getId());
+            $downloadFile = $this->translationApi->downloadProject($localProject->getId(), $buildId);
+
             $fileContent = file_get_contents($downloadFile->getUrl());
 
             if (strlen($fileContent) < 130) {
@@ -301,18 +313,14 @@ class DownloadCrowdinTranslationService
     /**
      * Modify file's content
      * @see https://github.com/TYPO3-Initiatives/crowdin/issues/32
-     *
-     * @param string $file
      */
-    protected function modifyFile(string $file)
+    protected function modifyFile(string $file): void
     {
-        if (is_file($file)) {
-            if ($this->finalLanguageKey !== $this->originalLanguageKey) {
-                $content = file_get_contents($file);
-                $content = str_replace(' target-language="' . $this->originalLanguageKey . '"', ' target-language="' . $this->finalLanguageKey . '"', $content);
+        if ($this->finalLanguageKey !== $this->originalLanguageKey && is_file($file)) {
+            $content = file_get_contents($file);
+            $content = str_replace(' target-language="' . $this->originalLanguageKey . '"', ' target-language="' . $this->finalLanguageKey . '"', $content);
 
-                $result = file_put_contents($file, $content);
-            }
+            file_put_contents($file, $content);
         }
     }
 }

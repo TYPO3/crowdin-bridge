@@ -38,7 +38,7 @@ class ProjectService
             $newData = [
                 'id' => $remoteProject->getId(),
                 'extensionKey' => $key,
-                'languages' => implode(',', $remoteLanguages),
+                'languages' => implode(',', array_unique($remoteLanguages)),
             ];
             $fileConfiguration->add($identifier, $newData);
             $projects[] = $key;
