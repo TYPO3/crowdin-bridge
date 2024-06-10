@@ -7,15 +7,13 @@ namespace TYPO3\CrowdinBridge\Service\Management;
 use CrowdinApiClient\Model\Progress;
 use CrowdinApiClient\Model\Project as CrowdinProject;
 use TYPO3\CrowdinBridge\Api\Wrapper\ProjectApi;
-use TYPO3\CrowdinBridge\Configuration\Project as LocalProject;
+use TYPO3\CrowdinBridge\Entity\ProjectConfiguration;
 use TYPO3\CrowdinBridge\Exception\ExtensionNotAvailableInFileConfigurationException;
-use TYPO3\CrowdinBridge\ExtendedApi\UpdateProject\Accounting;
 use TYPO3\CrowdinBridge\Utility\FileHandling;
 use TYPO3Fluid\Fluid\View\TemplateView;
 
 class StatusService
 {
-    /** @var ProjectApi */
     protected ProjectApi $projectApi;
 
     public function __construct()
@@ -54,7 +52,7 @@ class StatusService
         sort($languagesOfCore);
 
         foreach ($collection as $item) {
-            /** @var LocalProject $localProject */
+            /** @var ProjectConfiguration $localProject */
             $localProject = $item['localProject'];
             /** @var CrowdinProject $crowdinProject */
             $crowdinProject = $item['crowdinProject'];

@@ -54,7 +54,7 @@ class ProjectService
      * As this information won't change that much, it is fine to save it in files
      * + it will be updated during running setup anyway
      */
-    protected function updateLanguages(): void
+    private function updateLanguages(): void
     {
         $collectedLanguages = [];
         $languageApi = new LanguageApi();
@@ -67,7 +67,7 @@ class ProjectService
         file_put_contents($file, json_encode($collectedLanguages, JSON_PRETTY_PRINT));
     }
 
-    protected function generateExtensionKey(string $identifier, string $name): string
+    private function generateExtensionKey(string $identifier, string $name): string
     {
         if ($identifier === 'typo3-cms') {
             return $identifier;

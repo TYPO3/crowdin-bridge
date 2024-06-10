@@ -36,7 +36,7 @@ class ExtractCoreCommand extends Command
         $project = $bridgeConfiguration->getProject('typo3-cms');
 
         $io = new SymfonyStyle($input, $output);
-        $io->title('Project typo3-cms');
+        $io->title('TYPO3 Core (typo3-cms)');
 
         $languages = $input->getArgument('language') ?? '*';
         $languageList = $languages === '*' ? $project->getLanguages() : FileHandling::trimExplode(',', $languages, true);
