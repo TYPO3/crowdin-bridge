@@ -16,7 +16,7 @@ class LanguageInformation
         'sv-SE' => 'sv',
         'fr-CA' => 'fr_CA',
         'pt-BR' => 'pt_BR',
-        'zh-CN' => 'ch',
+        'zh-CN' => 'zh_CN',
         'zh-HK' => 'zh',
         'pt-PT' => 'pt',
     ];

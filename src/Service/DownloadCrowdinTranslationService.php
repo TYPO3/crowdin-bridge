@@ -182,7 +182,7 @@ class DownloadCrowdinTranslationService
 
         if (!$branchName) {
             $all = [];
-            foreach ($firstDirFinder->directories()->in($directory) as $branches) {
+            foreach ($firstDirFinder->directories()->in($directory)->depth(0) as $branches) {
                 $all[] = $branches->getBasename();
             }
             throw new \RuntimeException(sprintf('No branch found in: %s, found: %s', $directory, implode(', ', $all)), 1566422270);
@@ -245,11 +245,14 @@ class DownloadCrowdinTranslationService
                     continue;
                 }
 
-                $this->modifyFile($file);
-
-                if (is_dir($file) === true) {
+                if (is_dir($file)) {
                     $zip->addEmptyDir($prefix . str_replace($source . '/', '', $file . '/'));
-                } elseif (is_file($file) === true) {
+                } elseif (is_file($file)) {
+                    $fileHasContent = $this->modifyFile($file);
+                    if (!$fileHasContent) {
+                        unlink($file);
+                        continue;
+                    }
                     $zip->addFromString($prefix . str_replace($source . '/', '', $file), file_get_contents($file));
                 }
             }
@@ -298,14 +301,18 @@ class DownloadCrowdinTranslationService
      * Modify file's content
      * @see https://github.com/TYPO3-Initiatives/crowdin/issues/32
      */
-    protected function modifyFile(string $file): void
+    protected function modifyFile(string $file): bool
     {
+        $content = file_get_contents($file);
+        if (!str_contains($content, '<trans-unit')) {
+            return false;
+        }
         if ($this->finalLanguageKey !== $this->originalLanguageKey && is_file($file)) {
-            $content = file_get_contents($file);
             $content = str_replace(' target-language="' . $this->originalLanguageKey . '"', ' target-language="' . $this->finalLanguageKey . '"', $content);
 
             file_put_contents($file, $content);
         }
+        return true;
     }
 
     private function removeFilesFromDifferentLanguage(string $downloadLanguageTarget, string $language): void
