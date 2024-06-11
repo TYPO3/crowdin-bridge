@@ -249,34 +249,6 @@ class FileHandling
     }
 
     /**
-     * Writes $content to the file $file
-     *
-     * @param string $file Filepath to write to
-     * @param string $content Content to write
-     * @param bool $changePermissions If TRUE, permissions are forced to be set
-     * @return bool TRUE if the file was successfully opened and written to.
-     */
-    public static function writeFile($file, $content, $changePermissions = false)
-    {
-        if (!@is_file($file)) {
-            $changePermissions = true;
-        }
-        if ($fd = fopen($file, 'wb')) {
-            $res = fwrite($fd, $content);
-            fclose($fd);
-            if ($res === false) {
-                return false;
-            }
-            // Change the permissions only if the file has just been created
-            if ($changePermissions) {
-                static::fixPermissions($file);
-            }
-            return true;
-        }
-        return false;
-    }
-
-    /**
      * Fixes a path for windows-backslashes and reduces double-slashes to single slashes
      *
      * @param string $theFile File path to process

@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace TYPO3\CrowdinBridge\Service;
 
-use Akeneo\Crowdin\Api\Download;
-use CrowdinApiClient\Model\DownloadFile;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 use TYPO3\CrowdinBridge\Api\Wrapper\ProjectApi;
@@ -24,10 +22,7 @@ class DownloadCrowdinTranslationService
     protected string $finalLanguageKey = '';
     protected string $projectIdentifier;
 
-    /** @var ProjectApi */
     protected ProjectApi $projectApi;
-
-    /** @var TranslationApi */
     protected TranslationApi $translationApi;
 
     const REMOVE_ZIPS = true;
@@ -38,49 +33,41 @@ class DownloadCrowdinTranslationService
         $this->translationApi = new TranslationApi();
     }
 
-    public function downloadPackageCore(string $projectIdentifier, array $listOfLanguages = [])
+    public function downloadPackageCore(string $projectIdentifier, array $listOfLanguages = []): void
     {
         $this->projectIdentifier = $projectIdentifier;
         $localProject = $this->projectApi->getConfiguration()->getProject($projectIdentifier);
 
-        $buildId = $this->translationApi->getLastFinishedBuildId($localProject->getId());
-        $download = $this->translationApi->downloadProject($localProject->getId(), $buildId);
-        $zipFile = $this->downloadFromCrowdin($download);
-
-        $downloadTarget = $this->projectApi->getConfiguration()->getPathDownloads() . $projectIdentifier . '/';
-        $this->unzip($zipFile, $downloadTarget);
-
-        FileHandling::mkdir_deep($downloadTarget);
+        // 1st: Generate base directory
+        $downloadTarget = $this->download($localProject, $projectIdentifier . '/');
 
         $listOfLanguages = array_unique($listOfLanguages ?: $localProject->getLanguages());
         foreach ($listOfLanguages as $language) {
-            $downloadLanguageTarget = $downloadTarget . $language . '/';
+            $directory = $downloadTarget . $language . '/';
 
-            $finder = new Finder();
-            $finder->files()->in($downloadLanguageTarget)->notName($language . '.*')->notName(LanguageInformation::getLanguageForTypo3($language) . '.*');
-            foreach ($finder as $file) {
-                unlink($file->getRealPath());
-            }
+            // 2nd: Iterate over every language directory
+            // and remove all files that are not for the current language
+            $this->removeFilesFromDifferentLanguage($directory, $language);
 
             $this->originalLanguageKey = $language;
             $this->finalLanguageKey = LanguageInformation::getLanguageForTypo3($language);
 
-            $this->processDownloadDirectoryCore($downloadLanguageTarget, $language);
+            $this->processDownloadDirectoryCore($directory, $language);
         }
         $this->moveAllToRsyncDestination();
         //   $this->cleanup($downloadTarget);
     }
 
-    public function downloadPackageExtension(string $projectIdentifier, array $listOfLanguages = [])
+    public function downloadPackageExtension(string $projectIdentifier, array $listOfLanguages = []): void
     {
         $this->projectIdentifier = $projectIdentifier;
         $localProject = $this->projectApi->getConfiguration()->getProject($projectIdentifier);
 
-
-        $zipFile = $this->downloadFromCrowdin($localProject);
-
         // 1st: Generate base directory
-        $downloadTargetBase = $this->projectApi->getConfiguration()->getPathDownloads() . $projectIdentifier . '-base/';
+        $customPath = $projectIdentifier . '-base/';
+        // todo refactor with ::download
+        $zipFile = $this->downloadFromCrowdin($localProject);
+        $downloadTargetBase = $this->projectApi->getConfiguration()->getPathDownloads() . $customPath;
         FileHandling::rmdir($downloadTargetBase);
         FileHandling::mkdir_deep($downloadTargetBase);
         $this->unzip($zipFile, $downloadTargetBase);
@@ -94,6 +81,7 @@ class DownloadCrowdinTranslationService
             $filesystem = new Filesystem();
             $filesystem->mirror($downloadTargetBase, $downloadTarget);
         }
+
         foreach ($listOfLanguages as $language) {
             clearstatcache(true);
             try {
@@ -101,11 +89,7 @@ class DownloadCrowdinTranslationService
 
                 // 3rd: Iterate over every language directory
                 // and remove all files that are not for the current language
-                $finder = new Finder();
-                $finder->files()->in($downloadTarget)->notName($language . '.*')->notName(LanguageInformation::getLanguageForTypo3($language) . '.*');
-                foreach ($finder as $file) {
-                    unlink($file->getRealPath());
-                }
+                $this->removeFilesFromDifferentLanguage($downloadTarget, $language);
 
                 // 4th: Skip empty directories
                 $finder = new Finder();
@@ -155,7 +139,7 @@ class DownloadCrowdinTranslationService
         }
     }
 
-    protected function processDownloadDirectoryCore(string $directory, $language)
+    protected function processDownloadDirectoryCore(string $directory, $language): void
     {
         $branches = CoreInformation::getAllCoreBranches();
         foreach ($branches as $branch) {
@@ -184,7 +168,7 @@ class DownloadCrowdinTranslationService
         }
     }
 
-    protected function processDownloadDirectoryExtension(ProjectConfiguration $localProject, string $directory, $language)
+    protected function processDownloadDirectoryExtension(ProjectConfiguration $localProject, string $directory, $language): void
     {
         $this->originalLanguageKey = $language;
 
@@ -199,7 +183,6 @@ class DownloadCrowdinTranslationService
             }
         }
 
-
         if (!$branchName) {
             $all = [];
             foreach ($firstDirFinder->directories()->in($directory) as $branches) {
@@ -213,7 +196,6 @@ class DownloadCrowdinTranslationService
         if (!is_dir($dir)) {
             $dir = $directory . $language . '/' . $branchName;
         }
-
 
         $extensionKey = $localProject->getExtensionKey();
 
@@ -234,7 +216,7 @@ class DownloadCrowdinTranslationService
         $result = $this->zipDir($newDirName, $zipPath, $extensionKey);
     }
 
-    protected function zipDir($source, $destination, $prefix = '')
+    protected function zipDir($source, $destination, $prefix = ''): bool
     {
         if (!empty($prefix)) {
             $prefix = trim($prefix, '/') . '/';
@@ -259,8 +241,13 @@ class DownloadCrowdinTranslationService
                 if (in_array(substr($file, strrpos($file, '/') + 1), ['.', '..'])) {
                     continue;
                 }
-
                 $file = realpath($file);
+
+                // skip files outside the desired target
+                if (!str_starts_with($file, $source)) {
+                    continue;
+                }
+
                 $this->modifyFile($file);
 
                 if (is_dir($file) === true) {
@@ -276,16 +263,16 @@ class DownloadCrowdinTranslationService
         return $zip->close();
     }
 
-    protected function unzip(string $file, string $path)
+    protected function unzip(string $file, string $path): bool
     {
         $zip = new ZipArchive();
-        $res = $zip->open($file);
-        if ($res === true) {
-            $zip->extractTo($path);
-            $zip->close();
-        } else {
+        $resource = $zip->open($file);
+        if ($resource === false) {
             throw new \RuntimeException(sprintf('Could not extract zip "%s"', $file), 1566421924);
         }
+
+        $zip->extractTo($path);
+        return $zip->close();
     }
 
     protected function downloadFromCrowdin(ProjectConfiguration $localProject): string
@@ -322,5 +309,24 @@ class DownloadCrowdinTranslationService
 
             file_put_contents($file, $content);
         }
+    }
+
+    private function removeFilesFromDifferentLanguage(string $downloadLanguageTarget, string $language): void
+    {
+        $finder = new Finder();
+        $finder->files()->in($downloadLanguageTarget)->notName($language . '.*')->notName(LanguageInformation::getLanguageForTypo3($language) . '.*');
+        foreach ($finder as $file) {
+            unlink($file->getRealPath());
+        }
+    }
+
+    private function download(ProjectConfiguration $localProject, string $pathSuffix): string
+    {
+        $downloadTarget = $this->projectApi->getConfiguration()->getPathDownloads() . $pathSuffix;
+        $zipFile = $this->downloadFromCrowdin($localProject);
+        FileHandling::rmdir($downloadTarget);
+        FileHandling::mkdir_deep($downloadTarget);
+        $this->unzip($zipFile, $downloadTarget);
+        return $downloadTarget;
     }
 }
