@@ -1,24 +1,31 @@
 <?php
 declare(strict_types=1);
 
-namespace TYPO3\CrowdinBridge\Command;
+namespace App\Command;
 
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use TYPO3\CrowdinBridge\Service\ExportService;
+use App\Service\ExportService;
 
+#[AsCommand(
+    name: 'app:build',
+    description: 'Trigger build of a project',
+    hidden: false
+)]
 class BuildCommand extends Command
 {
+    public function __construct(protected readonly ExportService $exportService, ?string $name = null)
+    {
+        parent::__construct($name);
+    }
 
     protected function configure()
     {
         $this
-            ->setName('build')
-            ->setDescription('Trigger build of a project')
-            ->setHelp('A build is required to get later access to the translations.')
             ->addArgument('project', InputArgument::REQUIRED, 'Project identifier');
     }
 
@@ -29,8 +36,7 @@ class BuildCommand extends Command
         $io = new SymfonyStyle($input, $output);
 
         try {
-            $service = new ExportService();
-            $response = $service->export($projectIdentifier);
+            $response = $this->exportService->export($projectIdentifier);
             $text = sprintf('Project "%s" has been exported', $projectIdentifier);
             $status = 'comment';
             if ($response) {

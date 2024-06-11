@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace TYPO3\CrowdinBridge\Api\Wrapper;
+namespace App\Api\Wrapper;
 
 use CrowdinApiClient\Model\DownloadFile;
 use CrowdinApiClient\Model\TranslationProjectBuild;
-use TYPO3\CrowdinBridge\Api\Client;
-use TYPO3\CrowdinBridge\Exception\NoFinishedProjectBuildFoundException;
+use App\Api\Client;
+use App\Exception\NoFinishedProjectBuildFoundException;
 
 class TranslationApi extends Client
 {

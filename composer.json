@@ -14,6 +14,11 @@
 		"platform": {
 			"php": "8.3"
 		},
+		"allow-plugins": {
+			"php-http/discovery": true,
+			"symfony/flex": true,
+			"symfony/runtime": true
+		},
 		"sort-packages": true
 	},
 	"require": {
@@ -22,14 +27,40 @@
 		"ext-zip": "*",
 		"crowdin/crowdin-api-client": "^1.4",
 		"symfony/console": "^7",
+		"symfony/dependency-injection": "7.1.*",
 		"symfony/dotenv": "^7.1",
 		"symfony/filesystem": "^7.0",
 		"symfony/finder": "^7",
+		"symfony/flex": "^2",
+		"symfony/framework-bundle": "7.1.*",
+		"symfony/runtime": "7.1.*",
+		"symfony/yaml": "7.1.*",
 		"typo3fluid/fluid": "^2.6"
 	},
 	"autoload": {
 		"psr-4": {
-			"TYPO3\\CrowdinBridge\\": "src"
+			"App\\": "src/"
+		}
+	},
+	"scripts": {
+		"auto-scripts": {
+			"cache:clear": "symfony-cmd",
+			"assets:install %PUBLIC_DIR%": "symfony-cmd"
+		},
+		"post-install-cmd": [
+			"@auto-scripts"
+		],
+		"post-update-cmd": [
+			"@auto-scripts"
+		]
+	},
+	"conflict": {
+		"symfony/symfony": "*"
+	},
+	"extra": {
+		"symfony": {
+			"allow-contrib": false,
+			"require": "7.1.*"
 		}
 	}
 }

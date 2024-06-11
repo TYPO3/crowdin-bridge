@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace TYPO3\CrowdinBridge\Api;
+namespace App\Api;
 
 
 use CrowdinApiClient\Crowdin;
-use TYPO3\CrowdinBridge\Entity\BridgeConfiguration;
+use App\Entity\BridgeConfiguration;
 
 class Client
 {

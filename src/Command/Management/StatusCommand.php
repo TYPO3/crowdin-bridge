@@ -1,23 +1,25 @@
 <?php
 declare(strict_types=1);
 
-namespace TYPO3\CrowdinBridge\Command\Management;
+namespace App\Command\Management;
 
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use TYPO3\CrowdinBridge\Configuration\Project;
-use TYPO3\CrowdinBridge\Service\Management\StatusService;
+use App\Service\Management\StatusService;
 
+#[AsCommand(
+    name: 'app:management:status',
+    description: 'Status of all crowdin projects',
+    hidden: false
+)]
 class StatusCommand extends Command
 {
-
-    protected function configure()
+    public function __construct(protected StatusService $statusService, ?string $name = null)
     {
-        $this
-            ->setName('management:status')
-            ->setDescription('Status of all Crowdin Projects');
+        parent::__construct($name);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -25,8 +27,7 @@ class StatusCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $io->title('Status of all projects');
 
-        $service = new StatusService();
-        $response = $service->getStatus(true);
+        $response = $this->statusService->getStatus(true);
 
         $io->info('Status has been exported!');
         return 0;

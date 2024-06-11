@@ -1,31 +1,34 @@
 <?php
 declare(strict_types=1);
 
-namespace TYPO3\CrowdinBridge\Command;
+namespace App\Command;
 
-/**
- * This file is part of the "crowdin" Extension for TYPO3 CMS.
- *
- * For the full copyright and license information, please read the
- * LICENSE.txt file that was distributed with this source code.
- */
-
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use TYPO3\CrowdinBridge\Service\DownloadCrowdinTranslationService;
+use App\Service\DownloadCrowdinTranslationService;
 
+#[AsCommand(
+    name: 'app:extract:extension',
+    description: 'Download translations of TYPO3 extension',
+    hidden: false
+)]
 class ExtractExtensionCommand extends Command
 {
+    public function __construct(
+        protected readonly DownloadCrowdinTranslationService $downloadCrowdinTranslationService,
+        ?string $name = null)
+    {
+        parent::__construct($name);
+    }
 
     protected function configure()
     {
         $this
-            ->setName('extract:extension')
-            ->addArgument('project', InputArgument::REQUIRED, 'Project identifier')
-            ->setDescription('Download Extension translations');
+            ->addArgument('project', InputArgument::REQUIRED, 'Project identifier');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -35,11 +38,9 @@ class ExtractExtensionCommand extends Command
         $io->title(sprintf('Extension "%s"', $projectIdentifier));
 
         try {
-            $service = new DownloadCrowdinTranslationService();
-            $service->downloadPackageExtension($projectIdentifier);
+            $this->downloadCrowdinTranslationService->downloadPackageExtension($projectIdentifier);
 
-            $message = 'Data has been downloaded!';
-            $io->success($message);
+            $io->success('Data has been downloaded!');
         } catch (\Exception $e) {
             $io->error($e->getMessage());
         }

@@ -1,39 +1,43 @@
 <?php
 declare(strict_types=1);
 
-namespace TYPO3\CrowdinBridge\Command;
+namespace App\Command;
 
-/**
- * This file is part of the "crowdin" Extension for TYPO3 CMS.
- *
- * For the full copyright and license information, please read the
- * LICENSE.txt file that was distributed with this source code.
- */
-
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use TYPO3\CrowdinBridge\Entity\BridgeConfiguration;
-use TYPO3\CrowdinBridge\Service\DownloadCrowdinTranslationService;
-use TYPO3\CrowdinBridge\Utility\FileHandling;
+use App\Entity\BridgeConfiguration;
+use App\Service\DownloadCrowdinTranslationService;
+use App\Utility\FileHandling;
 
+#[AsCommand(
+    name: 'app:extract:core',
+    description: 'Download translations of TYPO3 core',
+    hidden: false
+)]
 class ExtractCoreCommand extends Command
 {
+    public function __construct(
+        protected readonly BridgeConfiguration $bridgeConfiguration,
+        protected DownloadCrowdinTranslationService $downloadCrowdinTranslationService,
+        ?string $name = null)
+    {
+        parent::__construct($name);
+    }
+
 
     protected function configure()
     {
         $this
-            ->setName('extract:core')
-            ->setDescription('Download translations of TYPO3 core')
             ->addArgument('language', InputArgument::OPTIONAL, 'List of languages or use "*" for all', '*');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $bridgeConfiguration = new BridgeConfiguration();
-        $project = $bridgeConfiguration->getProject('typo3-cms');
+        $project = $this->bridgeConfiguration->getProject('typo3-cms');
 
         $io = new SymfonyStyle($input, $output);
         $io->title('TYPO3 Core (typo3-cms)');
@@ -41,8 +45,7 @@ class ExtractCoreCommand extends Command
         $languages = $input->getArgument('language') ?? '*';
         $languageList = $languages === '*' ? $project->getLanguages() : FileHandling::trimExplode(',', $languages, true);
 
-        $service = new DownloadCrowdinTranslationService();
-        $service->downloadPackageCore('typo3-cms', $languageList);
+        $this->downloadCrowdinTranslationService->downloadPackageCore('typo3-cms', $languageList);
 
         $io->success(sprintf('Core process finished for the following languages: %s', implode(', ', $languageList)));
         return 0;

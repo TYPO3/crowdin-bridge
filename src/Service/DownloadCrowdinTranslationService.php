@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace TYPO3\CrowdinBridge\Service;
+namespace App\Service;
 
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
-use TYPO3\CrowdinBridge\Api\Wrapper\ProjectApi;
-use TYPO3\CrowdinBridge\Api\Wrapper\TranslationApi;
-use TYPO3\CrowdinBridge\Entity\ProjectConfiguration;
-use TYPO3\CrowdinBridge\Exception\NoTranslationsAvailableException;
-use TYPO3\CrowdinBridge\Info\CoreInformation;
-use TYPO3\CrowdinBridge\Info\LanguageInformation;
-use TYPO3\CrowdinBridge\Utility\FileHandling;
+use App\Api\Wrapper\ProjectApi;
+use App\Api\Wrapper\TranslationApi;
+use App\Entity\ProjectConfiguration;
+use App\Exception\NoTranslationsAvailableException;
+use App\Info\CoreInformation;
+use App\Info\LanguageInformation;
+use App\Utility\FileHandling;
 use ZipArchive;
 
 class DownloadCrowdinTranslationService
@@ -175,7 +175,7 @@ class DownloadCrowdinTranslationService
         $firstDirFinder = new Finder();
 
         $branchName = '';
-        $allowedBranchNames = ['main', 'master', 'develop'];
+        $allowedBranchNames = ['main', 'master', 'release', 'develop', 'dev'];
         foreach ($firstDirFinder->directories()->in($directory)->depth(0) as $branches) {
             if (!$branchName && in_array($branches->getBasename(), $allowedBranchNames, true)) {
                 $branchName = $branches->getBasename();

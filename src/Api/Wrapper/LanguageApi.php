@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace TYPO3\CrowdinBridge\Api\Wrapper;
+namespace App\Api\Wrapper;
 
 use CrowdinApiClient\Model\Language;
-use TYPO3\CrowdinBridge\Api\Client;
+use App\Api\Client;
 
 class LanguageApi extends Client
 {

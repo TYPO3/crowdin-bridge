@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace TYPO3\CrowdinBridge\Api\Wrapper;
+namespace App\Api\Wrapper;
 
 use CrowdinApiClient\Model\Progress;
 use CrowdinApiClient\Model\Project;
-use TYPO3\CrowdinBridge\Api\Client;
+use App\Api\Client;
 
 class ProjectApi extends Client
 {
@@ -45,7 +45,7 @@ class ProjectApi extends Client
     /**
      * @param string $projectIdentifier
      * @return Progress[]
-     * @throws \TYPO3\CrowdinBridge\Exception\NoApiCredentialsException
+     * @throws \App\Exception\NoApiCredentialsException
      */
     public function getTranslationStatus(string $projectIdentifier): array
     {
@@ -56,7 +56,7 @@ class ProjectApi extends Client
     /**
      * @param int $projectId
      * @return Progress[]
-     * @throws \TYPO3\CrowdinBridge\Exception\NoApiCredentialsException
+     * @throws \App\Exception\NoApiCredentialsException
      */
     public function getTranslationStatusByCrowdinId(int $projectId): array
     {

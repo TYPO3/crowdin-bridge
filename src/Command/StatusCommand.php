@@ -1,26 +1,30 @@
 <?php
 declare(strict_types=1);
 
-namespace TYPO3\CrowdinBridge\Command;
+namespace App\Command;
 
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use TYPO3\CrowdinBridge\Api\Wrapper\ProjectApi;
-use TYPO3\CrowdinBridge\Exception\NoApiCredentialsException;
-use TYPO3\CrowdinBridge\Info\LanguageInformation;
+use App\Api\Wrapper\ProjectApi;
+use App\Exception\NoApiCredentialsException;
+use App\Info\LanguageInformation;
 
+#[AsCommand(
+    name: 'app:status',
+    description: 'Get status',
+    hidden: false
+)]
 class StatusCommand extends Command
 {
 
     protected function configure()
     {
         $this
-            ->setName('status')
-            ->addArgument('project', InputArgument::REQUIRED, 'Project identifier')
-            ->setDescription('Get status');
+            ->addArgument('project', InputArgument::REQUIRED, 'Project identifier');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -52,7 +56,7 @@ class StatusCommand extends Command
             if ($status) {
                 $headers = [
                     'Name',
-                    'Progress (%)'
+                    'Progress (%)',
                 ];
                 $items = [];
                 foreach ($status as $s) {
@@ -64,7 +68,7 @@ class StatusCommand extends Command
                     }
                     $items[] = [
                         $languageName,
-                        ($s->getTranslationProgress() === $s->getApprovalProgress() ? $s->getApprovalProgress() : (sprintf('%s / %s', $s->getTranslationProgress(), $s->getApprovalProgress())))
+                        ($s->getTranslationProgress() === $s->getApprovalProgress() ? $s->getApprovalProgress() : (sprintf('%s / %s', $s->getTranslationProgress(), $s->getApprovalProgress()))),
                     ];
                 }
                 $io->section('Languages');

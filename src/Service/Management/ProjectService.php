@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace TYPO3\CrowdinBridge\Service\Management;
+namespace App\Service\Management;
 
-use TYPO3\CrowdinBridge\Api\Wrapper\LanguageApi;
-use TYPO3\CrowdinBridge\Api\Wrapper\ProjectApi;
-use TYPO3\CrowdinBridge\Entity\BridgeConfiguration;
+use App\Api\Wrapper\LanguageApi;
+use App\Api\Wrapper\ProjectApi;
+use App\Entity\BridgeConfiguration;
 
 class ProjectService
 {

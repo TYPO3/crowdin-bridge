@@ -3,7 +3,8 @@
 /configuration_old.json
 /vendor
 /keys
-/bin
+/bin/*
+!/bin/console
 /export/
 .env
 .env.dev
@@ -12,3 +13,4 @@
 .ddev
 .idea
 public/.DS_Store
+/var

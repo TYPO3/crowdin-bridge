@@ -1,10 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace TYPO3\CrowdinBridge\Entity;
+namespace App\Entity;
 
-use TYPO3\CrowdinBridge\Exception\NoApiCredentialsException;
-use TYPO3\CrowdinBridge\Utility\FileHandling;
+use App\Exception\NoApiCredentialsException;
+use App\Utility\FileHandling;
 
 final class ProjectConfiguration
 {

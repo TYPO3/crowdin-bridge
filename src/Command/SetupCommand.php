@@ -1,26 +1,22 @@
 <?php
 declare(strict_types=1);
 
-namespace TYPO3\CrowdinBridge\Command;
+namespace App\Command;
 
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use TYPO3\CrowdinBridge\Configuration\Project;
-use TYPO3\CrowdinBridge\Service\Management\ProjectService;
+use App\Service\Management\ProjectService;
 
+#[AsCommand(
+    name: 'app:setup',
+    description: 'Create configuration file',
+    hidden: false
+)]
 class SetupCommand extends Command
 {
-
-    protected function configure()
-    {
-        $this
-            ->setName('setup')
-            ->setDescription('Create configuration file')
-            ->setHelp('The configuration.json file contains the crowdin ID and languages and '
-                . 'reduces the amount of needed API calls.');
-    }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
@@ -31,7 +27,7 @@ class SetupCommand extends Command
         $projects = $service->updateConfiguration();
         sort($projects);
         $io->success(sprintf('%s projects have been configured!', count($projects)));
-        $io->comment(implode(', ', $projects));
+        $io->text(implode(', ', $projects));
 
         return 0;
     }

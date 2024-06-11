@@ -2,23 +2,22 @@
 
 declare(strict_types=1);
 
-namespace TYPO3\CrowdinBridge\Service\Management;
+namespace App\Service\Management;
 
 use CrowdinApiClient\Model\Progress;
 use CrowdinApiClient\Model\Project as CrowdinProject;
-use TYPO3\CrowdinBridge\Api\Wrapper\ProjectApi;
-use TYPO3\CrowdinBridge\Entity\ProjectConfiguration;
-use TYPO3\CrowdinBridge\Exception\ExtensionNotAvailableInFileConfigurationException;
-use TYPO3\CrowdinBridge\Utility\FileHandling;
+use App\Api\Wrapper\ProjectApi;
+use App\Entity\ProjectConfiguration;
+use App\Exception\ExtensionNotAvailableInFileConfigurationException;
+use App\Utility\FileHandling;
 use TYPO3Fluid\Fluid\View\TemplateView;
 
 class StatusService
 {
-    protected ProjectApi $projectApi;
-
-    public function __construct()
+    public function __construct(
+        protected ProjectApi $projectApi
+    )
     {
-        $this->projectApi = new ProjectApi();
     }
 
     public function getStatus(bool $exportConfiguration = false): array
@@ -30,7 +29,7 @@ class StatusService
             $tmp = [
                 'crowdinProject' => $project,
                 'localProject' => null,
-                'translationStatus' => $this->projectApi->getTranslationStatusByCrowdinId($project->getId())
+                'translationStatus' => $this->projectApi->getTranslationStatusByCrowdinId($project->getId()),
             ];
             try {
                 $tmp['localProject'] = $this->projectApi->getConfiguration()->getProjectByCrowdinId($project->getId());
@@ -59,7 +58,7 @@ class StatusService
 
             $projectLine = [
                 'extensionKey' => $localProject ? $localProject->getExtensionkey() : '',
-                'crowdinKey' => $crowdinProject->getIdentifier()
+                'crowdinKey' => $crowdinProject->getIdentifier(),
             ];
 
             $languageInfo = [];
@@ -124,7 +123,7 @@ class StatusService
             'coreProject' => $coreProject,
             'usableProjects' => $usableProjects,
             'countUsableProjects' => count($usableProjects) + 1, // add core
-            'notUsableProjects' => $notUsableProjects
+            'notUsableProjects' => $notUsableProjects,
         ]);
 
         $filename = $this->projectApi->getConfiguration()->getPathRsync() . 'status.html';

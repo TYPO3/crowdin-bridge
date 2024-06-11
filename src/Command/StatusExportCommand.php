@@ -1,24 +1,34 @@
 <?php
 declare(strict_types=1);
 
-namespace TYPO3\CrowdinBridge\Command;
+namespace App\Command;
 
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use TYPO3\CrowdinBridge\Service\ExportExtensionTranslationStatusService;
+use App\Service\ExportExtensionTranslationStatusService;
 
+#[AsCommand(
+    name: 'app:status:export',
+    description: 'Export extension translation status',
+    hidden: false
+)]
 class StatusExportCommand extends Command
 {
+    public function __construct(
+        protected readonly ExportExtensionTranslationStatusService $translationStatusService,
+        ?string $name = null)
+    {
+        parent::__construct($name);
+    }
 
     protected function configure()
     {
         $this
-            ->setName('status.export')
-            ->addArgument('extensionKey', InputArgument::REQUIRED, 'Extension Key')
-            ->setDescription('Export extension translation status');
+            ->addArgument('extensionKey', InputArgument::REQUIRED, 'Extension Key');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -27,8 +37,7 @@ class StatusExportCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $io->title(sprintf('Extension %s', $extensionKey));
 
-        $exportService = new ExportExtensionTranslationStatusService();
-        $exportService->export($extensionKey);
+        $this->translationStatusService->export($extensionKey);
 
         return 0;
     }

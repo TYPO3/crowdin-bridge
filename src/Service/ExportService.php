@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace TYPO3\CrowdinBridge\Service;
+namespace App\Service;
 
 use CrowdinApiClient\Model\TranslationProjectBuild;
-use TYPO3\CrowdinBridge\Api\Wrapper\TranslationApi;
+use App\Api\Wrapper\TranslationApi;
 
 class ExportService
 {

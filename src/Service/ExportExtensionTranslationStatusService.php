@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace TYPO3\CrowdinBridge\Service;
+namespace App\Service;
 
 use CrowdinApiClient\Model\Language;
 use CrowdinApiClient\Model\Progress;
-use TYPO3\CrowdinBridge\Api\Wrapper\ProjectApi;
-use TYPO3\CrowdinBridge\Info\LanguageInformation;
-use TYPO3\CrowdinBridge\Utility\FileHandling;
+use App\Api\Wrapper\ProjectApi;
+use App\Info\LanguageInformation;
+use App\Utility\FileHandling;
 
 class ExportExtensionTranslationStatusService
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace TYPO3\CrowdinBridge\Exception;
+namespace App\Exception;
 
 class NoTranslationsAvailableException extends \Exception
 {
