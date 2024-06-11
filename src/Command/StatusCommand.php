@@ -1,17 +1,18 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Api\Wrapper\ProjectApi;
+use App\Exception\NoApiCredentialsException;
+use App\Info\LanguageInformation;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use App\Api\Wrapper\ProjectApi;
-use App\Exception\NoApiCredentialsException;
-use App\Info\LanguageInformation;
 
 #[AsCommand(
     name: 'app:status',
@@ -20,7 +21,6 @@ use App\Info\LanguageInformation;
 )]
 class StatusCommand extends Command
 {
-
     protected function configure()
     {
         $this
@@ -46,8 +46,8 @@ class StatusCommand extends Command
                     [
                         ['Name', $projectDetails->getName()],
                         ['Last Activity', $projectDetails->getLastActivity()],
-//                        ['Count strings', $projectDetails->get^],
-//                        ['Count words', $projectInformation['details']['total_words_count']],
+                        //                        ['Count strings', $projectDetails->get^],
+                        //                        ['Count words', $projectInformation['details']['total_words_count']],
                     ]
                 );
             }

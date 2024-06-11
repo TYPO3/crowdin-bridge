@@ -1,14 +1,14 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Api\Wrapper;
 
-use CrowdinApiClient\Model\Language;
 use App\Api\Client;
+use CrowdinApiClient\Model\Language;
 
 class LanguageApi extends Client
 {
-
     /**
      * @return Language[]
      */

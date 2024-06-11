@@ -1,12 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Utility;
 
 class FileHandling
 {
-
-
     /**
      * Wrapper function for rmdir, allowing recursive deletion of folders and files
      *
@@ -89,7 +88,6 @@ class FileHandling
         return $dirs;
     }
 
-
     /**
      * Low level utility function to copy directories and content recursive
      *
@@ -113,7 +111,6 @@ class FileHandling
             }
         }
     }
-
 
     /**
      * Explodes a string and trims all values for whitespace in the end.
@@ -164,7 +161,6 @@ class FileHandling
         }
     }
 
-
     /**
      * Creates directories for the specified paths if they do not exist. This
      * functions sets proper permission mask but does not set proper user and
@@ -195,7 +191,6 @@ class FileHandling
         }
         return $firstCreatedPath;
     }
-
 
     /**
      * Sets the file system mode and group ownership of a file or a folder.
@@ -258,7 +253,6 @@ class FileHandling
     {
         return str_replace(['\\', '//'], '/', $theFile);
     }
-
 
     /**
      * Finds all files in a given path and returns them as an array. Each
@@ -325,7 +319,6 @@ class FileHandling
 
         return $foundFiles;
     }
-
 
     /**
      * Moves $source file to $destination if uploaded, otherwise try to make a copy

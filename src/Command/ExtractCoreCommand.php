@@ -1,17 +1,18 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Entity\BridgeConfiguration;
+use App\Service\DownloadCrowdinTranslationService;
+use App\Utility\FileHandling;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use App\Entity\BridgeConfiguration;
-use App\Service\DownloadCrowdinTranslationService;
-use App\Utility\FileHandling;
 
 #[AsCommand(
     name: 'app:extract:core',
@@ -23,11 +24,10 @@ class ExtractCoreCommand extends Command
     public function __construct(
         protected readonly BridgeConfiguration $bridgeConfiguration,
         protected DownloadCrowdinTranslationService $downloadCrowdinTranslationService,
-        ?string $name = null)
-    {
+        ?string $name = null
+    ) {
         parent::__construct($name);
     }
-
 
     protected function configure()
     {

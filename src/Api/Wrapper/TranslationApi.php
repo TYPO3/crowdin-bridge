@@ -1,16 +1,16 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Api\Wrapper;
 
-use CrowdinApiClient\Model\DownloadFile;
-use CrowdinApiClient\Model\TranslationProjectBuild;
 use App\Api\Client;
 use App\Exception\NoFinishedProjectBuildFoundException;
+use CrowdinApiClient\Model\DownloadFile;
+use CrowdinApiClient\Model\TranslationProjectBuild;
 
 class TranslationApi extends Client
 {
-
     public function buildProject(string $projectIdentifier): ?TranslationProjectBuild
     {
         $projectConfiguration = $this->configuration->getProject($projectIdentifier);
@@ -21,7 +21,6 @@ class TranslationApi extends Client
         ];
         return $this->client->translation->buildProject($projectConfiguration->getId(), $params);
     }
-
 
     public function downloadProject(int $projectId, int $buildId): ?DownloadFile
     {

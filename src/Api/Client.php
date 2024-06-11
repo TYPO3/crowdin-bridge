@@ -1,15 +1,14 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Api;
 
-
-use CrowdinApiClient\Crowdin;
 use App\Entity\BridgeConfiguration;
+use CrowdinApiClient\Crowdin;
 
 class Client
 {
-
     protected Crowdin $client;
     protected BridgeConfiguration $configuration;
 
@@ -23,7 +22,7 @@ class Client
         }
         $crowdinConfiguration = [
             'access_token' => $accessToken,
-//            'organization' => '<organization_domain>', // optional
+            //            'organization' => '<organization_domain>', // optional
         ];
 
         $this->client = new Crowdin($crowdinConfiguration);

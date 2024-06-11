@@ -4,6 +4,4 @@ declare(strict_types=1);
 
 namespace App\Exception;
 
-class NoApiCredentialsException extends \Exception
-{
-}
+class NoApiCredentialsException extends \Exception {}

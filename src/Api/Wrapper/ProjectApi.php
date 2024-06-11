@@ -1,15 +1,15 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Api\Wrapper;
 
+use App\Api\Client;
 use CrowdinApiClient\Model\Progress;
 use CrowdinApiClient\Model\Project;
-use App\Api\Client;
 
 class ProjectApi extends Client
 {
-
     public const array SKIPPED_PROJECTS = ['crowdin-playground-typo3', 'playground-trados'];
 
     /**

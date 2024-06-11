@@ -4,21 +4,19 @@ declare(strict_types=1);
 
 namespace App\Service\Management;
 
-use CrowdinApiClient\Model\Progress;
-use CrowdinApiClient\Model\Project as CrowdinProject;
 use App\Api\Wrapper\ProjectApi;
 use App\Entity\ProjectConfiguration;
 use App\Exception\ExtensionNotAvailableInFileConfigurationException;
 use App\Utility\FileHandling;
+use CrowdinApiClient\Model\Progress;
+use CrowdinApiClient\Model\Project as CrowdinProject;
 use TYPO3Fluid\Fluid\View\TemplateView;
 
 class StatusService
 {
     public function __construct(
         protected ProjectApi $projectApi
-    )
-    {
-    }
+    ) {}
 
     public function getStatus(bool $exportConfiguration = false): array
     {

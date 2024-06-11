@@ -53,7 +53,6 @@ class BridgeConfiguration
         throw new ExtensionNotAvailableInFileConfigurationException(sprintf('No project found for extension key "%s"', $extensionKey));
     }
 
-
     public function getProjectByCrowdinId(int $id): ProjectConfiguration
     {
         foreach ($this->data['projects'] ?? [] as $extensionKey => $configuration) {
@@ -82,7 +81,6 @@ class BridgeConfiguration
         }
         return $list;
     }
-
 
     public function getPathDownloads(): string
     {

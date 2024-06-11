@@ -1,14 +1,15 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Command\Meta;
 
+use App\Entity\BridgeConfiguration;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use App\Entity\BridgeConfiguration;
 
 #[AsCommand(
     name: 'app:meta:status:export',
@@ -19,8 +20,8 @@ class MetaStatusExportCommand extends Command
 {
     public function __construct(
         protected readonly BridgeConfiguration $bridgeConfiguration,
-        ?string $name = null)
-    {
+        ?string $name = null
+    ) {
         parent::__construct($name);
     }
 
@@ -33,7 +34,7 @@ class MetaStatusExportCommand extends Command
             }
             $arguments = [
                 'command' => 'app:status:export',
-                'extensionKey' => $project->getExtensionKey()
+                'extensionKey' => $project->getExtensionKey(),
             ];
             $input = new ArrayInput($arguments);
             $command->run($input, $output);

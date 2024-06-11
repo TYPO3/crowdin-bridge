@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Info;
@@ -7,7 +8,6 @@ use CrowdinApiClient\Model\Language;
 
 class LanguageInformation
 {
-
     /**
      * Mapping Crowdin => TYPO3
      */
@@ -46,7 +46,7 @@ class LanguageInformation
         $languages = [];
         $file = __DIR__ . '/../../assets/languages.json';
         $data = json_decode(file_get_contents($file), true);
-        foreach($data as $id => $tmp) {
+        foreach ($data as $id => $tmp) {
             $languages[$id] = new Language($tmp);
         }
         return $languages;

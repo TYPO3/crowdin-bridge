@@ -37,6 +37,9 @@
 		"symfony/yaml": "7.1.*",
 		"typo3fluid/fluid": "^2.6"
 	},
+	"require-dev": {
+		"friendsofphp/php-cs-fixer": "^3.58"
+	},
 	"autoload": {
 		"psr-4": {
 			"App\\": "src/"
@@ -52,6 +55,12 @@
 		],
 		"post-update-cmd": [
 			"@auto-scripts"
+		],
+		"cs": [
+			"./bin/php-cs-fixer fix -v --dry-run --config .build/php-cs-fixer.php"
+		],
+		"csfix": [
+			"./bin/php-cs-fixer fix --config .build/php-cs-fixer.php"
 		]
 	},
 	"conflict": {

@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Finder\Finder;
 use App\Api\Wrapper\ProjectApi;
 use App\Api\Wrapper\TranslationApi;
 use App\Entity\ProjectConfiguration;
@@ -13,11 +11,11 @@ use App\Exception\NoTranslationsAvailableException;
 use App\Info\CoreInformation;
 use App\Info\LanguageInformation;
 use App\Utility\FileHandling;
-use ZipArchive;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Finder\Finder;
 
 class DownloadCrowdinTranslationService
 {
-
     protected string $originalLanguageKey = '';
     protected string $finalLanguageKey = '';
     protected string $projectIdentifier;
@@ -26,9 +24,7 @@ class DownloadCrowdinTranslationService
     public function __construct(
         protected readonly ProjectApi $projectApi,
         protected readonly TranslationApi $translationApi
-    )
-    {
-    }
+    ) {}
 
     public function downloadPackageCore(string $projectIdentifier, array $listOfLanguages = []): void
     {
@@ -102,7 +98,7 @@ class DownloadCrowdinTranslationService
             }
         }
         $this->moveAllToRsyncDestination();
-//        $this->cleanup();
+        //        $this->cleanup();
     }
 
     protected function cleanup(): void
@@ -218,9 +214,9 @@ class DownloadCrowdinTranslationService
         if (!empty($prefix)) {
             $prefix = trim($prefix, '/') . '/';
         }
-        $zip = new ZipArchive();
+        $zip = new \ZipArchive();
 
-        if (!$zip->open($destination, ZipArchive::CREATE)) {
+        if (!$zip->open($destination, \ZipArchive::CREATE)) {
             return false;
         }
         $zip->addEmptyDir($prefix);
@@ -265,7 +261,7 @@ class DownloadCrowdinTranslationService
 
     protected function unzip(string $file, string $path): bool
     {
-        $zip = new ZipArchive();
+        $zip = new \ZipArchive();
         $resource = $zip->open($file);
         if ($resource === false) {
             throw new \RuntimeException(sprintf('Could not extract zip "%s"', $file), 1566421924);

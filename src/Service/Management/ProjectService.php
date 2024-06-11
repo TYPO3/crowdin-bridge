@@ -10,7 +10,6 @@ use App\Entity\BridgeConfiguration;
 
 class ProjectService
 {
-
     public function updateConfiguration(): array
     {
         $projects = [];

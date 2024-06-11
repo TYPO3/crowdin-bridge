@@ -1,14 +1,13 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Exception\NoApiCredentialsException;
 use App\Utility\FileHandling;
 
 final class ProjectConfiguration
 {
-
     private const bool ENABLE_T3_EXPORT = true;
 
     protected int $id;
@@ -25,7 +24,8 @@ final class ProjectConfiguration
     {
         $this->crowdinIdentifier = $crowdinIdentifier;
         if (!isset($configuration['extensionKey'])) {
-            print_r($configuration);die;
+            print_r($configuration);
+            die;
         }
         $this->extensionKey = $configuration['extensionKey'];
         $this->id = (int)($configuration['id'] ?? 0);
@@ -59,7 +59,6 @@ final class ProjectConfiguration
         }
         return $this->languages;
     }
-
 
     public function isCoreProject(): bool
     {

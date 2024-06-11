@@ -4,6 +4,4 @@ declare(strict_types=1);
 
 namespace App\Exception;
 
-class NoTranslationsAvailableException extends \Exception
-{
-}
+class NoTranslationsAvailableException extends \Exception {}

@@ -1,11 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Info;
 
 class CoreInformation
 {
-
     /**
      * Important: highest first
      */
@@ -18,7 +18,7 @@ class CoreInformation
         12 => '12.4',
         11 => '11.5',
         10 => '10.4',
-        9 => '9.5'
+        9 => '9.5',
     ];
 
     // rte_ckeditor got no translations
@@ -28,14 +28,14 @@ class CoreInformation
         'filemetadata', 'fluid', 'frontend', 'fluid_styled_content', 'form', 'frontend', 'impexp',
         'indexed_search', 'info', 'install', 'linkvalidator', 'lowlevel', 'opendocs', 'reactions',
         'recordlist', 'recycler', 'redirects', 'reports', 'scheduler', 'seo', 'setup', 'sys_note',
-         't3editor', 'tstemplate', 'viewpage', 'webhooks', 'workspaces',
+        't3editor', 'tstemplate', 'viewpage', 'webhooks', 'workspaces',
     ];
     private const array CORE_EXTENSIONS_9 = [
-        'info', 'rsaauth', 'sys_action', 'taskcenter'
+        'info', 'rsaauth', 'sys_action', 'taskcenter',
     ];
 
     private const array CORE_EXTENSIONS_10 = [
-        'dashboard'
+        'dashboard',
     ];
 
     /**

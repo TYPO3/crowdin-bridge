@@ -4,22 +4,20 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use CrowdinApiClient\Model\Language;
-use CrowdinApiClient\Model\Progress;
 use App\Api\Wrapper\ProjectApi;
 use App\Info\LanguageInformation;
 use App\Utility\FileHandling;
+use CrowdinApiClient\Model\Language;
+use CrowdinApiClient\Model\Progress;
 
 class ExportExtensionTranslationStatusService
 {
-
     /** @var Language[] */
     protected array $allLanguages;
 
     public function __construct(
         protected ProjectApi $projectApi
-    )
-    {
+    ) {
         $this->allLanguages = LanguageInformation::getDetailedLanguageInformation();
     }
 
