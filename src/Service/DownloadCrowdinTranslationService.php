@@ -77,25 +77,26 @@ class DownloadCrowdinTranslationService
 
         foreach ($listOfLanguages as $language) {
             clearstatcache(true);
-            try {
-                $downloadTarget = $this->projectApi->getConfiguration()->getPathDownloads() . $projectIdentifier . '-' . $language . '/';
+            //            try {
+            $downloadTarget = $this->projectApi->getConfiguration()->getPathDownloads() . $projectIdentifier . '-' . $language . '/';
 
-                // 3rd: Iterate over every language directory
-                // and remove all files that are not for the current language
-                $this->removeFilesFromDifferentLanguage($downloadTarget, $language);
+            // 3rd: Iterate over every language directory
+            // and remove all files that are not for the current language
+            $this->removeFilesFromDifferentLanguage($downloadTarget, $language);
 
-                // 4th: Skip empty directories
-                $finder = new Finder();
-                $count = $finder->files()->in($downloadTarget)->name($language . '.*')->name(LanguageInformation::getLanguageForTypo3($language) . '.*')->count();
-                if ($count === 0) {
-                    FileHandling::rmdir($downloadTarget);
-                    continue;
-                }
-                $this->processDownloadDirectoryExtension($localProject, $downloadTarget, $language);
-            } catch (\Exception $e) {
-                echo 'ERROR:' . $e->getMessage();
-                die('TBD');
+            // 4th: Skip empty directories
+            $finder = new Finder();
+            $count = $finder->files()->in($downloadTarget)->name($language . '.*')->name(LanguageInformation::getLanguageForTypo3($language) . '.*')->count();
+            if ($count === 0) {
+                FileHandling::rmdir($downloadTarget);
+                continue;
             }
+            $this->processDownloadDirectoryExtension($localProject, $downloadTarget, $language);
+            //            } catch (\Exception $e) {
+            // todo logging
+            //                echo 'ERROR:' . $e->getMessage();
+            //                die('TBD');
+            //            }
         }
         $this->moveAllToRsyncDestination();
         //        $this->cleanup();

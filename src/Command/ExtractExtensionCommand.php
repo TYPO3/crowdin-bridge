@@ -36,12 +36,15 @@ class ExtractExtensionCommand extends Command
     {
         $projectIdentifier = $input->getArgument('project');
         $io = new SymfonyStyle($input, $output);
-        $io->title(sprintf('Extension "%s"', $projectIdentifier));
-
+        if ($output->getVerbosity() >= OutputInterface::VERBOSITY_DEBUG) {
+            $io->title(sprintf('Extension "%s"', $projectIdentifier));
+        }
         try {
             $this->downloadCrowdinTranslationService->downloadPackageExtension($projectIdentifier);
 
-            $io->success('Data has been downloaded!');
+            if ($output->getVerbosity() >= OutputInterface::VERBOSITY_DEBUG) {
+                $io->success('Data has been downloaded!');
+            }
         } catch (\Exception $e) {
             $io->error($e->getMessage());
         }

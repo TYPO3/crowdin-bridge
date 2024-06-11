@@ -7,6 +7,7 @@ namespace App\Command\Meta;
 use App\Entity\BridgeConfiguration;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -28,8 +29,14 @@ class MetaExtractExtensionsCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $command = $this->getApplication()->find('app:extract:extension');
-        foreach ($this->bridgeConfiguration->getAllProjects() as $project) {
+
+        $projects = $this->bridgeConfiguration->getAllProjects();
+        $progressBar = new ProgressBar($output, count($projects));
+        $progressBar->start();
+
+        foreach ($projects as $project) {
             if ($project->getCrowdinIdentifier() === 'typo3-cms') {
+                $progressBar->advance();
                 continue;
             }
 
@@ -40,10 +47,13 @@ class MetaExtractExtensionsCommand extends Command
                 ];
                 $input = new ArrayInput($arguments);
                 $command->run($input, $output);
+                $progressBar->advance();
             } catch (\Exception $e) {
                 $output->writeln(sprintf('<error>Failed to process project %s: %s</error>', $project->getCrowdinIdentifier(), $e->getMessage()));
+                $progressBar->advance();
             }
         }
+        $progressBar->finish();
 
         return 0;
     }

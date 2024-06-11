@@ -35,8 +35,10 @@ class StatusExportCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $extensionKey = $input->getArgument('extensionKey');
-        $io = new SymfonyStyle($input, $output);
-        $io->title(sprintf('Extension %s', $extensionKey));
+        if ($output->getVerbosity() >= OutputInterface::VERBOSITY_DEBUG) {
+            $io = new SymfonyStyle($input, $output);
+            $io->title(sprintf('Extension %s', $extensionKey));
+        }
 
         try {
             $this->translationStatusService->export($extensionKey);

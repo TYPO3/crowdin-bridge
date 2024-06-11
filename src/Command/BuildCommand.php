@@ -46,10 +46,12 @@ class BuildCommand extends Command
                 }
                 $text .= sprintf(' with progress "%s": %s%%.', $response->getStatus(), $response->getProgress());
             }
-            if ($status === 'info') {
-                $io->info($text);
-            } else {
-                $io->comment($text);
+            if ($output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE) {
+                if ($status === 'info') {
+                    $io->info($text);
+                } else {
+                    $io->comment($text);
+                }
             }
         } catch (\Exception $e) {
             $io->error(sprintf('ERROR with project "%s": %s', $projectIdentifier, $e->getMessage()));
