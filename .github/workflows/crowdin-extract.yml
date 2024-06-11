@@ -3,6 +3,8 @@ name: Crowdin Extract
 on:
   workflow_dispatch:
   push:
+    branches:
+      - v2
   schedule:
     - cron:  '30 */2 * * *'
 jobs:
