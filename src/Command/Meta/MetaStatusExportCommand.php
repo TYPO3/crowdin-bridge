@@ -11,7 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use App\Entity\BridgeConfiguration;
 
 #[AsCommand(
-    name: 'app:meta:status.export',
+    name: 'app:meta:status:export',
     description: 'Meta :: Export status of projects',
     hidden: false
 )]

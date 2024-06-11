@@ -9,12 +9,12 @@ class CoreInformation
     /**
      * Important: highest first
      */
-    private const VERSIONS = [13, 12, 11, 10, 9];
+    private const array VERSIONS = [13, 12, 11, 10, 9];
 
     /**
      * Important: latest version will map to main automatically
      */
-    private const array BRANCHMAPPING = [
+    private const array BRANCH_MAPPING = [
         12 => '12.4',
         11 => '11.5',
         10 => '10.4',
@@ -57,7 +57,7 @@ class CoreInformation
         if ($branch === 'main') {
             return self::getLatestVersion();
         }
-        $version = array_search($branch, self::BRANCHMAPPING, true);
+        $version = array_search($branch, self::BRANCH_MAPPING, true);
         if ($version === null) {
             throw new \UnexpectedValueException(sprintf('Branch "%s" not found', $branch), 1567647855);
         }
@@ -72,7 +72,7 @@ class CoreInformation
         if ($version === self::getLatestVersion()) {
             return 'main';
         }
-        return self::BRANCHMAPPING[$version];
+        return self::BRANCH_MAPPING[$version];
     }
 
     public static function getCoreExtensionKeys(int $version): array
@@ -90,7 +90,7 @@ class CoreInformation
 
     public static function getAllCoreBranches(): array
     {
-        $branches = array_values(self::BRANCHMAPPING);
+        $branches = array_values(self::BRANCH_MAPPING);
         $branches[] = 'main';
 
         return $branches;

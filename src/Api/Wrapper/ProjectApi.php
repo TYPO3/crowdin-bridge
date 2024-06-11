@@ -10,7 +10,7 @@ use App\Api\Client;
 class ProjectApi extends Client
 {
 
-    public const SKIPPED_PROJECTS = ['crowdin-playground-typo3', 'playground-trados'];
+    public const array SKIPPED_PROJECTS = ['crowdin-playground-typo3', 'playground-trados'];
 
     /**
      * @return Project[]

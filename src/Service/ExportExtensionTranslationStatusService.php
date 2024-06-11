@@ -13,15 +13,13 @@ use App\Utility\FileHandling;
 class ExportExtensionTranslationStatusService
 {
 
-    /** @var ProjectApi */
-    protected ProjectApi $projectApi;
-
     /** @var Language[] */
     protected array $allLanguages;
 
-    public function __construct()
+    public function __construct(
+        protected ProjectApi $projectApi
+    )
     {
-        $this->projectApi = new ProjectApi();
         $this->allLanguages = LanguageInformation::getDetailedLanguageInformation();
     }
 

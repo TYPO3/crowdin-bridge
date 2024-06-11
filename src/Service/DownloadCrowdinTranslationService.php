@@ -21,16 +21,13 @@ class DownloadCrowdinTranslationService
     protected string $originalLanguageKey = '';
     protected string $finalLanguageKey = '';
     protected string $projectIdentifier;
+    private const bool REMOVE_ZIPS = true;
 
-    protected ProjectApi $projectApi;
-    protected TranslationApi $translationApi;
-
-    const REMOVE_ZIPS = true;
-
-    public function __construct()
+    public function __construct(
+        protected readonly ProjectApi $projectApi,
+        protected readonly TranslationApi $translationApi
+    )
     {
-        $this->projectApi = new ProjectApi();
-        $this->translationApi = new TranslationApi();
     }
 
     public function downloadPackageCore(string $projectIdentifier, array $listOfLanguages = []): void

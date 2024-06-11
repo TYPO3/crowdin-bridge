@@ -104,12 +104,7 @@ class BridgeConfiguration
         return $this->getPath('final');
     }
 
-    public function getPathExtracts(): string
-    {
-        return $this->getPath('extracts');
-    }
-
-    protected function getPath(string $key): string
+    private function getPath(string $key): string
     {
         $mainPath = getcwd() . '/export/';
         if (!is_dir($mainPath)) {
@@ -128,7 +123,7 @@ class BridgeConfiguration
         return $subPath;
     }
 
-    protected function persistConfiguration(): void
+    private function persistConfiguration(): void
     {
         file_put_contents($this->configurationFile, json_encode($this->data, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT));
     }

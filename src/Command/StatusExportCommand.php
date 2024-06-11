@@ -37,8 +37,13 @@ class StatusExportCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $io->title(sprintf('Extension %s', $extensionKey));
 
-        $this->translationStatusService->export($extensionKey);
+        try {
+            $this->translationStatusService->export($extensionKey);
 
+        } catch (\Exception $e) {
+            $io->error($e->getMessage());
+            return 1;
+        }
         return 0;
     }
 }

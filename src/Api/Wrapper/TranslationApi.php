@@ -17,7 +17,7 @@ class TranslationApi extends Client
 
         $params = [
             'exportApprovedOnly' => true,
-            'skipUntranslatedStrings' => true
+            'skipUntranslatedStrings' => true,
         ];
         return $this->client->translation->buildProject($projectConfiguration->getId(), $params);
     }
@@ -31,7 +31,7 @@ class TranslationApi extends Client
     public function getBuilds(int $projectId)
     {
         $params = [
-            'limit' => 10
+            'limit' => 10,
         ];
         return $this->client->translation->getProjectBuilds($projectId, $params);
     }
@@ -44,7 +44,7 @@ class TranslationApi extends Client
     public function getLastFinishedBuildId(int $projectId): int
     {
         $params = [
-            'limit' => 10
+            'limit' => 10,
         ];
         $items = $this->client->translation->getProjectBuilds($projectId, $params);
         if (!$items) {

@@ -7,14 +7,12 @@ namespace App\Service;
 use CrowdinApiClient\Model\TranslationProjectBuild;
 use App\Api\Wrapper\TranslationApi;
 
-class ExportService
+readonly class ExportService
 {
-    /** @var TranslationApi */
-    protected TranslationApi $translationApi;
-
-    public function __construct()
+    public function __construct(
+        protected readonly TranslationApi $translationApi
+    )
     {
-        $this->translationApi = new TranslationApi();
     }
 
     public function export(string $projectIdentifier): ?TranslationProjectBuild
