@@ -82,6 +82,11 @@ class BridgeConfiguration
         return $list;
     }
 
+    public function getAllProjectKeys(): array
+    {
+        return array_keys($this->data['projects']);
+    }
+
     public function getPathDownloads(): string
     {
         return $this->getPath('downloads');

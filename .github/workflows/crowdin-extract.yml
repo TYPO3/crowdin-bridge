@@ -25,27 +25,29 @@ jobs:
           tools: composer:v2
 
       - name: Install dependencies
-        run: composer install --no-progress
+        run: |
+            composer install --no-progress
+            cp .env.ci .env
 
       - name: Generate configuration
         env:
           CROWDIN_ACCESS_TOKEN: ${{ secrets.CROWDIN_ACCESS_TOKEN }}
         run: |
-          php app.php setup
+            php ./bin/console app:setup
 
       - name: Extract translations
         env:
           CROWDIN_ACCESS_TOKEN: ${{ secrets.CROWDIN_ACCESS_TOKEN }}
         run: |
-          php app.php meta:extractExtensions
-          php app.php extract:core
+          php ./bin/console app:meta:extractExtensions
+          php ./bin/console app:extract:core
 
       - name: Extract status
         env:
           CROWDIN_ACCESS_TOKEN: ${{ secrets.CROWDIN_ACCESS_TOKEN }}
         run: |
-          php app.php meta:status.export
-          php app.php management:status
+          php ./bin/console app:meta:exportStatus
+          php ./bin/console app:management:status
 
       - name: Copy files to translation server
         uses: appleboy/scp-action@v0.1.4

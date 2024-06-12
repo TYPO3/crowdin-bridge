@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Entity\BridgeConfiguration;
 use App\Service\ExportService;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -19,26 +21,52 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 class BuildCommand extends Command
 {
-    public function __construct(protected readonly ExportService $exportService, ?string $name = null)
-    {
+    public function __construct(
+        protected readonly BridgeConfiguration $bridgeConfiguration,
+        protected readonly ExportService $exportService,
+        ?string $name = null
+    ) {
         parent::__construct($name);
     }
 
     protected function configure()
     {
         $this
-            ->addArgument('project', InputArgument::REQUIRED, 'Project identifier');
+            ->addArgument('project', InputArgument::OPTIONAL, 'Project identifier');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $projectIdentifier = $input->getArgument('project');
-
         $io = new SymfonyStyle($input, $output);
+        $projectIdentifier = $input->getArgument('project');
+        $projects = $this->bridgeConfiguration->getAllProjects();
 
+        if ($projectIdentifier) {
+            if (!isset($projects[$projectIdentifier])) {
+                $io->error(sprintf('Project "%s" does not exist', $projectIdentifier));
+                return 1;
+            }
+            $this->exportSingleProject($projectIdentifier, true, $io);
+            return 0;
+        }
+
+        $verbose = $output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE;
+        $progressBar = new ProgressBar($output, count($projects));
+        $progressBar->start();
+
+        foreach ($projects as $project) {
+            $this->exportSingleProject($project->getCrowdinIdentifier(), $verbose, $io);
+            $progressBar->advance();
+        }
+        $progressBar->finish();
+        return 0;
+    }
+
+    protected function exportSingleProject(string $projectIdentifier, bool $verbose, SymfonyStyle $io): void
+    {
         try {
             $response = $this->exportService->export($projectIdentifier);
-            $text = sprintf('Project "%s" has been exported', $projectIdentifier);
+            $text = sprintf('Trigger build of project "%s"', $projectIdentifier);
             $status = 'comment';
             if ($response) {
                 if ($response->getStatus() === 'finished' && $response->getProgress() === 100) {
@@ -46,7 +74,7 @@ class BuildCommand extends Command
                 }
                 $text .= sprintf(' with progress "%s": %s%%.', $response->getStatus(), $response->getProgress());
             }
-            if ($output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE) {
+            if ($verbose) {
                 if ($status === 'info') {
                     $io->info($text);
                 } else {
@@ -54,9 +82,7 @@ class BuildCommand extends Command
                 }
             }
         } catch (\Exception $e) {
-            $io->error(sprintf('ERROR with project "%s": %s', $projectIdentifier, $e->getMessage()));
+            $io->error(sprintf('ERROR triggering build of "%s": %s', $projectIdentifier, $e->getMessage()));
         }
-
-        return 0;
     }
 }

@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Entity\BridgeConfiguration;
 use App\Service\DownloadCrowdinTranslationService;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -21,6 +23,7 @@ class ExtractExtensionCommand extends Command
 {
     public function __construct(
         protected readonly DownloadCrowdinTranslationService $downloadCrowdinTranslationService,
+        protected readonly BridgeConfiguration $bridgeConfiguration,
         ?string $name = null
     ) {
         parent::__construct($name);
@@ -29,26 +32,57 @@ class ExtractExtensionCommand extends Command
     protected function configure()
     {
         $this
-            ->addArgument('project', InputArgument::REQUIRED, 'Project identifier');
+            ->addArgument('project', InputArgument::OPTIONAL, 'Project identifier');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $projectIdentifier = $input->getArgument('project');
         $io = new SymfonyStyle($input, $output);
-        if ($output->getVerbosity() >= OutputInterface::VERBOSITY_DEBUG) {
+        $projectIdentifier = $input->getArgument('project');
+        $projects = $this->bridgeConfiguration->getAllProjects();
+
+        if ($projectIdentifier) {
+            if (!isset($projects[$projectIdentifier])) {
+                $io->error(sprintf('Project "%s" does not exist', $projectIdentifier));
+                return 1;
+            }
+            if ($projectIdentifier === 'typo3-cms') {
+                $io->error('Extract "typo3-cms" with app:extract:core');
+                return 1;
+            }
+            $this->downloadProject($projectIdentifier, true, $io);
+            return 0;
+        }
+
+        $verbose = $output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE;
+        $progressBar = new ProgressBar($output, count($projects));
+        $progressBar->start();
+
+        foreach ($projects as $project) {
+            $this->downloadProject($project->getCrowdinIdentifier(), $verbose, $io);
+            $progressBar->advance();
+        }
+        $progressBar->finish();
+        return 0;
+    }
+
+    protected function downloadProject(string $projectIdentifier, bool $verbose, SymfonyStyle $io): void
+    {
+        if ($projectIdentifier === 'typo3-cms') {
+            return;
+        }
+        if ($verbose) {
             $io->title(sprintf('Extension "%s"', $projectIdentifier));
         }
         try {
             $this->downloadCrowdinTranslationService->downloadPackageExtension($projectIdentifier);
 
-            if ($output->getVerbosity() >= OutputInterface::VERBOSITY_DEBUG) {
+            if ($verbose) {
                 $io->success('Data has been downloaded!');
             }
         } catch (\Exception $e) {
             $io->error($e->getMessage());
         }
-
-        return 0;
     }
+
 }

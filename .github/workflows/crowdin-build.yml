@@ -25,15 +25,17 @@ jobs:
           tools: composer:v2
 
       - name: Install dependencies
-        run: composer install --no-progress
+        run: |
+            composer install --no-progress
+            cp .env.ci .env
 
       - name: Generate configuration
         env:
           CROWDIN_ACCESS_TOKEN: ${{ secrets.CROWDIN_ACCESS_TOKEN }}
         run: |
-          php app.php setup
+          php ./bin/console app:setup
 
       - name: Build all projects
         env:
           CROWDIN_ACCESS_TOKEN: ${{ secrets.CROWDIN_ACCESS_TOKEN }}
-        run: php app.php meta:build
+        run: ./bin/console app:build
