@@ -58,20 +58,15 @@ class DownloadCrowdinTranslationService implements LoggerAwareInterface
         //   $this->cleanup($downloadTarget);
     }
 
-    public function downloadPackageExtension(string $projectIdentifier, array $listOfLanguages = []): void
+    public function downloadPackageExtension(string $projectIdentifier, array $listOfLanguages = []): array
     {
+        $exportedLanguages = [];
         $this->projectIdentifier = $projectIdentifier;
         $localProject = $this->projectApi->getConfiguration()->getProject($projectIdentifier);
         $this->logger->info(sprintf('==== Download extension "%s"', $projectIdentifier));
 
         // 1st: Generate base directory
-        $customPath = $projectIdentifier . '-base/';
-        // todo refactor with ::download
-        $zipFile = $this->downloadFromCrowdin($localProject);
-        $downloadTargetBase = $this->projectApi->getConfiguration()->getPathDownloads() . $customPath;
-        FileHandling::rmdir($downloadTargetBase, true);
-        FileHandling::mkdir_deep($downloadTargetBase);
-        $this->unzip($zipFile, $downloadTargetBase);
+        $downloadTargetBase = $this->download($localProject, $projectIdentifier . '-base/');
 
         // 2nd: Check branch name, no need to proceed if nothing found
         $branchName = $this->getBranchNameOfExtension($downloadTargetBase);
@@ -104,7 +99,7 @@ class DownloadCrowdinTranslationService implements LoggerAwareInterface
                 FileHandling::rmdir($downloadTarget, true);
                 continue;
             }
-            $this->processDownloadDirectoryExtension($localProject, $downloadTarget, $branchName, $language);
+            $exportedLanguages[$language] = $this->processDownloadDirectoryExtension($localProject, $downloadTarget, $branchName, $language);
             //            } catch (\Exception $e) {
             // todo logging
             //                echo 'ERROR:' . $e->getMessage();
@@ -112,7 +107,8 @@ class DownloadCrowdinTranslationService implements LoggerAwareInterface
             //            }
         }
         $this->moveAllToRsyncDestination();
-        //        $this->cleanup();
+
+        return $exportedLanguages;
     }
 
     protected function cleanup(): void
@@ -176,15 +172,12 @@ class DownloadCrowdinTranslationService implements LoggerAwareInterface
 
                 $this->logger->info(sprintf('Zip for "%s" in branch "%s" in "%s" ', $extensionKey, $zipBranchName, $language), ['source' => $source]);
 
-                $result = $this->zipDir($source, $zipPath, $extensionKey);
-                if (!$result) {
-                    $this->logger->error(sprintf('Could not create zip for "%s" ', $extensionKey), ['source' => $source, 'zipPath' => $zipPath]);
-                }
+                $fileCount = $this->zipDir($source, $zipPath, $extensionKey);
             }
         }
     }
 
-    protected function processDownloadDirectoryExtension(ProjectConfiguration $localProject, string $directory, string $branchName, $language): void
+    protected function processDownloadDirectoryExtension(ProjectConfiguration $localProject, string $directory, string $branchName, $language): int
     {
         $this->originalLanguageKey = $language;
 
@@ -210,10 +203,10 @@ class DownloadCrowdinTranslationService implements LoggerAwareInterface
 
         $t3Language = $this->finalLanguageKey = LanguageInformation::getLanguageForTypo3($language);
         $zipPath = $exportPath . sprintf('%s-l10n-%s.zip', $extensionKey, $t3Language);
-        $result = $this->zipDir($newDirName, $zipPath, $extensionKey);
+        return $this->zipDir($newDirName, $zipPath, $extensionKey);
     }
 
-    protected function zipDir($source, $destination, $prefix = ''): bool
+    protected function zipDir($source, $destination, $prefix = ''): int
     {
         if (!empty($prefix)) {
             $prefix = trim($prefix, '/') . '/';
@@ -221,7 +214,7 @@ class DownloadCrowdinTranslationService implements LoggerAwareInterface
         $zip = new \ZipArchive();
 
         if (!$zip->open($destination, \ZipArchive::CREATE)) {
-            return false;
+            throw new \RuntimeException(sprintf('Could not create zip "%s"', $destination), 1566421924);
         }
         $zip->addEmptyDir($prefix);
 
@@ -263,8 +256,10 @@ class DownloadCrowdinTranslationService implements LoggerAwareInterface
         }
 
         $this->logger->info(sprintf('Added %d files to zip "%s"', $fileCount, $destination));
-
-        return $zip->close();
+        if (!$zip->close()) {
+            throw new \RuntimeException(sprintf('Could not close zip "%s"', $destination), 1566421924);
+        }
+        return $fileCount;
     }
 
     protected function unzip(string $file, string $path): bool

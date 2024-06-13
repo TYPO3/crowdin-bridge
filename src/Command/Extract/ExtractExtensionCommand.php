@@ -75,10 +75,22 @@ class ExtractExtensionCommand extends Command
             $io->title(sprintf('Extension "%s"', $projectIdentifier));
         }
         try {
-            $this->downloadCrowdinTranslationService->downloadPackageExtension($projectIdentifier);
+            $result = $this->downloadCrowdinTranslationService->downloadPackageExtension($projectIdentifier);
 
             if ($verbose) {
                 $io->success('Data has been downloaded!');
+
+                $headers = [
+                    'Language',
+                    'Files',
+                ];
+                $items = [];
+                foreach ($result as $language => $fileCount) {
+                    $items[] = [$language, $fileCount];
+
+                }
+                $io->section('Export');
+                $io->table($headers, $items);
             }
         } catch (\Exception $e) {
             $io->error($e->getMessage());
