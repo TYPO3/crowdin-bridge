@@ -21,6 +21,10 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 class ExtractExtensionCommand extends Command
 {
+    private array $skippedExtensions = [
+        'typo3-extension-pastereference' => 'https://github.com/Kephson/paste_reference/issues/38',
+    ];
+
     public function __construct(
         protected readonly DownloadCrowdinTranslationService $downloadCrowdinTranslationService,
         protected readonly BridgeConfiguration $bridgeConfiguration,
@@ -50,6 +54,10 @@ class ExtractExtensionCommand extends Command
                 $io->error('Extract "typo3-cms" with app:extract:core');
                 return Command::FAILURE;
             }
+            if (isset($this->skippedExtensions[$projectIdentifier])) {
+                $io->warning(sprintf('Extension "%s" is skipped: %s', $projectIdentifier, $this->skippedExtensions[$projectIdentifier]));
+                return Command::FAILURE;
+            }
             $this->downloadProject($projectIdentifier, true, $io);
             return Command::SUCCESS;
         }
@@ -74,6 +82,12 @@ class ExtractExtensionCommand extends Command
         if ($verbose) {
             $io->title(sprintf('Extension "%s"', $projectIdentifier));
         }
+
+        if (isset($this->skippedExtensions[$projectIdentifier])) {
+            $io->warning(sprintf('Extension "%s" is skipped: %s', $projectIdentifier, $this->skippedExtensions[$projectIdentifier]));
+            return;
+        }
+
         try {
             $result = $this->downloadCrowdinTranslationService->downloadPackageExtension($projectIdentifier);
 

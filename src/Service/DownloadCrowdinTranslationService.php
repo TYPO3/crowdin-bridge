@@ -342,20 +342,21 @@ class DownloadCrowdinTranslationService implements LoggerAwareInterface
         $firstDirFinder = new Finder();
 
         $branchName = '';
-        $allowedBranchNames = ['main', 'master', 'release', 'develop', 'dev'];
+        $allowedBranchNames = ['main', 'master', 'release', 'develop', 'dev', 'development'];
+        $allBranchNames = [];
         foreach ($firstDirFinder->directories()->in($directory)->depth(0) as $branches) {
-            if (!$branchName && in_array($branches->getBasename(), $allowedBranchNames, true)) {
-                $branchName = $branches->getBasename();
+            $allBranchNames[] = $branches->getBasename();
+        }
+
+        foreach ($allowedBranchNames as $possibleName) {
+            if (!$branchName && in_array($possibleName, $allBranchNames, true)) {
+                $branchName = $possibleName;
                 break;
             }
         }
 
         if (!$branchName) {
-            $all = [];
-            foreach ($firstDirFinder->directories()->in($directory)->depth(0) as $branches) {
-                $all[] = $branches->getBasename();
-            }
-            $error = sprintf('No branch found in: %s, found: %s', $directory, implode(', ', $all));
+            $error = sprintf('No branch found in: %s, found: %s', $directory, implode(', ', $allBranchNames));
             $this->logger->error($error);
             throw new \RuntimeException($error, 1566422270);
         }
