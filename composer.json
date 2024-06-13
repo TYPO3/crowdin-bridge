@@ -33,6 +33,7 @@
 		"symfony/finder": "^7",
 		"symfony/flex": "^2",
 		"symfony/framework-bundle": "7.1.*",
+		"symfony/monolog-bundle": "^3.10",
 		"symfony/runtime": "7.1.*",
 		"symfony/yaml": "7.1.*",
 		"typo3fluid/fluid": "^2.6"

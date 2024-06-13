@@ -11,11 +11,15 @@ use App\Exception\NoTranslationsAvailableException;
 use App\Info\CoreInformation;
 use App\Info\LanguageInformation;
 use App\Utility\FileHandling;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 
-class DownloadCrowdinTranslationService
+class DownloadCrowdinTranslationService implements LoggerAwareInterface
 {
+    use LoggerAwareTrait;
+
     protected string $originalLanguageKey = '';
     protected string $finalLanguageKey = '';
     protected string $projectIdentifier;
@@ -24,10 +28,13 @@ class DownloadCrowdinTranslationService
     public function __construct(
         protected readonly ProjectApi $projectApi,
         protected readonly TranslationApi $translationApi
-    ) {}
+    )
+    {
+    }
 
     public function downloadPackageCore(array $listOfLanguages = []): void
     {
+        $this->logger->info('Download TYPO3 core translations');
         $projectIdentifier = 'typo3-cms';
         $this->projectIdentifier = $projectIdentifier;
         $localProject = $this->projectApi->getConfiguration()->getProject($projectIdentifier);
@@ -38,6 +45,7 @@ class DownloadCrowdinTranslationService
         $listOfLanguages = array_unique($listOfLanguages ?: $localProject->getLanguages());
         foreach ($listOfLanguages as $language) {
             $directory = $downloadTarget . $language . '/';
+            $this->logger->info('Target directory: ' . $directory);
 
             // 2nd: Iterate over every language directory
             // and remove all files that are not for the current language
@@ -56,13 +64,14 @@ class DownloadCrowdinTranslationService
     {
         $this->projectIdentifier = $projectIdentifier;
         $localProject = $this->projectApi->getConfiguration()->getProject($projectIdentifier);
+        $this->logger->info(sprintf('==== Download extension "%s"', $projectIdentifier));
 
         // 1st: Generate base directory
         $customPath = $projectIdentifier . '-base/';
         // todo refactor with ::download
         $zipFile = $this->downloadFromCrowdin($localProject);
         $downloadTargetBase = $this->projectApi->getConfiguration()->getPathDownloads() . $customPath;
-        FileHandling::rmdir($downloadTargetBase);
+        FileHandling::rmdir($downloadTargetBase, true);
         FileHandling::mkdir_deep($downloadTargetBase);
         $this->unzip($zipFile, $downloadTargetBase);
 
@@ -70,7 +79,8 @@ class DownloadCrowdinTranslationService
         $listOfLanguages = array_unique($listOfLanguages ?: $localProject->getLanguages());
         foreach ($listOfLanguages as $language) {
             $downloadTarget = $this->projectApi->getConfiguration()->getPathDownloads() . $projectIdentifier . '-' . $language . '/';
-            FileHandling::rmdir($downloadTarget);
+            $this->logger->info('Target directory: ' . $downloadTarget);
+            FileHandling::rmdir($downloadTarget, true);
 
             $filesystem = new Filesystem();
             $filesystem->mirror($downloadTargetBase, $downloadTarget);
@@ -89,7 +99,7 @@ class DownloadCrowdinTranslationService
             $finder = new Finder();
             $count = $finder->files()->in($downloadTarget)->name($language . '.*')->name(LanguageInformation::getLanguageForTypo3($language) . '.*')->count();
             if ($count === 0) {
-                FileHandling::rmdir($downloadTarget);
+                FileHandling::rmdir($downloadTarget, true);
                 continue;
             }
             $this->processDownloadDirectoryExtension($localProject, $downloadTarget, $language);
@@ -142,23 +152,32 @@ class DownloadCrowdinTranslationService
             if (!is_dir($sysExtDir)) {
                 continue;
             }
+            $this->logger->info(sprintf('==== Branch "%s", working at "%s"', $branch, $sysExtDir));
+
             $sysExtList = FileHandling::get_dirs($sysExtDir);
             if (!is_array($sysExtList) || empty($sysExtList)) {
+                $this->logger->error(sprintf('No sysext founds in: %s', $sysExtDir));
                 throw new \RuntimeException(sprintf('No sysext founds in: %s', $sysExtDir), 1566422270);
             }
 
             $exportPath = $this->projectApi->getConfiguration()->getPathFinal();
             FileHandling::mkdir_deep($exportPath);
             $language = LanguageInformation::getLanguageForTypo3($language);
+            $zipBranchName = CoreInformation::getVersionForBranchName($branch);
             foreach ($sysExtList as $extensionKey) {
                 $source = $sysExtDir . $extensionKey;
                 if (in_array($extensionKey, CoreInformation::getAllCoreExtensionKeys(), true)) {
-                    $zipPath = $exportPath . sprintf('%s-l10n-%s.v%s.zip', $extensionKey, $language, CoreInformation::getVersionForBranchName($branch));
+                    $zipPath = $exportPath . sprintf('%s-l10n-%s.v%s.zip', $extensionKey, $language, $zipBranchName);
                 } else {
                     $zipPath = $exportPath . sprintf('%s-l10n-%s.zip', $extensionKey, $language);
                 }
 
+                $this->logger->info(sprintf('Zip for "%s" in branch "%s" in "%s" ', $extensionKey, $zipBranchName, $language), ['source' => $source]);
+
                 $result = $this->zipDir($source, $zipPath, $extensionKey);
+                if (!$result) {
+                    $this->logger->error(sprintf('Could not create zip for "%s" ', $extensionKey), ['source' => $source, 'zipPath' => $zipPath]);
+                }
             }
         }
     }
@@ -178,13 +197,17 @@ class DownloadCrowdinTranslationService
             }
         }
 
+
         if (!$branchName) {
             $all = [];
             foreach ($firstDirFinder->directories()->in($directory)->depth(0) as $branches) {
                 $all[] = $branches->getBasename();
             }
-            throw new \RuntimeException(sprintf('No branch found in: %s, found: %s', $directory, implode(', ', $all)), 1566422270);
+            $error = sprintf('No branch found in: %s, found: %s', $directory, implode(', ', $all));
+            $this->logger->error($error);
+            throw new \RuntimeException($error, 1566422270);
         }
+        $this->logger->info(sprintf('Used branch "%s"', $branchName));
 
         $crowdinLanguageName = LanguageInformation::getLanguageForTypo3($language);
         $dir = $directory . $branchName;
@@ -223,6 +246,7 @@ class DownloadCrowdinTranslationService
         }
         $zip->addEmptyDir($prefix);
 
+        $fileCount = 0;
         $source = str_replace('\\', '/', realpath($source));
         if (is_dir($source) === true) {
             $files = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($source), \RecursiveIteratorIterator::SELF_FIRST);
@@ -251,12 +275,15 @@ class DownloadCrowdinTranslationService
                         unlink($file);
                         continue;
                     }
+                    $fileCount++;
                     $zip->addFromString($prefix . str_replace($source . '/', '', $file), file_get_contents($file));
                 }
             }
         } elseif (is_file($source) === true) {
             $zip->addFromString($prefix . basename($source), file_get_contents($source));
         }
+
+        $this->logger->info(sprintf('Added %d files to zip "%s"', $fileCount, $destination));
 
         return $zip->close();
     }
@@ -330,7 +357,7 @@ class DownloadCrowdinTranslationService
     {
         $downloadTarget = $this->projectApi->getConfiguration()->getPathDownloads() . $pathSuffix;
         $zipFile = $this->downloadFromCrowdin($localProject);
-        FileHandling::rmdir($downloadTarget);
+        FileHandling::rmdir($downloadTarget, true);
         FileHandling::mkdir_deep($downloadTarget);
         $this->unzip($zipFile, $downloadTarget);
         return $downloadTarget;
