@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Command\Management;
+namespace App\Command\Status;
 
 use App\Service\Management\StatusService;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -12,11 +12,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(
-    name: 'app:management:status',
+    name: 'app:status:overview',
     description: 'Status of all crowdin projects',
     hidden: false
 )]
-class StatusCommand extends Command
+class OverviewStatusCommand extends Command
 {
     public function __construct(protected StatusService $statusService, ?string $name = null)
     {
@@ -31,7 +31,7 @@ class StatusCommand extends Command
         $response = $this->statusService->getStatus(true);
 
         $io->info('Status has been exported!');
-        return 0;
+        return Command::SUCCESS;
     }
 
     private function spread(array $existing, array $add): array

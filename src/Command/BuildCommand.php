@@ -44,10 +44,10 @@ class BuildCommand extends Command
         if ($projectIdentifier) {
             if (!isset($projects[$projectIdentifier])) {
                 $io->error(sprintf('Project "%s" does not exist', $projectIdentifier));
-                return 1;
+                return Command::FAILURE;
             }
             $this->exportSingleProject($projectIdentifier, true, $io);
-            return 0;
+            return Command::SUCCESS;
         }
 
         $verbose = $output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE;
@@ -59,7 +59,7 @@ class BuildCommand extends Command
             $progressBar->advance();
         }
         $progressBar->finish();
-        return 0;
+        return Command::SUCCESS;
     }
 
     protected function exportSingleProject(string $projectIdentifier, bool $verbose, SymfonyStyle $io): void

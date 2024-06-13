@@ -15,11 +15,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(
-    name: 'app:status',
-    description: 'Get status',
+    name: 'app:info',
+    description: 'Get info about a project',
     hidden: false
 )]
-class StatusCommand extends Command
+class InfoCommand extends Command
 {
     protected function configure()
     {
@@ -46,8 +46,6 @@ class StatusCommand extends Command
                     [
                         ['Name', $projectDetails->getName()],
                         ['Last Activity', $projectDetails->getLastActivity()],
-                        //                        ['Count strings', $projectDetails->get^],
-                        //                        ['Count words', $projectInformation['details']['total_words_count']],
                     ]
                 );
             }
@@ -78,6 +76,6 @@ class StatusCommand extends Command
             $io->warning(sprintf('Skipped: %s', $exception->getMessage()));
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

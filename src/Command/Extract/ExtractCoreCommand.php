@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Command;
+namespace App\Command\Extract;
 
 use App\Entity\BridgeConfiguration;
 use App\Service\DownloadCrowdinTranslationService;
@@ -48,6 +48,6 @@ class ExtractCoreCommand extends Command
         $this->downloadCrowdinTranslationService->downloadPackageCore('typo3-cms', $languageList);
 
         $io->success(sprintf('Core process finished for the following languages: %s', implode(', ', $languageList)));
-        return 0;
+        return Command::SUCCESS;
     }
 }

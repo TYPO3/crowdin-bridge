@@ -29,6 +29,6 @@ class SetupCommand extends Command
         $io->success(sprintf('%s projects have been configured!', count($projects)));
         $io->text(implode(', ', $projects));
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

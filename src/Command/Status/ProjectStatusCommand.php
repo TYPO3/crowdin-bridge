@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Command;
+namespace App\Command\Status;
 
 use App\Entity\BridgeConfiguration;
 use App\Service\ExportExtensionTranslationStatusService;
@@ -15,11 +15,11 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(
-    name: 'app:status:export',
+    name: 'app:status:project',
     description: 'Export extension translation status',
     hidden: false
 )]
-class StatusExportCommand extends Command
+class ProjectStatusCommand extends Command
 {
     public function __construct(
         protected readonly BridgeConfiguration $bridgeConfiguration,
@@ -44,7 +44,7 @@ class StatusExportCommand extends Command
 
         if ($extensionKey) {
             $this->exportProject($extensionKey, true, $io);
-            return 0;
+            return Command::SUCCESS;
         }
 
         $progressBar = new ProgressBar($output, count($projects));
@@ -60,7 +60,7 @@ class StatusExportCommand extends Command
         }
         $progressBar->finish();
 
-        return 0;
+        return Command::SUCCESS;
     }
 
     protected function exportProject(string $extensionKey, bool $verbose, SymfonyStyle $io)

@@ -39,15 +39,15 @@ jobs:
         env:
           CROWDIN_ACCESS_TOKEN: ${{ secrets.CROWDIN_ACCESS_TOKEN }}
         run: |
-          php ./bin/console app:meta:extractExtensions
+          php ./bin/console app:extract:extensions
           php ./bin/console app:extract:core
 
       - name: Extract status
         env:
           CROWDIN_ACCESS_TOKEN: ${{ secrets.CROWDIN_ACCESS_TOKEN }}
         run: |
-          php ./bin/console app:meta:exportStatus
-          php ./bin/console app:management:status
+          php ./bin/console app:status:project
+          php ./bin/console app:status:overview
 
       - name: Copy files to translation server
         uses: appleboy/scp-action@v0.1.4
@@ -57,5 +57,5 @@ jobs:
           port: ${{ secrets.SCP_PORT }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: "export/rsync"
-          target: "/home/localize/www/export_v2/"
+          target: "/home/localize/www/export_v3/"
 

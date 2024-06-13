@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Command;
+namespace App\Command\Extract;
 
 use App\Entity\BridgeConfiguration;
 use App\Service\DownloadCrowdinTranslationService;
@@ -44,14 +44,14 @@ class ExtractExtensionCommand extends Command
         if ($projectIdentifier) {
             if (!isset($projects[$projectIdentifier])) {
                 $io->error(sprintf('Project "%s" does not exist', $projectIdentifier));
-                return 1;
+                return Command::FAILURE;
             }
             if ($projectIdentifier === 'typo3-cms') {
                 $io->error('Extract "typo3-cms" with app:extract:core');
-                return 1;
+                return Command::FAILURE;
             }
             $this->downloadProject($projectIdentifier, true, $io);
-            return 0;
+            return Command::SUCCESS;
         }
 
         $verbose = $output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE;
@@ -63,7 +63,7 @@ class ExtractExtensionCommand extends Command
             $progressBar->advance();
         }
         $progressBar->finish();
-        return 0;
+        return Command::SUCCESS;
     }
 
     protected function downloadProject(string $projectIdentifier, bool $verbose, SymfonyStyle $io): void
