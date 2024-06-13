@@ -75,16 +75,16 @@ class DownloadCrowdinTranslationService implements LoggerAwareInterface
         // 3rd: Duplicate base directory for each language
         $listOfLanguages = array_unique($listOfLanguages ?: $localProject->getLanguages());
         foreach ($listOfLanguages as $language) {
-            $downloadTarget = $this->projectApi->getConfiguration()->getPathDownloads() . $projectIdentifier . '-' . $language . '/' . $branchName . '/';
+            $downloadTarget = $this->projectApi->getConfiguration()->getPathDownloads() . $projectIdentifier . '-' . $language . '/' . $branchName;
             $this->logger->info('Target directory: ' . $downloadTarget);
             FileHandling::rmdir($downloadTarget, true);
 
             $filesystem = new Filesystem();
             $filesystem->mirror($downloadTargetBase . $branchName . '/', $downloadTarget);
         }
-        clearstatcache(true);
 
         foreach ($listOfLanguages as $language) {
+            clearstatcache(true);
             //            try {
             $downloadTarget = $this->projectApi->getConfiguration()->getPathDownloads() . $projectIdentifier . '-' . $language . '/';
 
