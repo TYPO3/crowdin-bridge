@@ -19,6 +19,10 @@ use Symfony\Component\Console\Style\SymfonyStyle;
     description: 'Get info about a project',
     hidden: false
 )]
+
+/**
+ * Output some information about the project status on crowdin
+ */
 class InfoCommand extends Command
 {
     protected function configure()

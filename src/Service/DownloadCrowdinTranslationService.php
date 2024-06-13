@@ -26,8 +26,9 @@ class DownloadCrowdinTranslationService
         protected readonly TranslationApi $translationApi
     ) {}
 
-    public function downloadPackageCore(string $projectIdentifier, array $listOfLanguages = []): void
+    public function downloadPackageCore(array $listOfLanguages = []): void
     {
+        $projectIdentifier = 'typo3-cms';
         $this->projectIdentifier = $projectIdentifier;
         $localProject = $this->projectApi->getConfiguration()->getProject($projectIdentifier);
 
@@ -117,7 +118,7 @@ class DownloadCrowdinTranslationService
         }
     }
 
-    protected function moveAllToRsyncDestination()
+    protected function moveAllToRsyncDestination(): void
     {
         $exportPath = $this->projectApi->getConfiguration()->getPathFinal();
         $allPackages = FileHandling::getFilesInDir($exportPath, 'zip', true);
@@ -282,6 +283,10 @@ class DownloadCrowdinTranslationService
         if (!is_file($finalName)) {
             $buildId = $this->translationApi->getLastFinishedBuildId($localProject->getId());
             $downloadFile = $this->translationApi->downloadProject($localProject->getId(), $buildId);
+
+            if (!$downloadFile) {
+                throw new NoTranslationsAvailableException(sprintf('No download information provided by Crowdin API for %s', $this->projectIdentifier));
+            }
 
             $fileContent = file_get_contents($downloadFile->getUrl());
 

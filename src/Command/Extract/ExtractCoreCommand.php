@@ -45,7 +45,7 @@ class ExtractCoreCommand extends Command
         $languages = $input->getArgument('language') ?? '*';
         $languageList = $languages === '*' ? $project->getLanguages() : FileHandling::trimExplode(',', $languages, true);
 
-        $this->downloadCrowdinTranslationService->downloadPackageCore('typo3-cms', $languageList);
+        $this->downloadCrowdinTranslationService->downloadPackageCore($languageList);
 
         $io->success(sprintf('Core process finished for the following languages: %s', implode(', ', $languageList)));
         return Command::SUCCESS;

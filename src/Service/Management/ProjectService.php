@@ -8,7 +8,7 @@ use App\Api\Wrapper\LanguageApi;
 use App\Api\Wrapper\ProjectApi;
 use App\Entity\BridgeConfiguration;
 
-class ProjectService
+readonly class ProjectService
 {
     public function updateConfiguration(): array
     {
@@ -43,7 +43,7 @@ class ProjectService
             $projects[] = $key;
         }
 
-        $this->updateLanguages();
+        $this->createLanguageConfiguration();
 
         return $projects;
     }
@@ -53,7 +53,7 @@ class ProjectService
      * As this information won't change that much, it is fine to save it in files
      * + it will be updated during running setup anyway
      */
-    private function updateLanguages(): void
+    private function createLanguageConfiguration(): void
     {
         $collectedLanguages = [];
         $languageApi = new LanguageApi();
