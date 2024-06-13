@@ -28,9 +28,7 @@ class DownloadCrowdinTranslationService implements LoggerAwareInterface
     public function __construct(
         protected readonly ProjectApi $projectApi,
         protected readonly TranslationApi $translationApi
-    )
-    {
-    }
+    ) {}
 
     public function downloadPackageCore(array $listOfLanguages = []): void
     {
@@ -75,34 +73,38 @@ class DownloadCrowdinTranslationService implements LoggerAwareInterface
         FileHandling::mkdir_deep($downloadTargetBase);
         $this->unzip($zipFile, $downloadTargetBase);
 
-        // 2nd: Duplicate base directory for each language
+        // 2nd: Check branch name, no need to proceed if nothing found
+        $branchName = $this->getBranchNameOfExtension($downloadTargetBase);
+        $this->logger->info(sprintf('Used branch "%s"', $branchName));
+
+        // 3rd: Duplicate base directory for each language
         $listOfLanguages = array_unique($listOfLanguages ?: $localProject->getLanguages());
         foreach ($listOfLanguages as $language) {
-            $downloadTarget = $this->projectApi->getConfiguration()->getPathDownloads() . $projectIdentifier . '-' . $language . '/';
+            $downloadTarget = $this->projectApi->getConfiguration()->getPathDownloads() . $projectIdentifier . '-' . $language . '/' . $branchName . '/';
             $this->logger->info('Target directory: ' . $downloadTarget);
             FileHandling::rmdir($downloadTarget, true);
 
             $filesystem = new Filesystem();
-            $filesystem->mirror($downloadTargetBase, $downloadTarget);
+            $filesystem->mirror($downloadTargetBase . $branchName . '/', $downloadTarget);
         }
+        clearstatcache(true);
 
         foreach ($listOfLanguages as $language) {
-            clearstatcache(true);
             //            try {
             $downloadTarget = $this->projectApi->getConfiguration()->getPathDownloads() . $projectIdentifier . '-' . $language . '/';
 
-            // 3rd: Iterate over every language directory
+            // 4th: Iterate over every language directory
             // and remove all files that are not for the current language
             $this->removeFilesFromDifferentLanguage($downloadTarget, $language);
 
-            // 4th: Skip empty directories
+            // 5th: Skip empty directories
             $finder = new Finder();
             $count = $finder->files()->in($downloadTarget)->name($language . '.*')->name(LanguageInformation::getLanguageForTypo3($language) . '.*')->count();
             if ($count === 0) {
                 FileHandling::rmdir($downloadTarget, true);
                 continue;
             }
-            $this->processDownloadDirectoryExtension($localProject, $downloadTarget, $language);
+            $this->processDownloadDirectoryExtension($localProject, $downloadTarget, $branchName, $language);
             //            } catch (\Exception $e) {
             // todo logging
             //                echo 'ERROR:' . $e->getMessage();
@@ -182,32 +184,9 @@ class DownloadCrowdinTranslationService implements LoggerAwareInterface
         }
     }
 
-    protected function processDownloadDirectoryExtension(ProjectConfiguration $localProject, string $directory, $language): void
+    protected function processDownloadDirectoryExtension(ProjectConfiguration $localProject, string $directory, string $branchName, $language): void
     {
         $this->originalLanguageKey = $language;
-
-        $firstDirFinder = new Finder();
-
-        $branchName = '';
-        $allowedBranchNames = ['main', 'master', 'release', 'develop', 'dev'];
-        foreach ($firstDirFinder->directories()->in($directory)->depth(0) as $branches) {
-            if (!$branchName && in_array($branches->getBasename(), $allowedBranchNames, true)) {
-                $branchName = $branches->getBasename();
-                break;
-            }
-        }
-
-
-        if (!$branchName) {
-            $all = [];
-            foreach ($firstDirFinder->directories()->in($directory)->depth(0) as $branches) {
-                $all[] = $branches->getBasename();
-            }
-            $error = sprintf('No branch found in: %s, found: %s', $directory, implode(', ', $all));
-            $this->logger->error($error);
-            throw new \RuntimeException($error, 1566422270);
-        }
-        $this->logger->info(sprintf('Used branch "%s"', $branchName));
 
         $crowdinLanguageName = LanguageInformation::getLanguageForTypo3($language);
         $dir = $directory . $branchName;
@@ -361,5 +340,30 @@ class DownloadCrowdinTranslationService implements LoggerAwareInterface
         FileHandling::mkdir_deep($downloadTarget);
         $this->unzip($zipFile, $downloadTarget);
         return $downloadTarget;
+    }
+
+    protected function getBranchNameOfExtension(string $directory): string
+    {
+        $firstDirFinder = new Finder();
+
+        $branchName = '';
+        $allowedBranchNames = ['main', 'master', 'release', 'develop', 'dev'];
+        foreach ($firstDirFinder->directories()->in($directory)->depth(0) as $branches) {
+            if (!$branchName && in_array($branches->getBasename(), $allowedBranchNames, true)) {
+                $branchName = $branches->getBasename();
+                break;
+            }
+        }
+
+        if (!$branchName) {
+            $all = [];
+            foreach ($firstDirFinder->directories()->in($directory)->depth(0) as $branches) {
+                $all[] = $branches->getBasename();
+            }
+            $error = sprintf('No branch found in: %s, found: %s', $directory, implode(', ', $all));
+            $this->logger->error($error);
+            throw new \RuntimeException($error, 1566422270);
+        }
+        return $branchName;
     }
 }
