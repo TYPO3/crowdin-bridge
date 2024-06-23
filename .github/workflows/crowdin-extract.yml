@@ -26,8 +26,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-            composer install --no-progress
             cp .env.ci .env
+            composer install --no-progress
 
       - name: Generate configuration
         env:
