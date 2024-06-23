@@ -39,7 +39,7 @@ jobs:
         env:
           CROWDIN_ACCESS_TOKEN: ${{ secrets.CROWDIN_ACCESS_TOKEN }}
         run: |
-          php ./bin/console app:extract:extensions
+          php ./bin/console app:extract:extension
           php ./bin/console app:extract:core
 
       - name: Extract status
