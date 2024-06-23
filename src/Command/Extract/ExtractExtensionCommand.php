@@ -29,20 +29,23 @@ class ExtractExtensionCommand extends Command
         protected readonly DownloadCrowdinTranslationService $downloadCrowdinTranslationService,
         protected readonly BridgeConfiguration $bridgeConfiguration,
         ?string $name = null
-    ) {
+    )
+    {
         parent::__construct($name);
     }
 
     protected function configure()
     {
         $this
-            ->addArgument('project', InputArgument::OPTIONAL, 'Project identifier');
+            ->addArgument('project', InputArgument::OPTIONAL, 'Project identifier')
+            ->addArgument('languages', InputArgument::IS_ARRAY, 'Project identifier');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
         $projectIdentifier = $input->getArgument('project');
+        $languages = (array)$input->getArgument('languages');
         $projects = $this->bridgeConfiguration->getAllProjects();
 
         if ($projectIdentifier) {
@@ -58,7 +61,7 @@ class ExtractExtensionCommand extends Command
                 $io->warning(sprintf('Extension "%s" is skipped: %s', $projectIdentifier, $this->skippedExtensions[$projectIdentifier]));
                 return Command::FAILURE;
             }
-            $this->downloadProject($projectIdentifier, true, $io);
+            $this->downloadProject($projectIdentifier, $languages, true, $io);
             return Command::SUCCESS;
         }
 
@@ -67,14 +70,14 @@ class ExtractExtensionCommand extends Command
         $progressBar->start();
 
         foreach ($projects as $project) {
-            $this->downloadProject($project->getCrowdinIdentifier(), $verbose, $io);
+            $this->downloadProject($project->getCrowdinIdentifier(), $languages, $verbose, $io);
             $progressBar->advance();
         }
         $progressBar->finish();
         return Command::SUCCESS;
     }
 
-    protected function downloadProject(string $projectIdentifier, bool $verbose, SymfonyStyle $io): void
+    protected function downloadProject(string $projectIdentifier, array $listOfLanguages, bool $verbose, SymfonyStyle $io): void
     {
         if ($projectIdentifier === 'typo3-cms') {
             return;
@@ -89,7 +92,7 @@ class ExtractExtensionCommand extends Command
         }
 
         try {
-            $result = $this->downloadCrowdinTranslationService->downloadPackageExtension($projectIdentifier);
+            $result = $this->downloadCrowdinTranslationService->downloadPackageExtension($projectIdentifier, $listOfLanguages);
 
             if ($verbose) {
                 $io->success('Data has been downloaded!');

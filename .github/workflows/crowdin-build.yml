@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - v2
+      - v3
   schedule:
     - cron:  '0 */2 * * *'
 jobs:
@@ -35,7 +35,7 @@ jobs:
         run: |
           php ./bin/console app:setup
 
-      - name: Build all projects
-        env:
-          CROWDIN_ACCESS_TOKEN: ${{ secrets.CROWDIN_ACCESS_TOKEN }}
-        run: ./bin/console app:build
+#      - name: Build all projects
+#        env:
+#          CROWDIN_ACCESS_TOKEN: ${{ secrets.CROWDIN_ACCESS_TOKEN }}
+#        run: ./bin/console app:build

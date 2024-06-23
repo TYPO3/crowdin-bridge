@@ -73,17 +73,25 @@ class DownloadCrowdinTranslationService implements LoggerAwareInterface
         $this->logger->info(sprintf('Used branch "%s"', $branchName));
 
         // 3rd: Duplicate base directory for each language
-        $listOfLanguages = array_unique($listOfLanguages ?: $localProject->getLanguages());
+        $allLanguages = $localProject->getLanguages();
+        $listOfLanguages = array_unique($listOfLanguages ?: $allLanguages);
         foreach ($listOfLanguages as $language) {
-            $downloadTarget = $this->projectApi->getConfiguration()->getPathDownloads() . $projectIdentifier . '-' . $language . '/' . $branchName;
+            if (!in_array($language, $allLanguages, true)) {
+                $this->logger->warning(sprintf('Language "%s" not available for extension "%s"', $language, $projectIdentifier));
+                continue;
+            }
+            $downloadTarget = $this->projectApi->getConfiguration()->getPathDownloads() . $projectIdentifier . '-' . $language . '/' . $branchName . '/';
             $this->logger->info('Target directory: ' . $downloadTarget);
-            FileHandling::rmdir($downloadTarget, true);
+            FileHandling::rmdir($this->projectApi->getConfiguration()->getPathDownloads() . $projectIdentifier . '-' . $language . '/', true);
 
             $filesystem = new Filesystem();
             $filesystem->mirror($downloadTargetBase . $branchName . '/', $downloadTarget);
         }
 
         foreach ($listOfLanguages as $language) {
+            if (!in_array($language, $allLanguages, true)) {
+                continue;
+            }
             clearstatcache(true);
             //            try {
             $downloadTarget = $this->projectApi->getConfiguration()->getPathDownloads() . $projectIdentifier . '-' . $language . '/';
@@ -93,12 +101,12 @@ class DownloadCrowdinTranslationService implements LoggerAwareInterface
             $this->removeFilesFromDifferentLanguage($downloadTarget, $language);
 
             // 5th: Skip empty directories
-            $finder = new Finder();
-            $count = $finder->files()->in($downloadTarget)->name($language . '.*')->name(LanguageInformation::getLanguageForTypo3($language) . '.*')->count();
-            if ($count === 0) {
-                FileHandling::rmdir($downloadTarget, true);
-                continue;
-            }
+//            $finder = new Finder();
+//            $count = $finder->files()->in($downloadTarget)->name($language . '.*')->name(LanguageInformation::getLanguageForTypo3($language) . '.*')->count();
+//            if ($count === 0) {
+//                FileHandling::rmdir($downloadTarget, true);
+//                continue;
+//            }
             $exportedLanguages[$language] = $this->processDownloadDirectoryExtension($localProject, $downloadTarget, $branchName, $language);
             //            } catch (\Exception $e) {
             // todo logging
@@ -259,6 +267,11 @@ class DownloadCrowdinTranslationService implements LoggerAwareInterface
         if (!$zip->close()) {
             throw new \RuntimeException(sprintf('Could not close zip "%s"', $destination), 1566421924);
         }
+
+        // remove zip if no files are found
+        if ($fileCount === 0) {
+            unlink($destination);
+        }
         return $fileCount;
     }
 
@@ -308,7 +321,7 @@ class DownloadCrowdinTranslationService implements LoggerAwareInterface
     {
         $content = file_get_contents($file);
         if (!str_contains($content, '<trans-unit')) {
-            return false;
+//            return false;
         }
         if ($this->finalLanguageKey !== $this->originalLanguageKey && is_file($file)) {
             $content = str_replace(' target-language="' . $this->originalLanguageKey . '"', ' target-language="' . $this->finalLanguageKey . '"', $content);
