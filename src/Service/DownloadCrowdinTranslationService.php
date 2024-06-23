@@ -76,6 +76,7 @@ class DownloadCrowdinTranslationService implements LoggerAwareInterface
         $allLanguages = $localProject->getLanguages();
         $listOfLanguages = array_unique($listOfLanguages ?: $allLanguages);
         foreach ($listOfLanguages as $language) {
+            $this->logger->info(sprintf('Language "%s"', $language));
             if (!in_array($language, $allLanguages, true)) {
                 $this->logger->warning(sprintf('Language "%s" not available for extension "%s"', $language, $projectIdentifier));
                 continue;
@@ -293,7 +294,6 @@ class DownloadCrowdinTranslationService implements LoggerAwareInterface
         FileHandling::mkdir_deep($path);
 
         $finalName = $path . $this->projectIdentifier . '.zip';
-
         if (!is_file($finalName)) {
             $buildId = $this->translationApi->getLastFinishedBuildId($localProject->getId());
             $downloadFile = $this->translationApi->downloadProject($localProject->getId(), $buildId);
@@ -309,6 +309,7 @@ class DownloadCrowdinTranslationService implements LoggerAwareInterface
             }
             file_put_contents($finalName, $fileContent);
         }
+        $this->logger->info(sprintf('Downloaded "%s" to "%s"', $this->projectIdentifier, $finalName));
 
         return $finalName;
     }
