@@ -18,13 +18,18 @@ class CoreInformation
 
     /**
      * Important: highest first
+     *
+     * First version in array defines the version for monorepo `main` branch. {@see self::getLatestVersion()}
      */
-    private const VERSIONS = [13, 12, 11, 10, 9];
+    private const VERSIONS = [14, 13, 12, 11, 10, 9];
 
     /**
      * Important: latest version will map to main automatically
+     *
+     * Major version to main development branch mapping.
      */
     private const BRANCHMAPPING = [
+        13 => '13.4',
         12 => '12.4',
         11 => '11.5',
         10 => '10.4',
