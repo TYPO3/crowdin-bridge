@@ -99,7 +99,7 @@ class StatusService
     {
         $pathToRoot = __DIR__ . '/../../../';
         $view = new TemplateView();
-        $view->getTemplatePaths()->setTemplatePathAndFilename($pathToRoot . 'templates/Templates/Status.html');
+        $view->getRenderingContext()->getTemplatePaths()->setTemplatePathAndFilename($pathToRoot . 'templates/Templates/Status.html');
         $view->assignMultiple([
             'date' => date('r'),
         ]);

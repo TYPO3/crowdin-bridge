@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b996a99ce223ee4e2ff17a006ad1ff83",
+    "content-hash": "8ce61d6e0d68c510d2a69445f0668325",
     "packages": [
         {
             "name": "crowdin/crowdin-api-client",
@@ -3421,36 +3421,45 @@
         },
         {
             "name": "typo3fluid/fluid",
-            "version": "2.11.0",
+            "version": "4.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/TYPO3/Fluid.git",
-                "reference": "392c7d5e494a02131843ec8b2a5ef1d3ca4dcdf5"
+                "reference": "c821755d38c08f5130ad09828717d09dc9a562f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3/Fluid/zipball/392c7d5e494a02131843ec8b2a5ef1d3ca4dcdf5",
-                "reference": "392c7d5e494a02131843ec8b2a5ef1d3ca4dcdf5",
+                "url": "https://api.github.com/repos/TYPO3/Fluid/zipball/c821755d38c08f5130ad09828717d09dc9a562f4",
+                "reference": "c821755d38c08f5130ad09828717d09dc9a562f4",
                 "shasum": ""
             },
             "require": {
                 "ext-mbstring": "*",
-                "php": "^8.1"
+                "php": "^8.2"
             },
             "require-dev": {
                 "ext-json": "*",
-                "friendsofphp/php-cs-fixer": "^3.52.1",
-                "phpstan/phpstan": "^1.10.14",
-                "phpstan/phpstan-phpunit": "^1.3.11",
-                "phpunit/phpunit": "^10.2.6"
+                "ext-simplexml": "*",
+                "friendsofphp/php-cs-fixer": "^3.59.3",
+                "phpstan/phpstan": "^2.1.17",
+                "phpstan/phpstan-phpunit": "^2.0.6",
+                "phpunit/phpunit": "^11.5.22 || ^12.2.1",
+                "psr/container": "^2.0",
+                "t3docs/fluid-documentation-generator": "^4.3"
             },
             "suggest": {
-                "ext-json": "PHP JSON is needed when using JSONVariableProvider: A relatively rare use case"
+                "ext-json": "PHP JSON is needed when using JSONVariableProvider: A relatively rare use case",
+                "ext-simplexml": "SimpleXML is required for the XSD schema generator"
             },
             "bin": [
                 "bin/fluid"
             ],
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "4.x-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "TYPO3Fluid\\Fluid\\": "src/"
@@ -3467,7 +3476,7 @@
                 "issues": "https://github.com/TYPO3/Fluid/issues",
                 "source": "https://github.com/TYPO3/Fluid"
             },
-            "time": "2024-04-05T13:06:34+00:00"
+            "time": "2025-08-28T12:02:19+00:00"
         }
     ],
     "packages-dev": [
@@ -4827,7 +4836,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {},
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
@@ -4835,7 +4844,7 @@
         "ext-json": "*",
         "ext-zip": "*"
     },
-    "platform-dev": [],
+    "platform-dev": {},
     "platform-overrides": {
         "php": "8.3"
     },
