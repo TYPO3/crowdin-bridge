@@ -29,8 +29,7 @@ class ExtractExtensionCommand extends Command
         protected readonly DownloadCrowdinTranslationService $downloadCrowdinTranslationService,
         protected readonly BridgeConfiguration $bridgeConfiguration,
         ?string $name = null
-    )
-    {
+    ) {
         parent::__construct($name);
     }
 
