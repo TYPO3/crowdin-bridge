@@ -30,7 +30,7 @@
 		"symfony/dotenv": "^7.1",
 		"symfony/filesystem": "^7.0",
 		"symfony/finder": "^7",
-		"symfony/flex": "^2",
+		"symfony/flex": "^2.8",
 		"symfony/framework-bundle": "7.1.*",
 		"symfony/monolog-bundle": "^3.10",
 		"symfony/runtime": "7.1.*",
