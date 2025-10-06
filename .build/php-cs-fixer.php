@@ -17,17 +17,17 @@ return (new \PhpCsFixer\Config())
     ->setRiskyAllowed(true)
     ->setRules([
         '@DoctrineAnnotation' => true,
-        // @todo: Switch to @PER-CS2.0 once php-cs-fixer's todo list is done: https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7247
-        '@PER-CS1.0' => true,
+        // @todo: Switch to @PER-CS2x0 once php-cs-fixer's todo list is done: https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7247
+        '@PER-CS1x0' => true,
         'array_indentation' => true,
         'array_syntax' => ['syntax' => 'short'],
         'cast_spaces' => ['space' => 'none'],
-        // @todo: Can be dropped once we enable @PER-CS2.0
+        // @todo: Can be dropped once we enable @PER-CS2x0
         'concat_space' => ['spacing' => 'one'],
         'declare_equal_normalize' => ['space' => 'none'],
         'declare_parentheses' => true,
         'dir_constant' => true,
-        // @todo: Can be dropped once we enable @PER-CS2.0
+        // @todo: Can be dropped once we enable @PER-CS2x0
         'function_declaration' => [
             'closure_fn_spacing' => 'none',
         ],
@@ -35,7 +35,7 @@ return (new \PhpCsFixer\Config())
         'type_declaration_spaces' => true,
         'global_namespace_import' => ['import_classes' => false, 'import_constants' => false, 'import_functions' => false],
         'list_syntax' => ['syntax' => 'short'],
-        // @todo: Can be dropped once we enable @PER-CS2.0
+        // @todo: Can be dropped once we enable @PER-CS2x0
         'method_argument_space' => true,
         'modernize_strpos' => true,
         'modernize_types_casting' => true,
@@ -55,10 +55,32 @@ return (new \PhpCsFixer\Config())
         'no_unused_imports' => true,
         'no_useless_else' => true,
         'no_useless_nullsafe_operator' => true,
+        'nullable_type_declaration' => [
+            'syntax' => 'question_mark',
+        ],
+        'nullable_type_declaration_for_default_null_value' => true,
+        'ordered_class_elements' => ['order' => ['use_trait', 'case', 'constant', 'property']],
         'ordered_imports' => ['imports_order' => ['class', 'function', 'const'], 'sort_algorithm' => 'alpha'],
         'php_unit_construct' => ['assertions' => ['assertEquals', 'assertSame', 'assertNotEquals', 'assertNotSame']],
         'php_unit_mock_short_will_return' => true,
-        'php_unit_test_case_static_method_calls' => ['call_type' => 'self'],
+        'php_unit_test_case_static_method_calls' => ['call_type' => 'self',
+            'methods' => [
+                'any' => 'this',
+                'atLeast' => 'this',
+                'atLeastOnce' => 'this',
+                'atMost' => 'this',
+                'exactly' => 'this',
+                'never' => 'this',
+                'onConsecutiveCalls' => 'this',
+                'once' => 'this',
+                'returnArgument' => 'this',
+                'returnCallback' => 'this',
+                'returnSelf' => 'this',
+                'returnValue' => 'this',
+                'returnValueMap' => 'this',
+                'throwException' => 'this',
+            ],
+        ],
         'phpdoc_no_access' => true,
         'phpdoc_no_empty_return' => true,
         'phpdoc_no_package' => true,
@@ -70,7 +92,7 @@ return (new \PhpCsFixer\Config())
         'single_quote' => true,
         'single_space_around_construct' => true,
         'single_line_comment_style' => ['comment_types' => ['hash']],
-        // @todo: Can be dropped once we enable @PER-CS2.0
+        // @todo: Can be dropped once we enable @PER-CS2x0
         'single_line_empty_body' => true,
         'trailing_comma_in_multiline' => ['elements' => ['arrays']],
         'whitespace_after_comma_in_array' => ['ensure_single_space' => true],
