@@ -102,12 +102,12 @@ class DownloadCrowdinTranslationService implements LoggerAwareInterface
             $this->removeFilesFromDifferentLanguage($downloadTarget, $language);
 
             // 5th: Skip empty directories
-//            $finder = new Finder();
-//            $count = $finder->files()->in($downloadTarget)->name($language . '.*')->name(LanguageInformation::getLanguageForTypo3($language) . '.*')->count();
-//            if ($count === 0) {
-//                FileHandling::rmdir($downloadTarget, true);
-//                continue;
-//            }
+            //            $finder = new Finder();
+            //            $count = $finder->files()->in($downloadTarget)->name($language . '.*')->name(LanguageInformation::getLanguageForTypo3($language) . '.*')->count();
+            //            if ($count === 0) {
+            //                FileHandling::rmdir($downloadTarget, true);
+            //                continue;
+            //            }
             $exportedLanguages[$language] = $this->processDownloadDirectoryExtension($localProject, $downloadTarget, $branchName, $language);
             //            } catch (\Exception $e) {
             // todo logging
@@ -322,7 +322,7 @@ class DownloadCrowdinTranslationService implements LoggerAwareInterface
     {
         $content = file_get_contents($file);
         if (!str_contains($content, '<trans-unit')) {
-//            return false;
+            //            return false;
         }
         if ($this->finalLanguageKey !== $this->originalLanguageKey && is_file($file)) {
             $content = str_replace(' target-language="' . $this->originalLanguageKey . '"', ' target-language="' . $this->finalLanguageKey . '"', $content);
