@@ -20,10 +20,11 @@ class DownloadCrowdinTranslationService implements LoggerAwareInterface
 {
     use LoggerAwareTrait;
 
+    private const bool REMOVE_ZIPS = true;
+
     protected string $originalLanguageKey = '';
     protected string $finalLanguageKey = '';
     protected string $projectIdentifier;
-    private const bool REMOVE_ZIPS = true;
 
     public function __construct(
         protected readonly ProjectApi $projectApi,
