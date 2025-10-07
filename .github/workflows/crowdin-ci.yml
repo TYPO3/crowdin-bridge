@@ -1,0 +1,36 @@
+name: Crowdin CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 1
+
+      - name: Setup PHP with composer v2
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          tools: composer:v2
+
+      - name: Install dependencies
+        run: |
+          cp .env.ci .env
+          composer install --no-progress
+
+      - name: Run PHP linter
+        run: |
+          find . -type f -name '*.php' ! -path "./vendor/*" ! -path "./var/*" -print0 | xargs -0 -n1 -P4 php -l -n | (! grep -v "No syntax errors detected" )
+
+      - name: Verify PSR-4 namespace correctness
+        run: |
+          composer dumpautoload --optimize --strict-psr
+
+      - name: Check coding standards
+        run: |
+          composer cs
