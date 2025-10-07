@@ -34,3 +34,7 @@ jobs:
       - name: Check coding standards
         run: |
           composer cs
+
+      - name: Run static analysis
+        run: |
+          composer stan

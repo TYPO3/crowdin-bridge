@@ -1,0 +1,487 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Method App\\Api\\Wrapper\\TranslationApi\:\:getBuilds\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/Api/Wrapper/TranslationApi.php
+
+		-
+			message: '#^Negated boolean expression is always false\.$#'
+			identifier: booleanNot.alwaysFalse
+			count: 1
+			path: src/Api/Wrapper/TranslationApi.php
+
+		-
+			message: '#^Method App\\Command\\Extract\\ExtractExtensionCommand\:\:downloadProject\(\) has parameter \$listOfLanguages with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Command/Extract/ExtractExtensionCommand.php
+
+		-
+			message: '#^Property App\\Command\\Extract\\ExtractExtensionCommand\:\:\$skippedExtensions type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Command/Extract/ExtractExtensionCommand.php
+
+		-
+			message: '#^Method App\\Command\\Status\\OverviewStatusCommand\:\:spread\(\) has parameter \$add with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Command/Status/OverviewStatusCommand.php
+
+		-
+			message: '#^Method App\\Command\\Status\\OverviewStatusCommand\:\:spread\(\) has parameter \$existing with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Command/Status/OverviewStatusCommand.php
+
+		-
+			message: '#^Method App\\Command\\Status\\OverviewStatusCommand\:\:spread\(\) is unused\.$#'
+			identifier: method.unused
+			count: 1
+			path: src/Command/Status/OverviewStatusCommand.php
+
+		-
+			message: '#^Method App\\Command\\Status\\OverviewStatusCommand\:\:spread\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Command/Status/OverviewStatusCommand.php
+
+		-
+			message: '#^Method App\\Command\\Status\\ProjectStatusCommand\:\:exportProject\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/Command/Status/ProjectStatusCommand.php
+
+		-
+			message: '#^Method App\\Entity\\BridgeConfiguration\:\:add\(\) has parameter \$data with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Entity/BridgeConfiguration.php
+
+		-
+			message: '#^Method App\\Entity\\BridgeConfiguration\:\:getAllProjectKeys\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Entity/BridgeConfiguration.php
+
+		-
+			message: '#^Property App\\Entity\\BridgeConfiguration\:\:\$data type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Entity/BridgeConfiguration.php
+
+		-
+			message: '#^Method App\\Entity\\ProjectConfiguration\:\:__construct\(\) has parameter \$configuration with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Entity/ProjectConfiguration.php
+
+		-
+			message: '#^Method App\\Entity\\ProjectConfiguration\:\:getBranch\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/Entity/ProjectConfiguration.php
+
+		-
+			message: '#^Method App\\Entity\\ProjectConfiguration\:\:getLanguages\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Entity/ProjectConfiguration.php
+
+		-
+			message: '#^Method App\\Entity\\ProjectConfiguration\:\:initializeByArray\(\) has parameter \$configuration with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/Entity/ProjectConfiguration.php
+
+		-
+			message: '#^Property App\\Entity\\ProjectConfiguration\:\:\$languages type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Entity/ProjectConfiguration.php
+
+		-
+			message: '#^Right side of && is always true\.$#'
+			identifier: booleanAnd.rightAlwaysTrue
+			count: 1
+			path: src/Entity/ProjectConfiguration.php
+
+		-
+			message: '#^Method App\\Info\\CoreInformation\:\:getAllCoreBranches\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Info/CoreInformation.php
+
+		-
+			message: '#^Method App\\Info\\CoreInformation\:\:getAllCoreExtensionKeys\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Info/CoreInformation.php
+
+		-
+			message: '#^Method App\\Info\\CoreInformation\:\:getCoreExtensionKeys\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Info/CoreInformation.php
+
+		-
+			message: '#^Method App\\Info\\CoreInformation\:\:getVersionForBranchName\(\) should return int but returns int\|false\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Info/CoreInformation.php
+
+		-
+			message: '#^Offset 9\|10\|11\|12\|13\|14 might not exist on array\{13\: ''13\.4'', 12\: ''12\.4'', 11\: ''11\.5'', 10\: ''10\.4'', 9\: ''9\.5''\}\.$#'
+			identifier: offsetAccess.notFound
+			count: 1
+			path: src/Info/CoreInformation.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between 9\|10\|11\|12\|13\|false and null will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 1
+			path: src/Info/CoreInformation.php
+
+		-
+			message: '#^Method App\\Info\\LanguageInformation\:\:getLanguageForCrowdin\(\) should return string but returns int\|string\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Info/LanguageInformation.php
+
+		-
+			message: '#^Parameter \#1 \$json of function json_decode expects string, string\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Info/LanguageInformation.php
+
+		-
+			message: '#^Property App\\Info\\LanguageInformation\:\:\$extraMapping type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Info/LanguageInformation.php
+
+		-
+			message: '#^Argument of an invalid type array\|string supplied for foreach, only iterables are supported\.$#'
+			identifier: foreach.nonIterable
+			count: 1
+			path: src/Service/DownloadCrowdinTranslationService.php
+
+		-
+			message: '#^Binary operation "\." between 0\|0\.0\|array\{\}\|string\|false\|null and string results in an error\.$#'
+			identifier: binaryOp.invalid
+			count: 3
+			path: src/Service/DownloadCrowdinTranslationService.php
+
+		-
+			message: '#^Call to function is_array\(\) with array will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: src/Service/DownloadCrowdinTranslationService.php
+
+		-
+			message: '#^Cannot call method error\(\) on Psr\\Log\\LoggerInterface\|null\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: src/Service/DownloadCrowdinTranslationService.php
+
+		-
+			message: '#^Cannot call method info\(\) on Psr\\Log\\LoggerInterface\|null\.$#'
+			identifier: method.nonObject
+			count: 10
+			path: src/Service/DownloadCrowdinTranslationService.php
+
+		-
+			message: '#^Cannot call method warning\(\) on Psr\\Log\\LoggerInterface\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: src/Service/DownloadCrowdinTranslationService.php
+
+		-
+			message: '#^If condition is always true\.$#'
+			identifier: if.alwaysTrue
+			count: 1
+			path: src/Service/DownloadCrowdinTranslationService.php
+
+		-
+			message: '#^Method App\\Service\\DownloadCrowdinTranslationService\:\:downloadPackageCore\(\) has parameter \$listOfLanguages with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Service/DownloadCrowdinTranslationService.php
+
+		-
+			message: '#^Method App\\Service\\DownloadCrowdinTranslationService\:\:downloadPackageExtension\(\) has parameter \$listOfLanguages with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Service/DownloadCrowdinTranslationService.php
+
+		-
+			message: '#^Method App\\Service\\DownloadCrowdinTranslationService\:\:downloadPackageExtension\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Service/DownloadCrowdinTranslationService.php
+
+		-
+			message: '#^Method App\\Service\\DownloadCrowdinTranslationService\:\:processDownloadDirectoryCore\(\) has parameter \$language with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/Service/DownloadCrowdinTranslationService.php
+
+		-
+			message: '#^Method App\\Service\\DownloadCrowdinTranslationService\:\:processDownloadDirectoryExtension\(\) has parameter \$language with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/Service/DownloadCrowdinTranslationService.php
+
+		-
+			message: '#^Method App\\Service\\DownloadCrowdinTranslationService\:\:zipDir\(\) has parameter \$destination with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/Service/DownloadCrowdinTranslationService.php
+
+		-
+			message: '#^Method App\\Service\\DownloadCrowdinTranslationService\:\:zipDir\(\) has parameter \$prefix with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/Service/DownloadCrowdinTranslationService.php
+
+		-
+			message: '#^Method App\\Service\\DownloadCrowdinTranslationService\:\:zipDir\(\) has parameter \$source with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/Service/DownloadCrowdinTranslationService.php
+
+		-
+			message: '#^Negated boolean expression is always true\.$#'
+			identifier: booleanNot.alwaysTrue
+			count: 1
+			path: src/Service/DownloadCrowdinTranslationService.php
+
+		-
+			message: '#^Parameter \#1 \$dirname of method ZipArchive\:\:addEmptyDir\(\) expects string, array\|float\|int\|string\|false\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Service/DownloadCrowdinTranslationService.php
+
+		-
+			message: '#^Parameter \#1 \$file of method App\\Service\\DownloadCrowdinTranslationService\:\:modifyFile\(\) expects string, string\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Service/DownloadCrowdinTranslationService.php
+
+		-
+			message: '#^Parameter \#1 \$filename of function file_get_contents expects string, string\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Service/DownloadCrowdinTranslationService.php
+
+		-
+			message: '#^Parameter \#1 \$filename of function is_dir expects string, string\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Service/DownloadCrowdinTranslationService.php
+
+		-
+			message: '#^Parameter \#1 \$filename of function is_file expects string, string\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Service/DownloadCrowdinTranslationService.php
+
+		-
+			message: '#^Parameter \#1 \$filename of function unlink expects string, string\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Service/DownloadCrowdinTranslationService.php
+
+		-
+			message: '#^Parameter \#1 \$haystack of function str_contains expects string, string\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Service/DownloadCrowdinTranslationService.php
+
+		-
+			message: '#^Parameter \#1 \$haystack of function str_starts_with expects string, string\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Service/DownloadCrowdinTranslationService.php
+
+		-
+			message: '#^Parameter \#1 \$string of function strlen expects string, string\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Service/DownloadCrowdinTranslationService.php
+
+		-
+			message: '#^Parameter \#2 \$content of method ZipArchive\:\:addFromString\(\) expects string, string\|false given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Service/DownloadCrowdinTranslationService.php
+
+		-
+			message: '#^Parameter \#3 \$subject of function str_replace expects array\<string\>\|string, string\|false given\.$#'
+			identifier: argument.type
+			count: 3
+			path: src/Service/DownloadCrowdinTranslationService.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between 0\|1\|2\|3\|4\|5\|6\|7\|8\|9\|10\|11\|12\|13\|14\|15\|16\|17\|18\|19\|20\|21\|22\|23\|24\|25\|26\|27\|28\|29\|30\|31\|32\|33\|34\|true and false will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 1
+			path: src/Service/DownloadCrowdinTranslationService.php
+
+		-
+			message: '#^Method App\\Service\\ExportExtensionTranslationStatusService\:\:simplifyStatus\(\) should return string but returns string\|false\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Service/ExportExtensionTranslationStatusService.php
+
+		-
+			message: '#^Method App\\Service\\Management\\ProjectService\:\:updateConfiguration\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Service/Management/ProjectService.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between '''' and ''t3'' will always evaluate to false\.$#'
+			identifier: identical.alwaysFalse
+			count: 1
+			path: src/Service/Management/ProjectService.php
+
+		-
+			message: '#^Method App\\Service\\Management\\StatusService\:\:exportHtml\(\) has parameter \$data with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Service/Management/StatusService.php
+
+		-
+			message: '#^Method App\\Service\\Management\\StatusService\:\:exportJson\(\) has parameter \$configuration with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Service/Management/StatusService.php
+
+		-
+			message: '#^Method App\\Service\\Management\\StatusService\:\:getStatus\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Service/Management/StatusService.php
+
+		-
+			message: '#^Offset ''languages'' might not exist on array\{\}\|array\{languages\: non\-empty\-array\}\.$#'
+			identifier: offsetAccess.notFound
+			count: 1
+			path: src/Service/Management/StatusService.php
+
+		-
+			message: '#^Ternary operator condition is always true\.$#'
+			identifier: ternary.alwaysTrue
+			count: 1
+			path: src/Service/Management/StatusService.php
+
+		-
+			message: '#^Call to an undefined static method App\\Utility\\FileHandling\:\:mkdir\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: src/Utility/FileHandling.php
+
+		-
+			message: '#^Method App\\Utility\\FileHandling\:\:copyDirectory\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/Utility/FileHandling.php
+
+		-
+			message: '#^Method App\\Utility\\FileHandling\:\:getFilesInDir\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Utility/FileHandling.php
+
+		-
+			message: '#^Method App\\Utility\\FileHandling\:\:get_dirs\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Utility/FileHandling.php
+
+		-
+			message: '#^Method App\\Utility\\FileHandling\:\:get_dirs\(\) should return array but returns list\<string\>\|string\|null\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Utility/FileHandling.php
+
+		-
+			message: '#^Method App\\Utility\\FileHandling\:\:mkdir_deep\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: src/Utility/FileHandling.php
+
+		-
+			message: '#^Method App\\Utility\\FileHandling\:\:mkdir_deep\(\) has parameter \$directory with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: src/Utility/FileHandling.php
+
+		-
+			message: '#^Method App\\Utility\\FileHandling\:\:trimExplode\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: src/Utility/FileHandling.php
+
+		-
+			message: '#^Parameter \#1 \$directory of function opendir expects string, string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Utility/FileHandling.php
+
+		-
+			message: '#^Parameter \#1 \$directory of function rmdir expects string, string\|null given\.$#'
+			identifier: argument.type
+			count: 3
+			path: src/Utility/FileHandling.php
+
+		-
+			message: '#^Parameter \#1 \$filename of function file_exists expects string, string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Utility/FileHandling.php
+
+		-
+			message: '#^Parameter \#1 \$filename of function is_dir expects string, string\|null given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Utility/FileHandling.php
+
+		-
+			message: '#^Parameter \#1 \$filename of function is_link expects string, string\|null given\.$#'
+			identifier: argument.type
+			count: 3
+			path: src/Utility/FileHandling.php
+
+		-
+			message: '#^Parameter \#1 \$filename of function unlink expects string, string\|null given\.$#'
+			identifier: argument.type
+			count: 2
+			path: src/Utility/FileHandling.php
+
+		-
+			message: '#^Parameter \#1 \$separator of function explode expects non\-empty\-string, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Utility/FileHandling.php
+
+		-
+			message: '#^Parameter \#2 \$permissions of function chmod expects int, float\|int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Utility/FileHandling.php
+
+		-
+			message: '#^Parameter \#2 \$permissions of function mkdir expects int, float\|int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Utility/FileHandling.php
+
+		-
+			message: '#^Parameter \#3 \$length of function substr expects int\|null, int\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Utility/FileHandling.php
