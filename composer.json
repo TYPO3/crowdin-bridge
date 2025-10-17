@@ -24,7 +24,7 @@
 		"php": "^8.4",
 		"ext-json": "*",
 		"ext-zip": "*",
-		"crowdin/crowdin-api-client": "^1.18",
+		"crowdin/crowdin-api-client": "^1.19",
 		"symfony/console": "*",
 		"symfony/dependency-injection": "*",
 		"symfony/dotenv": "*",
