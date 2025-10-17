@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Entity\BridgeConfiguration;
-use App\Service\ExportService;
+use App\Build\Builder;
+use App\Build\Progress;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -16,14 +16,12 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(
     name: 'app:build',
-    description: 'Trigger build of a project',
-    hidden: false
+    description: 'Trigger build of one or all projects',
 )]
-class BuildCommand extends Command
+final class BuildCommand extends Command
 {
     public function __construct(
-        protected readonly BridgeConfiguration $bridgeConfiguration,
-        protected readonly ExportService $exportService,
+        private readonly Builder $builder,
         ?string $name = null
     ) {
         parent::__construct($name);
@@ -32,57 +30,39 @@ class BuildCommand extends Command
     protected function configure()
     {
         $this
-            ->addArgument('project', InputArgument::OPTIONAL, 'Project identifier');
+            ->addArgument('project', InputArgument::OPTIONAL, 'Project identifier', '');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
         $projectIdentifier = $input->getArgument('project');
-        $projects = $this->bridgeConfiguration->getAllProjects();
-
-        if ($projectIdentifier) {
-            if (!isset($projects[$projectIdentifier])) {
-                $io->error(sprintf('Project "%s" does not exist', $projectIdentifier));
-                return Command::FAILURE;
-            }
-            $this->exportSingleProject($projectIdentifier, true, $io);
-            return Command::SUCCESS;
-        }
-
         $verbose = $output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE;
-        $progressBar = new ProgressBar($output, count($projects));
-        $progressBar->start();
+        $progressBar = new ProgressBar($output);
+        $progress = new Progress(
+            static function ($max) use ($progressBar) {
+                $progressBar->start($max);
+            },
+            static function () use ($progressBar) {
+                $progressBar->advance();
+            },
+            static function () use ($progressBar) {
+                $progressBar->finish();
+            }
+        );
 
-        foreach ($projects as $project) {
-            $this->exportSingleProject($project->getCrowdinIdentifier(), $verbose, $io);
-            $progressBar->advance();
-        }
-        $progressBar->finish();
-        return Command::SUCCESS;
-    }
-
-    protected function exportSingleProject(string $projectIdentifier, bool $verbose, SymfonyStyle $io): void
-    {
         try {
-            $response = $this->exportService->export($projectIdentifier);
-            $text = sprintf('Trigger build of project "%s"', $projectIdentifier);
-            $status = 'comment';
-            if ($response) {
-                if ($response->getStatus() === 'finished' && $response->getProgress() === 100) {
-                    $status = 'info';
-                }
-                $text .= sprintf(' with progress "%s": %s%%.', $response->getStatus(), $response->getProgress());
-            }
-            if ($verbose) {
-                if ($status === 'info') {
-                    $io->info($text);
-                } else {
-                    $io->comment($text);
-                }
-            }
-        } catch (\Exception $e) {
-            $io->error(sprintf('ERROR triggering build of "%s": %s', $projectIdentifier, $e->getMessage()));
+            $this->builder->build($projectIdentifier, $progress, $io, $verbose);
+        } catch (\Throwable $t) {
+            $io->error($t->getMessage());
+            return Command::FAILURE;
         }
+
+        if ($projectIdentifier === '') {
+            $io->success('All projects have been successfully built');
+        } else {
+            $io->success(\sprintf('Project "%s" has been successfully built', $projectIdentifier));
+        }
+        return Command::SUCCESS;
     }
 }
