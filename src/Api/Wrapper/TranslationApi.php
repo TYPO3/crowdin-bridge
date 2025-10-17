@@ -27,17 +27,7 @@ class TranslationApi extends Client
         return $this->client->translation->downloadProjectBuild($projectId, $buildId);
     }
 
-    public function getBuilds(int $projectId)
-    {
-        $params = [
-            'limit' => 10,
-        ];
-        return $this->client->translation->getProjectBuilds($projectId, $params);
-    }
-
     /**
-     * @param int $projectId
-     * @return int build id
      * @throws NoFinishedProjectBuildFoundException
      */
     public function getLastFinishedBuildId(int $projectId): int
@@ -46,7 +36,7 @@ class TranslationApi extends Client
             'limit' => 10,
         ];
         $items = $this->client->translation->getProjectBuilds($projectId, $params);
-        if (!$items) {
+        if (count($items) === 0) {
             throw new NoFinishedProjectBuildFoundException(sprintf('No builds found for project "%s"', $projectId));
         }
         foreach ($items as $item) {
@@ -56,7 +46,5 @@ class TranslationApi extends Client
             }
         }
         throw new NoFinishedProjectBuildFoundException(sprintf('No finished build found for project "%s"', $projectId));
-
     }
-
 }
