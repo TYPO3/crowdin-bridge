@@ -33,8 +33,10 @@ The following steps are taken:
 
 The following secrets are required:
 
-- `CROWDIN_ACCESS_TOKEN`: Access token for Crowdin Account
-- `SCP_HOST`: SSH Host info
-- `SCP_USERNAME`: SSH user info
-- `SCP_PORT`: SSH port info
-- `SSH_PRIVATE_KEY`: SSH private key
+- **Crowdin**
+  - `CROWDIN_ACCESS_TOKEN`: Access token for Crowdin Account
+- **TYPO3 translation server**
+  - `SCP_HOST`: SSH Host info
+  - `SCP_USERNAME`: SSH user info
+  - `SCP_PORT`: SSH port info
+  - `SSH_PRIVATE_KEY`: SSH private key
