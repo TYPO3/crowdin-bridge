@@ -22,7 +22,7 @@ The following steps are taken:
 
 1. Generate local configuration file `app:setup`
 2. Download & process all translations
-   1. From Extensions: `app:extract:extensions`
+   1. From Extensions: `app:extract:extension`
    2. From Core: `app:extract:core'`
 3. Create status
    1. Single status for each extension `app:status:project`
