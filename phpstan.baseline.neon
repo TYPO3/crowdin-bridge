@@ -73,42 +73,6 @@ parameters:
 			path: src/Entity/ProjectConfiguration.php
 
 		-
-			message: '#^Method App\\Info\\CoreInformation\:\:getAllCoreBranches\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Info/CoreInformation.php
-
-		-
-			message: '#^Method App\\Info\\CoreInformation\:\:getAllCoreExtensionKeys\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Info/CoreInformation.php
-
-		-
-			message: '#^Method App\\Info\\CoreInformation\:\:getCoreExtensionKeys\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Info/CoreInformation.php
-
-		-
-			message: '#^Method App\\Info\\CoreInformation\:\:getVersionForBranchName\(\) should return int but returns int\|false\.$#'
-			identifier: return.type
-			count: 1
-			path: src/Info/CoreInformation.php
-
-		-
-			message: '#^Offset 9\|10\|11\|12\|13\|14 might not exist on array\{13\: ''13\.4'', 12\: ''12\.4'', 11\: ''11\.5'', 10\: ''10\.4'', 9\: ''9\.5''\}\.$#'
-			identifier: offsetAccess.notFound
-			count: 1
-			path: src/Info/CoreInformation.php
-
-		-
-			message: '#^Strict comparison using \=\=\= between 9\|10\|11\|12\|13\|false and null will always evaluate to false\.$#'
-			identifier: identical.alwaysFalse
-			count: 1
-			path: src/Info/CoreInformation.php
-
-		-
 			message: '#^Method App\\Info\\LanguageInformation\:\:getLanguageForCrowdin\(\) should return string but returns int\|string\.$#'
 			identifier: return.type
 			count: 1
