@@ -13,30 +13,6 @@ parameters:
 			path: src/Command/Extract/ExtractExtensionCommand.php
 
 		-
-			message: '#^Method App\\Command\\Status\\OverviewStatusCommand\:\:spread\(\) has parameter \$add with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Command/Status/OverviewStatusCommand.php
-
-		-
-			message: '#^Method App\\Command\\Status\\OverviewStatusCommand\:\:spread\(\) has parameter \$existing with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Command/Status/OverviewStatusCommand.php
-
-		-
-			message: '#^Method App\\Command\\Status\\OverviewStatusCommand\:\:spread\(\) is unused\.$#'
-			identifier: method.unused
-			count: 1
-			path: src/Command/Status/OverviewStatusCommand.php
-
-		-
-			message: '#^Method App\\Command\\Status\\OverviewStatusCommand\:\:spread\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Command/Status/OverviewStatusCommand.php
-
-		-
 			message: '#^Method App\\Command\\Status\\ProjectStatusCommand\:\:exportProject\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1

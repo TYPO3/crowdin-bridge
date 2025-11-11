@@ -16,10 +16,12 @@ use Symfony\Component\Console\Style\SymfonyStyle;
     description: 'Status of all crowdin projects',
     hidden: false
 )]
-class OverviewStatusCommand extends Command
+final class OverviewStatusCommand extends Command
 {
-    public function __construct(protected StatusService $statusService, ?string $name = null)
-    {
+    public function __construct(
+        private StatusService $statusService,
+        ?string $name = null
+    ) {
         parent::__construct($name);
     }
 
@@ -28,18 +30,9 @@ class OverviewStatusCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $io->title('Status of all projects');
 
-        $response = $this->statusService->getStatus(true);
+        $this->statusService->getStatus(true);
 
         $io->info('Status has been exported!');
         return Command::SUCCESS;
     }
-
-    private function spread(array $existing, array $add): array
-    {
-        foreach ($add as $value) {
-            $existing[] = $value;
-        }
-        return $existing;
-    }
-
 }
