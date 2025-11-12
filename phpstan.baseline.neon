@@ -31,6 +31,12 @@ parameters:
 			path: src/Entity/BridgeConfiguration.php
 
 		-
+			message: '#^Offset ''projects'' might not exist on array\|null\.$#'
+			identifier: offsetAccess.notFound
+			count: 2
+			path: src/Entity/BridgeConfiguration.php
+
+		-
 			message: '#^Property App\\Entity\\BridgeConfiguration\:\:\$data type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -263,18 +269,6 @@ parameters:
 			identifier: return.type
 			count: 1
 			path: src/Service/ExportExtensionTranslationStatusService.php
-
-		-
-			message: '#^Method App\\Service\\Management\\ProjectService\:\:updateConfiguration\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Service/Management/ProjectService.php
-
-		-
-			message: '#^Strict comparison using \=\=\= between '''' and ''t3'' will always evaluate to false\.$#'
-			identifier: identical.alwaysFalse
-			count: 1
-			path: src/Service/Management/ProjectService.php
 
 		-
 			message: '#^Method App\\Service\\Management\\StatusService\:\:exportHtml\(\) has parameter \$data with no value type specified in iterable type array\.$#'

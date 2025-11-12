@@ -20,14 +20,15 @@ Triggered by: `app:build`
 
 The following steps are taken:
 
-1. Generate local configuration file `app:setup`
-2. Download & process all translations
+1. Configure your local `.env` file (have a look at `.env.ci`)
+2. Generate local configuration file `bin/crowdinSetup`
+3. Download & process all translations
    1. From Extensions: `app:extract:extension`
    2. From Core: `app:extract:core'`
-3. Create status
+4. Create status
    1. Single status for each extension `app:status:project`
    2. Total status `app:status:overview`
-4. Copy (rsync) all files to translation server
+5. Copy (rsync) all files to translation server
 
 ### Configuration
 

@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 
-namespace Build;
+namespace App\Tests\Build;
 
 use App\Build\ProjectNotFoundException;
 use PHPUnit\Framework\Attributes\CoversClass;

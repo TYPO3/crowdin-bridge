@@ -25,6 +25,7 @@
 		"ext-json": "*",
 		"ext-zip": "*",
 		"crowdin/crowdin-api-client": "^1.19",
+		"friendsoftypo3/crowdin-base": "dev-main@dev",
 		"symfony/console": "*",
 		"symfony/dependency-injection": "*",
 		"symfony/dotenv": "*",
@@ -33,6 +34,7 @@
 		"symfony/flex": "^2.8",
 		"symfony/framework-bundle": "*",
 		"symfony/monolog-bundle": "^3.10",
+		"symfony/polyfill-php85": "^1.33",
 		"symfony/runtime": "*",
 		"symfony/yaml": "*",
 		"typo3fluid/fluid": "^4.4"
@@ -42,6 +44,12 @@
 		"phpstan/phpstan": "^2.1",
 		"phpunit/phpunit": "^12.4"
 	},
+	"repositories": [
+		{
+			"type": "vcs",
+			"url": "https://github.com/FriendsOfTYPO3/crowdin-base"
+		}
+	],
 	"replace": {
 		"symfony/polyfill-php80": "*",
 		"symfony/polyfill-php81": "*",
@@ -51,6 +59,11 @@
 	"autoload": {
 		"psr-4": {
 			"App\\": "src/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"App\\Tests\\": "tests/"
 		}
 	},
 	"scripts": {

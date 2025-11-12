@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Utility\FileHandling;
-
 final class ProjectConfiguration
 {
     private const bool ENABLE_T3_EXPORT = true;
@@ -29,7 +27,7 @@ final class ProjectConfiguration
         }
         $this->extensionKey = $configuration['extensionKey'];
         $this->id = (int)($configuration['id'] ?? 0);
-        $this->languages = FileHandling::trimExplode(',', $configuration['languages'] ?? '', true);
+        $this->languages = $configuration['languages'];
         $this->branch = $configuration['branch'] ?? 'master';
     }
 

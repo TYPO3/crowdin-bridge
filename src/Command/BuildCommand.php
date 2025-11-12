@@ -22,12 +22,11 @@ final class BuildCommand extends Command
 {
     public function __construct(
         private readonly Builder $builder,
-        ?string $name = null
     ) {
-        parent::__construct($name);
+        parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->addArgument('project', InputArgument::OPTIONAL, 'Project identifier', '');
