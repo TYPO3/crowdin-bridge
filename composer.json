@@ -39,7 +39,8 @@
 	},
 	"require-dev": {
 		"friendsofphp/php-cs-fixer": "^3.89.2",
-		"phpstan/phpstan": "^2.1"
+		"phpstan/phpstan": "^2.1",
+		"phpunit/phpunit": "^12.4"
 	},
 	"replace": {
 		"symfony/polyfill-php80": "*",
@@ -63,6 +64,11 @@
 		"post-update-cmd": [
 			"@auto-scripts"
 		],
+		"all": [
+			"@csfix",
+			"@stan",
+			"@tests"
+		],
 		"cs": [
 			"./bin/php-cs-fixer fix -v --dry-run --config .build/php-cs-fixer.php"
 		],
@@ -71,6 +77,9 @@
 		],
 		"stan": [
 			"./bin/phpstan"
+		],
+		"tests": [
+			"./bin/phpunit"
 		]
 	},
 	"conflict": {

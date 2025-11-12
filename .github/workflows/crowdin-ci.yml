@@ -38,3 +38,7 @@ jobs:
       - name: Run static analysis
         run: |
           composer stan
+
+      - name: Run tests
+        run: |
+            composer tests
