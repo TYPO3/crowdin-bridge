@@ -2,9 +2,6 @@ name: Crowdin Build
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - v3
   schedule:
     - cron:  '0 */2 * * *'
 jobs:
