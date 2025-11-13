@@ -31,16 +31,16 @@ readonly class CoreInformation
         'about',
         'adminpanel',
         'backend',
-        'beuser',
         'belog',
+        'beuser',
         'core',
+        'dashboard',
         'extbase',
         'extensionmanager',
         'felogin',
         'filelist',
         'filemetadata',
         'fluid',
-        'frontend',
         'fluid_styled_content',
         'form',
         'frontend',
@@ -56,22 +56,19 @@ readonly class CoreInformation
         'recycler',
         'redirects',
         'reports',
+        'rsaauth',
         'scheduler',
         'seo',
         'setup',
+        'styleguide',
+        'sys_action',
         'sys_note',
         't3editor',
+        'taskcenter',
         'tstemplate',
         'viewpage',
         'webhooks',
         'workspaces',
-    ];
-    private const array CORE_EXTENSIONS_9 = [
-        'info', 'rsaauth', 'sys_action', 'taskcenter',
-    ];
-
-    private const array CORE_EXTENSIONS_10 = [
-        'dashboard',
     ];
 
     public static function getLatestVersion(): int
@@ -97,7 +94,7 @@ readonly class CoreInformation
      */
     public static function getAllCoreExtensionKeys(): array
     {
-        return array_merge(self::CORE_EXTENSIONS, self::CORE_EXTENSIONS_9, self::CORE_EXTENSIONS_10);
+        return self::CORE_EXTENSIONS;
     }
 
     /**
