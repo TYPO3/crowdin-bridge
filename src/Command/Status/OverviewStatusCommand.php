@@ -13,16 +13,14 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(
     name: 'app:status:overview',
-    description: 'Status of all crowdin projects',
-    hidden: false
+    description: 'Status of all crowdin projects used for status page on translation server',
 )]
 final class OverviewStatusCommand extends Command
 {
     public function __construct(
-        private StatusService $statusService,
-        ?string $name = null
+        private readonly StatusService $statusService,
     ) {
-        parent::__construct($name);
+        parent::__construct();
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
