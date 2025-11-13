@@ -28,7 +28,7 @@ jobs:
         env:
           CROWDIN_ACCESS_TOKEN: ${{ secrets.CROWDIN_ACCESS_TOKEN }}
         run: |
-            php ./bin/console app:setup
+            ./bin/crowdinSetup
 
       - name: Extract translations
         env:
