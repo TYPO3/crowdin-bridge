@@ -11,7 +11,7 @@ use App\Utility\FileHandling;
 class BridgeConfiguration
 {
     private string $configurationFile;
-    protected array $data = [];
+    protected ?array $data = null;
 
     public function __construct(bool $exceptionIfConfigurationFileMissing = true)
     {

@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 
-namespace Command;
+namespace App\Tests\Command;
 
 use App\Build\Builder;
 use App\Build\ProjectNotFoundException;
@@ -52,8 +52,7 @@ final class BuildCommandTest extends TestCase
 
         $this->builderMock
             ->method('build')
-            ->with($projectIdentifier, self::anything(), self::anything(), self::anything())
-            ->willReturn(true);
+            ->with($projectIdentifier, self::anything(), self::anything(), self::anything());
 
         $this->commandTester->execute(['project' => $projectIdentifier]);
 
@@ -66,8 +65,7 @@ final class BuildCommandTest extends TestCase
     {
         $this->builderMock
             ->method('build')
-            ->with('', self::anything(), self::anything(), self::anything())
-            ->willReturn(true);
+            ->with('', self::anything(), self::anything(), self::anything());
 
         $this->commandTester->execute([]);
 

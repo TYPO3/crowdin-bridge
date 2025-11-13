@@ -22,3 +22,12 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    FriendsOfTYPO3\CrowdinBase\Configuration\ConfigurationReader:
+      arguments:
+        $configurationFile: '%env(CONFIGURATION_FILE)%'
+
+    App\Configuration\ProjectCollectionFactory: ~
+
+    App\Configuration\ProjectCollection:
+      factory: ['@App\Configuration\ProjectCollectionFactory', 'createProjectCollection']

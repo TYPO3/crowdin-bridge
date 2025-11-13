@@ -4,38 +4,35 @@ declare(strict_types=1);
 
 namespace App\Build;
 
-use App\Entity\BridgeConfiguration;
+use App\Configuration\ProjectCollection;
 use App\Service\ExportService;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 readonly class Builder
 {
     public function __construct(
-        private BridgeConfiguration $bridgeConfiguration,
+        private ProjectCollection $projectCollection,
         private ExportService $exportService,
     ) {}
 
-    public function build(string $projectIdentifier, Progress $progress, SymfonyStyle $io, bool $verbose): true
+    public function build(string $projectIdentifier, Progress $progress, SymfonyStyle $io, bool $verbose): void
     {
-        $projects = $this->bridgeConfiguration->getAllProjects();
         if ($projectIdentifier !== '') {
-            if (!isset($projects[$projectIdentifier])) {
+            if (!$this->projectCollection->findByIdentifier($projectIdentifier)) {
                 throw ProjectNotFoundException::fromProjectIdentifier($projectIdentifier);
             }
 
             $this->exportSingleProject($projectIdentifier, true, $io);
 
-            return true;
+            return;
         }
 
-        ($progress->start)(count($projects));
-        foreach ($projects as $project) {
-            $this->exportSingleProject($project->getCrowdinIdentifier(), $verbose, $io);
+        ($progress->start)(count($this->projectCollection));
+        foreach ($this->projectCollection as $project) {
+            $this->exportSingleProject($project->identifier, $verbose, $io);
             ($progress->advance)();
         }
         ($progress->finish)();
-
-        return true;
     }
 
     private function exportSingleProject(string $projectIdentifier, bool $verbose, SymfonyStyle $io): void
@@ -61,5 +58,4 @@ readonly class Builder
             $io->error(sprintf('ERROR triggering build of "%s": %s', $projectIdentifier, $e->getMessage()));
         }
     }
-
 }
