@@ -89,18 +89,25 @@ async function fetchJsonData(sourceJson) {
     }
 }
 
-// Render extension with link to crowdin project & ter
+// Render extension with link to crowdin project & source (currently TER only)
 function renderCellExtension(params) {
     let link_crowdin;
-    let link_ter;
+    // Crowdin may be not "usable"
     if (params.data.usable) {
         link_crowdin = `<a href="${sourceCrowdin}${params.data.crowdinKey}" target="_blank" title="Crowdin">${params.data.extensionKey}</a>`;
-        link_ter = `<a href="${sourceTYPO3ExtensionRepository}${params.data.extensionKey}" target="_blank" title="TYPO3 extension repository">ter</a>`;
     } else {
         link_crowdin = `<a href="${sourceCrowdin}${params.data.crowdinKey}" target="_blank" title="Crowdin"><del>${params.data.extensionKey}</del></a>`;
-        link_ter = `<a href="${sourceTYPO3ExtensionRepository}${params.data.extensionKey}" target="_blank" title="TYPO3 extension repository">ter</a>`;
     }
-    return `${link_crowdin} | ${link_ter}`;
+
+    let link_src;
+    // TER only for extensions
+    if ( params.data.extensionKey != 'typo3-cms') {
+        link_src = `<a href="${sourceTYPO3ExtensionRepository}${params.data.extensionKey}" target="_blank" title="TYPO3 extension repository">ter</a>`;
+    } else {
+        link_src = null;
+    }
+
+    return `${(link_crowdin) + (link_src ? ' | ' + link_src : '')}`;
 }
 
 // Render crowdin project language link
