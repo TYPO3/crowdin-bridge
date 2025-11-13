@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const gridOptions = {
             columnDefs: columnDefs,
             defaultColDef: defaultColDef,
-            headerHeight: 100,
+            headerHeight: 110,
             theme: agGrid.themeMaterial,
         };
 

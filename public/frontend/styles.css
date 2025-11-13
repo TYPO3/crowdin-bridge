@@ -28,8 +28,8 @@ body {
 }
 .ag-header-cell-custom-languagestyle .ag-header-cell-label .ag-header-cell-text {
     display:inline-block;
-    height: 72px;
-    margin-top: 15px;
+    height: 90px;
+    margin-top: 10px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
