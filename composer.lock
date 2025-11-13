@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "93cf851a62c4118b29935e792854120e",
+    "content-hash": "2f62848b8b7b96bdc9cd535f2b8c844c",
     "packages": [
         {
             "name": "crowdin/crowdin-api-client",
@@ -74,12 +74,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfTYPO3/crowdin-base.git",
-                "reference": "be252ff791c7993a72c453b29444db2eb6928589"
+                "reference": "fd991024f81b3879db39910391f98468d781765d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfTYPO3/crowdin-base/zipball/be252ff791c7993a72c453b29444db2eb6928589",
-                "reference": "be252ff791c7993a72c453b29444db2eb6928589",
+                "url": "https://api.github.com/repos/FriendsOfTYPO3/crowdin-base/zipball/fd991024f81b3879db39910391f98468d781765d",
+                "reference": "fd991024f81b3879db39910391f98468d781765d",
                 "shasum": ""
             },
             "require": {
@@ -151,7 +151,7 @@
                 "source": "https://github.com/FriendsOfTYPO3/crowdin-base/tree/main",
                 "issues": "https://github.com/FriendsOfTYPO3/crowdin-base/issues"
             },
-            "time": "2025-11-12T12:03:13+00:00"
+            "time": "2025-11-13T10:33:51+00:00"
         },
         {
             "name": "graham-campbell/result-type",
