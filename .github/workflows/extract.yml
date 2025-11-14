@@ -1,9 +1,9 @@
-name: Crowdin Extract
+name: Extract
 
 on:
   workflow_dispatch:
   schedule:
-    - cron:  '30 */2 * * *'
+    - cron:  '15 */2 * * *'
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -26,6 +26,12 @@ jobs:
           CROWDIN_ACCESS_TOKEN: ${{ secrets.CROWDIN_ACCESS_TOKEN }}
         run: |
             ./bin/crowdinSetup
+
+      - name: Build all projects
+        env:
+          CROWDIN_ACCESS_TOKEN: ${{ secrets.CROWDIN_ACCESS_TOKEN }}
+        run: |
+          php ./bin/console app:build -v
 
       - name: Extract translations
         env:
