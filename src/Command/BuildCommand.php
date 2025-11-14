@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Build\Builder;
-use App\Build\Progress;
+use App\Console\Output\ProgressBarOutput;
+use App\Console\Output\ProjectIdentifierOutput;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -37,21 +38,10 @@ final class BuildCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $projectIdentifier = $input->getArgument('project');
         $verbose = $output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE;
-        $progressBar = new ProgressBar($output);
-        $progress = new Progress(
-            static function ($max) use ($progressBar) {
-                $progressBar->start($max);
-            },
-            static function () use ($progressBar) {
-                $progressBar->advance();
-            },
-            static function () use ($progressBar) {
-                $progressBar->finish();
-            }
-        );
+        $progressOutput = $verbose ? new ProjectIdentifierOutput($io) : new ProgressBarOutput(new ProgressBar($output), $io);
 
         try {
-            $this->builder->build($projectIdentifier, $progress, $io, $verbose);
+            $this->builder->build($projectIdentifier, $progressOutput);
         } catch (\Throwable $t) {
             $io->error($t->getMessage());
             return Command::FAILURE;

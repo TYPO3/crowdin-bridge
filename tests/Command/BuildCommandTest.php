@@ -11,7 +11,6 @@ use App\Command\BuildCommand;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -36,7 +35,7 @@ final class BuildCommandTest extends TestCase
 
         $this->builderMock
             ->method('build')
-            ->with($projectIdentifier, self::anything(), self::anything(), self::anything())
+            ->with($projectIdentifier, self::anything())
             ->willThrowException(ProjectNotFoundException::fromProjectIdentifier($projectIdentifier));
 
         $this->commandTester->execute(['project' => $projectIdentifier]);
@@ -52,24 +51,24 @@ final class BuildCommandTest extends TestCase
 
         $this->builderMock
             ->method('build')
-            ->with($projectIdentifier, self::anything(), self::anything(), self::anything());
+            ->with($projectIdentifier, self::anything());
 
         $this->commandTester->execute(['project' => $projectIdentifier]);
 
         self::assertStringContainsString('[OK] Project "valid-identifier" has been successfully built', $this->commandTester->getDisplay());
-        self::assertSame(Command::SUCCESS, $this->commandTester->getStatusCode());
+        $this->commandTester->assertCommandIsSuccessful();
     }
 
     #[Test]
-    public function callingBuilderForAllProjectsReturnsSuccess(): void
+    public function callingBuilderForAllProjectsReturnsSuccessInNonVerboseMode(): void
     {
         $this->builderMock
             ->method('build')
-            ->with('', self::anything(), self::anything(), self::anything());
+            ->with('', self::anything());
 
         $this->commandTester->execute([]);
 
         self::assertStringContainsString('[OK] All projects have been successfully built', $this->commandTester->getDisplay());
-        self::assertSame(Command::SUCCESS, $this->commandTester->getStatusCode());
+        $this->commandTester->assertCommandIsSuccessful();
     }
 }
