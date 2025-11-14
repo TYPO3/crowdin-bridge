@@ -55,7 +55,7 @@ final class BuildCommandTest extends TestCase
 
         $this->commandTester->execute(['project' => $projectIdentifier]);
 
-        self::assertStringContainsString('[OK] Project "valid-identifier" has been successfully built', $this->commandTester->getDisplay());
+        self::assertStringContainsString('[OK] Project "valid-identifier" has been built', $this->commandTester->getDisplay());
         $this->commandTester->assertCommandIsSuccessful();
     }
 
@@ -68,7 +68,7 @@ final class BuildCommandTest extends TestCase
 
         $this->commandTester->execute([]);
 
-        self::assertStringContainsString('[OK] All projects have been successfully built', $this->commandTester->getDisplay());
+        self::assertStringContainsString('[OK] Projects have been built', $this->commandTester->getDisplay());
         $this->commandTester->assertCommandIsSuccessful();
     }
 }
