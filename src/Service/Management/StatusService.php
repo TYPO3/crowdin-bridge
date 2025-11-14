@@ -101,29 +101,8 @@ class StatusService
         $view = new TemplateView();
         $view->getRenderingContext()->getTemplatePaths()->setTemplatePathAndFilename($pathToRoot . 'templates/Templates/Status.html');
         $view->assignMultiple([
-            'date' => date('r'),
+            'date' => (new \DateTime('now', new \DateTimeZone('UTC')))->format('D, d M Y H:i:s') . ' UTC',
         ]);
-
-        $coreProject = null;
-        $usableProjects = $notUsableProjects = [];
-        foreach ($data['projects'] as $p) {
-            if ($p['crowdinKey'] === 'typo3-cms') {
-                $coreProject = $p;
-            } else {
-                if ($p['usable']) {
-                    $usableProjects[] = $p;
-                } else {
-                    $notUsableProjects[] = $p;
-                }
-            }
-        }
-        $view->assignMultiple([
-            'coreProject' => $coreProject,
-            'usableProjects' => $usableProjects,
-            'countUsableProjects' => count($usableProjects) + 1, // add core
-            'notUsableProjects' => $notUsableProjects,
-        ]);
-
         $filename = $this->projectApi->getConfiguration()->getPathRsync() . 'status.html';
         FileHandling::copyDirectory($pathToRoot . 'public/frontend/', $this->projectApi->getConfiguration()->getPathRsync());
         file_put_contents($filename, $view->render());

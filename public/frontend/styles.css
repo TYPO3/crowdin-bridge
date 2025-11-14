@@ -1,0 +1,74 @@
+/*!
+ * Data grid for status page at https://localize.typo3.org/
+ * AG Grid community v34.3.1
+ */
+:root,
+body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    --ag-font-size: 16px;
+}
+
+:where(.ag-ltr) .ag-cell:not(.ag-cell-inline-editing) {
+    padding-left: calc(var(--ag-cell-horizontal-padding) /2 - 1px + var(--ag-row-group-indent-size)*var(--ag-indentation-level));
+    padding-right: calc(var(--ag-cell-horizontal-padding) /2 - 1px);
+}
+.ag-header-cell, .ag-header-group-cell {
+    padding: 0 calc(var(--ag-cell-horizontal-padding) /2);
+}
+.ag-header-cell-label {
+    height: 100%;
+}
+.ag-header-cell-label, .ag-header-group-cell-label {
+    align-items: baseline;
+}
+.ag-header-cell-label .ag-header-cell-text {
+    margin-top: 40px;
+}
+.ag-header-cell-custom-languagestyle .ag-header-cell-label .ag-header-cell-text {
+    display:inline-block;
+    height: 90px;
+    margin-top: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    writing-mode: vertical-lr;
+    -ms-writing-mode: tb-lr;
+}
+
+.ag-sort-indicator-container {
+    display: flex;
+    gap: var(--ag-spacing);
+}
+:where(.ag-ltr) .ag-sort-indicator-icon {
+    padding-left: 0;
+}
+
+.ag-theme-material {
+    --ag-odd-row-background-color: #E04F00;
+}
+.ag-theme-material .ag-row-odd {
+    background-color: var(--ag-odd-row-background-color);
+}
+
+.ag-row-even {
+    background-color: #fafafa;
+}
+
+.cell-element {
+    padding: 2px;
+    font-size: calc(var(--ag-font-size) * 0.75);
+}
+.cell-bg-red .cell-element {
+    background-color: #cc222244;
+}
+.cell-bg-green .cell-element {
+    background-color: #33cc3344;
+}
+.cell-bg-blue .cell-element {
+    background-color: #2244cc44;
+}
+.cell-link-text-decoration a {
+    text-decoration: none;
+}
