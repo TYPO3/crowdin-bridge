@@ -8,6 +8,7 @@ use App\Api\Wrapper\ProjectApi;
 use App\Configuration\ProjectCollection;
 use App\Entity\ProjectConfiguration;
 use App\Exception\ExtensionNotAvailableInFileConfigurationException;
+use App\File\PathResolver;
 use App\Utility\FileHandling;
 use CrowdinApiClient\Model\Progress;
 use FriendsOfTYPO3\CrowdinBase\Configuration\Entity\Project;
@@ -16,6 +17,7 @@ use TYPO3Fluid\Fluid\View\TemplateView;
 final readonly class StatusService
 {
     public function __construct(
+        private PathResolver $pathResolver,
         private ProjectCollection $projectCollection,
         private ProjectApi $projectApi
     ) {}
@@ -90,20 +92,19 @@ final readonly class StatusService
 
     private function exportJson(array $configuration): void
     {
-        $filename = $this->projectApi->getConfiguration()->getPathRsync() . 'status.json';
+        $filename = $this->pathResolver->getRsyncPath() . '/status.json';
         file_put_contents($filename, json_encode($configuration, JSON_PRETTY_PRINT));
     }
 
     private function exportHtml(): void
     {
-        $pathToRoot = __DIR__ . '/../../../';
         $view = new TemplateView();
-        $view->getRenderingContext()->getTemplatePaths()->setTemplatePathAndFilename($pathToRoot . 'templates/Templates/Status.html');
+        $view->getRenderingContext()->getTemplatePaths()->setTemplatePathAndFilename($this->pathResolver->getTemplatesPath() . '/Status.html');
         $view->assignMultiple([
             'date' => (new \DateTime('now', new \DateTimeZone('UTC')))->format('D, d M Y H:i:s') . ' UTC',
         ]);
-        $filename = $this->projectApi->getConfiguration()->getPathRsync() . 'status.html';
-        FileHandling::copyDirectory($pathToRoot . 'public/frontend/', $this->projectApi->getConfiguration()->getPathRsync());
+        $filename = $this->pathResolver->getRsyncPath() . '/status.html';
+        FileHandling::copyDirectory($this->pathResolver->getFrontendPath(), $this->pathResolver->getRsyncPath());
         file_put_contents($filename, $view->render());
     }
 }

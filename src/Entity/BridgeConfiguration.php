@@ -6,7 +6,6 @@ namespace App\Entity;
 
 use App\Exception\ExtensionNotAvailableInFileConfigurationException;
 use App\Exception\NoApiCredentialsException;
-use App\Utility\FileHandling;
 
 class BridgeConfiguration
 {
@@ -80,50 +79,6 @@ class BridgeConfiguration
             $list[$identifier] = ProjectConfiguration::initializeByArray($identifier, $projectConfiguration);
         }
         return $list;
-    }
-
-    public function getAllProjectKeys(): array
-    {
-        return array_keys($this->data['projects']);
-    }
-
-    public function getPathDownloads(): string
-    {
-        return $this->getPath('downloads');
-    }
-
-    public function getPathExport(): string
-    {
-        return $this->getPath('export');
-    }
-
-    public function getPathRsync(): string
-    {
-        return $this->getPath('rsync');
-    }
-
-    public function getPathFinal(): string
-    {
-        return $this->getPath('final');
-    }
-
-    private function getPath(string $key): string
-    {
-        $mainPath = getcwd() . '/export/';
-        if (!is_dir($mainPath)) {
-            FileHandling::mkdir_deep($mainPath);
-        }
-        if (!is_dir($mainPath)) {
-            throw new \RuntimeException(sprintf('Path "%s" does not exist', $mainPath), 1573629792);
-        }
-        $alternativePath = (string)getenv('PATH_' . $key);
-        $subPathKey = $alternativePath ?: $key;
-        $subPath = rtrim($mainPath, '/') . '/' . trim($subPathKey, '/') . '/';
-        if (!is_dir($subPath)) {
-            FileHandling::mkdir_deep($subPath);
-        }
-
-        return $subPath;
     }
 
     private function persistConfiguration(): void

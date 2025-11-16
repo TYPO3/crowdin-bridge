@@ -8,6 +8,7 @@ use App\Api\Wrapper\ProjectApi;
 use App\Api\Wrapper\TranslationApi;
 use App\Entity\ProjectConfiguration;
 use App\Exception\NoTranslationsAvailableException;
+use App\File\PathResolver;
 use App\Info\CoreInformation;
 use App\Info\LanguageInformation;
 use App\Utility\FileHandling;
@@ -27,6 +28,7 @@ class DownloadCrowdinTranslationService implements LoggerAwareInterface
     protected string $projectIdentifier;
 
     public function __construct(
+        protected readonly PathResolver $pathResolver,
         protected readonly ProjectApi $projectApi,
         protected readonly TranslationApi $translationApi
     ) {}
@@ -82,9 +84,9 @@ class DownloadCrowdinTranslationService implements LoggerAwareInterface
                 $this->logger->warning(sprintf('Language "%s" not available for extension "%s"', $language, $projectIdentifier));
                 continue;
             }
-            $downloadTarget = $this->projectApi->getConfiguration()->getPathDownloads() . $projectIdentifier . '-' . $language . '/' . $branchName . '/';
+            $downloadTarget = $this->pathResolver->getDownloadsPath() . '/' . $projectIdentifier . '-' . $language . '/' . $branchName . '/';
             $this->logger->info('Target directory: ' . $downloadTarget);
-            FileHandling::rmdir($this->projectApi->getConfiguration()->getPathDownloads() . $projectIdentifier . '-' . $language . '/', true);
+            FileHandling::rmdir($this->pathResolver->getDownloadsPath() . '/' . $projectIdentifier . '-' . $language . '/', true);
 
             $filesystem = new Filesystem();
             $filesystem->mirror($downloadTargetBase . $branchName . '/', $downloadTarget);
@@ -96,7 +98,7 @@ class DownloadCrowdinTranslationService implements LoggerAwareInterface
             }
             clearstatcache(true);
             //            try {
-            $downloadTarget = $this->projectApi->getConfiguration()->getPathDownloads() . $projectIdentifier . '-' . $language . '/';
+            $downloadTarget = $this->pathResolver->getDownloadsPath() . '/' . $projectIdentifier . '-' . $language . '/';
 
             // 4th: Iterate over every language directory
             // and remove all files that are not for the current language
@@ -124,29 +126,28 @@ class DownloadCrowdinTranslationService implements LoggerAwareInterface
     protected function cleanup(): void
     {
         if (self::REMOVE_ZIPS) {
-            $exportDir = $this->projectApi->getConfiguration()->getPathExport();
+            $exportDir = $this->pathResolver->getExportPath();
             $exportDirs = FileHandling::get_dirs($exportDir);
             foreach ($exportDirs as $dir) {
-                FileHandling::rmdir($exportDir . $dir, true);
+                FileHandling::rmdir($exportDir . '/' . $dir, true);
             }
         }
-        $downloadDir = FileHandling::get_dirs($this->projectApi->getConfiguration()->getPathDownloads());
+        $downloadDir = FileHandling::get_dirs($this->pathResolver->getDownloadsPath());
         foreach ($downloadDir as $dir) {
-            FileHandling::rmdir($this->projectApi->getConfiguration()->getPathDownloads() . $dir, true);
+            FileHandling::rmdir($this->pathResolver->getDownloadsPath() . '/' . $dir, true);
         }
     }
 
     protected function moveAllToRsyncDestination(): void
     {
-        $exportPath = $this->projectApi->getConfiguration()->getPathFinal();
-        $allPackages = FileHandling::getFilesInDir($exportPath, 'zip', true);
+        $allPackages = FileHandling::getFilesInDir($this->pathResolver->getFinalPath(), 'zip', true);
 
         foreach ($allPackages as $package) {
             $info = pathinfo($package);
             $split = explode('-', $info['basename']);
             $extensionName = $split[0];
 
-            $projectSubDir = $this->projectApi->getConfiguration()->getPathRsync() . sprintf('%s/%s/%s-l10n/', $extensionName[0], $extensionName[1], $extensionName);
+            $projectSubDir = $this->pathResolver->getRsyncPath() . sprintf('/%s/%s/%s-l10n/', $extensionName[0], $extensionName[1], $extensionName);
             FileHandling::mkdir_deep($projectSubDir);
             rename($package, $projectSubDir . $info['basename']);
         }
@@ -168,16 +169,16 @@ class DownloadCrowdinTranslationService implements LoggerAwareInterface
                 throw new \RuntimeException(sprintf('No sysext founds in: %s', $sysExtDir), 1566422270);
             }
 
-            $exportPath = $this->projectApi->getConfiguration()->getPathFinal();
+            $exportPath = $this->pathResolver->getFinalPath();
             FileHandling::mkdir_deep($exportPath);
             $language = LanguageInformation::getLanguageForTypo3($language);
             $zipBranchName = CoreInformation::getVersionForBranchName($branch);
             foreach ($sysExtList as $extensionKey) {
                 $source = $sysExtDir . $extensionKey;
                 if (in_array($extensionKey, CoreInformation::getAllCoreExtensionKeys(), true)) {
-                    $zipPath = $exportPath . sprintf('%s-l10n-%s.v%s.zip', $extensionKey, $language, $zipBranchName);
+                    $zipPath = $exportPath . sprintf('/%s-l10n-%s.v%s.zip', $extensionKey, $language, $zipBranchName);
                 } else {
-                    $zipPath = $exportPath . sprintf('%s-l10n-%s.zip', $extensionKey, $language);
+                    $zipPath = $exportPath . sprintf('/%s-l10n-%s.zip', $extensionKey, $language);
                 }
 
                 $this->logger->info(sprintf('Zip for "%s" in branch "%s" in "%s" ', $extensionKey, $zipBranchName, $language), ['source' => $source]);
@@ -209,10 +210,8 @@ class DownloadCrowdinTranslationService implements LoggerAwareInterface
             $filesystem->rename($dir, $newDirName);
         }
 
-        $exportPath = $this->projectApi->getConfiguration()->getPathFinal();
-
         $t3Language = $this->finalLanguageKey = LanguageInformation::getLanguageForTypo3($language);
-        $zipPath = $exportPath . sprintf('%s-l10n-%s.zip', $extensionKey, $t3Language);
+        $zipPath = $this->pathResolver->getFinalPath() . sprintf('/%s-l10n-%s.zip', $extensionKey, $t3Language);
         return $this->zipDir($newDirName, $zipPath, $extensionKey);
     }
 
@@ -291,10 +290,10 @@ class DownloadCrowdinTranslationService implements LoggerAwareInterface
 
     protected function downloadFromCrowdin(ProjectConfiguration $localProject): string
     {
-        $path = $this->projectApi->getConfiguration()->getPathExport();
+        $path = $this->pathResolver->getExportPath();
         FileHandling::mkdir_deep($path);
 
-        $finalName = $path . $this->projectIdentifier . '.zip';
+        $finalName = $path . '/' . $this->projectIdentifier . '.zip';
         if (!is_file($finalName)) {
             $buildId = $this->translationApi->getLastFinishedBuildId($localProject->getId());
             $downloadFile = $this->translationApi->downloadProject($localProject->getId(), $buildId);
@@ -344,7 +343,7 @@ class DownloadCrowdinTranslationService implements LoggerAwareInterface
 
     private function download(ProjectConfiguration $localProject, string $pathSuffix): string
     {
-        $downloadTarget = $this->projectApi->getConfiguration()->getPathDownloads() . $pathSuffix;
+        $downloadTarget = $this->pathResolver->getDownloadsPath() . '/' . $pathSuffix;
         $zipFile = $this->downloadFromCrowdin($localProject);
         FileHandling::rmdir($downloadTarget, true);
         FileHandling::mkdir_deep($downloadTarget);

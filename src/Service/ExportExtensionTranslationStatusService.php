@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Api\Wrapper\ProjectApi;
+use App\File\PathResolver;
 use App\Info\LanguageInformation;
 use App\Utility\FileHandling;
 use CrowdinApiClient\Model\Language;
@@ -16,6 +17,7 @@ class ExportExtensionTranslationStatusService
     protected array $allLanguages;
 
     public function __construct(
+        protected PathResolver $pathResolver,
         protected ProjectApi $projectApi
     ) {
         $this->allLanguages = LanguageInformation::getDetailedLanguageInformation();
@@ -28,7 +30,7 @@ class ExportExtensionTranslationStatusService
         if ($translationStatus) {
             $extensionName = $localProject->getExtensionKey();
 
-            $projectSubDir = $this->projectApi->getConfiguration()->getPathRsync() . sprintf('%s/%s/%s-l10n/', $extensionName[0], $extensionName[1], $extensionName);
+            $projectSubDir = $this->pathResolver->getRsyncPath() . sprintf('/%s/%s/%s-l10n/', $extensionName[0], $extensionName[1], $extensionName);
             FileHandling::mkdir_deep($projectSubDir);
 
             $filename = $projectSubDir . $extensionName . '.json';
