@@ -48,7 +48,7 @@ jobs:
           php ./bin/console app:status:overview
 
       - name: Copy files to translation server
-        uses: appleboy/scp-action@v0.1.4
+        uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SCP_HOST }}
           username: ${{ secrets.SCP_USERNAME }}
