@@ -28,7 +28,7 @@ final class OverviewStatusCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $io->title('Status of all projects');
 
-        $this->statusService->getStatus(true);
+        $this->statusService->getStatus();
 
         $io->info('Status has been exported!');
         return Command::SUCCESS;

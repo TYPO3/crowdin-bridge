@@ -20,7 +20,7 @@ final readonly class StatusService
         private ProjectApi $projectApi
     ) {}
 
-    public function getStatus(bool $exportConfiguration = false): array
+    public function getStatus(): array
     {
         $collection = [];
         foreach ($this->projectCollection as $project) {
@@ -31,7 +31,7 @@ final readonly class StatusService
             ];
             try {
                 $tmp['localProject'] = $this->projectApi->getConfiguration()->getProjectByCrowdinId($project->id);
-            } catch (ExtensionNotAvailableInFileConfigurationException $e) {
+            } catch (ExtensionNotAvailableInFileConfigurationException) {
                 // do nothing
             }
             $collection[$project->identifier] = $tmp;
@@ -72,7 +72,6 @@ final readonly class StatusService
                         if ($status > 0) {
                             $projectUsable = true;
                         }
-                        continue;
                     }
                 }
                 $languageInfo[$languageOfCore] = $status;
@@ -83,10 +82,9 @@ final readonly class StatusService
             $output['projects'][] = $projectLine;
         }
 
-        if ($exportConfiguration) {
-            $this->exportJson($output);
-            $this->exportHtml($output);
-        }
+        $this->exportJson($output);
+        $this->exportHtml();
+
         return $output;
     }
 
@@ -96,7 +94,7 @@ final readonly class StatusService
         file_put_contents($filename, json_encode($configuration, JSON_PRETTY_PRINT));
     }
 
-    private function exportHtml(array $data): void
+    private function exportHtml(): void
     {
         $pathToRoot = __DIR__ . '/../../../';
         $view = new TemplateView();
