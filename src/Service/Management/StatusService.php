@@ -5,44 +5,45 @@ declare(strict_types=1);
 namespace App\Service\Management;
 
 use App\Api\Wrapper\ProjectApi;
+use App\Configuration\ProjectCollection;
 use App\Entity\ProjectConfiguration;
 use App\Exception\ExtensionNotAvailableInFileConfigurationException;
 use App\Utility\FileHandling;
 use CrowdinApiClient\Model\Progress;
-use CrowdinApiClient\Model\Project as CrowdinProject;
+use FriendsOfTYPO3\CrowdinBase\Configuration\Entity\Project;
 use TYPO3Fluid\Fluid\View\TemplateView;
 
-class StatusService
+final readonly class StatusService
 {
     public function __construct(
-        protected ProjectApi $projectApi
+        private ProjectCollection $projectCollection,
+        private ProjectApi $projectApi
     ) {}
 
     public function getStatus(bool $exportConfiguration = false): array
     {
-        $projects = $this->projectApi->getAll();
-
         $collection = [];
-        foreach ($projects as $project) {
+        foreach ($this->projectCollection as $project) {
             $tmp = [
                 'crowdinProject' => $project,
                 'localProject' => null,
-                'translationStatus' => $this->projectApi->getTranslationStatusByCrowdinId($project->getId()),
+                'translationStatus' => $this->projectApi->getTranslationStatusByCrowdinId($project->id),
             ];
             try {
-                $tmp['localProject'] = $this->projectApi->getConfiguration()->getProjectByCrowdinId($project->getId());
+                $tmp['localProject'] = $this->projectApi->getConfiguration()->getProjectByCrowdinId($project->id);
             } catch (ExtensionNotAvailableInFileConfigurationException $e) {
                 // do nothing
             }
-            $collection[$project->getIdentifier()] = $tmp;
+            $collection[$project->identifier] = $tmp;
         }
 
         $output = [];
 
         $languagesOfCore = [];
-        foreach ($collection['typo3-cms']['crowdinProject']->getTargetLanguages() as $language) {
-            $languagesOfCore[] = $language['id'];
-            $output['languages'][$language['id']] = $language['name'];
+        $output['languages'] = [];
+        foreach ($collection['typo3-cms']['crowdinProject']->languages as $language) {
+            $languagesOfCore[] = $language->id;
+            $output['languages'][$language->id] = $language->name;
         }
 
         asort($output['languages']);
@@ -51,12 +52,12 @@ class StatusService
         foreach ($collection as $item) {
             /** @var ProjectConfiguration $localProject */
             $localProject = $item['localProject'];
-            /** @var CrowdinProject $crowdinProject */
+            /** @var Project $crowdinProject */
             $crowdinProject = $item['crowdinProject'];
 
             $projectLine = [
                 'extensionKey' => $localProject ? $localProject->getExtensionkey() : '',
-                'crowdinKey' => $crowdinProject->getIdentifier(),
+                'crowdinKey' => $crowdinProject->identifier,
             ];
 
             $languageInfo = [];
@@ -89,13 +90,13 @@ class StatusService
         return $output;
     }
 
-    protected function exportJson(array $configuration): void
+    private function exportJson(array $configuration): void
     {
         $filename = $this->projectApi->getConfiguration()->getPathRsync() . 'status.json';
         file_put_contents($filename, json_encode($configuration, JSON_PRETTY_PRINT));
     }
 
-    protected function exportHtml(array $data): void
+    private function exportHtml(array $data): void
     {
         $pathToRoot = __DIR__ . '/../../../';
         $view = new TemplateView();

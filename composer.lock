@@ -74,12 +74,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfTYPO3/crowdin-base.git",
-                "reference": "4718cb6ded3cb3a52fa54f141de8460af4bcae30"
+                "reference": "e25d86f994319d210383daf8690d9c5abcac1490"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfTYPO3/crowdin-base/zipball/4718cb6ded3cb3a52fa54f141de8460af4bcae30",
-                "reference": "4718cb6ded3cb3a52fa54f141de8460af4bcae30",
+                "url": "https://api.github.com/repos/FriendsOfTYPO3/crowdin-base/zipball/e25d86f994319d210383daf8690d9c5abcac1490",
+                "reference": "e25d86f994319d210383daf8690d9c5abcac1490",
                 "shasum": ""
             },
             "require": {
@@ -151,7 +151,7 @@
                 "source": "https://github.com/FriendsOfTYPO3/crowdin-base/tree/main",
                 "issues": "https://github.com/FriendsOfTYPO3/crowdin-base/issues"
             },
-            "time": "2025-11-13T19:53:38+00:00"
+            "time": "2025-11-16T11:09:57+00:00"
         },
         {
             "name": "graham-campbell/result-type",
