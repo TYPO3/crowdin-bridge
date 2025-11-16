@@ -11,17 +11,6 @@ use CrowdinApiClient\Model\TranslationProjectBuild;
 
 class TranslationApi extends Client
 {
-    public function buildProject(string $projectIdentifier): ?TranslationProjectBuild
-    {
-        $projectConfiguration = $this->configuration->getProject($projectIdentifier);
-
-        $params = [
-            'exportApprovedOnly' => true,
-            'skipUntranslatedStrings' => true,
-        ];
-        return $this->client->translation->buildProject($projectConfiguration->getId(), $params);
-    }
-
     public function downloadProject(int $projectId, int $buildId): ?DownloadFile
     {
         return $this->client->translation->downloadProjectBuild($projectId, $buildId);

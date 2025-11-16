@@ -48,9 +48,9 @@ final class BuildCommand extends Command
         }
 
         if ($projectIdentifier === '') {
-            $io->success('All projects have been successfully built');
+            $io->success('Projects have been built');
         } else {
-            $io->success(\sprintf('Project "%s" has been successfully built', $projectIdentifier));
+            $io->success(\sprintf('Project "%s" has been built', $projectIdentifier));
         }
         return Command::SUCCESS;
     }

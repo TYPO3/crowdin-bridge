@@ -23,6 +23,10 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
+    CrowdinApiClient\Crowdin:
+      arguments:
+        - access_token: '%env(CROWDIN_ACCESS_TOKEN)%'
+
     FriendsOfTYPO3\CrowdinBase\Configuration\ConfigurationReader:
       arguments:
         $configurationFile: '%env(CONFIGURATION_FILE)%'
