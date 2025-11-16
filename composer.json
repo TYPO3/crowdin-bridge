@@ -26,6 +26,7 @@
 		"ext-zip": "*",
 		"crowdin/crowdin-api-client": "^1.19",
 		"friendsoftypo3/crowdin-base": "dev-main@dev",
+		"lcobucci/clock": "^3.5",
 		"symfony/console": "*",
 		"symfony/dependency-injection": "*",
 		"symfony/dotenv": "*",
@@ -36,8 +37,7 @@
 		"symfony/monolog-bundle": "^3.10",
 		"symfony/polyfill-php85": "^1.33",
 		"symfony/runtime": "*",
-		"symfony/yaml": "*",
-		"typo3fluid/fluid": "^4.4"
+		"symfony/yaml": "*"
 	},
 	"require-dev": {
 		"friendsofphp/php-cs-fixer": "^3.89.2",

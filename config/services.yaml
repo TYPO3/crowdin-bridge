@@ -35,3 +35,6 @@ services:
 
     App\Configuration\ProjectCollection:
       factory: ['@App\Configuration\ProjectCollectionFactory', 'createProjectCollection']
+
+    Psr\Clock\ClockInterface:
+      factory: ['Lcobucci\Clock\SystemClock', 'fromUTC']

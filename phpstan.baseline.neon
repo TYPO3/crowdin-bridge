@@ -259,12 +259,6 @@ parameters:
 			path: src/Service/ExportExtensionTranslationStatusService.php
 
 		-
-			message: '#^Method App\\Service\\Management\\StatusService\:\:exportJson\(\) has parameter \$configuration with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Service/Management/StatusService.php
-
-		-
 			message: '#^Method App\\Service\\Management\\StatusService\:\:getStatus\(\) return type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1

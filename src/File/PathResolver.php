@@ -13,7 +13,7 @@ use Symfony\Component\DependencyInjection\Attribute\Autowire;
  * All paths do not provide a trailing "/", so this must be added
  * in the consuming code where appropriate.
  */
-final readonly class PathResolver
+readonly class PathResolver
 {
     public function __construct(
         #[Autowire('%kernel.project_dir%')]
@@ -59,6 +59,6 @@ final readonly class PathResolver
 
     public function getTemplatesPath(): string
     {
-        return $this->projectPath . '/templates/Templates';
+        return $this->projectPath . '/templates';
     }
 }
