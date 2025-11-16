@@ -27,7 +27,7 @@ final class ProjectConfiguration
         }
         $this->extensionKey = $configuration['extensionKey'];
         $this->id = (int)($configuration['id'] ?? 0);
-        $this->languages = $configuration['languages'];
+        $this->languages = array_map(static fn(array $language): string => $language['id'], $configuration['languages']);
         $this->branch = $configuration['branch'] ?? 'master';
     }
 
