@@ -8,6 +8,10 @@ use FriendsOfTYPO3\CrowdinBase\Configuration\Entity\Language as CrowdinBaseLangu
 
 final readonly class Language
 {
+    /**
+     * @param non-empty-string $id The id, for example: "de"
+     * @param non-empty-string $name The name, for example: "German"
+     */
     public function __construct(
         public string $id,
         public string $name,

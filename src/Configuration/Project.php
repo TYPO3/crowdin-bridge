@@ -10,9 +10,9 @@ use FriendsOfTYPO3\CrowdinBase\Configuration\Entity\Project as CrowdinBaseProjec
 final readonly class Project
 {
     /**
-     * @param int $id
-     * @param string $identifier
-     * @param string $extensionKey
+     * @param int $id The Crowdin ID, for example: 368353
+     * @param string $identifier The Crowdin identifier, for example: "typo3-extension-news"
+     * @param string $extensionKey The TYPO3 extension key, for example: "news"
      * @param list<Language> $languages
      */
     public function __construct(
