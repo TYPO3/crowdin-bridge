@@ -6,6 +6,7 @@ namespace App\Status\Overview;
 
 use App\Configuration\Language;
 use App\Configuration\ProjectCollection;
+use App\Console\Output\OutputInterface;
 use App\Crowdin\Repository\TranslationStatusRepository;
 
 final readonly class StatusWriter
@@ -17,28 +18,44 @@ final readonly class StatusWriter
         private TranslationStatusRepository $translationStatusRepository,
     ) {}
 
-    public function write(): void
+    public function write(OutputInterface $output): void
     {
+        $errors = [];
+
+        $output->start(count($this->projectCollection));
+
         $projectTranslationProgressCollection = new ProjectTranslationProgressCollection();
         foreach ($this->projectCollection as $project) {
-            $projectTranslationProgressCollection->add(
-                new ProjectTranslationProgress(
-                    $project,
-                    $this->translationStatusRepository->findByProjectId($project->id)
-                )
-            );
+            try {
+                $projectTranslationProgressCollection->add(
+                    new ProjectTranslationProgress(
+                        $project,
+                        $this->translationStatusRepository->findByProjectId($project->id)
+                    )
+                );
+            } catch (\Throwable $t) {
+                $errors[] = \sprintf(
+                    'Error while retrieving progress for project "%s": %s',
+                    $project->identifier,
+                    $t->getMessage(),
+                );
+            }
+            $output->advance(\sprintf(
+                'Translation status for project "%s" retrieved',
+                $project->identifier,
+            ));
         }
 
-        $output = ['languages' => []];
+        $result = ['languages' => []];
 
         $coreLanguageIds = [];
         $coreLanguages = $projectTranslationProgressCollection->getCoreLanguages();
         usort($coreLanguages, static fn(Language $a, Language $b) => $a->id <=> $b->id);
         foreach ($coreLanguages as $language) {
             $coreLanguageIds[] = $language->id;
-            $output['languages'][$language->id] = $language->name;
+            $result['languages'][$language->id] = $language->name;
         }
-        asort($output['languages']);
+        asort($result['languages']);
 
         foreach ($projectTranslationProgressCollection as $projectTranslationProgress) {
             $projectLine = [
@@ -64,10 +81,16 @@ final readonly class StatusWriter
             $projectLine['languages'] = $languageInfo;
             $projectLine['usable'] = $projectUsable;
 
-            $output['projects'][] = $projectLine;
+            $result['projects'][] = $projectLine;
         }
 
-        $this->jsonStatusWriter->write($output);
-        $this->pageStatusWriter->write();
+        try {
+            $this->jsonStatusWriter->write($result);
+            $this->pageStatusWriter->write();
+        } catch (\Throwable $t) {
+            $errors[] = 'An error occurred while writing the status: ' . $t->getMessage();
+        }
+
+        $output->finish($errors);
     }
 }

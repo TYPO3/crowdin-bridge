@@ -19,7 +19,7 @@ final class ProjectIdentifierOutput implements OutputInterface
     public function start(int $max): void
     {
         $this->max = $max;
-        $this->io->writeln(\sprintf('Building %d projects ...', $this->max));
+        $this->io->writeln(\sprintf('Processing %d projects ...', $this->max));
     }
 
     public function advance(string $text): void

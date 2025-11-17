@@ -8,6 +8,7 @@ namespace App\Tests\Status\Overview;
 use App\Configuration\Language;
 use App\Configuration\Project;
 use App\Configuration\ProjectCollection;
+use App\Console\Output\OutputInterface;
 use App\Crowdin\Dto\TranslationProgress;
 use App\Crowdin\Repository\TranslationStatusRepository;
 use App\File\PathResolver;
@@ -106,8 +107,26 @@ final class StatusWriterTest extends TestCase
                 ]
             ]);
 
+        $outputDummy = new class implements OutputInterface
+        {
+            public function start(int $max): void
+            {
+                // do nothing
+            }
+
+            public function advance(string $text): void
+            {
+                // do nothing
+            }
+
+            public function finish(array $errors): void
+            {
+                // do nothing
+            }
+        };
+
         $subject = new StatusWriter($jsonStatusWriter, $pageStatusWriterStub, $projectCollection, $translationStatusRepositoryStub);
-        $subject->write();
+        $subject->write($outputDummy);
 
         self::assertJsonFileEqualsJsonFile(__DIR__ . '/Expected/statuswriter.json', $rsyncPath . '/status.json');
     }

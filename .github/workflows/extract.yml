@@ -45,7 +45,7 @@ jobs:
           CROWDIN_ACCESS_TOKEN: ${{ secrets.CROWDIN_ACCESS_TOKEN }}
         run: |
           php ./bin/console app:status:project
-          php ./bin/console app:status:overview
+          php ./bin/console app:status:overview -v
 
       - name: Copy files to translation server
         uses: appleboy/scp-action@v0.1.7
