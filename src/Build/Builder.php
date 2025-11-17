@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Build;
 
+use App\Configuration\Project;
 use App\Configuration\ProjectCollection;
 use App\Console\Output\OutputInterface;
 use App\Repository\Crowdin\TranslationRepository;
-use FriendsOfTYPO3\CrowdinBase\Configuration\Entity\Project;
 
 readonly class Builder
 {

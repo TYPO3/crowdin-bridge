@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Configuration;
 
-use FriendsOfTYPO3\CrowdinBase\Configuration\Entity\Project;
-
 /**
  * @implements \IteratorAggregate<int, Project>
  */

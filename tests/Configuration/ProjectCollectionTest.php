@@ -5,8 +5,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Configuration;
 
+use App\Configuration\Language;
+use App\Configuration\Project;
 use App\Configuration\ProjectCollection;
-use FriendsOfTYPO3\CrowdinBase\Configuration\Entity\Project;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -19,9 +20,24 @@ final class ProjectCollectionTest extends TestCase
     protected function setUp(): void
     {
         $projects = [
-            new Project(1, 'typo3-extension-some-identifier', 'some_identifier', ['de']),
-            new Project(2, 'typo3-extension-another-identifier', 'another_identifier', ['it']),
-            new Project(3, 'typo3-extension-one-more-identifier', 'one_more_identifier', ['fr']),
+            new Project(
+                1,
+                'typo3-extension-some-identifier',
+                'some_identifier',
+                [new Language('de', 'German')],
+            ),
+            new Project(
+                2,
+                'typo3-extension-another-identifier',
+                'another_identifier',
+                [new Language('it', 'Italian')],
+            ),
+            new Project(
+                3,
+                'typo3-extension-one-more-identifier',
+                'one_more_identifier',
+                [new Language('fr', 'French')],
+            ),
         ];
 
         $this->subject = new ProjectCollection(...$projects);

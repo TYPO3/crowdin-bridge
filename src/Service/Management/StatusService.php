@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace App\Service\Management;
 
 use App\Api\Wrapper\ProjectApi;
+use App\Configuration\Project;
 use App\Configuration\ProjectCollection;
 use App\Entity\ProjectConfiguration;
 use App\Exception\ExtensionNotAvailableInFileConfigurationException;
 use App\Status\Overview\JsonStatusWriter;
 use App\Status\Overview\PageStatusWriter;
 use CrowdinApiClient\Model\Progress;
-use FriendsOfTYPO3\CrowdinBase\Configuration\Entity\Project;
 
 final readonly class StatusService
 {
