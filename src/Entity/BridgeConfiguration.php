@@ -52,16 +52,6 @@ class BridgeConfiguration
         throw new ExtensionNotAvailableInFileConfigurationException(sprintf('No project found for extension key "%s"', $extensionKey));
     }
 
-    public function getProjectByCrowdinId(int $id): ProjectConfiguration
-    {
-        foreach ($this->data['projects'] ?? [] as $extensionKey => $configuration) {
-            if ($configuration['id'] === $id) {
-                return ProjectConfiguration::initializeByArray($extensionKey, $configuration);
-            }
-        }
-        throw new ExtensionNotAvailableInFileConfigurationException(sprintf('No project found for ID "%s"', $id));
-    }
-
     public function add(string $project, array $data): ProjectConfiguration
     {
         $this->data['projects'][$project] = $data;

@@ -265,12 +265,6 @@ parameters:
 			path: src/Service/Management/StatusService.php
 
 		-
-			message: '#^Ternary operator condition is always true\.$#'
-			identifier: ternary.alwaysTrue
-			count: 1
-			path: src/Service/Management/StatusService.php
-
-		-
 			message: '#^Call to an undefined static method App\\Utility\\FileHandling\:\:mkdir\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1

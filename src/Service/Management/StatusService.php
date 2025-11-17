@@ -7,8 +7,6 @@ namespace App\Service\Management;
 use App\Api\Wrapper\ProjectApi;
 use App\Configuration\Project;
 use App\Configuration\ProjectCollection;
-use App\Entity\ProjectConfiguration;
-use App\Exception\ExtensionNotAvailableInFileConfigurationException;
 use App\Status\Overview\JsonStatusWriter;
 use App\Status\Overview\PageStatusWriter;
 use CrowdinApiClient\Model\Progress;
@@ -26,17 +24,10 @@ final readonly class StatusService
     {
         $collection = [];
         foreach ($this->projectCollection as $project) {
-            $tmp = [
+            $collection[$project->identifier] = [
                 'crowdinProject' => $project,
-                'localProject' => null,
                 'translationStatus' => $this->projectApi->getTranslationStatusByCrowdinId($project->id),
             ];
-            try {
-                $tmp['localProject'] = $this->projectApi->getConfiguration()->getProjectByCrowdinId($project->id);
-            } catch (ExtensionNotAvailableInFileConfigurationException) {
-                // do nothing
-            }
-            $collection[$project->identifier] = $tmp;
         }
 
         $output = [];
@@ -52,13 +43,11 @@ final readonly class StatusService
         sort($languagesOfCore);
 
         foreach ($collection as $item) {
-            /** @var ProjectConfiguration $localProject */
-            $localProject = $item['localProject'];
             /** @var Project $crowdinProject */
             $crowdinProject = $item['crowdinProject'];
 
             $projectLine = [
-                'extensionKey' => $localProject ? $localProject->getExtensionkey() : '',
+                'extensionKey' => $crowdinProject->extensionKey,
                 'crowdinKey' => $crowdinProject->identifier,
             ];
 
