@@ -7,7 +7,7 @@ namespace App\Build;
 use App\Configuration\Project;
 use App\Configuration\ProjectCollection;
 use App\Console\Output\OutputInterface;
-use App\Repository\Crowdin\TranslationRepository;
+use App\Crowdin\Repository\TranslationRepository;
 
 readonly class Builder
 {

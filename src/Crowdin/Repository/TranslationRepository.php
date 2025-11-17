@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Repository\Crowdin;
+namespace App\Crowdin\Repository;
 
 use CrowdinApiClient\Crowdin;
 
