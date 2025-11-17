@@ -63,22 +63,27 @@ final readonly class StatusWriter
                 'crowdinKey' => $projectTranslationProgress->project->identifier,
             ];
 
-            $languageInfo = [];
+            $translationProgress = [];
+            $approvalProgress = [];
             $projectUsable = false;
 
             foreach ($coreLanguageIds as $coreLanguageId) {
-                $status = '-';
+                $translationStatus = '-';
+                $approvalStatus = '-';
                 foreach ($projectTranslationProgress->progresses as $progress) {
                     if ($progress->languageId === $coreLanguageId) {
-                        $status = $progress->approvalProgress;
-                        if ($status > 0) {
+                        $translationStatus = $progress->translationProgress;
+                        $approvalStatus = $progress->approvalProgress;
+                        if ($approvalStatus > 0) {
                             $projectUsable = true;
                         }
                     }
                 }
-                $languageInfo[$coreLanguageId] = $status;
+                $translationProgress[$coreLanguageId] = $translationStatus;
+                $approvalProgress[$coreLanguageId] = $approvalStatus;
             }
-            $projectLine['languages'] = $languageInfo;
+            $projectLine['translations'] = $translationProgress;
+            $projectLine['approvals'] = $approvalProgress;
             $projectLine['usable'] = $projectUsable;
 
             $result['projects'][] = $projectLine;

@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     headerName: value,
                     headerTooltip: key,
                     sortable: true,
-                    valueGetter: `data.languages['${key}']`,
+                    valueGetter: `data.approvals['${key}']`,
                     languageKey: key,
                 });
             }

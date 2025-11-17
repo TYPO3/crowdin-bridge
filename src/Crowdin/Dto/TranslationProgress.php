@@ -10,6 +10,7 @@ final readonly class TranslationProgress
 {
     public function __construct(
         public string $languageId,
+        public int $translationProgress,
         public int $approvalProgress,
     ) {}
 
@@ -17,6 +18,7 @@ final readonly class TranslationProgress
     {
         return new self(
             $progress->getLanguageId(),
+            $progress->getTranslationProgress(),
             $progress->getApprovalProgress(),
         );
     }

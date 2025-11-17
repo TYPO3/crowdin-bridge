@@ -80,35 +80,34 @@ final class StatusWriterTest extends TestCase
                 [
                     1,
                     [
-                        new TranslationProgress('de', 85),
-                        new TranslationProgress('it', 22),
-                        new TranslationProgress('ro', 41),
+                        new TranslationProgress('de', 85, 85),
+                        new TranslationProgress('it', 33, 22),
+                        new TranslationProgress('ro', 48, 41),
                     ]
                 ],
                 [
                     2,
                     [
-                        new TranslationProgress('de', 42),
-                        new TranslationProgress('fr', 3),
+                        new TranslationProgress('de', 48, 42),
+                        new TranslationProgress('fr', 12, 3),
                     ]
                 ],
                 [
                     3,
                     [
-                        new TranslationProgress('it', 72),
-                        new TranslationProgress('ro', 27),
+                        new TranslationProgress('it', 100, 72),
+                        new TranslationProgress('ro', 27, 27),
                     ]
                 ],
                 [
                     4,
                     [
-                        new TranslationProgress('de', 0),
+                        new TranslationProgress('de', 0, 0),
                     ]
                 ]
             ]);
 
-        $outputDummy = new class implements OutputInterface
-        {
+        $outputDummy = new class implements OutputInterface {
             public function start(int $max): void
             {
                 // do nothing

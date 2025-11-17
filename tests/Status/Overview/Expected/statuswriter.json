@@ -8,7 +8,12 @@
 		{
 			"extensionKey": "typo3-cms",
 			"crowdinKey": "typo3-cms",
-			"languages": {
+			"translations": {
+				"de": 85,
+				"it": 33,
+				"ro": 48
+			},
+			"approvals": {
 				"de": 85,
 				"it": 22,
 				"ro": 41
@@ -18,7 +23,12 @@
 		{
 			"extensionKey": "some_project",
 			"crowdinKey": "typo3-extension-some-project",
-			"languages": {
+			"translations": {
+				"de": 48,
+				"it": "-",
+				"ro": "-"
+			},
+			"approvals": {
 				"de": 42,
 				"it": "-",
 				"ro": "-"
@@ -28,7 +38,12 @@
 		{
 			"extensionKey": "some_project",
 			"crowdinKey": "typo3-extension-another-project",
-			"languages": {
+			"translations": {
+				"de": "-",
+				"it": 100,
+				"ro": 27
+			},
+			"approvals": {
 				"de": "-",
 				"it": 72,
 				"ro": 27
@@ -38,7 +53,12 @@
 		{
 			"extensionKey": "nonusable_project",
 			"crowdinKey": "typo3-extension-nonusable-project",
-			"languages": {
+			"translations": {
+				"de": 0,
+				"it": "-",
+				"ro": "-"
+			},
+			"approvals": {
 				"de": 0,
 				"it": "-",
 				"ro": "-"
