@@ -1,0 +1,49 @@
+{
+	"languages": {
+		"de": "German",
+		"it": "Italian",
+		"ro": "Romanian"
+	},
+	"projects": [
+		{
+			"extensionKey": "typo3-cms",
+			"crowdinKey": "typo3-cms",
+			"languages": {
+				"de": 85,
+				"it": 22,
+				"ro": 41
+			},
+			"usable": true
+		},
+		{
+			"extensionKey": "some_project",
+			"crowdinKey": "typo3-extension-some-project",
+			"languages": {
+				"de": 42,
+				"it": "-",
+				"ro": "-"
+			},
+			"usable": true
+		},
+		{
+			"extensionKey": "some_project",
+			"crowdinKey": "typo3-extension-another-project",
+			"languages": {
+				"de": "-",
+				"it": 72,
+				"ro": 27
+			},
+			"usable": true
+		},
+		{
+			"extensionKey": "nonusable_project",
+			"crowdinKey": "typo3-extension-nonusable-project",
+			"languages": {
+				"de": 0,
+				"it": "-",
+				"ro": "-"
+			},
+			"usable": false
+		}
+	]
+}

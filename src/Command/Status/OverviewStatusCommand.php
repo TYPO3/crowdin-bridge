@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Command\Status;
 
-use App\Service\Management\StatusService;
+use App\Status\Overview\StatusWriter;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -18,7 +18,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 final class OverviewStatusCommand extends Command
 {
     public function __construct(
-        private readonly StatusService $statusService,
+        private readonly StatusWriter $statusWriter,
     ) {
         parent::__construct();
     }
@@ -28,7 +28,7 @@ final class OverviewStatusCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $io->title('Status of all projects');
 
-        $this->statusService->getStatus();
+        $this->statusWriter->write();
 
         $io->info('Status has been exported!');
         return Command::SUCCESS;

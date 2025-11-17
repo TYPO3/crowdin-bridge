@@ -2,17 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Service\Management;
+namespace App\Status\Overview;
 
 use App\Configuration\Language;
 use App\Configuration\ProjectCollection;
 use App\Crowdin\Repository\TranslationStatusRepository;
-use App\Status\Overview\JsonStatusWriter;
-use App\Status\Overview\PageStatusWriter;
-use App\Status\Overview\ProjectTranslationProgress;
-use App\Status\Overview\ProjectTranslationProgressCollection;
 
-final readonly class StatusService
+final readonly class StatusWriter
 {
     public function __construct(
         private JsonStatusWriter $jsonStatusWriter,
@@ -21,7 +17,7 @@ final readonly class StatusService
         private TranslationStatusRepository $translationStatusRepository,
     ) {}
 
-    public function getStatus(): array
+    public function write(): void
     {
         $projectTranslationProgressCollection = new ProjectTranslationProgressCollection();
         foreach ($this->projectCollection as $project) {
@@ -73,7 +69,5 @@ final readonly class StatusService
 
         $this->jsonStatusWriter->write($output);
         $this->pageStatusWriter->write();
-
-        return $output;
     }
 }

@@ -8,7 +8,7 @@ use CrowdinApiClient\Model\Progress;
 
 final readonly class TranslationProgress
 {
-    private function __construct(
+    public function __construct(
         public string $languageId,
         public int $approvalProgress,
     ) {}

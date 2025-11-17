@@ -12,7 +12,7 @@ use CrowdinApiClient\Model\Progress;
  * Connects to the TranslationStatus API of the Crowdin Client
  * @see https://support.crowdin.com/developer/api/v2/#tag/Translation-Status
  */
-final readonly class TranslationStatusRepository
+readonly class TranslationStatusRepository
 {
     private const int LIMIT = 100;
 

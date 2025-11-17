@@ -8,7 +8,7 @@ use App\File\PathResolver;
 use App\Utility\FileHandling;
 use Psr\Clock\ClockInterface;
 
-final readonly class PageStatusWriter
+readonly class PageStatusWriter
 {
     public const string DATE_FORMAT = 'D, d M Y H:i:s T';
 
