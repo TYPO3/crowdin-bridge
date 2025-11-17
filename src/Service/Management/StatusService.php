@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Service\Management;
 
-use App\Configuration\Project;
+use App\Configuration\Language;
 use App\Configuration\ProjectCollection;
 use App\Crowdin\Repository\TranslationStatusRepository;
 use App\Status\Overview\JsonStatusWriter;
 use App\Status\Overview\PageStatusWriter;
+use App\Status\Overview\ProjectTranslationProgress;
+use App\Status\Overview\ProjectTranslationProgressCollection;
 
 final readonly class StatusService
 {
@@ -21,49 +23,47 @@ final readonly class StatusService
 
     public function getStatus(): array
     {
-        $projects = [];
+        $projectTranslationProgressCollection = new ProjectTranslationProgressCollection();
         foreach ($this->projectCollection as $project) {
-            $projects[$project->identifier] = [
-                'crowdinProject' => $project,
-                'translationProgress' => $this->translationStatusRepository->findByProjectId($project->id),
-            ];
+            $projectTranslationProgressCollection->add(
+                new ProjectTranslationProgress(
+                    $project,
+                    $this->translationStatusRepository->findByProjectId($project->id)
+                )
+            );
         }
 
-        $output = [];
+        $output = ['languages' => []];
 
-        $languagesOfCore = [];
-        $output['languages'] = [];
-        foreach ($projects['typo3-cms']['crowdinProject']->languages as $language) {
-            $languagesOfCore[] = $language->id;
+        $coreLanguageIds = [];
+        $coreLanguages = $projectTranslationProgressCollection->getCoreLanguages();
+        usort($coreLanguages, static fn(Language $a, Language $b) => $a->id <=> $b->id);
+        foreach ($coreLanguages as $language) {
+            $coreLanguageIds[] = $language->id;
             $output['languages'][$language->id] = $language->name;
         }
-
         asort($output['languages']);
-        sort($languagesOfCore);
 
-        foreach ($projects as $project) {
-            /** @var Project $crowdinProject */
-            $crowdinProject = $project['crowdinProject'];
-
+        foreach ($projectTranslationProgressCollection as $projectTranslationProgress) {
             $projectLine = [
-                'extensionKey' => $crowdinProject->extensionKey,
-                'crowdinKey' => $crowdinProject->identifier,
+                'extensionKey' => $projectTranslationProgress->project->extensionKey,
+                'crowdinKey' => $projectTranslationProgress->project->identifier,
             ];
 
             $languageInfo = [];
             $projectUsable = false;
 
-            foreach ($languagesOfCore as $languageOfCore) {
+            foreach ($coreLanguageIds as $coreLanguageId) {
                 $status = '-';
-                foreach ($project['translationProgress'] as $translationProgress) {
-                    if ($translationProgress->languageId === $languageOfCore) {
-                        $status = $translationProgress->approvalProgress;
+                foreach ($projectTranslationProgress->progresses as $progress) {
+                    if ($progress->languageId === $coreLanguageId) {
+                        $status = $progress->approvalProgress;
                         if ($status > 0) {
                             $projectUsable = true;
                         }
                     }
                 }
-                $languageInfo[$languageOfCore] = $status;
+                $languageInfo[$coreLanguageId] = $status;
             }
             $projectLine['languages'] = $languageInfo;
             $projectLine['usable'] = $projectUsable;
