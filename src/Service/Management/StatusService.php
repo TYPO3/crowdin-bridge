@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace App\Service\Management;
 
-use App\Api\Wrapper\ProjectApi;
 use App\Configuration\Project;
 use App\Configuration\ProjectCollection;
+use App\Crowdin\Repository\TranslationStatusRepository;
 use App\Status\Overview\JsonStatusWriter;
 use App\Status\Overview\PageStatusWriter;
-use CrowdinApiClient\Model\Progress;
 
 final readonly class StatusService
 {
@@ -17,16 +16,16 @@ final readonly class StatusService
         private JsonStatusWriter $jsonStatusWriter,
         private PageStatusWriter $pageStatusWriter,
         private ProjectCollection $projectCollection,
-        private ProjectApi $projectApi
+        private TranslationStatusRepository $translationStatusRepository,
     ) {}
 
     public function getStatus(): array
     {
-        $collection = [];
+        $projects = [];
         foreach ($this->projectCollection as $project) {
-            $collection[$project->identifier] = [
+            $projects[$project->identifier] = [
                 'crowdinProject' => $project,
-                'translationStatus' => $this->projectApi->getTranslationStatusByCrowdinId($project->id),
+                'translationProgress' => $this->translationStatusRepository->findByProjectId($project->id),
             ];
         }
 
@@ -34,7 +33,7 @@ final readonly class StatusService
 
         $languagesOfCore = [];
         $output['languages'] = [];
-        foreach ($collection['typo3-cms']['crowdinProject']->languages as $language) {
+        foreach ($projects['typo3-cms']['crowdinProject']->languages as $language) {
             $languagesOfCore[] = $language->id;
             $output['languages'][$language->id] = $language->name;
         }
@@ -42,9 +41,9 @@ final readonly class StatusService
         asort($output['languages']);
         sort($languagesOfCore);
 
-        foreach ($collection as $item) {
+        foreach ($projects as $project) {
             /** @var Project $crowdinProject */
-            $crowdinProject = $item['crowdinProject'];
+            $crowdinProject = $project['crowdinProject'];
 
             $projectLine = [
                 'extensionKey' => $crowdinProject->extensionKey,
@@ -56,10 +55,9 @@ final readonly class StatusService
 
             foreach ($languagesOfCore as $languageOfCore) {
                 $status = '-';
-                foreach ($item['translationStatus'] as $language) {
-                    /** @var Progress $language */
-                    if ($language->getLanguageId() === $languageOfCore) {
-                        $status = $language->getApprovalProgress();
+                foreach ($project['translationProgress'] as $translationProgress) {
+                    if ($translationProgress->languageId === $languageOfCore) {
+                        $status = $translationProgress->approvalProgress;
                         if ($status > 0) {
                             $projectUsable = true;
                         }
