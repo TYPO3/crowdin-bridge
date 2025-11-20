@@ -29,15 +29,6 @@ class LanguageInformation
         return $language;
     }
 
-    public static function getLanguageForCrowdin(string $language): string
-    {
-        $found = array_search($language, self::$extraMapping, true);
-        if ($found === false) {
-            return $language;
-        }
-        return $found;
-    }
-
     /**
      * @return Language[]
      */

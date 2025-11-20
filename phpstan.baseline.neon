@@ -61,12 +61,6 @@ parameters:
 			path: src/Entity/ProjectConfiguration.php
 
 		-
-			message: '#^Method App\\Info\\LanguageInformation\:\:getLanguageForCrowdin\(\) should return string but returns int\|string\.$#'
-			identifier: return.type
-			count: 1
-			path: src/Info/LanguageInformation.php
-
-		-
 			message: '#^Parameter \#1 \$json of function json_decode expects string, string\|false given\.$#'
 			identifier: argument.type
 			count: 1
