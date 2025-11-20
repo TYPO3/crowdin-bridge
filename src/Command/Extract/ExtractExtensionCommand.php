@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\Command\Extract;
 
-use App\Entity\BridgeConfiguration;
+use App\Configuration\Project;
+use App\Configuration\ProjectCollection;
 use App\Service\DownloadCrowdinTranslationService;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -17,20 +18,18 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 #[AsCommand(
     name: 'app:extract:extension',
     description: 'Download translations of TYPO3 extension',
-    hidden: false
 )]
-class ExtractExtensionCommand extends Command
+final class ExtractExtensionCommand extends Command
 {
     private array $skippedExtensions = [
         'typo3-extension-pastereference' => 'https://github.com/Kephson/paste_reference/issues/38',
     ];
 
     public function __construct(
-        protected readonly DownloadCrowdinTranslationService $downloadCrowdinTranslationService,
-        protected readonly BridgeConfiguration $bridgeConfiguration,
-        ?string $name = null
+        private readonly DownloadCrowdinTranslationService $downloadCrowdinTranslationService,
+        private readonly ProjectCollection $projectCollection,
     ) {
-        parent::__construct($name);
+        parent::__construct();
     }
 
     protected function configure()
@@ -45,14 +44,14 @@ class ExtractExtensionCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $projectIdentifier = $input->getArgument('project');
         $languages = (array)$input->getArgument('languages');
-        $projects = $this->bridgeConfiguration->getAllProjects();
 
         if ($projectIdentifier) {
-            if (!isset($projects[$projectIdentifier])) {
+            $project = $this->projectCollection->findByIdentifier($projectIdentifier);
+            if (!$project instanceof Project) {
                 $io->error(sprintf('Project "%s" does not exist', $projectIdentifier));
                 return Command::FAILURE;
             }
-            if ($projectIdentifier === 'typo3-cms') {
+            if ($project->isCoreProject()) {
                 $io->error('Extract "typo3-cms" with app:extract:core');
                 return Command::FAILURE;
             }
@@ -65,11 +64,11 @@ class ExtractExtensionCommand extends Command
         }
 
         $verbose = $output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE;
-        $progressBar = new ProgressBar($output, count($projects));
+        $progressBar = new ProgressBar($output, count($this->projectCollection));
         $progressBar->start();
 
-        foreach ($projects as $project) {
-            $this->downloadProject($project->getCrowdinIdentifier(), $languages, $verbose, $io);
+        foreach ($this->projectCollection as $project) {
+            $this->downloadProject($project->identifier, $languages, $verbose, $io);
             $progressBar->advance();
         }
         $progressBar->finish();

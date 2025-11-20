@@ -19,12 +19,6 @@ parameters:
 			path: src/Entity/BridgeConfiguration.php
 
 		-
-			message: '#^Offset ''projects'' might not exist on array\|null\.$#'
-			identifier: offsetAccess.notFound
-			count: 1
-			path: src/Entity/BridgeConfiguration.php
-
-		-
 			message: '#^Property App\\Entity\\BridgeConfiguration\:\:\$data type has no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1

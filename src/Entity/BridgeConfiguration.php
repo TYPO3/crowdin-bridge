@@ -59,18 +59,6 @@ class BridgeConfiguration
         return ProjectConfiguration::initializeByArray($project, $data);
     }
 
-    /**
-     * @return ProjectConfiguration[]
-     */
-    public function getAllProjects(): array
-    {
-        $list = [];
-        foreach ($this->data['projects'] as $identifier => $projectConfiguration) {
-            $list[$identifier] = ProjectConfiguration::initializeByArray($identifier, $projectConfiguration);
-        }
-        return $list;
-    }
-
     private function persistConfiguration(): void
     {
         file_put_contents($this->configurationFile, json_encode($this->data, JSON_THROW_ON_ERROR | JSON_PRETTY_PRINT));
