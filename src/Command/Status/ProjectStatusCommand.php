@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Command\Status;
 
-use App\Entity\BridgeConfiguration;
+use App\Configuration\ProjectCollection;
 use App\Service\ExportExtensionTranslationStatusService;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -21,7 +21,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 final class ProjectStatusCommand extends Command
 {
     public function __construct(
-        private readonly BridgeConfiguration $bridgeConfiguration,
+        private readonly ProjectCollection $projectCollection,
         private readonly ExportExtensionTranslationStatusService $translationStatusService,
     ) {
         parent::__construct();
@@ -38,22 +38,20 @@ final class ProjectStatusCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $extensionKey = (string)$input->getArgument('extensionKey');
 
-        $projects = $this->bridgeConfiguration->getAllProjects();
-
         if ($extensionKey) {
             $this->exportProject($extensionKey, true, $io);
             return Command::SUCCESS;
         }
 
-        $progressBar = new ProgressBar($output, count($projects));
+        $progressBar = new ProgressBar($output, count($this->projectCollection));
         $progressBar->start();
         $verbose = $output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE;
-        foreach ($projects as $project) {
+        foreach ($this->projectCollection as $project) {
             if ($project->isCoreProject()) {
                 $progressBar->advance();
                 continue;
             }
-            $this->exportProject($project->getExtensionKey(), $verbose, $io);
+            $this->exportProject($project->extensionKey, $verbose, $io);
             $progressBar->advance();
         }
         $progressBar->finish();

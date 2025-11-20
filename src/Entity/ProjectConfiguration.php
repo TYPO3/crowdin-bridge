@@ -58,11 +58,6 @@ final class ProjectConfiguration
         return $this->languages;
     }
 
-    public function isCoreProject(): bool
-    {
-        return $this->crowdinIdentifier === 'typo3-cms';
-    }
-
     public function getCrowdinIdentifier(): string
     {
         return $this->crowdinIdentifier;

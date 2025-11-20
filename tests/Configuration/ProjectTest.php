@@ -39,4 +39,20 @@ final class ProjectTest extends TestCase
         self::assertSame('fr', $actual->languages[1]->id);
         self::assertSame('French', $actual->languages[1]->name);
     }
+
+    #[Test]
+    public function isCoreProjectReturnsTrueIfCoreProject(): void
+    {
+        $project = new Project(1, 'typo3-cms', 'core', []);
+
+        self::assertTrue($project->isCoreProject());
+    }
+
+    #[Test]
+    public function isCoreProjectReturnsFalseIfNotCoreProject(): void
+    {
+        $project = new Project(1, 'typo3-extension-some-project', 'some_project', []);
+
+        self::assertFalse($project->isCoreProject());
+    }
 }

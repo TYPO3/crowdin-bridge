@@ -22,6 +22,11 @@ final readonly class Project
         public array $languages,
     ) {}
 
+    public function isCoreProject(): bool
+    {
+        return $this->identifier === 'typo3-cms';
+    }
+
     public static function fromCrowdinBaseProject(CrowdinBaseProject $project): self
     {
         return new self(
