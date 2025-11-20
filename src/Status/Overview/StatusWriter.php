@@ -65,6 +65,7 @@ final readonly class StatusWriter
 
             $translationProgress = [];
             $approvalProgress = [];
+            $translationsAvailable = false;
             $projectUsable = false;
 
             foreach ($coreLanguageIds as $coreLanguageId) {
@@ -74,6 +75,9 @@ final readonly class StatusWriter
                     if ($progress->languageId === $coreLanguageId) {
                         $translationStatus = $progress->translationProgress;
                         $approvalStatus = $progress->approvalProgress;
+                        if ($translationStatus > 0) {
+                            $translationsAvailable = true;
+                        }
                         if ($approvalStatus > 0) {
                             $projectUsable = true;
                         }
@@ -84,6 +88,7 @@ final readonly class StatusWriter
             }
             $projectLine['translations'] = $translationProgress;
             $projectLine['approvals'] = $approvalProgress;
+            $projectLine['translationsAvailable'] = $translationsAvailable;
             $projectLine['usable'] = $projectUsable;
 
             $result['projects'][] = $projectLine;

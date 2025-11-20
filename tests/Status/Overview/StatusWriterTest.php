@@ -71,7 +71,15 @@ final class StatusWriterTest extends TestCase
                 new Language('de', 'German')
             ]
         );
-        $projectCollection = new ProjectCollection($project1, $project2, $project3, $project4);
+        $project5 = new Project(
+            5,
+            'typo3-extension-project-without-approvals',
+            'project_without_approvals',
+            [
+                new Language('de', 'German')
+            ]
+        );
+        $projectCollection = new ProjectCollection($project1, $project2, $project3, $project4, $project5);
 
         $translationStatusRepositoryStub = $this->createStub(TranslationStatusRepository::class);
         $translationStatusRepositoryStub
@@ -103,6 +111,12 @@ final class StatusWriterTest extends TestCase
                     4,
                     [
                         new TranslationProgress('de', 0, 0),
+                    ]
+                ],
+                [
+                5,
+                    [
+                        new TranslationProgress('de', 3, 0),
                     ]
                 ]
             ]);

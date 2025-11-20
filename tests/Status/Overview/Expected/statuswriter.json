@@ -18,6 +18,7 @@
 				"it": 22,
 				"ro": 41
 			},
+			"translationsAvailable": true,
 			"usable": true
 		},
 		{
@@ -33,6 +34,7 @@
 				"it": "-",
 				"ro": "-"
 			},
+			"translationsAvailable": true,
 			"usable": true
 		},
 		{
@@ -48,6 +50,7 @@
 				"it": 72,
 				"ro": 27
 			},
+			"translationsAvailable": true,
 			"usable": true
 		},
 		{
@@ -63,6 +66,23 @@
 				"it": "-",
 				"ro": "-"
 			},
+			"translationsAvailable": false,
+			"usable": false
+		},
+		{
+			"extensionKey": "project_without_approvals",
+			"crowdinKey": "typo3-extension-project-without-approvals",
+			"translations": {
+				"de": 3,
+				"it": "-",
+				"ro": "-"
+			},
+			"approvals": {
+				"de": 0,
+				"it": "-",
+				"ro": "-"
+			},
+			"translationsAvailable": true,
 			"usable": false
 		}
 	]
