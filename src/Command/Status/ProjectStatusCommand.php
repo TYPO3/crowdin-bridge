@@ -6,7 +6,9 @@ namespace App\Command\Status;
 
 use App\Configuration\Project;
 use App\Configuration\ProjectCollection;
-use App\Service\ExportExtensionTranslationStatusService;
+use App\Console\Output\ProgressBarOutput;
+use App\Console\Output\ProjectIdentifierOutput;
+use App\Status\Project\TranslationStatusExporter;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\ProgressBar;
@@ -23,7 +25,7 @@ final class ProjectStatusCommand extends Command
 {
     public function __construct(
         private readonly ProjectCollection $projectCollection,
-        private readonly ExportExtensionTranslationStatusService $translationStatusService,
+        private readonly TranslationStatusExporter $translationStatusExporter,
     ) {
         parent::__construct();
     }
@@ -46,36 +48,22 @@ final class ProjectStatusCommand extends Command
                 return Command::FAILURE;
             }
 
-            $this->exportProject($project, true, $io);
+            $message = $this->translationStatusExporter->exportProject($project);
+            $io->success($message);
             return Command::SUCCESS;
         }
 
-        $progressBar = new ProgressBar($output, count($this->projectCollection));
-        $progressBar->start();
         $verbose = $output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE;
-        foreach ($this->projectCollection as $project) {
-            if ($project->isCoreProject()) {
-                $progressBar->advance();
-                continue;
-            }
-            $this->exportProject($project, $verbose, $io);
-            $progressBar->advance();
-        }
-        $progressBar->finish();
+        $progressOutput = $verbose ? new ProjectIdentifierOutput($io) : new ProgressBarOutput(new ProgressBar($output), $io);
 
-        return Command::SUCCESS;
-    }
-
-    private function exportProject(Project $project, bool $verbose, SymfonyStyle $io): void
-    {
-        if ($verbose) {
-            $io->title(sprintf('Project %s', $project->extensionKey));
-        }
         try {
-            //             todo more output
-            $this->translationStatusService->export($project);
-        } catch (\Exception $e) {
-            $io->error($e->getMessage());
+            $this->translationStatusExporter->exportProjects($progressOutput);
+        } catch (\Throwable $t) {
+            $io->error($t->getMessage());
+            return Command::FAILURE;
         }
+
+        $io->success('Projects have been exported');
+        return Command::SUCCESS;
     }
 }

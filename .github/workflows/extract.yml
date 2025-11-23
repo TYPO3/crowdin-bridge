@@ -44,7 +44,7 @@ jobs:
         env:
           CROWDIN_ACCESS_TOKEN: ${{ secrets.CROWDIN_ACCESS_TOKEN }}
         run: |
-          php ./bin/console app:status:project
+          php ./bin/console app:status:project -v
           php ./bin/console app:status:overview -v
 
       - name: Copy files to translation server
