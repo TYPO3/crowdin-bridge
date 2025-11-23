@@ -43,17 +43,6 @@ class ProjectApi extends Client
     }
 
     /**
-     * @param string $projectIdentifier
-     * @return Progress[]
-     * @throws \App\Exception\NoApiCredentialsException
-     */
-    public function getTranslationStatus(string $projectIdentifier): array
-    {
-        $projectConfiguration = $this->configuration->getProject($projectIdentifier);
-        return $this->getTranslationStatusByCrowdinId($projectConfiguration->getId());
-    }
-
-    /**
      * @param int $projectId
      * @return Progress[]
      * @throws \App\Exception\NoApiCredentialsException

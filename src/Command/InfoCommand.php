@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Api\Wrapper\ProjectApi;
 use App\Configuration\Project;
 use App\Configuration\ProjectCollection;
 use App\Crowdin\Dto\Language;
 use App\Crowdin\Repository\LanguageRepository;
 use App\Crowdin\Repository\ProjectRepository;
-use App\Exception\NoApiCredentialsException;
+use App\Crowdin\Repository\TranslationStatusRepository;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -31,6 +30,7 @@ final class InfoCommand extends Command
         private readonly LanguageRepository $languageRepository,
         private readonly ProjectCollection $projectCollection,
         private readonly ProjectRepository $projectRepository,
+        private readonly TranslationStatusRepository $translationStatusRepository,
     ) {
         parent::__construct();
     }
@@ -69,29 +69,29 @@ final class InfoCommand extends Command
                 );
             }
 
-            $projectApi = new ProjectApi();
-            $status = $projectApi->getTranslationStatus($projectIdentifier);
-            if ($status) {
-                $headers = [
-                    'Name',
-                    'Progress (%)',
+            $progresses = $this->translationStatusRepository->findByProjectId($project->id);
+            $headers = [
+                'Name',
+                'Progress (%)',
+            ];
+            $items = [];
+            foreach ($progresses as $progress) {
+                $language = $this->languageRepository->findById($progress->languageId);
+                $languageName = $language instanceof Language
+                    ? sprintf('%s - %s', $language->name, $language->id)
+                    : $progress->languageId;
+                $items[] = [
+                    $languageName,
+                    $progress->translationProgress === $progress->approvalProgress
+                        ? $progress->approvalProgress
+                        : sprintf('%s / %s', $progress->translationProgress, $progress->approvalProgress),
                 ];
-                $items = [];
-                foreach ($status as $s) {
-                    $language = $this->languageRepository->findById($s->getLanguageId());
-                    $languageName = $language instanceof Language
-                        ? sprintf('%s - %s', $language->name, $language->id)
-                        : $s->getLanguageId();
-                    $items[] = [
-                        $languageName,
-                        ($s->getTranslationProgress() === $s->getApprovalProgress() ? $s->getApprovalProgress() : (sprintf('%s / %s', $s->getTranslationProgress(), $s->getApprovalProgress()))),
-                    ];
-                }
-                $io->section('Languages');
-                $io->table($headers, $items);
             }
-        } catch (NoApiCredentialsException $exception) {
-            $io->warning(sprintf('Skipped: %s', $exception->getMessage()));
+            $io->section('Languages');
+            $io->table($headers, $items);
+        } catch (\Throwable $t) {
+            $io->error(sprintf('An error occurred: %s', $t->getMessage()));
+            return Command::FAILURE;
         }
 
         return Command::SUCCESS;
