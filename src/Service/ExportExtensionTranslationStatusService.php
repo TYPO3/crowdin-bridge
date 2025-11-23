@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Api\Wrapper\ProjectApi;
+use App\Configuration\Project;
 use App\Crowdin\Dto\Language;
 use App\Crowdin\Repository\LanguageRepository;
 use App\File\PathResolver;
@@ -20,17 +21,16 @@ final readonly class ExportExtensionTranslationStatusService
         private ProjectApi $projectApi
     ) {}
 
-    public function export(string $extensionKey): void
+    public function export(Project $project): void
     {
-        $localProject = $this->projectApi->getConfiguration()->getProjectByExtensionKey($extensionKey);
-        $translationStatus = $this->projectApi->getTranslationStatusByCrowdinId($localProject->getId());
+        $translationStatus = $this->projectApi->getTranslationStatusByCrowdinId($project->id);
         if ($translationStatus) {
-            $extensionName = $localProject->getExtensionKey();
+            $extensionKey = $project->extensionKey;
 
-            $projectSubDir = $this->pathResolver->getRsyncPath() . sprintf('/%s/%s/%s-l10n/', $extensionName[0], $extensionName[1], $extensionName);
+            $projectSubDir = $this->pathResolver->getRsyncPath() . sprintf('/%s/%s/%s-l10n/', $extensionKey[0], $extensionKey[1], $extensionKey);
             FileHandling::mkdir_deep($projectSubDir);
 
-            $filename = $projectSubDir . $extensionName . '.json';
+            $filename = $projectSubDir . $extensionKey . '.json';
             file_put_contents($filename, $this->simplifyStatus($translationStatus));
         }
     }

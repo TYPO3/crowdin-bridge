@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Command\Status;
 
+use App\Configuration\Project;
 use App\Configuration\ProjectCollection;
 use App\Service\ExportExtensionTranslationStatusService;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -30,16 +31,22 @@ final class ProjectStatusCommand extends Command
     protected function configure(): void
     {
         $this
-            ->addArgument('extensionKey', InputArgument::OPTIONAL, 'Extension Key');
+            ->addArgument('project', InputArgument::OPTIONAL, 'Project identifier');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $extensionKey = (string)$input->getArgument('extensionKey');
+        $projectIdentifier = (string)$input->getArgument('project');
 
-        if ($extensionKey) {
-            $this->exportProject($extensionKey, true, $io);
+        if ($projectIdentifier !== '') {
+            $project = $this->projectCollection->findByIdentifier($projectIdentifier);
+            if (!$project instanceof Project) {
+                $io->error(\sprintf('Project with identifier "%s" not found', $projectIdentifier));
+                return Command::FAILURE;
+            }
+
+            $this->exportProject($project, true, $io);
             return Command::SUCCESS;
         }
 
@@ -51,7 +58,7 @@ final class ProjectStatusCommand extends Command
                 $progressBar->advance();
                 continue;
             }
-            $this->exportProject($project->extensionKey, $verbose, $io);
+            $this->exportProject($project, $verbose, $io);
             $progressBar->advance();
         }
         $progressBar->finish();
@@ -59,14 +66,14 @@ final class ProjectStatusCommand extends Command
         return Command::SUCCESS;
     }
 
-    private function exportProject(string $extensionKey, bool $verbose, SymfonyStyle $io): void
+    private function exportProject(Project $project, bool $verbose, SymfonyStyle $io): void
     {
         if ($verbose) {
-            $io->title(sprintf('Project %s', $extensionKey));
+            $io->title(sprintf('Project %s', $project->extensionKey));
         }
         try {
             //             todo more output
-            $this->translationStatusService->export($extensionKey);
+            $this->translationStatusService->export($project);
         } catch (\Exception $e) {
             $io->error($e->getMessage());
         }
