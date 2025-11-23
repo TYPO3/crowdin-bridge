@@ -9,6 +9,7 @@ use App\Configuration\Project;
 use App\Configuration\ProjectCollection;
 use App\Crowdin\Dto\Language;
 use App\Crowdin\Repository\LanguageRepository;
+use App\Crowdin\Repository\ProjectRepository;
 use App\Exception\NoApiCredentialsException;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -29,6 +30,7 @@ final class InfoCommand extends Command
     public function __construct(
         private readonly LanguageRepository $languageRepository,
         private readonly ProjectCollection $projectCollection,
+        private readonly ProjectRepository $projectRepository,
     ) {
         parent::__construct();
     }
@@ -53,19 +55,21 @@ final class InfoCommand extends Command
         }
 
         try {
-            $projectApi = new ProjectApi();
-            $projectDetails = $projectApi->getProject($projectIdentifier);
+            $projectDetails = $this->projectRepository->findById($project->id);
             if ($projectDetails) {
                 $io->section('General Information');
                 $io->table(
                     ['Name', 'Value'],
                     [
-                        ['Name', $projectDetails->getName()],
-                        ['Last Activity', $projectDetails->getLastActivity()],
+                        ['Name', $projectDetails->name],
+                        ['Created at', $projectDetails->createdAt->format('r')],
+                        ['Updated at', $projectDetails->updatedAt->format('r')],
+                        ['Last activity', $projectDetails->lastActivity->format('r')],
                     ]
                 );
             }
 
+            $projectApi = new ProjectApi();
             $status = $projectApi->getTranslationStatus($projectIdentifier);
             if ($status) {
                 $headers = [
