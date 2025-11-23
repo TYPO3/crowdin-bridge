@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Api\Wrapper\ProjectApi;
+use App\Configuration\Project;
+use App\Configuration\ProjectCollection;
 use App\Crowdin\Dto\Language;
 use App\Crowdin\Repository\LanguageRepository;
 use App\Exception\NoApiCredentialsException;
@@ -26,6 +28,7 @@ final class InfoCommand extends Command
 {
     public function __construct(
         private readonly LanguageRepository $languageRepository,
+        private readonly ProjectCollection $projectCollection,
     ) {
         parent::__construct();
     }
@@ -42,6 +45,12 @@ final class InfoCommand extends Command
 
         $io = new SymfonyStyle($input, $output);
         $io->title(sprintf('Project %s', $projectIdentifier));
+
+        $project = $this->projectCollection->findByIdentifier($projectIdentifier);
+        if (!$project instanceof Project) {
+            $io->error(\sprintf('Project "%s" does not exist', $projectIdentifier));
+            return Command::FAILURE;
+        }
 
         try {
             $projectApi = new ProjectApi();
