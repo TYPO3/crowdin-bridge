@@ -14,7 +14,7 @@ use App\File\PathResolver;
  * performance reasons.
  * @see https://support.crowdin.com/developer/api/v2/#tag/Languages
  */
-final class LanguageRepository
+class LanguageRepository
 {
     private const string LANGUAGES_FILE = 'languages.json';
 

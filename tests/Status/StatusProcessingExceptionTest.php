@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 
-namespace App\Tests\Status\Overview;
+namespace App\Tests\Status;
 
-use App\Status\Overview\StatusProcessingException;
+use App\Status\StatusProcessingException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;

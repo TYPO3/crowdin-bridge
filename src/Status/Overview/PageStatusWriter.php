@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Status\Overview;
 
 use App\File\PathResolver;
+use App\Status\StatusProcessingException;
 use App\Utility\FileHandling;
 use Psr\Clock\ClockInterface;
 

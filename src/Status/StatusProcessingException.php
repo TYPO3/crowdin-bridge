@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Status\Overview;
+namespace App\Status;
 
 final class StatusProcessingException extends \RuntimeException
 {

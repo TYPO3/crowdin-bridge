@@ -7,7 +7,7 @@ namespace App\Tests\Status\Overview;
 
 use App\File\PathResolver;
 use App\Status\Overview\JsonStatusWriter;
-use App\Status\Overview\StatusProcessingException;
+use App\Status\StatusProcessingException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;

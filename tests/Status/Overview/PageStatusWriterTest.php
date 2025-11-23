@@ -7,7 +7,7 @@ namespace App\Tests\Status\Overview;
 
 use App\File\PathResolver;
 use App\Status\Overview\PageStatusWriter;
-use App\Status\Overview\StatusProcessingException;
+use App\Status\StatusProcessingException;
 use Lcobucci\Clock\FrozenClock;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;

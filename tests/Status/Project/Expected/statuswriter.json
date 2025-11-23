@@ -1,0 +1,29 @@
+{
+	"de": {
+		"name": "German",
+		"code": "de",
+		"code_typo3": "de",
+		"phrases": 50,
+		"phrasesTranslated": 40,
+		"phrasesApproved": 30,
+		"progress": 42
+	},
+	"tpi": {
+		"name": "tpi",
+		"code": "tpi",
+		"code_typo3": "tpi",
+		"phrases": 51,
+		"phrasesTranslated": 41,
+		"phrasesApproved": 31,
+		"progress": 28
+	},
+	"es-ES": {
+		"name": "Spanish",
+		"code": "es-ES",
+		"code_typo3": "es",
+		"phrases": 52,
+		"phrasesTranslated": 42,
+		"phrasesApproved": 32,
+		"progress": 29
+	}
+}
