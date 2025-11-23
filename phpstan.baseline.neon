@@ -61,18 +61,6 @@ parameters:
 			path: src/Entity/ProjectConfiguration.php
 
 		-
-			message: '#^Parameter \#1 \$json of function json_decode expects string, string\|false given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/Info/LanguageInformation.php
-
-		-
-			message: '#^Property App\\Info\\LanguageInformation\:\:\$extraMapping type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Info/LanguageInformation.php
-
-		-
 			message: '#^Argument of an invalid type array\|string supplied for foreach, only iterables are supported\.$#'
 			identifier: foreach.nonIterable
 			count: 1

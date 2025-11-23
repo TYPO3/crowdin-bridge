@@ -4,14 +4,9 @@ declare(strict_types=1);
 
 namespace App\Info;
 
-use CrowdinApiClient\Model\Language;
-
-class LanguageInformation
+final readonly class LanguageInformation
 {
-    /**
-     * Mapping Crowdin => TYPO3
-     */
-    protected static array $extraMapping = [
+    private const array CROWDIN_TYPO3_MAPPING = [
         'es-ES' => 'es',
         'sv-SE' => 'sv',
         'fr-CA' => 'fr_CA',
@@ -23,24 +18,6 @@ class LanguageInformation
 
     public static function getLanguageForTypo3(string $language): string
     {
-        if (isset(self::$extraMapping[$language])) {
-            return self::$extraMapping[$language];
-        }
-        return $language;
+        return self::CROWDIN_TYPO3_MAPPING[$language] ?? $language;
     }
-
-    /**
-     * @return Language[]
-     */
-    public static function getDetailedLanguageInformation(): array
-    {
-        $languages = [];
-        $file = __DIR__ . '/../../assets/languages.json';
-        $data = json_decode(file_get_contents($file), true);
-        foreach ($data as $id => $tmp) {
-            $languages[$id] = new Language($tmp);
-        }
-        return $languages;
-    }
-
 }
