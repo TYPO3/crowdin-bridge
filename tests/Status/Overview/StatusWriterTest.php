@@ -88,35 +88,35 @@ final class StatusWriterTest extends TestCase
                 [
                     1,
                     [
-                        new TranslationProgress('de', 85, 85),
-                        new TranslationProgress('it', 33, 22),
-                        new TranslationProgress('ro', 48, 41),
+                        new TranslationProgress('de', 85, 85, 30, 20, 10),
+                        new TranslationProgress('it', 33, 22, 31, 21, 11),
+                        new TranslationProgress('ro', 48, 41, 32, 22, 12),
                     ]
                 ],
                 [
                     2,
                     [
-                        new TranslationProgress('de', 48, 42),
-                        new TranslationProgress('fr', 12, 3),
+                        new TranslationProgress('de', 48, 42, 80, 70, 60),
+                        new TranslationProgress('fr', 12, 3, 81, 71, 61),
                     ]
                 ],
                 [
                     3,
                     [
-                        new TranslationProgress('it', 100, 72),
-                        new TranslationProgress('ro', 27, 27),
+                        new TranslationProgress('it', 100, 72, 90, 80, 70),
+                        new TranslationProgress('ro', 27, 27, 91, 81, 71),
                     ]
                 ],
                 [
                     4,
                     [
-                        new TranslationProgress('de', 0, 0),
+                        new TranslationProgress('de', 0, 0, 60, 50, 40),
                     ]
                 ],
                 [
                 5,
                     [
-                        new TranslationProgress('de', 3, 0),
+                        new TranslationProgress('de', 3, 0, 50, 40, 30),
                     ]
                 ]
             ]);
