@@ -5,23 +5,20 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Api\Wrapper\ProjectApi;
+use App\Crowdin\Dto\Language;
+use App\Crowdin\Repository\LanguageRepository;
 use App\File\PathResolver;
 use App\Info\LanguageInformation;
 use App\Utility\FileHandling;
-use CrowdinApiClient\Model\Language;
 use CrowdinApiClient\Model\Progress;
 
-class ExportExtensionTranslationStatusService
+final readonly class ExportExtensionTranslationStatusService
 {
-    /** @var Language[] */
-    protected array $allLanguages;
-
     public function __construct(
-        protected PathResolver $pathResolver,
-        protected ProjectApi $projectApi
-    ) {
-        $this->allLanguages = LanguageInformation::getDetailedLanguageInformation();
-    }
+        private LanguageRepository $languageRepository,
+        private PathResolver $pathResolver,
+        private ProjectApi $projectApi
+    ) {}
 
     public function export(string $extensionKey): void
     {
@@ -40,20 +37,18 @@ class ExportExtensionTranslationStatusService
 
     /**
      * @param Progress[] $translationStatus
-     * @return string
      */
-    protected function simplifyStatus(array $translationStatus): string
+    private function simplifyStatus(array $translationStatus): string
     {
         $simple = [];
 
         foreach ($translationStatus as $language) {
             $languageId = $language->getLanguageId();
             $phrases = $language->getPhrases();
-            if (isset($this->allLanguages[$languageId])) {
-                $name = $this->allLanguages[$languageId]->getName();
-            } else {
-                $name = $languageId;
-            }
+            $languageInformation = $this->languageRepository->findById($languageId);
+            $name = $languageInformation instanceof Language
+                ? $languageInformation->name
+                : $languageId;
             $simple[$languageId] = [
                 'name' => $name,
                 'code' => $languageId,

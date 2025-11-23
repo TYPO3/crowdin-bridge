@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace App\Command;
 
 use App\Api\Wrapper\ProjectApi;
+use App\Crowdin\Dto\Language;
+use App\Crowdin\Repository\LanguageRepository;
 use App\Exception\NoApiCredentialsException;
-use App\Info\LanguageInformation;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -14,17 +15,21 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-#[AsCommand(
-    name: 'app:info',
-    description: 'Get info about a project',
-    hidden: false
-)]
-
 /**
  * Output some information about the project status on crowdin
  */
-class InfoCommand extends Command
+#[AsCommand(
+    name: 'app:info',
+    description: 'Get info about a project',
+)]
+final class InfoCommand extends Command
 {
+    public function __construct(
+        private readonly LanguageRepository $languageRepository,
+    ) {
+        parent::__construct();
+    }
+
     protected function configure()
     {
         $this
@@ -37,8 +42,6 @@ class InfoCommand extends Command
 
         $io = new SymfonyStyle($input, $output);
         $io->title(sprintf('Project %s', $projectIdentifier));
-
-        $allLanguages = LanguageInformation::getDetailedLanguageInformation();
 
         try {
             $projectApi = new ProjectApi();
@@ -62,12 +65,10 @@ class InfoCommand extends Command
                 ];
                 $items = [];
                 foreach ($status as $s) {
-                    if (isset($allLanguages[$s->getLanguageId()])) {
-                        $languageInfo = $allLanguages[$s->getLanguageId()];
-                        $languageName = sprintf('%s - %s', $languageInfo->getName(), $languageInfo->getId());
-                    } else {
-                        $languageName = $s->getLanguageId();
-                    }
+                    $language = $this->languageRepository->findById($s->getLanguageId());
+                    $languageName = $language instanceof Language
+                        ? sprintf('%s - %s', $language->name, $language->id)
+                        : $s->getLanguageId();
                     $items[] = [
                         $languageName,
                         ($s->getTranslationProgress() === $s->getApprovalProgress() ? $s->getApprovalProgress() : (sprintf('%s / %s', $s->getTranslationProgress(), $s->getApprovalProgress()))),

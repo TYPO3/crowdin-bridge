@@ -20,6 +20,11 @@ readonly class PathResolver
         private string $projectPath
     ) {}
 
+    public function getAssetsPath(): string
+    {
+        return $this->projectPath . '/assets';
+    }
+
     public function getDownloadsPath(): string
     {
         $path = $this->projectPath . '/export/downloads';

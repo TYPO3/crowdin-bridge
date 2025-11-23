@@ -1,0 +1,118 @@
+{
+    "af": {
+        "id": "af",
+        "name": "Afrikaans",
+        "editorCode": "af",
+        "twoLettersCode": "af",
+        "threeLettersCode": "afr",
+        "locale": "af-ZA",
+        "androidCode": "af-rZA",
+        "osxCode": "af.lproj",
+        "osxLocale": "af",
+        "pluralCategoryNames": [
+            "one",
+            "other"
+        ],
+        "pluralRules": "(n != 1)",
+        "pluralExamples": [
+            "1",
+            "0, 2-999; 1.2, 2.07..."
+        ],
+        "textDirection": "ltr",
+        "dialectOf": null
+    },
+    "bg": {
+        "id": "bg",
+        "name": "Bulgarian",
+        "editorCode": "bg",
+        "twoLettersCode": "bg",
+        "threeLettersCode": "bul",
+        "locale": "bg-BG",
+        "androidCode": "bg-rBG",
+        "osxCode": "bg.lproj",
+        "osxLocale": "bg",
+        "pluralCategoryNames": [
+            "one",
+            "other"
+        ],
+        "pluralRules": "(n != 1)",
+        "pluralExamples": [
+            "1",
+            "0, 2-999; 1.2, 2.07..."
+        ],
+        "textDirection": "ltr",
+        "dialectOf": null
+    },
+    "hr": {
+        "id": "hr",
+        "name": "Croatian",
+        "editorCode": "hr",
+        "twoLettersCode": "hr",
+        "threeLettersCode": "hrv",
+        "locale": "hr-HR",
+        "androidCode": "hr-rHR",
+        "osxCode": "hr.lproj",
+        "osxLocale": "hr",
+        "pluralCategoryNames": [
+            "one",
+            "few",
+            "other"
+        ],
+        "pluralRules": "(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)",
+        "pluralExamples": [
+            "1, 21, 31, 41, 51, 61...",
+            "2-4, 22-24, 32-34...",
+            "0, 5-20, 25-30, 35-40...; 1.2, 2.07, 5.94..."
+        ],
+        "textDirection": "ltr",
+        "dialectOf": null
+    },
+    "cs": {
+        "id": "cs",
+        "name": "Czech",
+        "editorCode": "cs",
+        "twoLettersCode": "cs",
+        "threeLettersCode": "ces",
+        "locale": "cs-CZ",
+        "androidCode": "cs-rCZ",
+        "osxCode": "cs.lproj",
+        "osxLocale": "cs",
+        "pluralCategoryNames": [
+            "one",
+            "few",
+            "many",
+            "other"
+        ],
+        "pluralRules": "(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3",
+        "pluralExamples": [
+            "1",
+            "2-4",
+            "0.0-1.5, 10.0, 100.0, 1000.0, 10000.0, 100000.0...",
+            "0, 5~19, 100, 1000, 10000..."
+        ],
+        "textDirection": "ltr",
+        "dialectOf": null
+    },
+    "da": {
+        "id": "da",
+        "name": "Danish",
+        "editorCode": "da",
+        "twoLettersCode": "da",
+        "threeLettersCode": "dan",
+        "locale": "da-DK",
+        "androidCode": "da-rDK",
+        "osxCode": "da.lproj",
+        "osxLocale": "da",
+        "pluralCategoryNames": [
+            "one",
+            "other"
+        ],
+        "pluralRules": "(n != 1)",
+        "pluralExamples": [
+            "1",
+            "0, 2-999; 1.2, 2.07..."
+        ],
+        "textDirection": "ltr",
+        "dialectOf": null
+    }
+}
