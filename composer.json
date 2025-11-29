@@ -25,7 +25,7 @@
 		"ext-json": "*",
 		"ext-zip": "*",
 		"crowdin/crowdin-api-client": "^1.19",
-		"friendsoftypo3/crowdin-base": "dev-main@dev",
+		"friendsoftypo3/crowdin-base": "^0.1",
 		"lcobucci/clock": "^3.5",
 		"symfony/console": "*",
 		"symfony/dependency-injection": "*",

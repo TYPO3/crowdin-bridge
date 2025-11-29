@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6a8f8b2cfa221006bcdcb3571e7b7e0f",
+    "content-hash": "34b5a0b0d9fb4883d67d7696e043e4f6",
     "packages": [
         {
             "name": "crowdin/crowdin-api-client",
@@ -70,16 +70,16 @@
         },
         {
             "name": "friendsoftypo3/crowdin-base",
-            "version": "dev-main",
+            "version": "v0.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfTYPO3/crowdin-base.git",
-                "reference": "5594787930f326b8f2c6e2d29993c5e6dc44cebe"
+                "reference": "a49932f08f1cedf2274369475895540641e3912c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfTYPO3/crowdin-base/zipball/5594787930f326b8f2c6e2d29993c5e6dc44cebe",
-                "reference": "5594787930f326b8f2c6e2d29993c5e6dc44cebe",
+                "url": "https://api.github.com/repos/FriendsOfTYPO3/crowdin-base/zipball/a49932f08f1cedf2274369475895540641e3912c",
+                "reference": "a49932f08f1cedf2274369475895540641e3912c",
                 "shasum": ""
             },
             "require": {
@@ -87,17 +87,16 @@
                 "guzzlehttp/guzzle": "^7.10",
                 "php": "^8.4",
                 "php-di/php-di": "^7.1",
-                "symfony/console": "^7.3",
+                "symfony/console": "^7.4",
                 "vlucas/phpdotenv": "^5.6"
             },
             "require-dev": {
                 "ergebnis/composer-normalize": "~2.48.2",
-                "friendsofphp/php-cs-fixer": "~3.89.2",
+                "friendsofphp/php-cs-fixer": "~3.91.0",
                 "phpstan/phpstan": "2.1.32",
                 "phpunit/phpunit": "^12.4",
-                "rector/rector": "2.2.7"
+                "rector/rector": "2.2.9"
             },
-            "default-branch": true,
             "bin": [
                 "bin/crowdinSetup"
             ],
@@ -148,10 +147,10 @@
             ],
             "description": "Base functionality for Crowdin",
             "support": {
-                "source": "https://github.com/FriendsOfTYPO3/crowdin-base/tree/main",
+                "source": "https://github.com/FriendsOfTYPO3/crowdin-base/tree/v0.1.0",
                 "issues": "https://github.com/FriendsOfTYPO3/crowdin-base/issues"
             },
-            "time": "2025-11-17T09:14:57+00:00"
+            "time": "2025-11-29T21:25:22+00:00"
         },
         {
             "name": "graham-campbell/result-type",
@@ -7033,9 +7032,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "friendsoftypo3/crowdin-base": 20
-    },
+    "stability-flags": {},
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
