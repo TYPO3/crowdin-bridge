@@ -12,7 +12,7 @@
 	"config": {
 		"bin-dir": "bin",
 		"platform": {
-			"php": "8.4"
+			"php": "8.5"
 		},
 		"allow-plugins": {
 			"symfony/flex": true,
@@ -21,10 +21,10 @@
 		"sort-packages": true
 	},
 	"require": {
-		"php": "^8.4",
+		"php": "^8.5",
 		"ext-zip": "*",
 		"crowdin/crowdin-api-client": "^1.19",
-		"friendsoftypo3/crowdin-base": "dev-main@dev",
+		"friendsoftypo3/crowdin-base": "^0.2",
 		"lcobucci/clock": "^3.5",
 		"symfony/console": "*",
 		"symfony/dependency-injection": "*",
@@ -53,7 +53,8 @@
 		"symfony/polyfill-php80": "*",
 		"symfony/polyfill-php81": "*",
 		"symfony/polyfill-php83": "*",
-		"symfony/polyfill-php84": "*"
+		"symfony/polyfill-php84": "*",
+		"symfony/polyfill-php85": "*"
 	},
 	"autoload": {
 		"psr-4": {

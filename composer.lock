@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "787caef501626de3ee595ecc8abf1302",
+    "content-hash": "9967e67c8b13c0696a34a073b78feefd",
     "packages": [
         {
             "name": "crowdin/crowdin-api-client",
@@ -70,22 +70,22 @@
         },
         {
             "name": "friendsoftypo3/crowdin-base",
-            "version": "dev-main",
+            "version": "v0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfTYPO3/crowdin-base.git",
-                "reference": "fc3852c5fcb743fb3f6c1c681330e386f80df928"
+                "reference": "e01b5f5a37c8651c31c9a56c79a83abfdc3d5722"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfTYPO3/crowdin-base/zipball/fc3852c5fcb743fb3f6c1c681330e386f80df928",
-                "reference": "fc3852c5fcb743fb3f6c1c681330e386f80df928",
+                "url": "https://api.github.com/repos/FriendsOfTYPO3/crowdin-base/zipball/e01b5f5a37c8651c31c9a56c79a83abfdc3d5722",
+                "reference": "e01b5f5a37c8651c31c9a56c79a83abfdc3d5722",
                 "shasum": ""
             },
             "require": {
                 "crowdin/crowdin-api-client": "^1.19",
                 "guzzlehttp/guzzle": "^7.10",
-                "php": "^8.4",
+                "php": "^8.5",
                 "php-di/php-di": "^7.1",
                 "symfony/console": "^8.0",
                 "vlucas/phpdotenv": "^5.6"
@@ -97,7 +97,6 @@
                 "phpunit/phpunit": "^12.5",
                 "rector/rector": "2.2.11"
             },
-            "default-branch": true,
             "bin": [
                 "bin/crowdinSetup"
             ],
@@ -148,10 +147,10 @@
             ],
             "description": "Base functionality for Crowdin",
             "support": {
-                "source": "https://github.com/FriendsOfTYPO3/crowdin-base/tree/main",
+                "source": "https://github.com/FriendsOfTYPO3/crowdin-base/tree/v0.2.0",
                 "issues": "https://github.com/FriendsOfTYPO3/crowdin-base/issues"
             },
-            "time": "2025-12-07T18:28:48+00:00"
+            "time": "2025-12-07T18:56:19+00:00"
         },
         {
             "name": "graham-campbell/result-type",
@@ -3258,86 +3257,6 @@
                 }
             ],
             "time": "2024-12-23T08:48:59+00:00"
-        },
-        {
-            "name": "symfony/polyfill-php85",
-            "version": "v1.33.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/polyfill-php85.git",
-                "reference": "d4e5fcd4ab3d998ab16c0db48e6cbb9a01993f91"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-php85/zipball/d4e5fcd4ab3d998ab16c0db48e6cbb9a01993f91",
-                "reference": "d4e5fcd4ab3d998ab16c0db48e6cbb9a01993f91",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.2"
-            },
-            "type": "library",
-            "extra": {
-                "thanks": {
-                    "url": "https://github.com/symfony/polyfill",
-                    "name": "symfony/polyfill"
-                }
-            },
-            "autoload": {
-                "files": [
-                    "bootstrap.php"
-                ],
-                "psr-4": {
-                    "Symfony\\Polyfill\\Php85\\": ""
-                },
-                "classmap": [
-                    "Resources/stubs"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Nicolas Grekas",
-                    "email": "p@tchwork.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony polyfill backporting some PHP 8.5+ features to lower PHP versions",
-            "homepage": "https://symfony.com",
-            "keywords": [
-                "compatibility",
-                "polyfill",
-                "portable",
-                "shim"
-            ],
-            "support": {
-                "source": "https://github.com/symfony/polyfill-php85/tree/v1.33.0"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://github.com/nicolas-grekas",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2025-06-23T16:12:55+00:00"
         },
         {
             "name": "symfony/routing",
@@ -6962,18 +6881,16 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "friendsoftypo3/crowdin-base": 20
-    },
+    "stability-flags": {},
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "^8.4",
+        "php": "^8.5",
         "ext-zip": "*"
     },
     "platform-dev": {},
     "platform-overrides": {
-        "php": "8.4"
+        "php": "8.5"
     },
     "plugin-api-version": "2.9.0"
 }
