@@ -22,7 +22,6 @@
 	},
 	"require": {
 		"php": "^8.4",
-		"ext-json": "*",
 		"ext-zip": "*",
 		"crowdin/crowdin-api-client": "^1.19",
 		"friendsoftypo3/crowdin-base": "dev-main@dev",
