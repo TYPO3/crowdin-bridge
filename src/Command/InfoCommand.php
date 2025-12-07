@@ -35,7 +35,7 @@ final class InfoCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->addArgument('project', InputArgument::REQUIRED, 'Project identifier');

@@ -29,7 +29,7 @@ final class ExtractCoreCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->addArgument('language', InputArgument::OPTIONAL, 'Comma-separated list of languages (for example: de,fr,it) or use "*" for all', '*');

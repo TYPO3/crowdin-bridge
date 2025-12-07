@@ -32,7 +32,7 @@ final class ExtractExtensionCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->addArgument('project', InputArgument::OPTIONAL, 'Project identifier')
