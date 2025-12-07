@@ -10,7 +10,7 @@ use App\Build\ProjectNotFoundException;
 use App\Command\BuildCommand;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\MockObject\Stub;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -18,13 +18,13 @@ use Symfony\Component\Console\Tester\CommandTester;
 #[CoversClass(BuildCommand::class)]
 final class BuildCommandTest extends TestCase
 {
-    private MockObject $builderMock;
+    private Stub $builderStub;
 
     protected function setUp(): void
     {
-        $this->builderMock = self::createMock(Builder::class);
+        $this->builderStub = $this->createStub(Builder::class);
 
-        $command = new BuildCommand($this->builderMock);
+        $command = new BuildCommand($this->builderStub);
         $this->commandTester = new CommandTester($command);
     }
 
@@ -33,7 +33,7 @@ final class BuildCommandTest extends TestCase
     {
         $projectIdentifier = 'invalid-identifier';
 
-        $this->builderMock
+        $this->builderStub
             ->method('build')
             ->with($projectIdentifier, self::anything())
             ->willThrowException(ProjectNotFoundException::fromProjectIdentifier($projectIdentifier));
@@ -49,7 +49,7 @@ final class BuildCommandTest extends TestCase
     {
         $projectIdentifier = 'valid-identifier';
 
-        $this->builderMock
+        $this->builderStub
             ->method('build')
             ->with($projectIdentifier, self::anything());
 
@@ -62,7 +62,7 @@ final class BuildCommandTest extends TestCase
     #[Test]
     public function callingBuilderForAllProjectsReturnsSuccessInNonVerboseMode(): void
     {
-        $this->builderMock
+        $this->builderStub
             ->method('build')
             ->with('', self::anything());
 
