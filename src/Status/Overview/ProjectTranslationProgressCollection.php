@@ -26,12 +26,9 @@ final class ProjectTranslationProgressCollection implements \IteratorAggregate
      */
     public function getCoreLanguages(): array
     {
-        $projectTranslationProgress = array_first(
-            array_filter(
-                $this->projects,
-                static fn(ProjectTranslationProgress $projectTranslationProgress): bool => $projectTranslationProgress->project->identifier === 'typo3-cms'
-            )
-        );
+        $projectTranslationProgress = $this->projects
+            |> (static fn($projects) => array_filter($projects, static fn(ProjectTranslationProgress $projectTranslationProgress): bool => $projectTranslationProgress->project->identifier === 'typo3-cms'))
+            |> array_first(...);
 
         return $projectTranslationProgress?->project->languages ?? [];
     }

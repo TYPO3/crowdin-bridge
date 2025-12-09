@@ -29,12 +29,9 @@ class LanguageRepository
 
     public function findById(string $id): ?Language
     {
-        return array_first(
-            array_filter(
-                $this->getAllLanguages(),
-                static fn(Language $language): bool => $language->id === $id
-            )
-        );
+        return $this->getAllLanguages()
+            |> (static fn(array $languages) => array_filter($languages, static fn(Language $language): bool => $language->id === $id))
+            |> array_first(...);
     }
 
     /**
@@ -52,13 +49,11 @@ class LanguageRepository
                 ), 1763660710);
             }
 
-            $this->languages = array_values(array_map(
-                static fn(array $language): Language => new Language($language['id'], $language['name']),
-                \json_decode($languagesFromFile, true, flags: \JSON_THROW_ON_ERROR)
-            ));
+            $this->languages = \json_decode($languagesFromFile, true, flags: \JSON_THROW_ON_ERROR)
+                |> (static fn(array $languages) => array_map(static fn(array $language): Language => new Language($language['id'], $language['name']), $languages))
+                |> array_values(...);
         }
 
         return $this->languages;
     }
-
 }

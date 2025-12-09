@@ -29,9 +29,8 @@ readonly class TranslationStatusRepository
             'limit' => self::LIMIT,
         ];
 
-        return array_values(array_map(
-            static fn(Progress $progress): TranslationProgress => TranslationProgress::fromCrowdinProgress($progress),
-            iterator_to_array($this->client->translationStatus->getProjectProgress($projectId, $params) ?? []),
-        ));
+        return iterator_to_array($this->client->translationStatus->getProjectProgress($projectId, $params) ?? [])
+            |> (static fn(array $progresses) => array_map(static fn(Progress $progress): TranslationProgress => TranslationProgress::fromCrowdinProgress($progress), $progresses))
+            |> array_values(...);
     }
 }

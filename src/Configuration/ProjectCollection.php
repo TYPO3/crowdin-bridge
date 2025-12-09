@@ -21,12 +21,9 @@ final readonly class ProjectCollection implements \Countable, \IteratorAggregate
 
     public function findByIdentifier(string $identifier): ?Project
     {
-        return array_first(
-            array_filter(
-                $this->projects,
-                static fn(Project $project): bool => $project->identifier === $identifier
-            )
-        );
+        return $this->projects
+            |> (static fn(array $projects) => array_filter($projects, static fn(Project $project): bool => $project->identifier === $identifier))
+            |> array_first(...);
     }
 
     public function count(): int
