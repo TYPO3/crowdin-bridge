@@ -34,7 +34,6 @@
 		"symfony/flex": "^2.10",
 		"symfony/framework-bundle": "*",
 		"symfony/monolog-bundle": "^4.0",
-		"symfony/polyfill-php85": "^1.33",
 		"symfony/runtime": "*",
 		"symfony/yaml": "*"
 	},

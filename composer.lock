@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9967e67c8b13c0696a34a073b78feefd",
+    "content-hash": "0f2c76c9b0a1cb154c2df0bcce071160",
     "packages": [
         {
             "name": "crowdin/crowdin-api-client",
