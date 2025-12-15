@@ -142,7 +142,7 @@ function renderTooltipProjectLanguage(params) {
     const dataApprovals = params.data.approvals[params.colDef.t3LanguageKey];
     const dataTranslations = params.data.translations[params.colDef.t3LanguageKey];
     if (params.data.usable && (dataApprovals !== dataTranslations)) {
-        return `${dataTranslations - dataApprovals}% Approvals missing`;
+        return `${dataTranslations - dataApprovals}% Needs approval`;
     } else {
         return '';
     }
