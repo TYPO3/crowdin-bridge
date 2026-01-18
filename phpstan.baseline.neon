@@ -79,12 +79,6 @@ parameters:
 			path: src/Service/DownloadCrowdinTranslationService.php
 
 		-
-			message: '#^If condition is always true\.$#'
-			identifier: if.alwaysTrue
-			count: 1
-			path: src/Service/DownloadCrowdinTranslationService.php
-
-		-
 			message: '#^Method App\\Service\\DownloadCrowdinTranslationService\:\:downloadPackageCore\(\) has parameter \$listOfLanguages with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1

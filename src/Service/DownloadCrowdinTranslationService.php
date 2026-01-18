@@ -18,8 +18,6 @@ use Symfony\Component\Finder\Finder;
 
 final class DownloadCrowdinTranslationService
 {
-    private const bool REMOVE_ZIPS = true;
-
     private string $originalLanguageKey = '';
     private string $finalLanguageKey = '';
     private string $projectIdentifier;
@@ -56,7 +54,6 @@ final class DownloadCrowdinTranslationService
             $this->processDownloadDirectoryCore($directory, $language);
         }
         $this->moveAllToRsyncDestination();
-        //   $this->cleanup($downloadTarget);
     }
 
     public function downloadPackageExtension(string $projectIdentifier, array $listOfLanguages = []): array
@@ -119,21 +116,6 @@ final class DownloadCrowdinTranslationService
         $this->moveAllToRsyncDestination();
 
         return $exportedLanguages;
-    }
-
-    protected function cleanup(): void
-    {
-        if (self::REMOVE_ZIPS) {
-            $exportDir = $this->pathResolver->getExportPath();
-            $exportDirs = FileHandling::get_dirs($exportDir);
-            foreach ($exportDirs as $dir) {
-                FileHandling::rmdir($exportDir . '/' . $dir, true);
-            }
-        }
-        $downloadDir = FileHandling::get_dirs($this->pathResolver->getDownloadsPath());
-        foreach ($downloadDir as $dir) {
-            FileHandling::rmdir($this->pathResolver->getDownloadsPath() . '/' . $dir, true);
-        }
     }
 
     protected function moveAllToRsyncDestination(): void
