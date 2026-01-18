@@ -12,25 +12,23 @@ use App\File\PathResolver;
 use App\Info\CoreInformation;
 use App\Info\LanguageInformation;
 use App\Utility\FileHandling;
-use Psr\Log\LoggerAwareInterface;
-use Psr\Log\LoggerAwareTrait;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 
-class DownloadCrowdinTranslationService implements LoggerAwareInterface
+final class DownloadCrowdinTranslationService
 {
-    use LoggerAwareTrait;
-
     private const bool REMOVE_ZIPS = true;
 
-    protected string $originalLanguageKey = '';
-    protected string $finalLanguageKey = '';
-    protected string $projectIdentifier;
+    private string $originalLanguageKey = '';
+    private string $finalLanguageKey = '';
+    private string $projectIdentifier;
 
     public function __construct(
-        protected readonly PathResolver $pathResolver,
-        protected readonly ProjectApi $projectApi,
-        protected readonly TranslationApi $translationApi
+        private readonly LoggerInterface $logger,
+        private readonly PathResolver $pathResolver,
+        private readonly ProjectApi $projectApi,
+        private readonly TranslationApi $translationApi
     ) {}
 
     public function downloadPackageCore(array $listOfLanguages = []): void
