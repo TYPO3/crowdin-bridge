@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a85f0cd60e35a2cdb514af9ab32f8367",
+    "content-hash": "bfcf5620aacc64ba70dd063578f99ebe",
     "packages": [
         {
             "name": "crowdin/crowdin-api-client",
-            "version": "1.19.0",
+            "version": "1.20.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/crowdin/crowdin-api-client-php.git",
-                "reference": "ef7698be16a74451e852821a032eae3dc84a9ed1"
+                "reference": "fa286ecafa6c316340ef307edc81a45d14810fa3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/crowdin/crowdin-api-client-php/zipball/ef7698be16a74451e852821a032eae3dc84a9ed1",
-                "reference": "ef7698be16a74451e852821a032eae3dc84a9ed1",
+                "url": "https://api.github.com/repos/crowdin/crowdin-api-client-php/zipball/fa286ecafa6c316340ef307edc81a45d14810fa3",
+                "reference": "fa286ecafa6c316340ef307edc81a45d14810fa3",
                 "shasum": ""
             },
             "require": {
@@ -64,9 +64,9 @@
             ],
             "support": {
                 "issues": "https://github.com/crowdin/crowdin-api-client-php/issues",
-                "source": "https://github.com/crowdin/crowdin-api-client-php/tree/1.19.0"
+                "source": "https://github.com/crowdin/crowdin-api-client-php/tree/1.20.0"
             },
-            "time": "2025-10-10T13:33:45+00:00"
+            "time": "2026-02-10T07:42:01+00:00"
         },
         {
             "name": "friendsoftypo3/crowdin-base",
