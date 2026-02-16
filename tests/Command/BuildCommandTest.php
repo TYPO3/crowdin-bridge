@@ -10,7 +10,7 @@ use App\Build\ProjectNotFoundException;
 use App\Command\BuildCommand;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\MockObject\Stub;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -18,13 +18,13 @@ use Symfony\Component\Console\Tester\CommandTester;
 #[CoversClass(BuildCommand::class)]
 final class BuildCommandTest extends TestCase
 {
-    private Stub $builderStub;
+    private MockObject $builderMock;
 
     protected function setUp(): void
     {
-        $this->builderStub = $this->createStub(Builder::class);
+        $this->builderMock = $this->createMock(Builder::class);
 
-        $command = new BuildCommand($this->builderStub);
+        $command = new BuildCommand($this->builderMock);
         $this->commandTester = new CommandTester($command);
     }
 
@@ -33,7 +33,8 @@ final class BuildCommandTest extends TestCase
     {
         $projectIdentifier = 'invalid-identifier';
 
-        $this->builderStub
+        $this->builderMock
+            ->expects(self::once())
             ->method('build')
             ->with($projectIdentifier, self::anything())
             ->willThrowException(ProjectNotFoundException::fromProjectIdentifier($projectIdentifier));
@@ -49,7 +50,8 @@ final class BuildCommandTest extends TestCase
     {
         $projectIdentifier = 'valid-identifier';
 
-        $this->builderStub
+        $this->builderMock
+            ->expects(self::once())
             ->method('build')
             ->with($projectIdentifier, self::anything());
 
@@ -62,7 +64,8 @@ final class BuildCommandTest extends TestCase
     #[Test]
     public function callingBuilderForAllProjectsReturnsSuccessInNonVerboseMode(): void
     {
-        $this->builderStub
+        $this->builderMock
+            ->expects(self::once())
             ->method('build')
             ->with('', self::anything());
 
