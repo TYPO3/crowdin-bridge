@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0f0e8178fa361631d6b81a2ec0dd4cf9",
+    "content-hash": "e57b5b3034f05bdec105234c9a102f40",
     "packages": [
         {
             "name": "crowdin/crowdin-api-client",
@@ -70,20 +70,20 @@
         },
         {
             "name": "friendsoftypo3/crowdin-base",
-            "version": "v0.2.0",
+            "version": "v0.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfTYPO3/crowdin-base.git",
-                "reference": "e01b5f5a37c8651c31c9a56c79a83abfdc3d5722"
+                "reference": "12962672cbd5e96b1a1135cab7a3b16d45072adc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfTYPO3/crowdin-base/zipball/e01b5f5a37c8651c31c9a56c79a83abfdc3d5722",
-                "reference": "e01b5f5a37c8651c31c9a56c79a83abfdc3d5722",
+                "url": "https://api.github.com/repos/FriendsOfTYPO3/crowdin-base/zipball/12962672cbd5e96b1a1135cab7a3b16d45072adc",
+                "reference": "12962672cbd5e96b1a1135cab7a3b16d45072adc",
                 "shasum": ""
             },
             "require": {
-                "crowdin/crowdin-api-client": "^1.19",
+                "crowdin/crowdin-api-client": "^1.20",
                 "guzzlehttp/guzzle": "^7.10",
                 "php": "^8.5",
                 "php-di/php-di": "^7.1",
@@ -91,11 +91,11 @@
                 "vlucas/phpdotenv": "^5.6"
             },
             "require-dev": {
-                "ergebnis/composer-normalize": "~2.48.2",
-                "friendsofphp/php-cs-fixer": "~3.91.3",
-                "phpstan/phpstan": "2.1.33",
-                "phpunit/phpunit": "^12.5",
-                "rector/rector": "2.2.11"
+                "ergebnis/composer-normalize": "~2.50.0",
+                "friendsofphp/php-cs-fixer": "~3.94.0",
+                "phpstan/phpstan": "2.1.39",
+                "phpunit/phpunit": "^13.0",
+                "rector/rector": "2.3.6"
             },
             "bin": [
                 "bin/crowdinSetup"
@@ -147,10 +147,10 @@
             ],
             "description": "Base functionality for Crowdin",
             "support": {
-                "source": "https://github.com/FriendsOfTYPO3/crowdin-base/tree/v0.2.0",
+                "source": "https://github.com/FriendsOfTYPO3/crowdin-base/tree/v0.2.1",
                 "issues": "https://github.com/FriendsOfTYPO3/crowdin-base/issues"
             },
-            "time": "2025-12-07T18:56:19+00:00"
+            "time": "2026-02-16T15:57:42+00:00"
         },
         {
             "name": "graham-campbell/result-type",
