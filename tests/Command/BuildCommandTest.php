@@ -19,6 +19,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 final class BuildCommandTest extends TestCase
 {
     private MockObject $builderMock;
+    private CommandTester $commandTester;
 
     protected function setUp(): void
     {
