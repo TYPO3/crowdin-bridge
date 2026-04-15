@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "crowdin/crowdin-api-client",
-            "version": "1.22.0",
+            "version": "1.23.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/crowdin/crowdin-api-client-php.git",
-                "reference": "c21c552fe18f7fd0fbc8eba2fc217df713618204"
+                "reference": "6b4f0b61557cf7e5ddf30bde052453b9315cc520"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/crowdin/crowdin-api-client-php/zipball/c21c552fe18f7fd0fbc8eba2fc217df713618204",
-                "reference": "c21c552fe18f7fd0fbc8eba2fc217df713618204",
+                "url": "https://api.github.com/repos/crowdin/crowdin-api-client-php/zipball/6b4f0b61557cf7e5ddf30bde052453b9315cc520",
+                "reference": "6b4f0b61557cf7e5ddf30bde052453b9315cc520",
                 "shasum": ""
             },
             "require": {
@@ -64,9 +64,9 @@
             ],
             "support": {
                 "issues": "https://github.com/crowdin/crowdin-api-client-php/issues",
-                "source": "https://github.com/crowdin/crowdin-api-client-php/tree/1.22.0"
+                "source": "https://github.com/crowdin/crowdin-api-client-php/tree/1.23.0"
             },
-            "time": "2026-03-12T07:39:12+00:00"
+            "time": "2026-03-27T07:41:40+00:00"
         },
         {
             "name": "friendsoftypo3/crowdin-base",
