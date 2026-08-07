@@ -105,7 +105,7 @@ class FileHandling
         foreach ($iterator as $item) {
             $target = $destination . '/' . static::fixWindowsFilePath($iterator->getSubPathName());
             if ($item->isDir()) {
-                static::mkdir($target);
+                static::mkdir_deep($target);
             } else {
                 static::upload_copy_move(static::fixWindowsFilePath($item->getPathname()), $target);
             }
