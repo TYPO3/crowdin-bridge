@@ -8,12 +8,16 @@ use App\Configuration\Language;
 use App\Configuration\ProjectCollection;
 use App\Console\Output\OutputInterface;
 use App\Crowdin\Repository\TranslationStatusRepository;
+use Psr\Clock\ClockInterface;
 
 final readonly class StatusWriter
 {
+    public const string DATE_FORMAT = 'D, d M Y H:i:s T';
+
     public function __construct(
+        private ClockInterface $clock,
         private JsonStatusWriter $jsonStatusWriter,
-        private PageStatusWriter $pageStatusWriter,
+        private FrontendWriter $frontendWriter,
         private ProjectCollection $projectCollection,
         private TranslationStatusRepository $translationStatusRepository,
     ) {}
@@ -46,7 +50,10 @@ final readonly class StatusWriter
             ));
         }
 
-        $result = ['languages' => []];
+        $result = [
+            'date' => $this->clock->now()->format(self::DATE_FORMAT),
+            'languages' => [],
+        ];
 
         $coreLanguageIds = [];
         $coreLanguages = $projectTranslationProgressCollection->getCoreLanguages();
@@ -96,9 +103,9 @@ final readonly class StatusWriter
 
         try {
             $this->jsonStatusWriter->write($result);
-            $this->pageStatusWriter->write();
+            $this->frontendWriter->write();
         } catch (\Throwable $t) {
-            $errors[] = 'An error occurred while writing the status: ' . $t->getMessage();
+            $errors[] = 'An error occurred while writing the frontend: ' . $t->getMessage();
         }
 
         $output->finish($errors);
