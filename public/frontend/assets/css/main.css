@@ -1,0 +1,155 @@
+/*!
+ * Data grid for status page at https://localize.typo3.org/
+ */
+/*!
+ * AG Grid community v34.3.1 by AG Grid Ltd. - https://www.ag-grid.com
+ * License - https://www.ag-grid.com/eula/AG-Grid-Community-License.html (MIT License)
+ */
+/*!
+ * Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com
+ * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
+ * Copyright 2024 Fonticons, Inc.
+ */
+
+@font-face {
+    font-family: 'Font Awesome 6 Free';
+    font-style: normal;
+    font-weight: 900;
+    font-display: block;
+    src: url('../fonts/fa-solid-900.woff2') format('woff2'),
+         url('../fonts/fa-solid-900.ttf') format('truetype');
+}
+
+:root,
+body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    --ag-font-size: 16px;
+}
+
+#ag-grid {
+    height: 70vh;
+    display: grid;
+}
+
+.ag-pinned-left-cols-container .ag-cell {
+    text-align: left;
+}
+
+.ag-cell {
+    text-align: center;
+}
+
+:where(.ag-ltr) .ag-cell:not(.ag-cell-inline-editing) {
+    padding-left: calc(var(--ag-cell-horizontal-padding) / 2 - 1px + var(--ag-row-group-indent-size) * var(--ag-indentation-level));
+    padding-right: calc(var(--ag-cell-horizontal-padding) / 2 - 1px);
+}
+
+.ag-cell a {
+    text-decoration: none;
+    :hover {
+        text-decoration: underline;
+    }
+}
+.ag-cell a:hover {
+    text-decoration: underline;
+}
+
+.ag-header-cell, .ag-header-group-cell {
+    padding: 0 calc(var(--ag-cell-horizontal-padding) / 2);
+}
+
+.ag-header-cell-label {
+    height: 100%;
+}
+
+.ag-header-viewport .ag-header-cell-label {
+    justify-content: flex-start;
+    padding-left: 1.75rem;
+}
+
+.ag-header-cell-label, .ag-header-group-cell-label {
+    align-items: baseline;
+}
+
+.ag-header-cell-label .ag-header-cell-text {
+    margin-top: 40px;
+}
+
+.ag-header-cell-resize {
+    &::after {
+        height: 100%;
+        top: calc(100% - var(--ag-header-column-resize-handle-height) * 2);
+        width: calc(var(--ag-header-column-resize-handle-width) / 2);
+    }
+}
+
+.ag-sort-indicator-container {
+    display: flex;
+    gap: var(--ag-spacing);
+}
+
+:where(.ag-ltr) .ag-sort-indicator-icon {
+    padding-left: 0;
+}
+
+.ag-row-even {
+    background-color: #fafafa;
+}
+
+.t3-admonition {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    line-height: 1;
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+}
+.t3-admonition:before {
+    content: "\f071";
+}
+.t3-admonition-warning {
+    color: #f00;
+}
+
+.t3-cell-element {
+    font-size: calc(var(--ag-font-size) *0.75);
+    padding: 2px;
+}
+.t3-cell-element-danger {
+    color: #f00;
+}
+.t3-cell-element-success {
+    color: #090;
+}
+.t3-cell-element-warning {
+    color: #ff9900;
+}
+.t3-cell-element-lang-approval-missing {
+    text-decoration: underline;
+}
+.t3-cell-element-unit-percent::after {
+    content: "%";
+}
+
+.t3-header-cell-language .ag-header-cell-label .ag-header-cell-text {
+    display: inline-block;
+    height: 90px;
+    margin-top:  5px;
+    overflow: hidden;
+    transform: rotate(180deg);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    writing-mode: vertical-lr;
+    -ms-writing-mode: tb-lr;
+}
+
+.page-footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}

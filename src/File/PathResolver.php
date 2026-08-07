@@ -61,9 +61,4 @@ readonly class PathResolver
 
         return $path;
     }
-
-    public function getTemplatesPath(): string
-    {
-        return $this->projectPath . '/templates';
-    }
 }
