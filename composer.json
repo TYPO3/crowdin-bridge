@@ -33,7 +33,7 @@
 		"symfony/finder": "*",
 		"symfony/flex": "^2.10",
 		"symfony/framework-bundle": "*",
-		"symfony/monolog-bundle": "^4.0",
+		"symfony/monolog-bundle": "^4.1",
 		"symfony/runtime": "*",
 		"symfony/yaml": "*"
 	},
