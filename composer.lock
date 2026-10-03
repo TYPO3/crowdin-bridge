@@ -4,26 +4,26 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d7afaada6b6543f97d0f7fe5e1e14270",
+    "content-hash": "b17add7c08603119774f6cd208c4bf37",
     "packages": [
         {
             "name": "crowdin/crowdin-api-client",
-            "version": "1.25.0",
+            "version": "1.26.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/crowdin/crowdin-api-client-php",
-                "reference": "d18e2e65cfbee5d747a3c8434d346afd776aafff"
+                "reference": "aaa61c4687d061f363938c103d7d0426ac3eb6b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/crowdin/crowdin-api-client-php/zipball/d18e2e65cfbee5d747a3c8434d346afd776aafff",
-                "reference": "d18e2e65cfbee5d747a3c8434d346afd776aafff",
+                "url": "https://api.github.com/repos/crowdin/crowdin-api-client-php/zipball/aaa61c4687d061f363938c103d7d0426ac3eb6b4",
+                "reference": "aaa61c4687d061f363938c103d7d0426ac3eb6b4",
                 "shasum": ""
             },
             "require": {
                 "ext-curl": "*",
                 "ext-json": "*",
-                "guzzlehttp/guzzle": "^6.2 || ^7",
+                "guzzlehttp/guzzle": "^6.2 || ^7 || ^8",
                 "php": ">=7.1"
             },
             "require-dev": {
@@ -62,7 +62,7 @@
                 "crowdin",
                 "sdk"
             ],
-            "time": "2026-09-25T14:07:13+00:00"
+            "time": "2026-10-02T06:34:49+00:00"
         },
         {
             "name": "friendsoftypo3/crowdin-base",

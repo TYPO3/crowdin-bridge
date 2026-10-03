@@ -23,7 +23,7 @@
 	"require": {
 		"php": "^8.5",
 		"ext-zip": "*",
-		"crowdin/crowdin-api-client": "^1.25",
+		"crowdin/crowdin-api-client": "^1.26",
 		"friendsoftypo3/crowdin-base": "^0.2.1",
 		"lcobucci/clock": "^3.6",
 		"symfony/console": "*",
