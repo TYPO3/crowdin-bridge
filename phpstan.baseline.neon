@@ -205,12 +205,6 @@ parameters:
 			path: src/Service/DownloadCrowdinTranslationService.php
 
 		-
-			message: '#^Call to an undefined static method App\\Utility\\FileHandling\:\:mkdir\(\)\.$#'
-			identifier: staticMethod.notFound
-			count: 1
-			path: src/Utility/FileHandling.php
-
-		-
 			message: '#^Method App\\Utility\\FileHandling\:\:copyDirectory\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
