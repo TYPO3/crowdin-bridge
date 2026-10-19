@@ -13,8 +13,9 @@ use App\Crowdin\Dto\TranslationProgress;
 use App\Crowdin\Repository\TranslationStatusRepository;
 use App\File\PathResolver;
 use App\Status\Overview\JsonStatusWriter;
-use App\Status\Overview\PageStatusWriter;
+use App\Status\Overview\FrontendWriter;
 use App\Status\Overview\StatusWriter;
+use Lcobucci\Clock\FrozenClock;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
@@ -33,7 +34,7 @@ final class StatusWriterTest extends TestCase
             ->method('getRsyncPath')
             ->willReturn($rsyncPath);
         $jsonStatusWriter = new JsonStatusWriter($pathResolverStub);
-        $pageStatusWriterStub = $this->createStub(PageStatusWriter::class);
+        $frontendWriterStub = $this->createStub(FrontendWriter::class);
 
         $project1 = new Project(
             1,
@@ -138,7 +139,13 @@ final class StatusWriterTest extends TestCase
             }
         };
 
-        $subject = new StatusWriter($jsonStatusWriter, $pageStatusWriterStub, $projectCollection, $translationStatusRepositoryStub);
+        $subject = new StatusWriter(new FrozenClock(new \DateTimeImmutable('2026-08-07 00:00:00',
+            new \DateTimeZone('UTC'))),
+            $jsonStatusWriter,
+            $frontendWriterStub,
+            $projectCollection,
+            $translationStatusRepositoryStub
+        );
         $subject->write($outputDummy);
 
         self::assertJsonFileEqualsJsonFile(__DIR__ . '/Expected/statuswriter.json', $rsyncPath . '/status.json');
