@@ -21,7 +21,7 @@ Triggered by: `app:build`
 The following steps are taken:
 
 1. Configure your local `.env` file (have a look at `.env.ci`, you'll get/receive the token from the team lead)
-2. Composer install
+2. Run `composer install`
 3. Generate local configuration file `php bin/crowdinSetup`
 4. Download & process all translations `php bin/console <COMMAND>`
    1. From Extensions: `app:extract:extension`
