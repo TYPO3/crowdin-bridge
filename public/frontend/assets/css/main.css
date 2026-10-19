@@ -2,7 +2,7 @@
  * Data grid for status page at https://localize.typo3.org/
  */
 /*!
- * AG Grid community v34.3.1 by AG Grid Ltd. - https://www.ag-grid.com
+ * AG Grid community v36.2.0 by AG Grid Ltd. - https://www.ag-grid.com
  * License - https://www.ag-grid.com/eula/AG-Grid-Community-License.html (MIT License)
  */
 /*!
@@ -28,12 +28,18 @@ body {
     --ag-font-size: 16px;
 }
 
-#ag-grid {
-    height: 70vh;
-    display: grid;
+body {
+    display: flex;
+    flex-direction: column;
 }
 
-.ag-pinned-left-cols-container .ag-cell {
+#ag-grid {
+    display: block;
+    flex: 1 1 auto;
+    min-height: 0;
+}
+
+.ag-grid-scrolling-rows .ag-grid-pinned-left-cells .ag-cell {
     text-align: left;
 }
 
@@ -149,7 +155,5 @@ body {
 }
 
 .page-footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
+    flex-shrink: 0;
 }
