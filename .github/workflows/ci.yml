@@ -19,11 +19,23 @@ jobs:
         uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # v2.40.0
         with:
           php-version: '8.5'
-          tools: composer:v2
+
+      - name: Cache composer dependencies
+        id: composer-vendor
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: |
+            bin
+            vendor
+          key: composer-${{ github.workflow }}-${{ hashFiles('composer.lock') }}
+
+      - name: Set environment
+        run: |
+            cp .env.ci .env
 
       - name: Install dependencies
+        if: steps.composer-vendor.outputs.cache-hit != 'true'
         run: |
-          cp .env.ci .env
           composer install --no-progress
 
       - name: Run PHP linter
