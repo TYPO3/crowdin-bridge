@@ -315,6 +315,9 @@ final class DownloadCrowdinTranslationService
     private function removeFilesFromDifferentLanguage(string $downloadLanguageTarget, string $language): void
     {
         $finder = new Finder();
+        if (!is_dir($downloadLanguageTarget)) {
+            return;
+        }
         $finder->files()->in($downloadLanguageTarget)->notName($language . '.*')->notName(LanguageInformation::getLanguageForTypo3($language) . '.*');
         foreach ($finder as $file) {
             unlink($file->getRealPath());
