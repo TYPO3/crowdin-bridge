@@ -20,15 +20,16 @@ Triggered by: `app:build`
 
 The following steps are taken:
 
-1. Configure your local `.env` file (have a look at `.env.ci`)
-2. Generate local configuration file `bin/crowdinSetup`
-3. Download & process all translations
+1. Configure your local `.env` file (have a look at `.env.ci`, you'll get/receive the token from the team lead)
+2. Run `composer install`
+3. Generate local configuration file: `php bin/crowdinSetup`
+4. Download & process all translations: `php bin/console <COMMAND>`
    1. From Extensions: `app:extract:extension`
    2. From Core: `app:extract:core'`
-4. Create status
+5. Create status
    1. Single status for each extension `app:status:project`
    2. Total status `app:status:overview`
-5. Copy (rsync) all files to translation server
+6. Copy (rsync) all files to translation server
 
 ### Configuration
 
