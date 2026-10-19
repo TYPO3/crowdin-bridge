@@ -40,18 +40,25 @@ final class ExtractCoreCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $io->title('TYPO3 Core (typo3-cms)');
 
-        $project = $this->projectCollection->findByIdentifier('typo3-cms');
-        if (!$project instanceof Project) {
-            $io->error('Core project cannot be found!');
+        try {
+            $project = $this->projectCollection->findByIdentifier('typo3-cms');
+            if (!$project instanceof Project) {
+                $io->error('Core project cannot be found!');
+                return Command::FAILURE;
+            }
+
+            $languages = $input->getArgument('language') ?? '*';
+            $languageList = $languages === '*'
+                ? array_map(static fn(Language $language): string => $language->id, $project->languages)
+                : FileHandling::trimExplode(',', $languages, true);
+
+            $this->downloadCrowdinTranslationService->downloadPackageCore($languageList);
+        } catch (\Throwable $t) {
+            $io->error(sprintf('An error occurred: %s', $t->getMessage()));
+            $io->write($t->getTraceAsString());
+
             return Command::FAILURE;
         }
-
-        $languages = $input->getArgument('language') ?? '*';
-        $languageList = $languages === '*'
-            ? array_map(static fn(Language $language): string => $language->id, $project->languages)
-            : FileHandling::trimExplode(',', $languages, true);
-
-        $this->downloadCrowdinTranslationService->downloadPackageCore($languageList);
 
         $io->success(sprintf('Core process finished for the following languages: %s', implode(', ', $languageList)));
         return Command::SUCCESS;

@@ -37,7 +37,9 @@ final class OverviewStatusCommand extends Command
         try {
             $this->statusWriter->write($progressOutput);
         } catch (\Throwable $t) {
-            $io->error($t->getMessage());
+            $io->error(sprintf('An error occurred: %s', $t->getMessage()));
+            $io->write($t->getTraceAsString());
+
             return Command::FAILURE;
         }
 

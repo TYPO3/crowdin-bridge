@@ -41,25 +41,27 @@ final class ProjectStatusCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $projectIdentifier = (string)$input->getArgument('project');
 
-        if ($projectIdentifier !== '') {
-            $project = $this->projectCollection->findByIdentifier($projectIdentifier);
-            if (!$project instanceof Project) {
-                $io->error(\sprintf('Project with identifier "%s" not found', $projectIdentifier));
-                return Command::FAILURE;
+        try {
+            if ($projectIdentifier !== '') {
+                $project = $this->projectCollection->findByIdentifier($projectIdentifier);
+                if (!$project instanceof Project) {
+                    $io->error(\sprintf('Project with identifier "%s" not found', $projectIdentifier));
+                    return Command::FAILURE;
+                }
+
+                $message = $this->translationStatusExporter->exportProject($project);
+                $io->success($message);
+                return Command::SUCCESS;
             }
 
-            $message = $this->translationStatusExporter->exportProject($project);
-            $io->success($message);
-            return Command::SUCCESS;
-        }
+            $verbose = $output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE;
+            $progressOutput = $verbose ? new ProjectIdentifierOutput($io) : new ProgressBarOutput(new ProgressBar($output), $io);
 
-        $verbose = $output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE;
-        $progressOutput = $verbose ? new ProjectIdentifierOutput($io) : new ProgressBarOutput(new ProgressBar($output), $io);
-
-        try {
             $this->translationStatusExporter->exportProjects($progressOutput);
         } catch (\Throwable $t) {
-            $io->error($t->getMessage());
+            $io->error(sprintf('An error occurred: %s', $t->getMessage()));
+            $io->write($t->getTraceAsString());
+
             return Command::FAILURE;
         }
 

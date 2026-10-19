@@ -91,6 +91,8 @@ final class InfoCommand extends Command
             $io->table($headers, $items);
         } catch (\Throwable $t) {
             $io->error(sprintf('An error occurred: %s', $t->getMessage()));
+            $io->write($t->getTraceAsString());
+
             return Command::FAILURE;
         }
 

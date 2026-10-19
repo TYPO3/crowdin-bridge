@@ -44,6 +44,8 @@ final class BuildCommand extends Command
             $this->builder->build($projectIdentifier, $progressOutput);
         } catch (\Throwable $t) {
             $io->error($t->getMessage());
+            $io->write($t->getTraceAsString());
+
             return Command::FAILURE;
         }
 
