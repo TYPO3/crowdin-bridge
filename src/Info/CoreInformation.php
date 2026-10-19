@@ -11,7 +11,7 @@ readonly class CoreInformation
      *
      * First version in array defines the version for monorepo `main` branch. {@see self::getLatestVersion()}
      */
-    private const array VERSIONS = [14, 13, 12, 11, 10, 9];
+    private const array VERSIONS = [15, 14, 13, 12, 11, 10, 9];
 
     /**
      * Important: latest version will map to main automatically
@@ -19,6 +19,7 @@ readonly class CoreInformation
      * Major version to main development branch mapping.
      */
     private const array BRANCH_MAPPING = [
+        14 => '14.3',
         13 => '13.4',
         12 => '12.4',
         11 => '11.5',
@@ -65,6 +66,7 @@ readonly class CoreInformation
         'sys_note',
         't3editor',
         'taskcenter',
+        'theme_camino',
         'tstemplate',
         'viewpage',
         'webhooks',
