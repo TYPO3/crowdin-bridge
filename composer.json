@@ -24,7 +24,7 @@
 		"php": "^8.5",
 		"ext-zip": "*",
 		"crowdin/crowdin-api-client": "^1.26",
-		"friendsoftypo3/crowdin-base": "^0.2.1",
+		"friendsoftypo3/crowdin-base": "^0.3",
 		"lcobucci/clock": "^3.6",
 		"symfony/console": "*",
 		"symfony/dependency-injection": "*",
