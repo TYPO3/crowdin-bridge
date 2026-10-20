@@ -9,6 +9,7 @@ use App\Configuration\Project;
 use App\Configuration\ProjectCollection;
 use App\Service\DownloadCrowdinTranslationService;
 use App\Utility\FileHandling;
+use FriendsOfTYPO3\CrowdinBase\Language\SpecialLanguage;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -48,9 +49,15 @@ final class ExtractCoreCommand extends Command
             }
 
             $languages = $input->getArgument('language') ?? '*';
-            $languageList = $languages === '*'
-                ? array_map(static fn(Language $language): string => $language->id, $project->languages)
-                : FileHandling::trimExplode(',', $languages, true);
+            if ($languages === '*') {
+                $languageList = [
+                    ...array_map(static fn(Language $language): string => $language->id, $project->languages),
+                    // We add the in-context language manually, as it is not delivered by Crowdin
+                    SpecialLanguage::IN_CONTEXT->value,
+                ];
+            } else {
+                $languageList = FileHandling::trimExplode(',', $languages, true);
+            }
 
             $this->downloadCrowdinTranslationService->downloadPackageCore($languageList);
         } catch (\Throwable $t) {

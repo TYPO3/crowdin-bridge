@@ -12,6 +12,7 @@ use App\File\PathResolver;
 use App\Info\CoreInformation;
 use App\Info\LanguageInformation;
 use App\Utility\FileHandling;
+use FriendsOfTYPO3\CrowdinBase\Language\SpecialLanguage;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
@@ -71,7 +72,11 @@ final class DownloadCrowdinTranslationService
         $this->logger->info(sprintf('Used branch "%s"', $branchName));
 
         // 3rd: Duplicate base directory for each language
-        $allLanguages = $localProject->getLanguages();
+        $allLanguages = [
+            ...$localProject->getLanguages(),
+            // We add the in-context language manually, as it is not delivered by Crowdin
+            SpecialLanguage::IN_CONTEXT->value,
+        ];
         $listOfLanguages = array_unique($listOfLanguages ?: $allLanguages);
         foreach ($listOfLanguages as $language) {
             $this->logger->info(sprintf('Language "%s"', $language));
