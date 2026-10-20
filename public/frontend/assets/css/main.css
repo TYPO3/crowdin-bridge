@@ -20,11 +20,30 @@
          url('../fonts/fa-solid-900.ttf') format('truetype');
 }
 
+/* Matches the font typo3.org loads for its <typo3-universe> topbar, which has no font-family
+   of its own and inherits it from the host page through the shadow DOM boundary. */
+@font-face {
+    font-family: 'Source Sans 3';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('../fonts/source-sans-3-latin-400.woff2') format('woff2');
+}
+
+@font-face {
+    font-family: 'Source Sans 3';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url('../fonts/source-sans-3-latin-400.woff2') format('woff2');
+}
+
 :root,
 body {
     height: 100%;
     width: 100%;
     margin: 0;
+    font-family: 'Source Sans 3', sans-serif;
     --ag-font-size: 16px;
 }
 
