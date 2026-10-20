@@ -21,8 +21,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         // Replace date
         if (jsonData.date) {
-            document.title = document.title + ' ' + jsonData.date;
-            document.body.innerHTML = document.body.innerHTML.replaceAll('<!-- data-status-date -->', jsonData.date);
+            const statusDate = formatStatusDate(jsonData.date);
+            document.title = document.title + ' ' + statusDate;
+            document.body.innerHTML = document.body.innerHTML.replaceAll('<!-- data-status-date -->', statusDate);
         }
 
         // Define grid
@@ -97,6 +98,12 @@ async function fetchJsonData(sourceJson) {
         console.error('Error fetching JSON:', error);
         throw error; // Re-throw error to be handled in DOMContentLoaded
     }
+}
+
+// Format ISO 8601 date for display, e.g. "Fri, 07 Aug 2026 00:00:00 GMT"
+function formatStatusDate(isoDate) {
+    const date = new Date(isoDate);
+    return isNaN(date.getTime()) ? isoDate : date.toUTCString();
 }
 
 // Render extension with link to crowdin project & source (currently TER only)
