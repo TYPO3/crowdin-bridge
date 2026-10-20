@@ -12,7 +12,7 @@ use Psr\Clock\ClockInterface;
 
 final readonly class StatusWriter
 {
-    public const string DATE_FORMAT = 'D, d M Y H:i:s T';
+    public const string DATE_FORMAT = \DateTimeInterface::ATOM;
 
     public function __construct(
         private ClockInterface $clock,
