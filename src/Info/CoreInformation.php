@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace App\Info;
 
+/**
+ * Version and system extension information for TYPO3 Code
+ * @see /docs/CoreVersions.md
+ */
 readonly class CoreInformation
 {
     /**
@@ -11,7 +15,7 @@ readonly class CoreInformation
      *
      * First version in array defines the version for monorepo `main` branch. {@see self::getLatestVersion()}
      */
-    private const array VERSIONS = [15, 14, 13, 12, 11, 10];
+    private const array VERSIONS = [15, 14, 13];
 
     /**
      * Important: latest version will map to main automatically
@@ -21,14 +25,10 @@ readonly class CoreInformation
     private const array BRANCH_MAPPING = [
         14 => '14.3',
         13 => '13.4',
-        12 => '12.4',
-        11 => '11.5',
-        10 => '10.4',
     ];
 
     // rte_ckeditor got no translations
     private const array CORE_EXTENSIONS = [
-        'about',
         'adminpanel',
         'backend',
         'belog',
@@ -61,7 +61,6 @@ readonly class CoreInformation
         'setup',
         'styleguide',
         'sys_note',
-        't3editor',
         'theme_camino',
         'tstemplate',
         'viewpage',
@@ -96,7 +95,7 @@ readonly class CoreInformation
     }
 
     /**
-     * @return list<string> List of version numbers like "13.4", "12.4" and "main"
+     * @return list<string> List of version numbers like "14.3", "13.4" and "main"
      */
     public static function getAllCoreBranches(): array
     {
