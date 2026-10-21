@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 lockPinned: true,
                 pinned: 'left',
                 sortable: true,
-                width: 260,
+                width: 220,
             },
             ...columnDefsLanguages
         ];
@@ -109,17 +109,12 @@ function formatStatusDate(isoDate) {
 // Render extension with link to crowdin project & source (currently TER only)
 function renderCellExtension(params) {
     const link_crowdin = `<a href="${sourceCrowdin}${params.data.crowdinKey}" target="_blank" title="Crowdin">${params.data.extensionKey}</a>`;
-    // Source link only for TER extensions
-    let link_src;
-    if ( params.data.extensionKey != 'typo3-cms') {
-        link_src = `<a href="${sourceTYPO3ExtensionRepository}${params.data.extensionKey}" target="_blank" title="TYPO3 extension repository">ter</a>`;
-    }
     // Render admonition for extension state (translationsAvailable)
     let availability = '';
     if (params.data.translationsAvailable === false) {
         availability += ' <span class="t3-admonition t3-admonition-warning" role="alert" title="No translations available"></span>';
     }
-    return ` ${(link_crowdin) + (link_src ? ' | ' + link_src : '') + availability}`;
+    return ` ${(link_crowdin) + availability}`;
 }
 
 // Render cell - crowdin project language (link)
