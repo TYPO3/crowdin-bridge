@@ -13,6 +13,7 @@
 .ddev
 .idea
 public/.DS_Store
+public/frontend/status*.json
 /var
 
 ###> friendsofphp/php-cs-fixer ###
