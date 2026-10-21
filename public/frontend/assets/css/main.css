@@ -176,3 +176,24 @@ body {
 .page-footer {
     flex-shrink: 0;
 }
+
+.footer-meta-crowdin {
+    margin-bottom: 0.5em;
+}
+
+.footer-meta-crowdin a {
+    color: inherit;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+    text-decoration: none;
+}
+
+.footer-meta-crowdin a:hover {
+    text-decoration: underline;
+}
+
+.footer-meta-crowdin-logo {
+    width: 1.1em;
+    height: 1.1em;
+}
