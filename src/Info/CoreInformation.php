@@ -11,7 +11,7 @@ readonly class CoreInformation
      *
      * First version in array defines the version for monorepo `main` branch. {@see self::getLatestVersion()}
      */
-    private const array VERSIONS = [15, 14, 13, 12, 11, 10, 9];
+    private const array VERSIONS = [15, 14, 13, 12, 11, 10];
 
     /**
      * Important: latest version will map to main automatically
@@ -24,7 +24,6 @@ readonly class CoreInformation
         12 => '12.4',
         11 => '11.5',
         10 => '10.4',
-        9 => '9.5',
     ];
 
     // rte_ckeditor got no translations
@@ -57,15 +56,12 @@ readonly class CoreInformation
         'recycler',
         'redirects',
         'reports',
-        'rsaauth',
         'scheduler',
         'seo',
         'setup',
         'styleguide',
-        'sys_action',
         'sys_note',
         't3editor',
-        'taskcenter',
         'theme_camino',
         'tstemplate',
         'viewpage',
