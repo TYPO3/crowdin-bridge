@@ -9,8 +9,21 @@ export async function fetchJsonData(sourceJson) {
     }
 }
 
-// Format ISO 8601 date for display, e.g. "Fri, 07 Aug 2026 00:00:00 GMT"
+// Format ISO 8601 date for display, e.g. "07 Aug 2026, 00:00 UTC"
 export function formatStatusDate(isoDate) {
     const date = new Date(isoDate);
-    return isNaN(date.getTime()) ? isoDate : date.toUTCString();
+    if (isNaN(date.getTime())) {
+        return isoDate;
+    }
+
+    return new Intl.DateTimeFormat('en-GB', {
+        timeZone: 'UTC',
+        year: 'numeric',
+        month: 'short',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false,
+        timeZoneName: 'short',
+    }).format(date);
 }
