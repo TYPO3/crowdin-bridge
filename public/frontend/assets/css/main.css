@@ -55,7 +55,7 @@ body {
 /*
  Header
  */
-span.status-date {
+.status-date {
     display: block;
     font-size: var(--bs-body-font-size);
     font-weight: var(--bs-body-font-weight);
