@@ -172,7 +172,7 @@ header .logo-wrapper {
 }
 
 .t3-admonition-warning {
-    color: #f00;
+    color: #c00;
 }
 
 .t3-cell-element {
@@ -181,11 +181,11 @@ header .logo-wrapper {
 }
 
 .t3-cell-element-danger {
-    color: #f00;
+    color: #c00;
 }
 
 .t3-cell-element-success {
-    color: #090;
+    color: #008000;
 }
 
 .t3-cell-element-warning {
