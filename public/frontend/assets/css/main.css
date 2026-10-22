@@ -163,6 +163,10 @@ header .logo-wrapper {
     font-weight: 900;
 }
 
+.ag-grid-scrolling-cells .ag-header-cell-label {
+    justify-content: center;
+}
+
 .t3-admonition:before {
     content: "\f071";
 }
