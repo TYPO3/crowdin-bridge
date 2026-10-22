@@ -52,6 +52,32 @@ body {
     flex-direction: column;
 }
 
+/*
+ Header
+ */
+.status-date {
+    display: block;
+    font-size: var(--bs-body-font-size);
+    font-weight: var(--bs-body-font-weight);
+    line-height: var(--bs-body-line-height);
+}
+
+header .logo-wrapper {
+    margin-right: 21px;
+    width: auto;
+}
+
+.order-lg-2 {
+    order: 2 !important;
+}
+
+.order-lg-3 {
+    order: 3 !important;
+}
+
+/*
+ AG-grid
+ */
 #ag-grid {
     display: block;
     flex: 1 1 auto;
@@ -73,10 +99,12 @@ body {
 
 .ag-cell a {
     text-decoration: none;
+
     :hover {
         text-decoration: underline;
     }
 }
+
 .ag-cell a:hover {
     text-decoration: underline;
 }
@@ -134,29 +162,36 @@ body {
     font-family: "Font Awesome 6 Free";
     font-weight: 900;
 }
+
 .t3-admonition:before {
     content: "\f071";
 }
+
 .t3-admonition-warning {
     color: #f00;
 }
 
 .t3-cell-element {
-    font-size: calc(var(--ag-font-size) *0.75);
+    font-size: calc(var(--ag-font-size) * 0.75);
     padding: 2px;
 }
+
 .t3-cell-element-danger {
     color: #f00;
 }
+
 .t3-cell-element-success {
     color: #090;
 }
+
 .t3-cell-element-warning {
     color: #ff9900;
 }
+
 .t3-cell-element-lang-approval-missing {
     text-decoration: underline;
 }
+
 .t3-cell-element-unit-percent::after {
     content: "%";
 }
@@ -164,7 +199,7 @@ body {
 .t3-header-cell-language .ag-header-cell-label .ag-header-cell-text {
     display: inline-block;
     height: 90px;
-    margin-top:  5px;
+    margin-top: 5px;
     overflow: hidden;
     transform: rotate(180deg);
     text-overflow: ellipsis;
