@@ -43,4 +43,14 @@ readonly class TranslationStatusRepository
                 |> (static fn(array $progresses) => array_map(static fn(Progress $progress): TranslationProgress => TranslationProgress::fromCrowdinProgress($progress), $progresses))
                 |> array_values(...);
     }
+
+    /**
+     * @return list<TranslationProgress>
+     */
+    public function findByDirectoryId(int $projectId, int $directoryId): array
+    {
+        return iterator_to_array($this->client->translationStatus->getDirectoryProgress($projectId, $directoryId, ['limit' => 500]) ?? [])
+                |> (static fn(array $progresses) => array_map(static fn(Progress $progress): TranslationProgress => TranslationProgress::fromCrowdinProgress($progress), $progresses))
+                |> array_values(...);
+    }
 }

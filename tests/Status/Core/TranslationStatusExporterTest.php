@@ -10,7 +10,9 @@ use App\Console\Output\SimpleOutput;
 use App\Crowdin\Dto\Language;
 use App\Crowdin\Dto\TranslationProgress;
 use App\Crowdin\Entity\Branch;
+use App\Crowdin\Entity\Directory;
 use App\Crowdin\Repository\BranchRepository;
+use App\Crowdin\Repository\DirectoryRepository;
 use App\Crowdin\Repository\LanguageRepository;
 use App\Crowdin\Repository\TranslationStatusRepository;
 use App\File\PathResolver;
@@ -28,6 +30,7 @@ final class TranslationStatusExporterTest extends TestCase
 {
     private string $frontendPath;
     private BranchRepository&Stub $branchRepositoryStub;
+    private DirectoryRepository&Stub $directoryRepositoryStub;
     private PathResolver&Stub $pathResolverStub;
     private TranslationStatusRepository&Stub $translationStatusRepositoryStub;
     private TranslationStatusExporter $translationStatusExporter;
@@ -35,6 +38,8 @@ final class TranslationStatusExporterTest extends TestCase
     protected function setUp(): void
     {
         $this->branchRepositoryStub = self::createStub(BranchRepository::class);
+
+        $this->directoryRepositoryStub = self::createStub(DirectoryRepository::class);
 
         $this->frontendPath = sys_get_temp_dir() . '/crowdin-bridge-translations-status-export-test-' . uniqid();
         mkdir($this->frontendPath);
@@ -61,6 +66,7 @@ final class TranslationStatusExporterTest extends TestCase
 
         $this->translationStatusExporter = new TranslationStatusExporter(
             $this->branchRepositoryStub,
+            $this->directoryRepositoryStub,
             $this->pathResolverStub,
             $statusWriter,
             $this->translationStatusRepositoryStub,
@@ -78,6 +84,19 @@ final class TranslationStatusExporterTest extends TestCase
                 new Branch(101, 1, 'main'),
                 new Branch(102, 1, '14.3'),
                 new Branch(103, 1, '13.4'),
+            ]);
+
+        $this->directoryRepositoryStub
+            ->method('findByFilter')
+            ->willReturn([
+                new Directory(201, 1, 101, 301, 'adminpanel', '/main/sysext/typo3/adminpanel'),
+                new Directory(202, 1, 101, 302, 'backend', '/main/sysext/typo3/backend'),
+                new Directory(203, 1, 102, 303, 'core', '/14.3/sysext/typo3/core'),
+                new Directory(204, 1, 102, 304, 'fluid', '/14.3/sysext/typo3/fluid'),
+                new Directory(205, 1, 103, 305, 'reactions', '/13.4/sysext/typo3/reactions'),
+                new Directory(206, 1, 103, 306, 'seo', '/13.4/sysext/typo3/seo'),
+                new Directory(207, 1, 104, 307, 'webhooks', '/12.4/sysext/typo3/webhooks'),
+                new Directory(208, 1, 104, 308, 'workspaces', '/12.4/sysext/typo3/workspaces'),
             ]);
 
         $this->translationStatusRepositoryStub
@@ -129,6 +148,16 @@ final class TranslationStatusExporterTest extends TestCase
                 "de": 50,
                 "fr": 60,
                 "it": 70
+            },
+            "extensions": {
+                "adminpanel": {
+                    "approvals": [],
+                    "translations": []
+                },
+                "backend": {
+                    "approvals": [],
+                    "translations": []
+                }
             }
         },
         {
@@ -142,6 +171,16 @@ final class TranslationStatusExporterTest extends TestCase
                 "de": 51,
                 "fr": 61,
                 "it": 71
+            },
+            "extensions": {
+                "core": {
+                    "approvals": [],
+                    "translations": []
+                },
+                "fluid": {
+                    "approvals": [],
+                    "translations": []
+                }
             }
         },
         {
@@ -155,6 +194,16 @@ final class TranslationStatusExporterTest extends TestCase
                 "de": 52,
                 "fr": 62,
                 "it": 72
+            },
+            "extensions": {
+                "reactions": {
+                    "approvals": [],
+                    "translations": []
+                },
+                "seo": {
+                    "approvals": [],
+                    "translations": []
+                }
             }
         }
     ]

@@ -205,6 +205,12 @@ parameters:
 			path: src/Service/DownloadCrowdinTranslationService.php
 
 		-
+			message: '#^Cannot assign offset string to array\<string, array\<string, array\<string, int\>\>\|int\>\|string\.$#'
+			identifier: offsetAssign.dimType
+			count: 1
+			path: src/Status/Core/StatusWriter.php
+
+		-
 			message: '#^Method App\\Utility\\FileHandling\:\:copyDirectory\(\) has no return type specified\.$#'
 			identifier: missingType.return
 			count: 1
