@@ -24,31 +24,46 @@ readonly class TranslationStatusRepository
 
     /**
      * @return list<TranslationProgress>
+     * @link https://support.crowdin.com/developer/api/v2/#tag/Translation-Status/operation/api.projects.languages.progress.getMany Documentation
      */
     public function findByProjectId(int $projectId): array
     {
-        return iterator_to_array($this->client->translationStatus->getProjectProgress($projectId, self::DEFAULT_PARAMS) ?? [])
-            |> (static fn(array $progresses) => array_map(static fn(Progress $progress): TranslationProgress => TranslationProgress::fromCrowdinProgress($progress), $progresses))
-            |> array_values(...);
+        try {
+            return iterator_to_array($this->client->translationStatus->getProjectProgress($projectId, self::DEFAULT_PARAMS) ?? [])
+                    |> (static fn(array $progresses) => array_map(static fn(Progress $progress): TranslationProgress => TranslationProgress::fromCrowdinProgress($progress), $progresses))
+                    |> array_values(...);
+        } catch (\Throwable $t) {
+            throw RepositoryException::fromThrowable($t);
+        }
     }
 
     /**
      * @return list<TranslationProgress>
+     * @link https://support.crowdin.com/developer/api/v2/#tag/Translation-Status/operation/api.projects.branches.languages.progress.getMany Documentation
      */
     public function findByBranchId(int $projectId, int $branchId): array
     {
-        return iterator_to_array($this->client->translationStatus->getBranchProgress($projectId, $branchId, self::DEFAULT_PARAMS) ?? [])
-                |> (static fn(array $progresses) => array_map(static fn(Progress $progress): TranslationProgress => TranslationProgress::fromCrowdinProgress($progress), $progresses))
-                |> array_values(...);
+        try {
+            return iterator_to_array($this->client->translationStatus->getBranchProgress($projectId, $branchId, self::DEFAULT_PARAMS) ?? [])
+                    |> (static fn(array $progresses) => array_map(static fn(Progress $progress): TranslationProgress => TranslationProgress::fromCrowdinProgress($progress), $progresses))
+                    |> array_values(...);
+        } catch (\Throwable $t) {
+            throw RepositoryException::fromThrowable($t);
+        }
     }
 
     /**
      * @return list<TranslationProgress>
+     * @link https://support.crowdin.com/developer/api/v2/#tag/Translation-Status/operation/api.projects.directories.languages.progress.getMany Documentation
      */
     public function findByDirectoryId(int $projectId, int $directoryId): array
     {
-        return iterator_to_array($this->client->translationStatus->getDirectoryProgress($projectId, $directoryId, self::DEFAULT_PARAMS) ?? [])
-                |> (static fn(array $progresses) => array_map(static fn(Progress $progress): TranslationProgress => TranslationProgress::fromCrowdinProgress($progress), $progresses))
-                |> array_values(...);
+        try {
+            return iterator_to_array($this->client->translationStatus->getDirectoryProgress($projectId, $directoryId, self::DEFAULT_PARAMS) ?? [])
+                    |> (static fn(array $progresses) => array_map(static fn(Progress $progress): TranslationProgress => TranslationProgress::fromCrowdinProgress($progress), $progresses))
+                    |> array_values(...);
+        } catch (\Throwable $t) {
+            throw RepositoryException::fromThrowable($t);
+        }
     }
 }

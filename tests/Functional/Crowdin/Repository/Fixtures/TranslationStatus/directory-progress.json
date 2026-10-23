@@ -1,0 +1,2064 @@
+{
+	"data": [
+		{
+			"data": {
+				"languageId": "ar",
+				"language": {
+					"id": "ar",
+					"name": "Arabic",
+					"editorCode": "ar",
+					"twoLettersCode": "ar",
+					"threeLettersCode": "ara",
+					"locale": "ar-SA",
+					"androidCode": "ar-rSA",
+					"bcp47Code": "b+ar+SA",
+					"osxCode": "ar.lproj",
+					"osxLocale": "ar",
+					"pluralCategoryNames": [
+						"zero",
+						"one",
+						"two",
+						"few",
+						"many",
+						"other"
+					],
+					"pluralRules": "(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5)",
+					"pluralExamples": [
+						"0",
+						"1",
+						"2",
+						"3-10, 103-110, 203-210...",
+						"11-99, 111-199, 211-299...",
+						"100-102, 200-202, 300-302...; 0.2, 1.07, 2.94, 3.81, 11.68, 100.55..."
+					],
+					"textDirection": "rtl",
+					"dialectOf": null
+				},
+				"words": {
+					"total": 214,
+					"translated": 213,
+					"preTranslateAppliedTo": 0,
+					"approved": 204
+				},
+				"phrases": {
+					"total": 79,
+					"translated": 78,
+					"preTranslateAppliedTo": 0,
+					"approved": 77
+				},
+				"translationProgress": 100,
+				"approvalProgress": 99,
+				"qaChecksStatus": {
+					"total": 78,
+					"inProgress": 0,
+					"passed": 78,
+					"failed": 0
+				}
+			}
+		},
+		{
+			"data": {
+				"languageId": "bg",
+				"language": {
+					"id": "bg",
+					"name": "Bulgarian",
+					"editorCode": "bg",
+					"twoLettersCode": "bg",
+					"threeLettersCode": "bul",
+					"locale": "bg-BG",
+					"androidCode": "bg-rBG",
+					"bcp47Code": "b+bg+BG",
+					"osxCode": "bg.lproj",
+					"osxLocale": "bg",
+					"pluralCategoryNames": [
+						"one",
+						"other"
+					],
+					"pluralRules": "(n != 1)",
+					"pluralExamples": [
+						"1",
+						"0, 2-999; 1.2, 2.07..."
+					],
+					"textDirection": "ltr",
+					"dialectOf": null
+				},
+				"words": {
+					"total": 213,
+					"translated": 213,
+					"preTranslateAppliedTo": 0,
+					"approved": 213
+				},
+				"phrases": {
+					"total": 78,
+					"translated": 78,
+					"preTranslateAppliedTo": 0,
+					"approved": 78
+				},
+				"translationProgress": 100,
+				"approvalProgress": 100,
+				"qaChecksStatus": {
+					"total": 78,
+					"inProgress": 0,
+					"passed": 78,
+					"failed": 0
+				}
+			}
+		},
+		{
+			"data": {
+				"languageId": "bs",
+				"language": {
+					"id": "bs",
+					"name": "Bosnian",
+					"editorCode": "bs",
+					"twoLettersCode": "bs",
+					"threeLettersCode": "bos",
+					"locale": "bs-BA",
+					"androidCode": "bs-rBA",
+					"bcp47Code": "b+bs+BA",
+					"osxCode": "bs.lproj",
+					"osxLocale": "bs",
+					"pluralCategoryNames": [
+						"one",
+						"few",
+						"other"
+					],
+					"pluralRules": "(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)",
+					"pluralExamples": [
+						"1, 21, 31, 41, 51, 61...",
+						"2-4, 22-24, 32-34...",
+						"0, 5-20, 25-30, 35-40...; 1.2, 2.07, 5.94..."
+					],
+					"textDirection": "ltr",
+					"dialectOf": null
+				},
+				"words": {
+					"total": 213,
+					"translated": 0,
+					"preTranslateAppliedTo": 0,
+					"approved": 0
+				},
+				"phrases": {
+					"total": 78,
+					"translated": 0,
+					"preTranslateAppliedTo": 0,
+					"approved": 0
+				},
+				"translationProgress": 0,
+				"approvalProgress": 0,
+				"qaChecksStatus": {
+					"total": 0,
+					"inProgress": 0,
+					"passed": 0,
+					"failed": 0
+				}
+			}
+		},
+		{
+			"data": {
+				"languageId": "cs",
+				"language": {
+					"id": "cs",
+					"name": "Czech",
+					"editorCode": "cs",
+					"twoLettersCode": "cs",
+					"threeLettersCode": "ces",
+					"locale": "cs-CZ",
+					"androidCode": "cs-rCZ",
+					"bcp47Code": "b+cs+CZ",
+					"osxCode": "cs.lproj",
+					"osxLocale": "cs",
+					"pluralCategoryNames": [
+						"one",
+						"few",
+						"many",
+						"other"
+					],
+					"pluralRules": "(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3",
+					"pluralExamples": [
+						"1",
+						"2-4",
+						"0.0-1.5, 10.0, 100.0, 1000.0, 10000.0, 100000.0...",
+						"0, 5~19, 100, 1000, 10000..."
+					],
+					"textDirection": "ltr",
+					"dialectOf": null
+				},
+				"words": {
+					"total": 213,
+					"translated": 213,
+					"preTranslateAppliedTo": 0,
+					"approved": 213
+				},
+				"phrases": {
+					"total": 78,
+					"translated": 78,
+					"preTranslateAppliedTo": 0,
+					"approved": 78
+				},
+				"translationProgress": 100,
+				"approvalProgress": 100,
+				"qaChecksStatus": {
+					"total": 78,
+					"inProgress": 0,
+					"passed": 78,
+					"failed": 0
+				}
+			}
+		},
+		{
+			"data": {
+				"languageId": "cy",
+				"language": {
+					"id": "cy",
+					"name": "Welsh",
+					"editorCode": "cy",
+					"twoLettersCode": "cy",
+					"threeLettersCode": "cym",
+					"locale": "cy-GB",
+					"androidCode": "cy-rGB",
+					"bcp47Code": "b+cy+GB",
+					"osxCode": "cy.lproj",
+					"osxLocale": "cy",
+					"pluralCategoryNames": [
+						"zero",
+						"one",
+						"two",
+						"few",
+						"many",
+						"other"
+					],
+					"pluralRules": "(n == 0) ? 0 : ((n == 1) ? 1 : ((n == 2) ? 2 : ((n == 3) ? 3 : ((n == 6) ? 4 : 5))))",
+					"pluralExamples": [
+						"0",
+						"1",
+						"2",
+						"3",
+						"6",
+						"4, 5, 7~20, 100, 1000, 10000, 100000, 1000000, \u2026"
+					],
+					"textDirection": "ltr",
+					"dialectOf": null
+				},
+				"words": {
+					"total": 213,
+					"translated": 115,
+					"preTranslateAppliedTo": 0,
+					"approved": 4
+				},
+				"phrases": {
+					"total": 78,
+					"translated": 45,
+					"preTranslateAppliedTo": 0,
+					"approved": 3
+				},
+				"translationProgress": 53,
+				"approvalProgress": 1,
+				"qaChecksStatus": {
+					"total": 45,
+					"inProgress": 0,
+					"passed": 37,
+					"failed": 8
+				}
+			}
+		},
+		{
+			"data": {
+				"languageId": "da",
+				"language": {
+					"id": "da",
+					"name": "Danish",
+					"editorCode": "da",
+					"twoLettersCode": "da",
+					"threeLettersCode": "dan",
+					"locale": "da-DK",
+					"androidCode": "da-rDK",
+					"bcp47Code": "b+da+DK",
+					"osxCode": "da.lproj",
+					"osxLocale": "da",
+					"pluralCategoryNames": [
+						"one",
+						"other"
+					],
+					"pluralRules": "(n != 1)",
+					"pluralExamples": [
+						"1",
+						"0, 2-999; 1.2, 2.07..."
+					],
+					"textDirection": "ltr",
+					"dialectOf": null
+				},
+				"words": {
+					"total": 213,
+					"translated": 213,
+					"preTranslateAppliedTo": 0,
+					"approved": 213
+				},
+				"phrases": {
+					"total": 78,
+					"translated": 78,
+					"preTranslateAppliedTo": 0,
+					"approved": 78
+				},
+				"translationProgress": 100,
+				"approvalProgress": 100,
+				"qaChecksStatus": {
+					"total": 78,
+					"inProgress": 0,
+					"passed": 78,
+					"failed": 0
+				}
+			}
+		},
+		{
+			"data": {
+				"languageId": "de",
+				"language": {
+					"id": "de",
+					"name": "German",
+					"editorCode": "de",
+					"twoLettersCode": "de",
+					"threeLettersCode": "deu",
+					"locale": "de-DE",
+					"androidCode": "de-rDE",
+					"bcp47Code": "b+de+DE",
+					"osxCode": "de.lproj",
+					"osxLocale": "de",
+					"pluralCategoryNames": [
+						"one",
+						"other"
+					],
+					"pluralRules": "(n != 1)",
+					"pluralExamples": [
+						"1",
+						"0, 2-999; 1.2, 2.07..."
+					],
+					"textDirection": "ltr",
+					"dialectOf": null
+				},
+				"words": {
+					"total": 213,
+					"translated": 213,
+					"preTranslateAppliedTo": 0,
+					"approved": 213
+				},
+				"phrases": {
+					"total": 78,
+					"translated": 78,
+					"preTranslateAppliedTo": 0,
+					"approved": 78
+				},
+				"translationProgress": 100,
+				"approvalProgress": 100,
+				"qaChecksStatus": {
+					"total": 78,
+					"inProgress": 0,
+					"passed": 78,
+					"failed": 0
+				}
+			}
+		},
+		{
+			"data": {
+				"languageId": "el",
+				"language": {
+					"id": "el",
+					"name": "Greek",
+					"editorCode": "el",
+					"twoLettersCode": "el",
+					"threeLettersCode": "ell",
+					"locale": "el-GR",
+					"androidCode": "el-rGR",
+					"bcp47Code": "b+el+GR",
+					"osxCode": "el.lproj",
+					"osxLocale": "el",
+					"pluralCategoryNames": [
+						"one",
+						"other"
+					],
+					"pluralRules": "(n != 1)",
+					"pluralExamples": [
+						"1",
+						"0, 2-999; 1.2, 2.07..."
+					],
+					"textDirection": "ltr",
+					"dialectOf": null
+				},
+				"words": {
+					"total": 213,
+					"translated": 207,
+					"preTranslateAppliedTo": 0,
+					"approved": 0
+				},
+				"phrases": {
+					"total": 78,
+					"translated": 76,
+					"preTranslateAppliedTo": 0,
+					"approved": 0
+				},
+				"translationProgress": 97,
+				"approvalProgress": 0,
+				"qaChecksStatus": {
+					"total": 76,
+					"inProgress": 0,
+					"passed": 59,
+					"failed": 17
+				}
+			}
+		},
+		{
+			"data": {
+				"languageId": "es-ES",
+				"language": {
+					"id": "es-ES",
+					"name": "Spanish",
+					"editorCode": "es",
+					"twoLettersCode": "es",
+					"threeLettersCode": "spa",
+					"locale": "es-ES",
+					"androidCode": "es-rES",
+					"bcp47Code": "b+es+ES",
+					"osxCode": "es.lproj",
+					"osxLocale": "es",
+					"pluralCategoryNames": [
+						"one",
+						"other"
+					],
+					"pluralRules": "(n != 1)",
+					"pluralExamples": [
+						"1",
+						"0, 2-999; 1.2, 2.07..."
+					],
+					"textDirection": "ltr",
+					"dialectOf": null
+				},
+				"words": {
+					"total": 213,
+					"translated": 213,
+					"preTranslateAppliedTo": 0,
+					"approved": 213
+				},
+				"phrases": {
+					"total": 78,
+					"translated": 78,
+					"preTranslateAppliedTo": 0,
+					"approved": 78
+				},
+				"translationProgress": 100,
+				"approvalProgress": 100,
+				"qaChecksStatus": {
+					"total": 78,
+					"inProgress": 0,
+					"passed": 78,
+					"failed": 0
+				}
+			}
+		},
+		{
+			"data": {
+				"languageId": "et",
+				"language": {
+					"id": "et",
+					"name": "Estonian",
+					"editorCode": "et",
+					"twoLettersCode": "et",
+					"threeLettersCode": "est",
+					"locale": "et-EE",
+					"androidCode": "et-rEE",
+					"bcp47Code": "b+et+EE",
+					"osxCode": "et.lproj",
+					"osxLocale": "et",
+					"pluralCategoryNames": [
+						"one",
+						"other"
+					],
+					"pluralRules": "(n != 1)",
+					"pluralExamples": [
+						"1",
+						"0, 2-999; 1.2, 2.07..."
+					],
+					"textDirection": "ltr",
+					"dialectOf": null
+				},
+				"words": {
+					"total": 213,
+					"translated": 62,
+					"preTranslateAppliedTo": 0,
+					"approved": 0
+				},
+				"phrases": {
+					"total": 78,
+					"translated": 41,
+					"preTranslateAppliedTo": 0,
+					"approved": 0
+				},
+				"translationProgress": 29,
+				"approvalProgress": 0,
+				"qaChecksStatus": {
+					"total": 41,
+					"inProgress": 0,
+					"passed": 41,
+					"failed": 0
+				}
+			}
+		},
+		{
+			"data": {
+				"languageId": "fa",
+				"language": {
+					"id": "fa",
+					"name": "Persian",
+					"editorCode": "fa",
+					"twoLettersCode": "fa",
+					"threeLettersCode": "fas",
+					"locale": "fa-IR",
+					"androidCode": "fa-rIR",
+					"bcp47Code": "b+fa+IR",
+					"osxCode": "fa.lproj",
+					"osxLocale": "fa",
+					"pluralCategoryNames": [
+						"one",
+						"other"
+					],
+					"pluralRules": "(n != 1)",
+					"pluralExamples": [
+						"0, 1; 0.0~1.0, 0.00~0.04",
+						"2~17, 100, 1000, 10000, 100000, 1000000, ...; 1.1~2.6, 10.0, 100.0, 1000.0, 10000.0, 100000.0, 1000000.0, ..."
+					],
+					"textDirection": "rtl",
+					"dialectOf": null
+				},
+				"words": {
+					"total": 213,
+					"translated": 134,
+					"preTranslateAppliedTo": 0,
+					"approved": 130
+				},
+				"phrases": {
+					"total": 78,
+					"translated": 60,
+					"preTranslateAppliedTo": 0,
+					"approved": 59
+				},
+				"translationProgress": 62,
+				"approvalProgress": 61,
+				"qaChecksStatus": {
+					"total": 60,
+					"inProgress": 0,
+					"passed": 59,
+					"failed": 1
+				}
+			}
+		},
+		{
+			"data": {
+				"languageId": "fi",
+				"language": {
+					"id": "fi",
+					"name": "Finnish",
+					"editorCode": "fi",
+					"twoLettersCode": "fi",
+					"threeLettersCode": "fin",
+					"locale": "fi-FI",
+					"androidCode": "fi-rFI",
+					"bcp47Code": "b+fi+FI",
+					"osxCode": "fi.lproj",
+					"osxLocale": "fi",
+					"pluralCategoryNames": [
+						"one",
+						"other"
+					],
+					"pluralRules": "(n != 1)",
+					"pluralExamples": [
+						"1",
+						"0, 2-999; 1.2, 2.07..."
+					],
+					"textDirection": "ltr",
+					"dialectOf": null
+				},
+				"words": {
+					"total": 213,
+					"translated": 18,
+					"preTranslateAppliedTo": 0,
+					"approved": 0
+				},
+				"phrases": {
+					"total": 78,
+					"translated": 14,
+					"preTranslateAppliedTo": 0,
+					"approved": 0
+				},
+				"translationProgress": 8,
+				"approvalProgress": 0,
+				"qaChecksStatus": {
+					"total": 14,
+					"inProgress": 0,
+					"passed": 14,
+					"failed": 0
+				}
+			}
+		},
+		{
+			"data": {
+				"languageId": "fr",
+				"language": {
+					"id": "fr",
+					"name": "French",
+					"editorCode": "fr",
+					"twoLettersCode": "fr",
+					"threeLettersCode": "fra",
+					"locale": "fr-FR",
+					"androidCode": "fr-rFR",
+					"bcp47Code": "b+fr+FR",
+					"osxCode": "fr.lproj",
+					"osxLocale": "fr",
+					"pluralCategoryNames": [
+						"one",
+						"other"
+					],
+					"pluralRules": "(n > 1)",
+					"pluralExamples": [
+						"0, 1",
+						"2-999; 1.2, 2.07..."
+					],
+					"textDirection": "ltr",
+					"dialectOf": null
+				},
+				"words": {
+					"total": 213,
+					"translated": 213,
+					"preTranslateAppliedTo": 0,
+					"approved": 213
+				},
+				"phrases": {
+					"total": 78,
+					"translated": 78,
+					"preTranslateAppliedTo": 0,
+					"approved": 78
+				},
+				"translationProgress": 100,
+				"approvalProgress": 100,
+				"qaChecksStatus": {
+					"total": 78,
+					"inProgress": 0,
+					"passed": 78,
+					"failed": 0
+				}
+			}
+		},
+		{
+			"data": {
+				"languageId": "fr-CA",
+				"language": {
+					"id": "fr-CA",
+					"name": "French, Canada",
+					"editorCode": "frca",
+					"twoLettersCode": "fr",
+					"threeLettersCode": "fra",
+					"locale": "fr-CA",
+					"androidCode": "fr-rCA",
+					"bcp47Code": "b+fr+CA",
+					"osxCode": "fr-CA.lproj",
+					"osxLocale": "fr_CA",
+					"pluralCategoryNames": [
+						"one",
+						"other"
+					],
+					"pluralRules": "(n > 1)",
+					"pluralExamples": [
+						"0, 1",
+						"2-999; 1.2, 2.07..."
+					],
+					"textDirection": "ltr",
+					"dialectOf": "fr"
+				},
+				"words": {
+					"total": 213,
+					"translated": 0,
+					"preTranslateAppliedTo": 0,
+					"approved": 0
+				},
+				"phrases": {
+					"total": 78,
+					"translated": 0,
+					"preTranslateAppliedTo": 0,
+					"approved": 0
+				},
+				"translationProgress": 0,
+				"approvalProgress": 0,
+				"qaChecksStatus": {
+					"total": 0,
+					"inProgress": 0,
+					"passed": 0,
+					"failed": 0
+				}
+			}
+		},
+		{
+			"data": {
+				"languageId": "gl",
+				"language": {
+					"id": "gl",
+					"name": "Galician",
+					"editorCode": "gl",
+					"twoLettersCode": "gl",
+					"threeLettersCode": "glg",
+					"locale": "gl-ES",
+					"androidCode": "gl-rES",
+					"bcp47Code": "b+gl+ES",
+					"osxCode": "gl.lproj",
+					"osxLocale": "gl",
+					"pluralCategoryNames": [
+						"one",
+						"other"
+					],
+					"pluralRules": "(n != 1)",
+					"pluralExamples": [
+						"1",
+						"0, 2-999; 1.2, 2.07..."
+					],
+					"textDirection": "ltr",
+					"dialectOf": null
+				},
+				"words": {
+					"total": 213,
+					"translated": 0,
+					"preTranslateAppliedTo": 0,
+					"approved": 0
+				},
+				"phrases": {
+					"total": 78,
+					"translated": 0,
+					"preTranslateAppliedTo": 0,
+					"approved": 0
+				},
+				"translationProgress": 0,
+				"approvalProgress": 0,
+				"qaChecksStatus": {
+					"total": 0,
+					"inProgress": 0,
+					"passed": 0,
+					"failed": 0
+				}
+			}
+		},
+		{
+			"data": {
+				"languageId": "he",
+				"language": {
+					"id": "he",
+					"name": "Hebrew",
+					"editorCode": "he",
+					"twoLettersCode": "he",
+					"threeLettersCode": "heb",
+					"locale": "he-IL",
+					"androidCode": "iw-rIL",
+					"bcp47Code": "b+he+IL",
+					"osxCode": "he.lproj",
+					"osxLocale": "he",
+					"pluralCategoryNames": [
+						"one",
+						"two",
+						"other"
+					],
+					"pluralRules": "(n==1 ? 0 : n==2 ? 1 : 2)",
+					"pluralExamples": [
+						"1",
+						"2",
+						"0, 3~17, 100, 1000, 10000, ...; 1.0~2.5, 10.0, 100.0, 1000.0, ..."
+					],
+					"textDirection": "rtl",
+					"dialectOf": null
+				},
+				"words": {
+					"total": 213,
+					"translated": 0,
+					"preTranslateAppliedTo": 0,
+					"approved": 0
+				},
+				"phrases": {
+					"total": 78,
+					"translated": 0,
+					"preTranslateAppliedTo": 0,
+					"approved": 0
+				},
+				"translationProgress": 0,
+				"approvalProgress": 0,
+				"qaChecksStatus": {
+					"total": 0,
+					"inProgress": 0,
+					"passed": 0,
+					"failed": 0
+				}
+			}
+		},
+		{
+			"data": {
+				"languageId": "hi",
+				"language": {
+					"id": "hi",
+					"name": "Hindi",
+					"editorCode": "hi",
+					"twoLettersCode": "hi",
+					"threeLettersCode": "hin",
+					"locale": "hi-IN",
+					"androidCode": "hi-rIN",
+					"bcp47Code": "b+hi+IN",
+					"osxCode": "hi.lproj",
+					"osxLocale": "hi",
+					"pluralCategoryNames": [
+						"one",
+						"other"
+					],
+					"pluralRules": "(n != 1)",
+					"pluralExamples": [
+						"1",
+						"0, 2-999; 1.2, 2.07..."
+					],
+					"textDirection": "ltr",
+					"dialectOf": null
+				},
+				"words": {
+					"total": 213,
+					"translated": 213,
+					"preTranslateAppliedTo": 0,
+					"approved": 213
+				},
+				"phrases": {
+					"total": 78,
+					"translated": 78,
+					"preTranslateAppliedTo": 0,
+					"approved": 78
+				},
+				"translationProgress": 100,
+				"approvalProgress": 100,
+				"qaChecksStatus": {
+					"total": 78,
+					"inProgress": 0,
+					"passed": 78,
+					"failed": 0
+				}
+			}
+		},
+		{
+			"data": {
+				"languageId": "hr",
+				"language": {
+					"id": "hr",
+					"name": "Croatian",
+					"editorCode": "hr",
+					"twoLettersCode": "hr",
+					"threeLettersCode": "hrv",
+					"locale": "hr-HR",
+					"androidCode": "hr-rHR",
+					"bcp47Code": "b+hr+HR",
+					"osxCode": "hr.lproj",
+					"osxLocale": "hr",
+					"pluralCategoryNames": [
+						"one",
+						"few",
+						"other"
+					],
+					"pluralRules": "(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)",
+					"pluralExamples": [
+						"1, 21, 31, 41, 51, 61...",
+						"2-4, 22-24, 32-34...",
+						"0, 5-20, 25-30, 35-40...; 1.2, 2.07, 5.94..."
+					],
+					"textDirection": "ltr",
+					"dialectOf": null
+				},
+				"words": {
+					"total": 213,
+					"translated": 28,
+					"preTranslateAppliedTo": 0,
+					"approved": 0
+				},
+				"phrases": {
+					"total": 78,
+					"translated": 11,
+					"preTranslateAppliedTo": 0,
+					"approved": 0
+				},
+				"translationProgress": 13,
+				"approvalProgress": 0,
+				"qaChecksStatus": {
+					"total": 11,
+					"inProgress": 0,
+					"passed": 7,
+					"failed": 4
+				}
+			}
+		},
+		{
+			"data": {
+				"languageId": "hu",
+				"language": {
+					"id": "hu",
+					"name": "Hungarian",
+					"editorCode": "hu",
+					"twoLettersCode": "hu",
+					"threeLettersCode": "hun",
+					"locale": "hu-HU",
+					"androidCode": "hu-rHU",
+					"bcp47Code": "b+hu+HU",
+					"osxCode": "hu.lproj",
+					"osxLocale": "hu",
+					"pluralCategoryNames": [
+						"one",
+						"other"
+					],
+					"pluralRules": "(n != 1)",
+					"pluralExamples": [
+						"1",
+						"0, 2-999; 1.2, 2.07..."
+					],
+					"textDirection": "ltr",
+					"dialectOf": null
+				},
+				"words": {
+					"total": 213,
+					"translated": 213,
+					"preTranslateAppliedTo": 0,
+					"approved": 0
+				},
+				"phrases": {
+					"total": 78,
+					"translated": 78,
+					"preTranslateAppliedTo": 0,
+					"approved": 0
+				},
+				"translationProgress": 100,
+				"approvalProgress": 0,
+				"qaChecksStatus": {
+					"total": 78,
+					"inProgress": 0,
+					"passed": 64,
+					"failed": 14
+				}
+			}
+		},
+		{
+			"data": {
+				"languageId": "id",
+				"language": {
+					"id": "id",
+					"name": "Indonesian",
+					"editorCode": "id",
+					"twoLettersCode": "id",
+					"threeLettersCode": "ind",
+					"locale": "id-ID",
+					"androidCode": "in-rID",
+					"bcp47Code": "b+id+ID",
+					"osxCode": "id.lproj",
+					"osxLocale": "id",
+					"pluralCategoryNames": [
+						"other"
+					],
+					"pluralRules": "0",
+					"pluralExamples": [
+						"0-999; 1.2..."
+					],
+					"textDirection": "ltr",
+					"dialectOf": null
+				},
+				"words": {
+					"total": 213,
+					"translated": 213,
+					"preTranslateAppliedTo": 0,
+					"approved": 0
+				},
+				"phrases": {
+					"total": 78,
+					"translated": 78,
+					"preTranslateAppliedTo": 0,
+					"approved": 0
+				},
+				"translationProgress": 100,
+				"approvalProgress": 0,
+				"qaChecksStatus": {
+					"total": 78,
+					"inProgress": 0,
+					"passed": 52,
+					"failed": 26
+				}
+			}
+		},
+		{
+			"data": {
+				"languageId": "is",
+				"language": {
+					"id": "is",
+					"name": "Icelandic",
+					"editorCode": "is",
+					"twoLettersCode": "is",
+					"threeLettersCode": "isl",
+					"locale": "is-IS",
+					"androidCode": "is-rIS",
+					"bcp47Code": "b+is+IS",
+					"osxCode": "is.lproj",
+					"osxLocale": "is",
+					"pluralCategoryNames": [
+						"one",
+						"other"
+					],
+					"pluralRules": "(n != 1)",
+					"pluralExamples": [
+						"1",
+						"0, 2-999; 1.2, 2.07..."
+					],
+					"textDirection": "ltr",
+					"dialectOf": null
+				},
+				"words": {
+					"total": 213,
+					"translated": 0,
+					"preTranslateAppliedTo": 0,
+					"approved": 0
+				},
+				"phrases": {
+					"total": 78,
+					"translated": 0,
+					"preTranslateAppliedTo": 0,
+					"approved": 0
+				},
+				"translationProgress": 0,
+				"approvalProgress": 0,
+				"qaChecksStatus": {
+					"total": 0,
+					"inProgress": 0,
+					"passed": 0,
+					"failed": 0
+				}
+			}
+		},
+		{
+			"data": {
+				"languageId": "it",
+				"language": {
+					"id": "it",
+					"name": "Italian",
+					"editorCode": "it",
+					"twoLettersCode": "it",
+					"threeLettersCode": "ita",
+					"locale": "it-IT",
+					"androidCode": "it-rIT",
+					"bcp47Code": "b+it+IT",
+					"osxCode": "it.lproj",
+					"osxLocale": "it",
+					"pluralCategoryNames": [
+						"one",
+						"other"
+					],
+					"pluralRules": "(n != 1)",
+					"pluralExamples": [
+						"1",
+						"0, 2-999; 1.2, 2.07..."
+					],
+					"textDirection": "ltr",
+					"dialectOf": null
+				},
+				"words": {
+					"total": 213,
+					"translated": 213,
+					"preTranslateAppliedTo": 0,
+					"approved": 213
+				},
+				"phrases": {
+					"total": 78,
+					"translated": 78,
+					"preTranslateAppliedTo": 0,
+					"approved": 78
+				},
+				"translationProgress": 100,
+				"approvalProgress": 100,
+				"qaChecksStatus": {
+					"total": 78,
+					"inProgress": 0,
+					"passed": 78,
+					"failed": 0
+				}
+			}
+		},
+		{
+			"data": {
+				"languageId": "ja",
+				"language": {
+					"id": "ja",
+					"name": "Japanese",
+					"editorCode": "ja",
+					"twoLettersCode": "ja",
+					"threeLettersCode": "jpn",
+					"locale": "ja-JP",
+					"androidCode": "ja-rJP",
+					"bcp47Code": "b+ja+JP",
+					"osxCode": "ja.lproj",
+					"osxLocale": "ja",
+					"pluralCategoryNames": [
+						"other"
+					],
+					"pluralRules": "0",
+					"pluralExamples": [
+						"0-999; 1.2..."
+					],
+					"textDirection": "ltr",
+					"dialectOf": null
+				},
+				"words": {
+					"total": 213,
+					"translated": 32,
+					"preTranslateAppliedTo": 0,
+					"approved": 32
+				},
+				"phrases": {
+					"total": 78,
+					"translated": 12,
+					"preTranslateAppliedTo": 0,
+					"approved": 12
+				},
+				"translationProgress": 15,
+				"approvalProgress": 15,
+				"qaChecksStatus": {
+					"total": 12,
+					"inProgress": 0,
+					"passed": 12,
+					"failed": 0
+				}
+			}
+		},
+		{
+			"data": {
+				"languageId": "km",
+				"language": {
+					"id": "km",
+					"name": "Khmer",
+					"editorCode": "km",
+					"twoLettersCode": "km",
+					"threeLettersCode": "khm",
+					"locale": "km-KH",
+					"androidCode": "km-rKH",
+					"bcp47Code": "b+km+KH",
+					"osxCode": "km.lproj",
+					"osxLocale": "km",
+					"pluralCategoryNames": [
+						"other"
+					],
+					"pluralRules": "0",
+					"pluralExamples": [
+						"0-999; 1.2..."
+					],
+					"textDirection": "ltr",
+					"dialectOf": null
+				},
+				"words": {
+					"total": 213,
+					"translated": 0,
+					"preTranslateAppliedTo": 0,
+					"approved": 0
+				},
+				"phrases": {
+					"total": 78,
+					"translated": 0,
+					"preTranslateAppliedTo": 0,
+					"approved": 0
+				},
+				"translationProgress": 0,
+				"approvalProgress": 0,
+				"qaChecksStatus": {
+					"total": 0,
+					"inProgress": 0,
+					"passed": 0,
+					"failed": 0
+				}
+			}
+		},
+		{
+			"data": {
+				"languageId": "lo",
+				"language": {
+					"id": "lo",
+					"name": "Lao",
+					"editorCode": "lo",
+					"twoLettersCode": "lo",
+					"threeLettersCode": "lao",
+					"locale": "lo-LA",
+					"androidCode": "lo-rLA",
+					"bcp47Code": "b+lo+LA",
+					"osxCode": "lo.lproj",
+					"osxLocale": "lo",
+					"pluralCategoryNames": [
+						"other"
+					],
+					"pluralRules": "0",
+					"pluralExamples": [
+						"0-999; 1.2..."
+					],
+					"textDirection": "ltr",
+					"dialectOf": null
+				},
+				"words": {
+					"total": 213,
+					"translated": 213,
+					"preTranslateAppliedTo": 0,
+					"approved": 213
+				},
+				"phrases": {
+					"total": 78,
+					"translated": 78,
+					"preTranslateAppliedTo": 0,
+					"approved": 78
+				},
+				"translationProgress": 100,
+				"approvalProgress": 100,
+				"qaChecksStatus": {
+					"total": 78,
+					"inProgress": 0,
+					"passed": 78,
+					"failed": 0
+				}
+			}
+		},
+		{
+			"data": {
+				"languageId": "lt",
+				"language": {
+					"id": "lt",
+					"name": "Lithuanian",
+					"editorCode": "lt",
+					"twoLettersCode": "lt",
+					"threeLettersCode": "lit",
+					"locale": "lt-LT",
+					"androidCode": "lt-rLT",
+					"bcp47Code": "b+lt+LT",
+					"osxCode": "lt.lproj",
+					"osxLocale": "lt",
+					"pluralCategoryNames": [
+						"one",
+						"few",
+						"many",
+						"other"
+					],
+					"pluralRules": "(n%10==1 && (n%100>19 || n%100<11) ? 0 : (n%10>=2 && n%10<=9) && (n%100>19 || n%100<11) ? 1 : n%1!=0 ? 2: 3)",
+					"pluralExamples": [
+						"1, 21, 31, 41, 51, 61...",
+						"2-9, 22-29, 102, 1002...",
+						"0.1-0.9, 1.1-1.7, 10.1...",
+						"0, 10-20, 30, 40, 50, 60, 100..."
+					],
+					"textDirection": "ltr",
+					"dialectOf": null
+				},
+				"words": {
+					"total": 213,
+					"translated": 213,
+					"preTranslateAppliedTo": 0,
+					"approved": 213
+				},
+				"phrases": {
+					"total": 78,
+					"translated": 78,
+					"preTranslateAppliedTo": 0,
+					"approved": 78
+				},
+				"translationProgress": 100,
+				"approvalProgress": 100,
+				"qaChecksStatus": {
+					"total": 78,
+					"inProgress": 0,
+					"passed": 78,
+					"failed": 0
+				}
+			}
+		},
+		{
+			"data": {
+				"languageId": "lv",
+				"language": {
+					"id": "lv",
+					"name": "Latvian",
+					"editorCode": "lv",
+					"twoLettersCode": "lv",
+					"threeLettersCode": "lav",
+					"locale": "lv-LV",
+					"androidCode": "lv-rLV",
+					"bcp47Code": "b+lv+LV",
+					"osxCode": "lv.lproj",
+					"osxLocale": "lv",
+					"pluralCategoryNames": [
+						"zero",
+						"one",
+						"other"
+					],
+					"pluralRules": "n%10==1 && n%100!=11 ? 0 : n != 0 ? 1 : 2",
+					"pluralExamples": [
+						"0, 10-20, 30, 40...; 0.0, 10.0, 11.0, 12.0...",
+						"1, 21, 31, 41...; 0.1, 1.0, 1.1, 2.1...",
+						"2-9, 22-29, 102, 1002...; 0.2-0.9, 1.2-1.9, 10.2, 100.2..."
+					],
+					"textDirection": "ltr",
+					"dialectOf": null
+				},
+				"words": {
+					"total": 213,
+					"translated": 0,
+					"preTranslateAppliedTo": 0,
+					"approved": 0
+				},
+				"phrases": {
+					"total": 78,
+					"translated": 0,
+					"preTranslateAppliedTo": 0,
+					"approved": 0
+				},
+				"translationProgress": 0,
+				"approvalProgress": 0,
+				"qaChecksStatus": {
+					"total": 0,
+					"inProgress": 0,
+					"passed": 0,
+					"failed": 0
+				}
+			}
+		},
+		{
+			"data": {
+				"languageId": "nl",
+				"language": {
+					"id": "nl",
+					"name": "Dutch",
+					"editorCode": "nl",
+					"twoLettersCode": "nl",
+					"threeLettersCode": "nld",
+					"locale": "nl-NL",
+					"androidCode": "nl-rNL",
+					"bcp47Code": "b+nl+NL",
+					"osxCode": "nl.lproj",
+					"osxLocale": "nl",
+					"pluralCategoryNames": [
+						"one",
+						"other"
+					],
+					"pluralRules": "(n != 1)",
+					"pluralExamples": [
+						"1",
+						"0, 2-999; 1.2, 2.07..."
+					],
+					"textDirection": "ltr",
+					"dialectOf": null
+				},
+				"words": {
+					"total": 213,
+					"translated": 213,
+					"preTranslateAppliedTo": 0,
+					"approved": 213
+				},
+				"phrases": {
+					"total": 78,
+					"translated": 78,
+					"preTranslateAppliedTo": 0,
+					"approved": 78
+				},
+				"translationProgress": 100,
+				"approvalProgress": 100,
+				"qaChecksStatus": {
+					"total": 78,
+					"inProgress": 0,
+					"passed": 78,
+					"failed": 0
+				}
+			}
+		},
+		{
+			"data": {
+				"languageId": "no",
+				"language": {
+					"id": "no",
+					"name": "Norwegian",
+					"editorCode": "no",
+					"twoLettersCode": "no",
+					"threeLettersCode": "nor",
+					"locale": "no-NO",
+					"androidCode": "no-rNO",
+					"bcp47Code": "b+no+NO",
+					"osxCode": "no.lproj",
+					"osxLocale": "no",
+					"pluralCategoryNames": [
+						"one",
+						"other"
+					],
+					"pluralRules": "(n != 1)",
+					"pluralExamples": [
+						"1",
+						"0, 2-999; 1.2, 2.07..."
+					],
+					"textDirection": "ltr",
+					"dialectOf": null
+				},
+				"words": {
+					"total": 213,
+					"translated": 112,
+					"preTranslateAppliedTo": 0,
+					"approved": 112
+				},
+				"phrases": {
+					"total": 78,
+					"translated": 55,
+					"preTranslateAppliedTo": 0,
+					"approved": 55
+				},
+				"translationProgress": 52,
+				"approvalProgress": 52,
+				"qaChecksStatus": {
+					"total": 55,
+					"inProgress": 0,
+					"passed": 55,
+					"failed": 0
+				}
+			}
+		},
+		{
+			"data": {
+				"languageId": "pl",
+				"language": {
+					"id": "pl",
+					"name": "Polish",
+					"editorCode": "pl",
+					"twoLettersCode": "pl",
+					"threeLettersCode": "pol",
+					"locale": "pl-PL",
+					"androidCode": "pl-rPL",
+					"bcp47Code": "b+pl+PL",
+					"osxCode": "pl.lproj",
+					"osxLocale": "pl",
+					"pluralCategoryNames": [
+						"one",
+						"few",
+						"many",
+						"other"
+					],
+					"pluralRules": "(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3)",
+					"pluralExamples": [
+						"1",
+						"2-4, 22-24, 32-34, 42-44, 52-54, 62...",
+						"0, 5~19, 100, 1000, 10000...",
+						"0.0-1.5, 10.0, 100.0, 1000.0..."
+					],
+					"textDirection": "ltr",
+					"dialectOf": null
+				},
+				"words": {
+					"total": 213,
+					"translated": 198,
+					"preTranslateAppliedTo": 0,
+					"approved": 198
+				},
+				"phrases": {
+					"total": 78,
+					"translated": 72,
+					"preTranslateAppliedTo": 0,
+					"approved": 72
+				},
+				"translationProgress": 92,
+				"approvalProgress": 92,
+				"qaChecksStatus": {
+					"total": 72,
+					"inProgress": 0,
+					"passed": 72,
+					"failed": 0
+				}
+			}
+		},
+		{
+			"data": {
+				"languageId": "pt-BR",
+				"language": {
+					"id": "pt-BR",
+					"name": "Portuguese, Brazilian",
+					"editorCode": "ptbr",
+					"twoLettersCode": "pt",
+					"threeLettersCode": "por",
+					"locale": "pt-BR",
+					"androidCode": "pt-rBR",
+					"bcp47Code": "b+pt+BR",
+					"osxCode": "pt-BR.lproj",
+					"osxLocale": "pt_BR",
+					"pluralCategoryNames": [
+						"one",
+						"other"
+					],
+					"pluralRules": "(n != 1)",
+					"pluralExamples": [
+						"1",
+						"0, 2-999; 1.2, 2.07..."
+					],
+					"textDirection": "ltr",
+					"dialectOf": null
+				},
+				"words": {
+					"total": 213,
+					"translated": 213,
+					"preTranslateAppliedTo": 0,
+					"approved": 213
+				},
+				"phrases": {
+					"total": 78,
+					"translated": 78,
+					"preTranslateAppliedTo": 0,
+					"approved": 78
+				},
+				"translationProgress": 100,
+				"approvalProgress": 100,
+				"qaChecksStatus": {
+					"total": 78,
+					"inProgress": 0,
+					"passed": 78,
+					"failed": 0
+				}
+			}
+		},
+		{
+			"data": {
+				"languageId": "ro",
+				"language": {
+					"id": "ro",
+					"name": "Romanian",
+					"editorCode": "ro",
+					"twoLettersCode": "ro",
+					"threeLettersCode": "ron",
+					"locale": "ro-RO",
+					"androidCode": "ro-rRO",
+					"bcp47Code": "b+ro+RO",
+					"osxCode": "ro.lproj",
+					"osxLocale": "ro",
+					"pluralCategoryNames": [
+						"one",
+						"few",
+						"other"
+					],
+					"pluralRules": "(n==1 ? 0 : (n==0 || (n%100>0 && n%100<20)) ? 1 : 2)",
+					"pluralExamples": [
+						"1",
+						"0, 2-19, 101-119, 201-219...",
+						"20-100, 120-200, 220-300...; 1.2, 2.07, 20.94..."
+					],
+					"textDirection": "ltr",
+					"dialectOf": null
+				},
+				"words": {
+					"total": 213,
+					"translated": 68,
+					"preTranslateAppliedTo": 0,
+					"approved": 0
+				},
+				"phrases": {
+					"total": 78,
+					"translated": 31,
+					"preTranslateAppliedTo": 0,
+					"approved": 0
+				},
+				"translationProgress": 31,
+				"approvalProgress": 0,
+				"qaChecksStatus": {
+					"total": 31,
+					"inProgress": 0,
+					"passed": 31,
+					"failed": 0
+				}
+			}
+		},
+		{
+			"data": {
+				"languageId": "ru",
+				"language": {
+					"id": "ru",
+					"name": "Russian",
+					"editorCode": "ru",
+					"twoLettersCode": "ru",
+					"threeLettersCode": "rus",
+					"locale": "ru-RU",
+					"androidCode": "ru-rRU",
+					"bcp47Code": "b+ru+RU",
+					"osxCode": "ru.lproj",
+					"osxLocale": "ru",
+					"pluralCategoryNames": [
+						"one",
+						"few",
+						"many",
+						"other"
+					],
+					"pluralRules": "((n%10==1 && n%100!=11) ? 0 : ((n%10 >= 2 && n%10 <=4 && (n%100 < 12 || n%100 > 14)) ? 1 : ((n%10 == 0 || (n%10 >= 5 && n%10 <=9)) || (n%100 >= 11 && n%100 <= 14)) ? 2 : 3))",
+					"pluralExamples": [
+						"1, 21, 31, 41, 51, 61, 71, 81...",
+						"2-4, 22-24, 32-34, 42-44, 52-54, 62...",
+						"0, 5-19, 100, 1000, 10000...",
+						"0.0-0.9, 1.1-1.6, 10.0, 100.0..."
+					],
+					"textDirection": "ltr",
+					"dialectOf": null
+				},
+				"words": {
+					"total": 213,
+					"translated": 213,
+					"preTranslateAppliedTo": 0,
+					"approved": 213
+				},
+				"phrases": {
+					"total": 78,
+					"translated": 78,
+					"preTranslateAppliedTo": 0,
+					"approved": 78
+				},
+				"translationProgress": 100,
+				"approvalProgress": 100,
+				"qaChecksStatus": {
+					"total": 78,
+					"inProgress": 0,
+					"passed": 78,
+					"failed": 0
+				}
+			}
+		},
+		{
+			"data": {
+				"languageId": "sk",
+				"language": {
+					"id": "sk",
+					"name": "Slovak",
+					"editorCode": "sk",
+					"twoLettersCode": "sk",
+					"threeLettersCode": "slk",
+					"locale": "sk-SK",
+					"androidCode": "sk-rSK",
+					"bcp47Code": "b+sk+SK",
+					"osxCode": "sk.lproj",
+					"osxLocale": "sk",
+					"pluralCategoryNames": [
+						"one",
+						"few",
+						"many",
+						"other"
+					],
+					"pluralRules": "(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 3",
+					"pluralExamples": [
+						"1",
+						"2-4",
+						"0.0-1.5, 10.0, 100.0, 1000.0, 10000.0, 100000.0...",
+						"0, 5~19, 100, 1000, 10000..."
+					],
+					"textDirection": "ltr",
+					"dialectOf": null
+				},
+				"words": {
+					"total": 213,
+					"translated": 5,
+					"preTranslateAppliedTo": 0,
+					"approved": 0
+				},
+				"phrases": {
+					"total": 78,
+					"translated": 4,
+					"preTranslateAppliedTo": 0,
+					"approved": 0
+				},
+				"translationProgress": 2,
+				"approvalProgress": 0,
+				"qaChecksStatus": {
+					"total": 4,
+					"inProgress": 0,
+					"passed": 4,
+					"failed": 0
+				}
+			}
+		},
+		{
+			"data": {
+				"languageId": "sl",
+				"language": {
+					"id": "sl",
+					"name": "Slovenian",
+					"editorCode": "sl",
+					"twoLettersCode": "sl",
+					"threeLettersCode": "slv",
+					"locale": "sl-SI",
+					"androidCode": "sl-rSI",
+					"bcp47Code": "b+sl+SI",
+					"osxCode": "sl.lproj",
+					"osxLocale": "sl",
+					"pluralCategoryNames": [
+						"one",
+						"two",
+						"few",
+						"other"
+					],
+					"pluralRules": "n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3",
+					"pluralExamples": [
+						"1, 101, 201, 301, 401...",
+						"2, 102, 202, 302, 402...",
+						"3, 4, 103, 104, 203, 204...; 0.0-1.5, 10.0, 100.0...",
+						"0, 5-19, 100, 1000..."
+					],
+					"textDirection": "ltr",
+					"dialectOf": null
+				},
+				"words": {
+					"total": 213,
+					"translated": 42,
+					"preTranslateAppliedTo": 0,
+					"approved": 42
+				},
+				"phrases": {
+					"total": 78,
+					"translated": 23,
+					"preTranslateAppliedTo": 0,
+					"approved": 23
+				},
+				"translationProgress": 19,
+				"approvalProgress": 19,
+				"qaChecksStatus": {
+					"total": 23,
+					"inProgress": 0,
+					"passed": 23,
+					"failed": 0
+				}
+			}
+		},
+		{
+			"data": {
+				"languageId": "sq",
+				"language": {
+					"id": "sq",
+					"name": "Albanian",
+					"editorCode": "sq",
+					"twoLettersCode": "sq",
+					"threeLettersCode": "sqi",
+					"locale": "sq-AL",
+					"androidCode": "sq-rAL",
+					"bcp47Code": "b+sq+AL",
+					"osxCode": "sq.lproj",
+					"osxLocale": "sq",
+					"pluralCategoryNames": [
+						"one",
+						"other"
+					],
+					"pluralRules": "(n != 1)",
+					"pluralExamples": [
+						"1",
+						"0, 2-999; 1.2, 2.07..."
+					],
+					"textDirection": "ltr",
+					"dialectOf": null
+				},
+				"words": {
+					"total": 213,
+					"translated": 213,
+					"preTranslateAppliedTo": 0,
+					"approved": 0
+				},
+				"phrases": {
+					"total": 78,
+					"translated": 78,
+					"preTranslateAppliedTo": 0,
+					"approved": 0
+				},
+				"translationProgress": 100,
+				"approvalProgress": 0,
+				"qaChecksStatus": {
+					"total": 78,
+					"inProgress": 0,
+					"passed": 68,
+					"failed": 10
+				}
+			}
+		},
+		{
+			"data": {
+				"languageId": "sv-SE",
+				"language": {
+					"id": "sv-SE",
+					"name": "Swedish",
+					"editorCode": "sv",
+					"twoLettersCode": "sv",
+					"threeLettersCode": "swe",
+					"locale": "sv-SE",
+					"androidCode": "sv-rSE",
+					"bcp47Code": "b+sv+SE",
+					"osxCode": "sv.lproj",
+					"osxLocale": "sv",
+					"pluralCategoryNames": [
+						"one",
+						"other"
+					],
+					"pluralRules": "(n != 1)",
+					"pluralExamples": [
+						"1",
+						"0, 2-999; 1.2, 2.07..."
+					],
+					"textDirection": "ltr",
+					"dialectOf": null
+				},
+				"words": {
+					"total": 213,
+					"translated": 194,
+					"preTranslateAppliedTo": 0,
+					"approved": 194
+				},
+				"phrases": {
+					"total": 78,
+					"translated": 74,
+					"preTranslateAppliedTo": 0,
+					"approved": 74
+				},
+				"translationProgress": 91,
+				"approvalProgress": 91,
+				"qaChecksStatus": {
+					"total": 74,
+					"inProgress": 0,
+					"passed": 74,
+					"failed": 0
+				}
+			}
+		},
+		{
+			"data": {
+				"languageId": "th",
+				"language": {
+					"id": "th",
+					"name": "Thai",
+					"editorCode": "th",
+					"twoLettersCode": "th",
+					"threeLettersCode": "tha",
+					"locale": "th-TH",
+					"androidCode": "th-rTH",
+					"bcp47Code": "b+th+TH",
+					"osxCode": "th.lproj",
+					"osxLocale": "th",
+					"pluralCategoryNames": [
+						"other"
+					],
+					"pluralRules": "0",
+					"pluralExamples": [
+						"0-999; 1.2..."
+					],
+					"textDirection": "ltr",
+					"dialectOf": null
+				},
+				"words": {
+					"total": 213,
+					"translated": 8,
+					"preTranslateAppliedTo": 0,
+					"approved": 0
+				},
+				"phrases": {
+					"total": 78,
+					"translated": 5,
+					"preTranslateAppliedTo": 0,
+					"approved": 0
+				},
+				"translationProgress": 3,
+				"approvalProgress": 0,
+				"qaChecksStatus": {
+					"total": 5,
+					"inProgress": 0,
+					"passed": 0,
+					"failed": 5
+				}
+			}
+		},
+		{
+			"data": {
+				"languageId": "tr",
+				"language": {
+					"id": "tr",
+					"name": "Turkish",
+					"editorCode": "tr",
+					"twoLettersCode": "tr",
+					"threeLettersCode": "tur",
+					"locale": "tr-TR",
+					"androidCode": "tr-rTR",
+					"bcp47Code": "b+tr+TR",
+					"osxCode": "tr.lproj",
+					"osxLocale": "tr",
+					"pluralCategoryNames": [
+						"one",
+						"other"
+					],
+					"pluralRules": "(n != 1)",
+					"pluralExamples": [
+						"1",
+						"0, 2-999; 1.2, 2.07..."
+					],
+					"textDirection": "ltr",
+					"dialectOf": null
+				},
+				"words": {
+					"total": 213,
+					"translated": 213,
+					"preTranslateAppliedTo": 0,
+					"approved": 0
+				},
+				"phrases": {
+					"total": 78,
+					"translated": 78,
+					"preTranslateAppliedTo": 0,
+					"approved": 0
+				},
+				"translationProgress": 100,
+				"approvalProgress": 0,
+				"qaChecksStatus": {
+					"total": 78,
+					"inProgress": 0,
+					"passed": 43,
+					"failed": 35
+				}
+			}
+		},
+		{
+			"data": {
+				"languageId": "uk",
+				"language": {
+					"id": "uk",
+					"name": "Ukrainian",
+					"editorCode": "uk",
+					"twoLettersCode": "uk",
+					"threeLettersCode": "ukr",
+					"locale": "uk-UA",
+					"androidCode": "uk-rUA",
+					"bcp47Code": "b+uk+UA",
+					"osxCode": "uk.lproj",
+					"osxLocale": "uk",
+					"pluralCategoryNames": [
+						"one",
+						"few",
+						"many",
+						"other"
+					],
+					"pluralRules": "((n%10==1 && n%100!=11) ? 0 : ((n%10 >= 2 && n%10 <=4 && (n%100 < 12 || n%100 > 14)) ? 1 : ((n%10 == 0 || (n%10 >= 5 && n%10 <=9)) || (n%100 >= 11 && n%100 <= 14)) ? 2 : 3))",
+					"pluralExamples": [
+						"1, 21, 31, 41, 51, 61, 71, 81...",
+						"2-4, 22-24, 32-34, 42-44, 52-54, 62...",
+						"0, 5-19, 100, 1000, 10000...",
+						"0.0-0.9, 1.1-1.6, 10.0, 100.0..."
+					],
+					"textDirection": "ltr",
+					"dialectOf": null
+				},
+				"words": {
+					"total": 213,
+					"translated": 207,
+					"preTranslateAppliedTo": 0,
+					"approved": 194
+				},
+				"phrases": {
+					"total": 78,
+					"translated": 76,
+					"preTranslateAppliedTo": 0,
+					"approved": 74
+				},
+				"translationProgress": 97,
+				"approvalProgress": 91,
+				"qaChecksStatus": {
+					"total": 76,
+					"inProgress": 0,
+					"passed": 76,
+					"failed": 0
+				}
+			}
+		},
+		{
+			"data": {
+				"languageId": "zh-CN",
+				"language": {
+					"id": "zh-CN",
+					"name": "Chinese Simplified",
+					"editorCode": "zhcn",
+					"twoLettersCode": "zh",
+					"threeLettersCode": "zho",
+					"locale": "zh-CN",
+					"androidCode": "zh-rCN",
+					"bcp47Code": "b+zh+Hans",
+					"osxCode": "zh-Hans.lproj",
+					"osxLocale": "zh-Hans",
+					"pluralCategoryNames": [
+						"other"
+					],
+					"pluralRules": "0",
+					"pluralExamples": [
+						"0-999; 1.2..."
+					],
+					"textDirection": "ltr",
+					"dialectOf": null
+				},
+				"words": {
+					"total": 213,
+					"translated": 213,
+					"preTranslateAppliedTo": 0,
+					"approved": 0
+				},
+				"phrases": {
+					"total": 78,
+					"translated": 78,
+					"preTranslateAppliedTo": 0,
+					"approved": 0
+				},
+				"translationProgress": 100,
+				"approvalProgress": 0,
+				"qaChecksStatus": {
+					"total": 78,
+					"inProgress": 0,
+					"passed": 69,
+					"failed": 9
+				}
+			}
+		},
+		{
+			"data": {
+				"languageId": "zh-TW",
+				"language": {
+					"id": "zh-TW",
+					"name": "Chinese Traditional",
+					"editorCode": "zhtw",
+					"twoLettersCode": "zh",
+					"threeLettersCode": "zho",
+					"locale": "zh-TW",
+					"androidCode": "zh-rTW",
+					"bcp47Code": "b+zh+Hant",
+					"osxCode": "zh-Hant.lproj",
+					"osxLocale": "zh-Hant",
+					"pluralCategoryNames": [
+						"other"
+					],
+					"pluralRules": "0",
+					"pluralExamples": [
+						"0-999; 1.2..."
+					],
+					"textDirection": "ltr",
+					"dialectOf": null
+				},
+				"words": {
+					"total": 213,
+					"translated": 213,
+					"preTranslateAppliedTo": 0,
+					"approved": 0
+				},
+				"phrases": {
+					"total": 78,
+					"translated": 78,
+					"preTranslateAppliedTo": 0,
+					"approved": 0
+				},
+				"translationProgress": 100,
+				"approvalProgress": 0,
+				"qaChecksStatus": {
+					"total": 78,
+					"inProgress": 0,
+					"passed": 76,
+					"failed": 2
+				}
+			}
+		}
+	],
+	"pagination": {
+		"offset": 0,
+		"limit": 500
+	}
+}
