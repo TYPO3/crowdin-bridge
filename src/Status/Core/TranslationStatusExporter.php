@@ -33,7 +33,7 @@ readonly class TranslationStatusExporter
 
         $output->advance('Retrieving list of branches ...');
         $branches = array_filter(
-            $this->branchRepository->list($project->id),
+            $this->branchRepository->findByProjectId($project->id),
             static function (Branch $branch): bool {
                 try {
                     CoreInformation::getVersionForBranchName($branch->name);

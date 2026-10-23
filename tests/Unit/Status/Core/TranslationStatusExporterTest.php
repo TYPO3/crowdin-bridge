@@ -79,7 +79,7 @@ final class TranslationStatusExporterTest extends TestCase
         $coreProject = new Project(1, 'typo3-cms', 'typo3', []);
 
         $this->branchRepositoryStub
-            ->method('list')
+            ->method('findByProjectId')
             ->willReturn([
                 new Branch(101, 1, 'main'),
                 new Branch(102, 1, '14.3'),

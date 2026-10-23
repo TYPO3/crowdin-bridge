@@ -18,14 +18,19 @@ readonly class BranchRepository
 
     /**
      * @return list<Branch>
+     * @link https://support.crowdin.com/developer/api/v2/#tag/Source-Files/operation/api.projects.branches.getMany Documentation
      */
-    public function list(int $projectId): array
+    public function findByProjectId(int $projectId): array
     {
-        return array_map(
-            static fn(CrowdinBranch $crowdinBranch): Branch => Branch::fromCrowdinBranch($crowdinBranch),
-            iterator_to_array($this->client->branch->list($projectId))
-        )
-            |>array_values(...)
-            |>$this->branchesSorter->sortByName(...);
+        try {
+            return array_map(
+                static fn(CrowdinBranch $crowdinBranch): Branch => Branch::fromCrowdinBranch($crowdinBranch),
+                iterator_to_array($this->client->branch->list($projectId))
+            )
+                    |> array_values(...)
+                    |> $this->branchesSorter->sortByName(...);
+        } catch (\Throwable $t) {
+            throw new RepositoryException($t->getMessage(), $t->getCode(), $t);
+        }
     }
 }

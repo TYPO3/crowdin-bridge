@@ -38,6 +38,7 @@
 		"symfony/yaml": "*"
 	},
 	"require-dev": {
+		"donatj/mock-webserver": "^2.10",
 		"friendsofphp/php-cs-fixer": "^3.95",
 		"phpstan/phpstan": "^2.2",
 		"phpunit/phpunit": "^13.4"
