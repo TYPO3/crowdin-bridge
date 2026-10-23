@@ -30,7 +30,7 @@ readonly class BranchRepository
                     |> array_values(...)
                     |> $this->branchesSorter->sortByName(...);
         } catch (\Throwable $t) {
-            throw new RepositoryException($t->getMessage(), $t->getCode(), $t);
+            throw RepositoryException::fromThrowable($t);
         }
     }
 }

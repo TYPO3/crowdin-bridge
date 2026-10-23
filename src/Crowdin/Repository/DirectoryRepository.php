@@ -16,6 +16,7 @@ readonly class DirectoryRepository
 
     /**
      * @return list<Directory>
+     * @link https://support.crowdin.com/developer/api/v2/#tag/Source-Files/operation/api.directories.getMany Documentation
      */
     public function findByFilter(int $projectId, string $filter): array
     {
@@ -24,10 +25,14 @@ readonly class DirectoryRepository
             'projectIds' => $projectId,
         ];
 
-        return array_map(
-            static fn(CrowdinDirectory $directory): Directory => Directory::fromCrowdinDirectory($directory),
-            iterator_to_array($this->client->directory->search($params))
-        )
-            |> array_values(...);
+        try {
+            return array_map(
+                static fn(CrowdinDirectory $directory): Directory => Directory::fromCrowdinDirectory($directory),
+                iterator_to_array($this->client->directory->search($params))
+            )
+                    |> array_values(...);
+        } catch (\Throwable $t) {
+            throw RepositoryException::fromThrowable($t);
+        }
     }
 }

@@ -9,35 +9,14 @@ use App\Crowdin\Entity\Branch;
 use App\Crowdin\Repository\BranchRepository;
 use App\Crowdin\Repository\RepositoryException;
 use App\Sorting\BranchesSorter;
-use CrowdinApiClient\Crowdin;
-use donatj\MockWebServer\MockWebServer;
 use donatj\MockWebServer\Response;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
-use PHPUnit\Framework\TestCase;
 
 #[CoversClass(BranchRepository::class)]
-final class BranchRepositoryTest extends TestCase
+final class BranchRepositoryTest extends RepositoryTestCase
 {
-    protected const int PROJECT_ID = 368815;
-
-    private static MockWebServer $server;
-    private static Crowdin $client;
     private BranchRepository $subject;
-
-    public static function setUpBeforeClass(): void
-    {
-        self::$server = new MockWebServer();
-        self::$server->start();
-
-        self::$client = new Crowdin([]);
-        self::$client->setBaseUri(self::$server->getServerRoot() . '/api/v2');
-    }
-
-    public static function tearDownAfterClass(): void
-    {
-        self::$server->stop();
-    }
 
     protected function setUp(): void
     {
