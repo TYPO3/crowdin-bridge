@@ -45,15 +45,8 @@ readonly class Builder
             throw ProjectNotFoundException::fromProjectIdentifier($projectIdentifier);
         }
 
-        $status = $this->translationRepository->buildProject($project->id);
+        $build = $this->translationRepository->buildProject($project->id);
 
-        $text = \sprintf('Project "%s"', $projectIdentifier);
-
-        return match ($status) {
-            'finished' => \sprintf('<comment>%s is already built</comment>', $text),
-            'inProgress' => \sprintf('<info>%s has been built now</info>', $text),
-            null => \sprintf('<error>%s has no clear status returned</error>', $text),
-            default => \sprintf('<question>%s %s</question>', $text, $status),
-        };
+        return $build->status->consoleMessage($projectIdentifier, $build->error);
     }
 }
