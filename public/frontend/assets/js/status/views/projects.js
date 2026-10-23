@@ -1,6 +1,5 @@
 // View - projects (extensions) from status.json
 const sourceCrowdin = 'https://crowdin.com/project/';
-const sourceTYPO3ExtensionRepository = 'https://extensions.typo3.org/extension/';
 
 export default {
     source: 'status.json',
