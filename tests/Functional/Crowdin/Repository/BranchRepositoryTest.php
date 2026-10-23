@@ -28,7 +28,11 @@ final class BranchRepositoryTest extends RepositoryTestCase
     {
         self::$server->setResponseOfPath(
             \sprintf('/api/v2/projects/%d/branches', self::PROJECT_ID),
-            $this->buildResponseWithBranches(self::PROJECT_ID),
+            new Response(
+                \file_get_contents(__DIR__ . '/Fixtures/Branch/list.json'),
+                ['content-type' => 'application/json'],
+                200,
+            ),
         );
 
         $actual = $this->subject->findByProjectId(self::PROJECT_ID);
@@ -70,69 +74,11 @@ final class BranchRepositoryTest extends RepositoryTestCase
     }
 }
 BODY,
-                [
-                    'content-type' => 'application/json',
-                ],
+                ['content-type' => 'application/json'],
                 503
             ),
         );
 
         $this->subject->findByProjectId(self::PROJECT_ID);
-    }
-
-    private function buildResponseWithBranches(int $projectId): Response
-    {
-        return new Response(
-            <<<BODY
-{
-	"data": [
-		{
-			"data": {
-				"id": 656,
-				"projectId": $projectId,
-				"name": "main",
-				"title": null,
-				"createdAt": "2019-08-19T20:34:24+00:00",
-				"updatedAt": "2022-01-31T18:56:35+00:00",
-				"exportPattern": null,
-				"priority": "normal"
-			}
-		},
-		{
-			"data": {
-				"id": 11982,
-				"projectId": $projectId,
-				"name": "13.4",
-				"title": "typo3 \\/ 13.4",
-				"createdAt": "2024-11-12T09:07:07+00:00",
-				"updatedAt": "2024-11-12T09:07:07+00:00",
-				"exportPattern": null,
-				"priority": "normal"
-			}
-		},
-		{
-			"data": {
-				"id": 14142,
-				"projectId": $projectId,
-				"name": "14.3",
-				"title": "typo3 \\/ 14.3",
-				"createdAt": "2026-04-30T12:54:10+00:00",
-				"updatedAt": "2026-04-30T12:54:10+00:00",
-				"exportPattern": null,
-				"priority": "normal"
-			}
-		}
-	],
-	"pagination": {
-		"offset": 0,
-		"limit": 25
-	}
-}
-BODY,
-            [
-                'content-type' => 'application/json',
-            ],
-            200,
-        );
     }
 }

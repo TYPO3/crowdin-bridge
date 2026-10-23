@@ -1,0 +1,22 @@
+{
+	"data": {
+		"id": 1285481,
+		"projectId": 368815,
+		"status": "finished",
+		"progress": 0,
+		"createdAt": "2026-10-23T14:53:48+00:00",
+		"updatedAt": "2026-10-23T14:53:48+00:00",
+		"finishedAt": "2026-10-23T14:53:48+00:00",
+		"error": {
+			"message": "Export failed: the exported file contains invalid data."
+		},
+		"attributes": {
+			"branchId": null,
+			"directoryId": null,
+			"targetLanguageIds": [],
+			"skipUntranslatedStrings": true,
+			"skipUntranslatedFiles": false,
+			"exportApprovedOnly": true
+		}
+	}
+}

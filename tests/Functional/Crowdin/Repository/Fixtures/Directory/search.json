@@ -1,0 +1,53 @@
+{
+	"data": [
+		{
+			"data": {
+				"id": 662,
+				"projectId": 368815,
+				"branchId": 656,
+				"directoryId": 660,
+				"name": "adminpanel",
+				"title": null,
+				"exportPattern": null,
+				"path": "/main/typo3/sysext/adminpanel",
+				"priority": "normal",
+				"createdAt": "2019-08-19T20:34:24+00:00",
+				"updatedAt": "2019-08-19T20:34:24+00:00"
+			}
+		},
+		{
+			"data": {
+				"id": 11996,
+				"projectId": 368815,
+				"branchId": 11982,
+				"directoryId": 11994,
+				"name": "adminpanel",
+				"title": null,
+				"exportPattern": null,
+				"path": "/13.4/typo3/sysext/adminpanel",
+				"priority": "normal",
+				"createdAt": "2024-11-12T09:10:55+00:00",
+				"updatedAt": "2024-11-12T09:10:55+00:00"
+			}
+		},
+		{
+			"data": {
+				"id": 14148,
+				"projectId": 368815,
+				"branchId": 14142,
+				"directoryId": 14146,
+				"name": "adminpanel",
+				"title": null,
+				"exportPattern": null,
+				"path": "/14.3/typo3/sysext/adminpanel",
+				"priority": "normal",
+				"createdAt": "2026-04-30T12:59:44+00:00",
+				"updatedAt": "2026-04-30T12:59:44+00:00"
+			}
+		}
+	],
+	"pagination": {
+		"offset": 0,
+		"limit": 25
+	}
+}

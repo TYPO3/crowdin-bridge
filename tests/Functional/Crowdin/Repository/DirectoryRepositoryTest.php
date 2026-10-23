@@ -29,7 +29,11 @@ final class DirectoryRepositoryTest extends RepositoryTestCase
 
         self::$server->setResponseOfPath(
             '/api/v2/directories',
-            $this->buildResponseWithDirectories(self::PROJECT_ID, $filter),
+            new Response(
+                \file_get_contents(__DIR__ . '/Fixtures/Directory/search.json'),
+                ['content-type' => 'application/json'],
+                200,
+            ),
         );
 
         $actual = $this->subject->findByFilter(self::PROJECT_ID, $filter);
@@ -88,70 +92,5 @@ BODY,
         );
 
         $this->subject->findByFilter(self::PROJECT_ID, 'adminpanel');
-    }
-
-    private function buildResponseWithDirectories(int $projectId, string $filter): Response
-    {
-        return new Response(
-            <<<BODY
-{
-	"data": [
-		{
-			"data": {
-				"id": 662,
-				"projectId": $projectId,
-				"branchId": 656,
-				"directoryId": 660,
-				"name": "$filter",
-				"title": null,
-				"exportPattern": null,
-				"path": "\\/main\\/typo3\\/sysext\\/$filter",
-				"priority": "normal",
-				"createdAt": "2019-08-19T20:34:24+00:00",
-				"updatedAt": "2019-08-19T20:34:24+00:00"
-			}
-		},
-		{
-			"data": {
-				"id": 11996,
-				"projectId": $projectId,
-				"branchId": 11982,
-				"directoryId": 11994,
-				"name": "$filter",
-				"title": null,
-				"exportPattern": null,
-				"path": "\\/13.4\\/typo3\\/sysext\\/$filter",
-				"priority": "normal",
-				"createdAt": "2024-11-12T09:10:55+00:00",
-				"updatedAt": "2024-11-12T09:10:55+00:00"
-			}
-		},
-		{
-			"data": {
-				"id": 14148,
-				"projectId": $projectId,
-				"branchId": 14142,
-				"directoryId": 14146,
-				"name": "$filter",
-				"title": null,
-				"exportPattern": null,
-				"path": "\\/14.3\\/typo3\\/sysext\\/$filter",
-				"priority": "normal",
-				"createdAt": "2026-04-30T12:59:44+00:00",
-				"updatedAt": "2026-04-30T12:59:44+00:00"
-			}
-		}
-	],
-	"pagination": {
-		"offset": 0,
-		"limit": 25
-	}
-}
-BODY,
-            [
-                'content-type' => 'application/json',
-            ],
-            200,
-        );
     }
 }

@@ -26,7 +26,11 @@ final class TranslationRepositoryTest extends RepositoryTestCase
     {
         self::$server->setResponseOfPath(
             \sprintf('/api/v2/projects/%d/translations/builds', self::PROJECT_ID),
-            $this->buildResponseForInProgressStatus(self::PROJECT_ID),
+            new Response(
+                \file_get_contents(__DIR__ . '/Fixtures/TranslationStatus/in-progress.json'),
+                ['content-type' => 'application/json'],
+                200,
+            ),
         );
 
         $actual = $this->subject->buildProject(self::PROJECT_ID);
@@ -39,7 +43,11 @@ final class TranslationRepositoryTest extends RepositoryTestCase
     {
         self::$server->setResponseOfPath(
             \sprintf('/api/v2/projects/%d/translations/builds', self::PROJECT_ID),
-            $this->buildResponseForFinishedStatus(self::PROJECT_ID),
+            new Response(
+                \file_get_contents(__DIR__ . '/Fixtures/Translation/finished.json'),
+                ['content-type' => 'application/json'],
+                200,
+            ),
         );
 
         $actual = $this->subject->buildProject(self::PROJECT_ID);
@@ -87,70 +95,5 @@ BODY,
         );
 
         $this->subject->buildProject(self::PROJECT_ID);
-    }
-
-    private function buildResponseForInProgressStatus(int $projectId): Response
-    {
-        return new Response(
-            <<<BODY
-{
-	"data": {
-		"id": 1285481,
-		"projectId": $projectId,
-		"status": "inProgress",
-		"progress": 0,
-		"createdAt": "2026-10-23T14:53:48+00:00",
-		"updatedAt": "2026-10-23T14:53:48+00:00",
-		"finishedAt": null,
-		"attributes": {
-			"branchId": null,
-			"directoryId": null,
-			"targetLanguageIds": [],
-			"skipUntranslatedStrings": true,
-			"skipUntranslatedFiles": false,
-			"exportApprovedOnly": true
-		}
-	}
-}
-BODY,
-            [
-                'content-type' => 'application/json',
-            ],
-            200,
-        );
-    }
-
-    private function buildResponseForFinishedStatus(int $projectId): Response
-    {
-        return new Response(
-            <<<BODY
-{
-	"data": {
-		"id": 1285481,
-		"projectId": $projectId,
-		"status": "finished",
-		"progress": 0,
-		"createdAt": "2026-10-23T14:53:48+00:00",
-		"updatedAt": "2026-10-23T14:53:48+00:00",
-		"finishedAt": "2026-10-23T14:53:48+00:00",
-		"error": {
-		    "message": "Export failed: the exported file contains invalid data."
-		},
-		"attributes": {
-			"branchId": null,
-			"directoryId": null,
-			"targetLanguageIds": [],
-			"skipUntranslatedStrings": true,
-			"skipUntranslatedFiles": false,
-			"exportApprovedOnly": true
-		}
-	}
-}
-BODY,
-            [
-                'content-type' => 'application/json',
-            ],
-            200,
-        );
     }
 }

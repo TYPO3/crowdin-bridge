@@ -1,0 +1,19 @@
+{
+	"data": {
+		"id": 1285481,
+		"projectId": 368815,
+		"status": "inProgress",
+		"progress": 0,
+		"createdAt": "2026-10-23T14:53:48+00:00",
+		"updatedAt": "2026-10-23T14:53:48+00:00",
+		"finishedAt": null,
+		"attributes": {
+			"branchId": null,
+			"directoryId": null,
+			"targetLanguageIds": [],
+			"skipUntranslatedStrings": true,
+			"skipUntranslatedFiles": false,
+			"exportApprovedOnly": true
+		}
+	}
+}
