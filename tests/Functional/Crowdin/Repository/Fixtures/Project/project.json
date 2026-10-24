@@ -1,0 +1,422 @@
+{
+	"data": {
+		"translateDuplicates": 0,
+		"tagsDetection": 0,
+		"glossaryAccess": true,
+		"glossaryAccessOption": "fullAccess",
+		"isMtAllowed": true,
+		"taskBasedAccessControl": false,
+		"hiddenStringsProofreadersAccess": true,
+		"autoSubstitution": true,
+		"exportTranslatedOnly": true,
+		"skipUntranslatedStrings": true,
+		"exportApprovedOnly": false,
+		"autoTranslateDialects": false,
+		"useGlobalTm": true,
+		"showTmSuggestionsDialects": true,
+		"tmApprovedSuggestionsOnly": false,
+		"isSuspended": false,
+		"qaCheckIsActive": true,
+		"qaCheckCategories": {
+			"empty": true,
+			"size": true,
+			"tags": true,
+			"spaces": true,
+			"variables": true,
+			"punctuation": true,
+			"symbolRegister": true,
+			"specialSymbols": true,
+			"wrongTranslation": true,
+			"spellcheck": true,
+			"icu": true,
+			"terms": false,
+			"duplicate": true,
+			"ftl": true,
+			"android": false,
+			"mdx": true,
+			"unifiedPlaceholders": true,
+			"numbers": true,
+			"ai": false,
+			"outdated": false
+		},
+		"qaChecksIgnorableCategories": {
+			"empty": true,
+			"size": false,
+			"tags": true,
+			"spaces": true,
+			"variables": true,
+			"punctuation": true,
+			"symbolRegister": true,
+			"specialSymbols": true,
+			"wrongTranslation": true,
+			"spellcheck": true,
+			"icu": false,
+			"terms": true,
+			"duplicate": false,
+			"ftl": false,
+			"android": false,
+			"mdx": false,
+			"unifiedPlaceholders": false,
+			"numbers": true,
+			"ai": true,
+			"outdated": true
+		},
+		"languageMapping": {},
+		"notificationSettings": {
+			"translatorNewStrings": false,
+			"managerNewStrings": true,
+			"managerLanguageCompleted": true
+		},
+		"defaultTmId": 163611,
+		"defaultGlossaryId": 152513,
+		"assignedTms": {
+			"163611": {
+				"priority": 1
+			}
+		},
+		"assignedGlossaries": [
+			152513
+		],
+		"assignedStyleGuides": [],
+		"tmPenalties": [],
+		"normalizePlaceholder": false,
+		"tmPreTranslate": {
+			"enabled": false,
+			"autoApproveOption": "none",
+			"minimumMatchRatio": "perfect"
+		},
+		"mtPreTranslate": {
+			"enabled": false,
+			"mts": []
+		},
+		"aiPreTranslate": {
+			"enabled": false,
+			"aiPrompts": []
+		},
+		"preTranslationAiPromptId": null,
+		"editorSuggestionAiPromptId": null,
+		"qaCheckActionAiPromptId": null,
+		"contextReviewAiPromptId": null,
+		"inContext": true,
+		"inContextProcessHiddenStrings": true,
+		"inContextPseudoLanguageId": "t3",
+		"inContextPseudoLanguage": {
+			"id": "t3",
+			"name": "TYPO3 In-Context Localization",
+			"editorCode": "t3",
+			"twoLettersCode": "t3",
+			"threeLettersCode": "ter",
+			"locale": "t3-T3",
+			"androidCode": "t3-rT3",
+			"bcp47Code": "b+t3+T3",
+			"osxCode": "t3.lproj",
+			"osxLocale": "t3",
+			"pluralCategoryNames": [
+				"one",
+				"other"
+			],
+			"pluralRules": "(n != 1)",
+			"pluralExamples": [
+				"1",
+				"0, 2-999; 1.2, 2.07..."
+			],
+			"textDirection": "ltr",
+			"dialectOf": "en"
+		},
+		"id": 391559,
+		"type": 0,
+		"userId": 13950809,
+		"sourceLanguageId": "en",
+		"targetLanguageIds": [
+			"fr",
+			"es-ES",
+			"da",
+			"de",
+			"hu",
+			"it",
+			"nl",
+			"pl",
+			"pt-PT",
+			"ru"
+		],
+		"languageAccessPolicy": "open",
+		"name": "TYPO3 Extension schema",
+		"cname": null,
+		"identifier": "typo3-extension-schema",
+		"description": "",
+		"visibility": "open",
+		"logo": null,
+		"publicDownloads": true,
+		"createdAt": "2020-03-06T19:25:38+00:00",
+		"updatedAt": "2026-10-20T08:43:02+00:00",
+		"lastActivity": "2026-10-20T08:43:02+00:00",
+		"sourceLanguage": {
+			"id": "en",
+			"name": "English",
+			"editorCode": "en",
+			"twoLettersCode": "en",
+			"threeLettersCode": "eng",
+			"locale": "en-US",
+			"androidCode": "en-rUS",
+			"bcp47Code": "b+en+US",
+			"osxCode": "en.lproj",
+			"osxLocale": "en",
+			"pluralCategoryNames": [
+				"one",
+				"other"
+			],
+			"pluralRules": "(n != 1)",
+			"pluralExamples": [
+				"1",
+				"0, 2-999; 1.2, 2.07..."
+			],
+			"textDirection": "ltr",
+			"dialectOf": null
+		},
+		"targetLanguages": [
+			{
+				"id": "fr",
+				"name": "French",
+				"editorCode": "fr",
+				"twoLettersCode": "fr",
+				"threeLettersCode": "fra",
+				"locale": "fr-FR",
+				"androidCode": "fr-rFR",
+				"bcp47Code": "b+fr+FR",
+				"osxCode": "fr.lproj",
+				"osxLocale": "fr",
+				"pluralCategoryNames": [
+					"one",
+					"other"
+				],
+				"pluralRules": "(n > 1)",
+				"pluralExamples": [
+					"0, 1",
+					"2-999; 1.2, 2.07..."
+				],
+				"textDirection": "ltr",
+				"dialectOf": null
+			},
+			{
+				"id": "es-ES",
+				"name": "Spanish",
+				"editorCode": "es",
+				"twoLettersCode": "es",
+				"threeLettersCode": "spa",
+				"locale": "es-ES",
+				"androidCode": "es-rES",
+				"bcp47Code": "b+es+ES",
+				"osxCode": "es.lproj",
+				"osxLocale": "es",
+				"pluralCategoryNames": [
+					"one",
+					"other"
+				],
+				"pluralRules": "(n != 1)",
+				"pluralExamples": [
+					"1",
+					"0, 2-999; 1.2, 2.07..."
+				],
+				"textDirection": "ltr",
+				"dialectOf": null
+			},
+			{
+				"id": "da",
+				"name": "Danish",
+				"editorCode": "da",
+				"twoLettersCode": "da",
+				"threeLettersCode": "dan",
+				"locale": "da-DK",
+				"androidCode": "da-rDK",
+				"bcp47Code": "b+da+DK",
+				"osxCode": "da.lproj",
+				"osxLocale": "da",
+				"pluralCategoryNames": [
+					"one",
+					"other"
+				],
+				"pluralRules": "(n != 1)",
+				"pluralExamples": [
+					"1",
+					"0, 2-999; 1.2, 2.07..."
+				],
+				"textDirection": "ltr",
+				"dialectOf": null
+			},
+			{
+				"id": "de",
+				"name": "German",
+				"editorCode": "de",
+				"twoLettersCode": "de",
+				"threeLettersCode": "deu",
+				"locale": "de-DE",
+				"androidCode": "de-rDE",
+				"bcp47Code": "b+de+DE",
+				"osxCode": "de.lproj",
+				"osxLocale": "de",
+				"pluralCategoryNames": [
+					"one",
+					"other"
+				],
+				"pluralRules": "(n != 1)",
+				"pluralExamples": [
+					"1",
+					"0, 2-999; 1.2, 2.07..."
+				],
+				"textDirection": "ltr",
+				"dialectOf": null
+			},
+			{
+				"id": "hu",
+				"name": "Hungarian",
+				"editorCode": "hu",
+				"twoLettersCode": "hu",
+				"threeLettersCode": "hun",
+				"locale": "hu-HU",
+				"androidCode": "hu-rHU",
+				"bcp47Code": "b+hu+HU",
+				"osxCode": "hu.lproj",
+				"osxLocale": "hu",
+				"pluralCategoryNames": [
+					"one",
+					"other"
+				],
+				"pluralRules": "(n != 1)",
+				"pluralExamples": [
+					"1",
+					"0, 2-999; 1.2, 2.07..."
+				],
+				"textDirection": "ltr",
+				"dialectOf": null
+			},
+			{
+				"id": "it",
+				"name": "Italian",
+				"editorCode": "it",
+				"twoLettersCode": "it",
+				"threeLettersCode": "ita",
+				"locale": "it-IT",
+				"androidCode": "it-rIT",
+				"bcp47Code": "b+it+IT",
+				"osxCode": "it.lproj",
+				"osxLocale": "it",
+				"pluralCategoryNames": [
+					"one",
+					"other"
+				],
+				"pluralRules": "(n != 1)",
+				"pluralExamples": [
+					"1",
+					"0, 2-999; 1.2, 2.07..."
+				],
+				"textDirection": "ltr",
+				"dialectOf": null
+			},
+			{
+				"id": "nl",
+				"name": "Dutch",
+				"editorCode": "nl",
+				"twoLettersCode": "nl",
+				"threeLettersCode": "nld",
+				"locale": "nl-NL",
+				"androidCode": "nl-rNL",
+				"bcp47Code": "b+nl+NL",
+				"osxCode": "nl.lproj",
+				"osxLocale": "nl",
+				"pluralCategoryNames": [
+					"one",
+					"other"
+				],
+				"pluralRules": "(n != 1)",
+				"pluralExamples": [
+					"1",
+					"0, 2-999; 1.2, 2.07..."
+				],
+				"textDirection": "ltr",
+				"dialectOf": null
+			},
+			{
+				"id": "pl",
+				"name": "Polish",
+				"editorCode": "pl",
+				"twoLettersCode": "pl",
+				"threeLettersCode": "pol",
+				"locale": "pl-PL",
+				"androidCode": "pl-rPL",
+				"bcp47Code": "b+pl+PL",
+				"osxCode": "pl.lproj",
+				"osxLocale": "pl",
+				"pluralCategoryNames": [
+					"one",
+					"few",
+					"many",
+					"other"
+				],
+				"pluralRules": "(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3)",
+				"pluralExamples": [
+					"1",
+					"2-4, 22-24, 32-34, 42-44, 52-54, 62...",
+					"0, 5~19, 100, 1000, 10000...",
+					"0.0-1.5, 10.0, 100.0, 1000.0..."
+				],
+				"textDirection": "ltr",
+				"dialectOf": null
+			},
+			{
+				"id": "pt-PT",
+				"name": "Portuguese",
+				"editorCode": "pt",
+				"twoLettersCode": "pt",
+				"threeLettersCode": "por",
+				"locale": "pt-PT",
+				"androidCode": "pt-rPT",
+				"bcp47Code": "b+pt+PT",
+				"osxCode": "pt.lproj",
+				"osxLocale": "pt",
+				"pluralCategoryNames": [
+					"one",
+					"other"
+				],
+				"pluralRules": "(n != 1)",
+				"pluralExamples": [
+					"1",
+					"0, 2-999; 1.2, 2.07..."
+				],
+				"textDirection": "ltr",
+				"dialectOf": null
+			},
+			{
+				"id": "ru",
+				"name": "Russian",
+				"editorCode": "ru",
+				"twoLettersCode": "ru",
+				"threeLettersCode": "rus",
+				"locale": "ru-RU",
+				"androidCode": "ru-rRU",
+				"bcp47Code": "b+ru+RU",
+				"osxCode": "ru.lproj",
+				"osxLocale": "ru",
+				"pluralCategoryNames": [
+					"one",
+					"few",
+					"many",
+					"other"
+				],
+				"pluralRules": "((n%10==1 && n%100!=11) ? 0 : ((n%10 >= 2 && n%10 <=4 && (n%100 < 12 || n%100 > 14)) ? 1 : ((n%10 == 0 || (n%10 >= 5 && n%10 <=9)) || (n%100 >= 11 && n%100 <= 14)) ? 2 : 3))",
+				"pluralExamples": [
+					"1, 21, 31, 41, 51, 61, 71, 81...",
+					"2-4, 22-24, 32-34, 42-44, 52-54, 62...",
+					"0, 5-19, 100, 1000, 10000...",
+					"0.0-0.9, 1.1-1.6, 10.0, 100.0..."
+				],
+				"textDirection": "ltr",
+				"dialectOf": null
+			}
+		],
+		"webUrl": "https:\/\/crowdin.com\/project\/typo3-extension-schema",
+		"savingsReportSettingsTemplateId": null,
+		"saveMetaInfoInSource": true,
+		"skipUntranslatedFiles": true,
+		"tmContextType": "segmentContext"
+	}
+}

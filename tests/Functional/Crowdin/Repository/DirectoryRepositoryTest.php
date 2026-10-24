@@ -36,14 +36,14 @@ final class DirectoryRepositoryTest extends RepositoryTestCase
             ),
         );
 
-        $actual = $this->subject->findByFilter(self::PROJECT_ID, $filter);
+        $actual = $this->subject->findByFilter(self::CORE_PROJECT_ID, $filter);
 
         self::assertIsArray($actual);
         self::assertCount(3, $actual);
 
         self::assertInstanceOf(Directory::class, $actual[0]);
         self::assertSame(662, $actual[0]->id);
-        self::assertSame(self::PROJECT_ID, $actual[0]->projectId);
+        self::assertSame(self::CORE_PROJECT_ID, $actual[0]->projectId);
         self::assertSame(656, $actual[0]->branchId);
         self::assertSame(660, $actual[0]->directoryId);
         self::assertSame($filter, $actual[0]->name);
@@ -51,7 +51,7 @@ final class DirectoryRepositoryTest extends RepositoryTestCase
 
         self::assertInstanceOf(Directory::class, $actual[1]);
         self::assertSame(11996, $actual[1]->id);
-        self::assertSame(self::PROJECT_ID, $actual[1]->projectId);
+        self::assertSame(self::CORE_PROJECT_ID, $actual[1]->projectId);
         self::assertSame(11982, $actual[1]->branchId);
         self::assertSame(11994, $actual[1]->directoryId);
         self::assertSame($filter, $actual[1]->name);
@@ -59,7 +59,7 @@ final class DirectoryRepositoryTest extends RepositoryTestCase
 
         self::assertInstanceOf(Directory::class, $actual[2]);
         self::assertSame(14148, $actual[2]->id);
-        self::assertSame(self::PROJECT_ID, $actual[2]->projectId);
+        self::assertSame(self::CORE_PROJECT_ID, $actual[2]->projectId);
         self::assertSame(14142, $actual[2]->branchId);
         self::assertSame(14146, $actual[2]->directoryId);
         self::assertSame($filter, $actual[2]->name);
@@ -91,6 +91,6 @@ BODY,
             ),
         );
 
-        $this->subject->findByFilter(self::PROJECT_ID, 'adminpanel');
+        $this->subject->findByFilter(self::CORE_PROJECT_ID, 'adminpanel');
     }
 }

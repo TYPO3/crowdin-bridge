@@ -10,7 +10,6 @@ use CrowdinApiClient\Model\Project as CrowdinProject;
 
 /**
  * Connect to the Project API of Crowdin
- * @see https://support.crowdin.com/developer/api/v2/#tag/Projects
  */
 final readonly class ProjectRepository
 {
@@ -18,9 +17,17 @@ final readonly class ProjectRepository
         private Crowdin $client
     ) {}
 
+    /**
+     * @link https://support.crowdin.com/developer/api/v2/#tag/Projects/operation/api.projects.get Documentation
+     */
     public function findById(int $id): ?Project
     {
-        $project = $this->client->project->get($id);
+        try {
+            $project = $this->client->project->get($id);
+        } catch (\Throwable $t) {
+            throw RepositoryException::fromThrowable($t);
+        }
+
         if ($project instanceof CrowdinProject) {
             return Project::fromCrowdinProject($project);
         }

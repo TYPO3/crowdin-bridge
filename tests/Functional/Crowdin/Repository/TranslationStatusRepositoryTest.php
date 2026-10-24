@@ -26,7 +26,7 @@ final class TranslationStatusRepositoryTest extends RepositoryTestCase
     public function findByProjectIdReturnsTranslationProgressCorrectly(): void
     {
         self::$server->setResponseOfPath(
-            \sprintf('/api/v2/projects/%d/languages/progress', self::PROJECT_ID),
+            \sprintf('/api/v2/projects/%d/languages/progress', self::CORE_PROJECT_ID),
             new Response(
                 \file_get_contents(__DIR__ . '/Fixtures/TranslationStatus/project-progress.json'),
                 ['content-type' => 'application/json'],
@@ -34,7 +34,7 @@ final class TranslationStatusRepositoryTest extends RepositoryTestCase
             ),
         );
 
-        $actual = $this->subject->findByProjectId(self::PROJECT_ID);
+        $actual = $this->subject->findByProjectId(self::CORE_PROJECT_ID);
 
         self::assertCount(42, $actual);
         foreach ($actual as $translationProgress) {
@@ -57,7 +57,7 @@ final class TranslationStatusRepositoryTest extends RepositoryTestCase
         $this->expectExceptionMessageIs('Resource Not Found');
 
         self::$server->setResponseOfPath(
-            \sprintf('/api/v2/projects/%d/languages/progress', self::PROJECT_ID),
+            \sprintf('/api/v2/projects/%d/languages/progress', self::CORE_PROJECT_ID),
             new Response(
                 <<<BODY
 {
@@ -72,14 +72,14 @@ BODY,
             ),
         );
 
-        $this->subject->findByProjectId(self::PROJECT_ID);
+        $this->subject->findByProjectId(self::CORE_PROJECT_ID);
     }
 
     #[Test]
     public function findByBranchIdReturnsTranslationProgressCorrectly(): void
     {
         self::$server->setResponseOfPath(
-            \sprintf('/api/v2/projects/%d/branches/%d/languages/progress', self::PROJECT_ID, 42),
+            \sprintf('/api/v2/projects/%d/branches/%d/languages/progress', self::CORE_PROJECT_ID, 42),
             new Response(
                 \file_get_contents(__DIR__ . '/Fixtures/TranslationStatus/branch-progress.json'),
                 ['content-type' => 'application/json'],
@@ -87,7 +87,7 @@ BODY,
             ),
         );
 
-        $actual = $this->subject->findByBranchId(self::PROJECT_ID, 42);
+        $actual = $this->subject->findByBranchId(self::CORE_PROJECT_ID, 42);
 
         self::assertCount(42, $actual);
         foreach ($actual as $translationProgress) {
@@ -110,7 +110,7 @@ BODY,
         $this->expectExceptionMessageIs('Resource Not Found');
 
         self::$server->setResponseOfPath(
-            \sprintf('/api/v2/projects/%d/branches/%d/languages/progress', self::PROJECT_ID, 42),
+            \sprintf('/api/v2/projects/%d/branches/%d/languages/progress', self::CORE_PROJECT_ID, 42),
             new Response(
                 <<<BODY
 {
@@ -125,14 +125,14 @@ BODY,
             ),
         );
 
-        $this->subject->findByBranchId(self::PROJECT_ID, 42);
+        $this->subject->findByBranchId(self::CORE_PROJECT_ID, 42);
     }
 
     #[Test]
     public function findByDirectoryIdReturnsTranslationProgressCorrectly(): void
     {
         self::$server->setResponseOfPath(
-            \sprintf('/api/v2/projects/%d/directories/%d/languages/progress', self::PROJECT_ID, 42),
+            \sprintf('/api/v2/projects/%d/directories/%d/languages/progress', self::CORE_PROJECT_ID, 42),
             new Response(
                 \file_get_contents(__DIR__ . '/Fixtures/TranslationStatus/directory-progress.json'),
                 ['content-type' => 'application/json'],
@@ -140,7 +140,7 @@ BODY,
             ),
         );
 
-        $actual = $this->subject->findByDirectoryId(self::PROJECT_ID, 42);
+        $actual = $this->subject->findByDirectoryId(self::CORE_PROJECT_ID, 42);
 
         self::assertCount(42, $actual);
         foreach ($actual as $translationProgress) {
@@ -163,7 +163,7 @@ BODY,
         $this->expectExceptionMessageIs('Resource Not Found');
 
         self::$server->setResponseOfPath(
-            \sprintf('/api/v2/projects/%d/directories/%d/languages/progress', self::PROJECT_ID, 42),
+            \sprintf('/api/v2/projects/%d/directories/%d/languages/progress', self::CORE_PROJECT_ID, 42),
             new Response(
                 <<<BODY
 {
@@ -178,6 +178,6 @@ BODY,
             ),
         );
 
-        $this->subject->findByDirectoryId(self::PROJECT_ID, 42);
+        $this->subject->findByDirectoryId(self::CORE_PROJECT_ID, 42);
     }
 }

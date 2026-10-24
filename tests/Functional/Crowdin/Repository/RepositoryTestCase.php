@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
 
 abstract class RepositoryTestCase extends TestCase
 {
-    protected const int PROJECT_ID = 368815;
+    protected const int CORE_PROJECT_ID = 368815;
 
     protected static MockWebServer $server;
     protected static Crowdin $client;

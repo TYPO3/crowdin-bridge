@@ -27,7 +27,7 @@ final class BranchRepositoryTest extends RepositoryTestCase
     public function findByProjectIdReturnsListOfBranchesCorrectly(): void
     {
         self::$server->setResponseOfPath(
-            \sprintf('/api/v2/projects/%d/branches', self::PROJECT_ID),
+            \sprintf('/api/v2/projects/%d/branches', self::CORE_PROJECT_ID),
             new Response(
                 \file_get_contents(__DIR__ . '/Fixtures/Branch/list.json'),
                 ['content-type' => 'application/json'],
@@ -35,24 +35,24 @@ final class BranchRepositoryTest extends RepositoryTestCase
             ),
         );
 
-        $actual = $this->subject->findByProjectId(self::PROJECT_ID);
+        $actual = $this->subject->findByProjectId(self::CORE_PROJECT_ID);
 
         self::assertIsArray($actual);
         self::assertCount(3, $actual);
 
         self::assertInstanceOf(Branch::class, $actual[0]);
         self::assertSame(656, $actual[0]->id);
-        self::assertSame(self::PROJECT_ID, $actual[0]->projectId);
+        self::assertSame(self::CORE_PROJECT_ID, $actual[0]->projectId);
         self::assertSame('main', $actual[0]->name);
 
         self::assertInstanceOf(Branch::class, $actual[1]);
         self::assertSame(14142, $actual[1]->id);
-        self::assertSame(self::PROJECT_ID, $actual[1]->projectId);
+        self::assertSame(self::CORE_PROJECT_ID, $actual[1]->projectId);
         self::assertSame('14.3', $actual[1]->name);
 
         self::assertInstanceOf(Branch::class, $actual[2]);
         self::assertSame(11982, $actual[2]->id);
-        self::assertSame(self::PROJECT_ID, $actual[2]->projectId);
+        self::assertSame(self::CORE_PROJECT_ID, $actual[2]->projectId);
         self::assertSame('13.4', $actual[2]->name);
     }
 
@@ -64,7 +64,7 @@ final class BranchRepositoryTest extends RepositoryTestCase
         $this->expectExceptionMessageIsOrContains('Service Unavailable');
 
         self::$server->setResponseOfPath(
-            \sprintf('/api/v2/projects/%d/branches', self::PROJECT_ID),
+            \sprintf('/api/v2/projects/%d/branches', self::CORE_PROJECT_ID),
             new Response(
                 <<<BODY
 {
@@ -79,6 +79,6 @@ BODY,
             ),
         );
 
-        $this->subject->findByProjectId(self::PROJECT_ID);
+        $this->subject->findByProjectId(self::CORE_PROJECT_ID);
     }
 }

@@ -25,7 +25,7 @@ final class TranslationRepositoryTest extends RepositoryTestCase
     public function buildProjectForStatusWithoutError(): void
     {
         self::$server->setResponseOfPath(
-            \sprintf('/api/v2/projects/%d/translations/builds', self::PROJECT_ID),
+            \sprintf('/api/v2/projects/%d/translations/builds', self::CORE_PROJECT_ID),
             new Response(
                 \file_get_contents(__DIR__ . '/Fixtures/TranslationStatus/in-progress.json'),
                 ['content-type' => 'application/json'],
@@ -33,7 +33,7 @@ final class TranslationRepositoryTest extends RepositoryTestCase
             ),
         );
 
-        $actual = $this->subject->buildProject(self::PROJECT_ID);
+        $actual = $this->subject->buildProject(self::CORE_PROJECT_ID);
 
         self::assertSame(TranslationProjectBuildStatus::InProgress, $actual->status);
     }
@@ -42,7 +42,7 @@ final class TranslationRepositoryTest extends RepositoryTestCase
     public function buildProjectForStatusWithError(): void
     {
         self::$server->setResponseOfPath(
-            \sprintf('/api/v2/projects/%d/translations/builds', self::PROJECT_ID),
+            \sprintf('/api/v2/projects/%d/translations/builds', self::CORE_PROJECT_ID),
             new Response(
                 \file_get_contents(__DIR__ . '/Fixtures/Translation/finished.json'),
                 ['content-type' => 'application/json'],
@@ -50,7 +50,7 @@ final class TranslationRepositoryTest extends RepositoryTestCase
             ),
         );
 
-        $actual = $this->subject->buildProject(self::PROJECT_ID);
+        $actual = $this->subject->buildProject(self::CORE_PROJECT_ID);
 
         self::assertSame(TranslationProjectBuildStatus::Finished, $actual->status);
         self::assertSame('Export failed: the exported file contains invalid data.', $actual->error);
@@ -64,11 +64,11 @@ final class TranslationRepositoryTest extends RepositoryTestCase
         $this->expectExceptionMessageIs('buildProject returned null');
 
         self::$server->setResponseOfPath(
-            \sprintf('/api/v2/projects/%d/translations/builds', self::PROJECT_ID),
+            \sprintf('/api/v2/projects/%d/translations/builds', self::CORE_PROJECT_ID),
             new Response('{}', ['content-type' => 'application/json'], 200)
         );
 
-        $this->subject->buildProject(self::PROJECT_ID);
+        $this->subject->buildProject(self::CORE_PROJECT_ID);
     }
 
     #[Test]
@@ -79,7 +79,7 @@ final class TranslationRepositoryTest extends RepositoryTestCase
         $this->expectExceptionMessageIs('Service Unavailable');
 
         self::$server->setResponseOfPath(
-            \sprintf('/api/v2/projects/%d/translations/builds', self::PROJECT_ID),
+            \sprintf('/api/v2/projects/%d/translations/builds', self::CORE_PROJECT_ID),
             new Response(
                 <<<BODY
 {
@@ -94,6 +94,6 @@ BODY,
             )
         );
 
-        $this->subject->buildProject(self::PROJECT_ID);
+        $this->subject->buildProject(self::CORE_PROJECT_ID);
     }
 }
