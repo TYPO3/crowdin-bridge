@@ -27,6 +27,10 @@ class LanguageRepository
         private PathResolver $pathResolver,
     ) {}
 
+    /**
+     * @throws \JsonException
+     * @throws \RuntimeException
+     */
     public function findById(string $id): ?Language
     {
         return $this->getAllLanguages()
