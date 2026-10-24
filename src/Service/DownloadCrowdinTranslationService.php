@@ -24,6 +24,7 @@ final class DownloadCrowdinTranslationService
     private string $projectIdentifier;
 
     public function __construct(
+        private readonly CoreInformation $coreInformation,
         private readonly LoggerInterface $logger,
         private readonly PathResolver $pathResolver,
         private readonly ProjectApi $projectApi,
@@ -140,7 +141,7 @@ final class DownloadCrowdinTranslationService
 
     protected function processDownloadDirectoryCore(string $directory, $language): void
     {
-        $branches = CoreInformation::getAllCoreBranches();
+        $branches = $this->coreInformation->getAllCoreBranches();
         foreach ($branches as $branch) {
             $sysExtDir = $directory . $branch . '/typo3/sysext/';
             if (!is_dir($sysExtDir)) {
@@ -157,10 +158,10 @@ final class DownloadCrowdinTranslationService
             $exportPath = $this->pathResolver->getFinalPath();
             FileHandling::mkdir_deep($exportPath);
             $language = LanguageInformation::getLanguageForTypo3($language);
-            $zipBranchName = CoreInformation::getVersionForBranchName($branch);
+            $zipBranchName = $this->coreInformation->getVersionForBranchName($branch);
             foreach ($sysExtList as $extensionKey) {
                 $source = $sysExtDir . $extensionKey;
-                if (in_array($extensionKey, CoreInformation::getAllCoreExtensionKeys(), true)) {
+                if (in_array($extensionKey, $this->coreInformation->getAllCoreExtensionKeys(), true)) {
                     $zipPath = $exportPath . sprintf('/%s-l10n-%s.v%s.zip', $extensionKey, $language, $zipBranchName);
                 } else {
                     $zipPath = $exportPath . sprintf('/%s-l10n-%s.zip', $extensionKey, $language);

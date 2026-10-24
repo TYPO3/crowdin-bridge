@@ -16,6 +16,7 @@ use App\Crowdin\Repository\DirectoryRepository;
 use App\Crowdin\Repository\LanguageRepository;
 use App\Crowdin\Repository\TranslationStatusRepository;
 use App\File\PathResolver;
+use App\Info\CoreInformation;
 use App\Status\Core\StatusWriter;
 use App\Status\Core\TranslationStatusExporter;
 use Lcobucci\Clock\FrozenClock;
@@ -38,6 +39,21 @@ final class TranslationStatusExporterTest extends TestCase
     protected function setUp(): void
     {
         $this->branchRepositoryStub = self::createStub(BranchRepository::class);
+
+        $coreInformationStub = self::createStub(CoreInformation::class);
+        $coreInformationStub
+            ->method('getVersionForBranchName')
+            ->willReturnMap([
+                ['main', 15],
+                ['14.3', 14],
+                ['13.4', 13],
+            ]);
+        $coreInformationStub
+            ->method('getAllCoreExtensionKeys')
+            ->willReturn([
+                'adminpanel',
+                'backend',
+            ]);
 
         $this->directoryRepositoryStub = self::createStub(DirectoryRepository::class);
 
@@ -66,6 +82,7 @@ final class TranslationStatusExporterTest extends TestCase
 
         $this->translationStatusExporter = new TranslationStatusExporter(
             $this->branchRepositoryStub,
+            $coreInformationStub,
             $this->directoryRepositoryStub,
             $this->pathResolverStub,
             $statusWriter,

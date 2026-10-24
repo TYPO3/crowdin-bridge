@@ -68,13 +68,13 @@ readonly class CoreInformation
         'workspaces',
     ];
 
-    public static function getLatestVersion(): int
+    public function getLatestVersion(): int
     {
         $allVersions = self::VERSIONS;
         return reset($allVersions);
     }
 
-    public static function getVersionForBranchName(string $branch): int
+    public function getVersionForBranchName(string $branch): int
     {
         if ($branch === 'main') {
             return self::getLatestVersion();
@@ -89,7 +89,7 @@ readonly class CoreInformation
     /**
      * @return list<string> List of Core extension keys
      */
-    public static function getAllCoreExtensionKeys(): array
+    public function getAllCoreExtensionKeys(): array
     {
         return self::CORE_EXTENSIONS;
     }
@@ -97,7 +97,7 @@ readonly class CoreInformation
     /**
      * @return list<string> List of version numbers like "14.3", "13.4" and "main"
      */
-    public static function getAllCoreBranches(): array
+    public function getAllCoreBranches(): array
     {
         $branches = array_values(self::BRANCH_MAPPING);
         $branches[] = 'main';

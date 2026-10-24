@@ -21,6 +21,7 @@ readonly class TranslationStatusExporter
 {
     public function __construct(
         private BranchRepository $branchRepository,
+        private CoreInformation $coreInformation,
         private DirectoryRepository $directoryRepository,
         private PathResolver $pathResolver,
         private StatusWriter $statusWriter,
@@ -34,9 +35,9 @@ readonly class TranslationStatusExporter
         $output->advance('Retrieving list of branches ...');
         $branches = array_filter(
             $this->branchRepository->findByProjectId($project->id),
-            static function (Branch $branch): bool {
+            function (Branch $branch): bool {
                 try {
-                    CoreInformation::getVersionForBranchName($branch->name);
+                    $this->coreInformation->getVersionForBranchName($branch->name);
                     return true;
                 } catch (\UnexpectedValueException) {
                     return false;
@@ -69,9 +70,9 @@ readonly class TranslationStatusExporter
 
         $branches = array_filter(
             $branches,
-            static function (Branch $branch): bool {
+            function (Branch $branch): bool {
                 try {
-                    CoreInformation::getVersionForBranchName($branch->name);
+                    $this->coreInformation->getVersionForBranchName($branch->name);
                     return true;
                 } catch (\UnexpectedValueException) {
                     return false;
@@ -102,7 +103,7 @@ readonly class TranslationStatusExporter
     {
         $translationProgressesByDirectory = [];
 
-        foreach (CoreInformation::getAllCoreExtensionKeys() as $extensionKey) {
+        foreach ($this->coreInformation->getAllCoreExtensionKeys() as $extensionKey) {
             $output->advance(\sprintf('Retrieving translation statuses for system extension "%s" ...', $extensionKey));
 
             // Filter directories by configured branches
