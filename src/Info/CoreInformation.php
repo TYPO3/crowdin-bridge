@@ -5,30 +5,42 @@ declare(strict_types=1);
 namespace App\Info;
 
 /**
- * Version and system extension information for TYPO3 Code
+ * Version and system extension information for TYPO3 Core
  * @see /docs/CoreVersions.md
  */
-readonly class CoreInformation
+class CoreInformation
 {
     /**
      * Important: highest first
      *
      * First version in array defines the version for monorepo `main` branch. {@see self::getLatestVersion()}
+     *
+     * @var list<int> $versions
      */
-    private const array VERSIONS = [15, 14, 13];
+    protected array $versions = [
+        15,
+        14,
+        13,
+    ];
 
     /**
      * Important: latest version will map to main automatically
      *
      * Major version to main development branch mapping.
+     *
+     * @var array<int, string> $branchMapping
      */
-    private const array BRANCH_MAPPING = [
+    protected array $branchMapping = [
         14 => '14.3',
         13 => '13.4',
     ];
 
-    // rte_ckeditor got no translations
-    private const array CORE_EXTENSIONS = [
+    //
+    /**
+     * rte_ckeditor has no translations
+     * @var list<string>
+     */
+    protected array $coreExtensions = [
         'adminpanel',
         'backend',
         'belog',
@@ -70,8 +82,8 @@ readonly class CoreInformation
 
     public function getLatestVersion(): int
     {
-        $allVersions = self::VERSIONS;
-        return reset($allVersions);
+        $allVersions = $this->versions;
+        return reset($allVersions) ?: throw new \DomainException('Latest Core version could not be determined!', 1792838931);
     }
 
     public function getVersionForBranchName(string $branch): int
@@ -79,7 +91,7 @@ readonly class CoreInformation
         if ($branch === 'main') {
             return self::getLatestVersion();
         }
-        $version = array_search($branch, self::BRANCH_MAPPING, true);
+        $version = array_search($branch, $this->branchMapping, true);
         if ($version === false) {
             throw new \UnexpectedValueException(sprintf('Branch "%s" not found', $branch), 1567647855);
         }
@@ -91,7 +103,7 @@ readonly class CoreInformation
      */
     public function getAllCoreExtensionKeys(): array
     {
-        return self::CORE_EXTENSIONS;
+        return $this->coreExtensions;
     }
 
     /**
@@ -99,7 +111,7 @@ readonly class CoreInformation
      */
     public function getAllCoreBranches(): array
     {
-        $branches = array_values(self::BRANCH_MAPPING);
+        $branches = array_values($this->branchMapping);
         $branches[] = 'main';
 
         return $branches;
