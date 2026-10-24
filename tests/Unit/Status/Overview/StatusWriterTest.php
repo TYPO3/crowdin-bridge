@@ -150,4 +150,60 @@ final class StatusWriterTest extends TestCase
 
         self::assertJsonFileEqualsJsonFile(__DIR__ . '/Expected/statuswriter.json', $rsyncPath . '/status.json');
     }
+
+    #[Test]
+    public function writeCollectsErrorForTranslationStatusRepositoryCorrectly(): void
+    {
+        $jsonStatusWriter = new JsonStatusWriter(self::createStub(PathResolver::class));
+        $frontendWriterDummy = self::createStub(FrontendWriter::class);
+
+        $project1 = new Project(
+            1,
+            'typo3-cms',
+            'typo3-cms',
+            [
+                new Language('ro', 'Romanian'),
+                new Language('de', 'German'),
+                new Language('it', 'Italian'),
+            ]
+        );
+        $projectCollection = new ProjectCollection($project1);
+
+        $translationStatusRepositoryStub = self::createStub(TranslationStatusRepository::class);
+        $translationStatusRepositoryStub
+            ->method('findByProjectId')
+            ->willThrowException(new \Exception('Some foo error'));
+
+        $outputStub = new class implements OutputInterface {
+            public array $errors = [];
+
+            public function start(int $max): void
+            {
+                // do nothing
+            }
+
+            public function advance(string $text): void
+            {
+                // do nothing
+            }
+
+            public function finish(array $errors): void
+            {
+                $this->errors = $errors;
+            }
+        };
+
+        $subject = new StatusWriter(new FrozenClock(new \DateTimeImmutable('2026-08-07 00:00:00',
+            new \DateTimeZone('UTC'))),
+            $jsonStatusWriter,
+            $frontendWriterDummy,
+            $projectCollection,
+            $translationStatusRepositoryStub,
+        );
+        $subject->write($outputStub);
+
+        self::assertCount(2, $outputStub->errors);
+        self::assertSame('Error while retrieving progress for project "typo3-cms": Some foo error', $outputStub->errors[0]);
+        self::assertSame('An error occurred while writing the frontend: JSON with path "/status.json" cannot be written.', $outputStub->errors[1]);
+    }
 }
