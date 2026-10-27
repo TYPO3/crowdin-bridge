@@ -7,7 +7,7 @@
  */
 
 import { loadGrid } from './status/grid.js';
-import { defaultView } from './status/views/index.js';
+import { resolveView } from './status/views/index.js';
 
 // Init grid
-loadGrid(defaultView);
+loadGrid(resolveView());
