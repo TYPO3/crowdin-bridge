@@ -31,6 +31,7 @@ readonly class StatusWriter
                 $languages[$language->id] = $language->name;
             }
         }
+        uasort($languages, static fn(string $a, string $b) => $a <=> $b);
 
         /**
          * @var list<array{
