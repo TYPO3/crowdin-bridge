@@ -54,7 +54,7 @@ final class TranslationStatusExporterTest extends TestCase
                 'adminpanel',
                 'backend',
                 'core',
-                'fluid',
+                'form',
                 'reactions',
                 'seo',
                 'webhooks',
@@ -115,11 +115,12 @@ final class TranslationStatusExporterTest extends TestCase
                 new Directory(201, 1, 101, 301, 'adminpanel', '/main/sysext/typo3/adminpanel'),
                 new Directory(202, 1, 101, 302, 'backend', '/main/sysext/typo3/backend'),
                 new Directory(203, 1, 102, 303, 'core', '/14.3/sysext/typo3/core'),
-                new Directory(204, 1, 102, 304, 'fluid', '/14.3/sysext/typo3/fluid'),
-                new Directory(205, 1, 103, 305, 'reactions', '/13.4/sysext/typo3/reactions'),
-                new Directory(206, 1, 103, 306, 'seo', '/13.4/sysext/typo3/seo'),
-                new Directory(207, 1, 104, 307, 'webhooks', '/12.4/sysext/typo3/webhooks'),
-                new Directory(208, 1, 104, 308, 'workspaces', '/12.4/sysext/typo3/workspaces'),
+                new Directory(204, 1, 102, 304, 'form', '/14.3/sysext/typo3/core/Resources/Private/Language/Form'),
+                new Directory(205, 1, 102, 305, 'form', '/14.3/sysext/typo3/form'),
+                new Directory(206, 1, 103, 306, 'reactions', '/13.4/sysext/typo3/reactions'),
+                new Directory(207, 1, 103, 307, 'seo', '/13.4/sysext/typo3/seo'),
+                new Directory(208, 1, 104, 308, 'webhooks', '/12.4/sysext/typo3/webhooks'),
+                new Directory(209, 1, 104, 309, 'workspaces', '/12.4/sysext/typo3/workspaces'),
             ]);
 
         $this->translationStatusRepositoryStub
@@ -200,7 +201,7 @@ final class TranslationStatusExporterTest extends TestCase
                     "approvals": [],
                     "translations": []
                 },
-                "fluid": {
+                "form": {
                     "approvals": [],
                     "translations": []
                 }
