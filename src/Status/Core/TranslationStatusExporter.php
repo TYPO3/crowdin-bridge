@@ -109,10 +109,14 @@ readonly class TranslationStatusExporter
             // Filter directories by configured branches
             $directories = array_filter(
                 $this->directoryRepository->findByFilter($project->id, $extensionKey),
-                function (Directory $directory) use ($branches): bool {
+                function (Directory $directory) use ($branches, $extensionKey): bool {
                     try {
+                        // If the branch does not exist, the method throws an exception
                         $this->getBranchForDirectory($directory, $branches);
-                        return true;
+                        // $directory->path is something like "/main/typo3/sysext/form" or "/main/typo3/sysext/core/Resources/Private/Language/Form"
+                        // We only want the first one!
+                        [,,,,$extensionKeyFromPath] = explode('/', $directory->path);
+                        return $extensionKeyFromPath === $extensionKey;
                     } catch (UnavailableBranchException) {
                         return false;
                     }

@@ -53,6 +53,12 @@ final class TranslationStatusExporterTest extends TestCase
             ->willReturn([
                 'adminpanel',
                 'backend',
+                'core',
+                'fluid',
+                'reactions',
+                'seo',
+                'webhooks',
+                'workspaces',
             ]);
 
         $this->directoryRepositoryStub = self::createStub(DirectoryRepository::class);
