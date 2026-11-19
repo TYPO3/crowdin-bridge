@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Crowdin\Dto;
+namespace App\Crowdin\Entity;
 
 use App\Crowdin\Enum\TranslationProjectBuildStatus as Status;
 use CrowdinApiClient\Model\TranslationProjectBuild as CrowdinTranslationProjectBuild;
@@ -10,11 +10,12 @@ use CrowdinApiClient\Model\TranslationProjectBuild as CrowdinTranslationProjectB
 final readonly class TranslationProjectBuild
 {
     public function __construct(
+        public int $id,
         public Status $status,
         public string $error,
     ) {}
 
-    public static function fromCrowdinTranslationProjectBuildStatus(CrowdinTranslationProjectBuild $build): self
+    public static function fromCrowdinTranslationProjectBuild(CrowdinTranslationProjectBuild $build): self
     {
         $status = Status::tryFrom($build->getStatus());
         if (!$status instanceof Status) {
@@ -27,6 +28,7 @@ final readonly class TranslationProjectBuild
         }
 
         return new self(
+            $build->getId(),
             $status,
             $build->getError()['message'] ?? '',
         );

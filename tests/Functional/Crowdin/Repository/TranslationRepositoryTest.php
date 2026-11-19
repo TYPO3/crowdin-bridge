@@ -35,7 +35,9 @@ final class TranslationRepositoryTest extends RepositoryTestCase
 
         $actual = $this->subject->buildProject(self::CORE_PROJECT_ID);
 
+        self::assertSame(1285481, $actual->id);
         self::assertSame(TranslationProjectBuildStatus::InProgress, $actual->status);
+        self::assertSame('', $actual->error);
     }
 
     #[Test]
@@ -95,5 +97,47 @@ BODY,
         );
 
         $this->subject->buildProject(self::CORE_PROJECT_ID);
+    }
+
+    #[Test]
+    public function getProjectBuildsReturnsBuildsCorrectly(): void
+    {
+        self::$server->setResponseOfPath(
+            \sprintf('/api/v2/projects/%s/translations/builds', self::CORE_PROJECT_ID),
+            new Response(
+                \file_get_contents(__DIR__ . '/Fixtures/Translation/builds.json'),
+                ['content-type' => 'application/json'],
+                200,
+            ),
+        );
+
+        $actual = $this->subject->getProjectBuilds(self::CORE_PROJECT_ID);
+
+        self::assertCount(2, $actual);
+        self::assertSame(1285659, $actual[0]->id);
+        self::assertSame(TranslationProjectBuildStatus::Finished, $actual[0]->status);
+        self::assertSame('', $actual[0]->error);
+        self::assertSame(1285660, $actual[1]->id);
+        self::assertSame(TranslationProjectBuildStatus::InProgress, $actual[1]->status);
+        self::assertSame('', $actual[1]->error);
+    }
+
+    #[Test]
+    public function getProjectBuildsWithError(): void
+    {
+        $this->expectException(RepositoryException::class);
+        $this->expectExceptionCode(404);
+        $this->expectExceptionMessageIs('Project Not Found');
+
+        self::$server->setResponseOfPath(
+            \sprintf('/api/v2/projects/%s/translations/builds', 42),
+            new Response(
+                \file_get_contents(__DIR__ . '/Fixtures/Translation/builds-error.json'),
+                ['content-type' => 'application/json'],
+                404,
+            ),
+        );
+
+        $this->subject->getProjectBuilds(42);
     }
 }

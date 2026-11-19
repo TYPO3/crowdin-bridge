@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Crowdin\Repository;
 
-use App\Crowdin\Dto\TranslationProjectBuild;
+use App\Crowdin\Entity\TranslationProjectBuild;
 use CrowdinApiClient\Crowdin;
 use CrowdinApiClient\Model\TranslationProjectBuild as CrowdinTranslationProjectBuild;
 
@@ -34,7 +34,23 @@ final readonly class TranslationRepository
                 throw new RepositoryException('buildProject returned null', 0);
             }
 
-            return TranslationProjectBuild::fromCrowdinTranslationProjectBuildStatus($build);
+            return TranslationProjectBuild::fromCrowdinTranslationProjectBuild($build);
+        } catch (\Throwable $t) {
+            throw RepositoryException::fromThrowable($t);
+        }
+    }
+
+    /**
+     * @return list<TranslationProjectBuild>
+     * @link https://developer.crowdin.com/api/v2/#operation/api.projects.translations.builds.getMany Documentation
+     */
+    public function getProjectBuilds(int $projectId): array
+    {
+        try {
+            return array_map(static function (CrowdinTranslationProjectBuild $crowdinTranslationProjectBuild): TranslationProjectBuild {
+                return TranslationProjectBuild::fromCrowdinTranslationProjectBuild($crowdinTranslationProjectBuild);
+            }, iterator_to_array($this->client->translation->getProjectBuilds($projectId)))
+                    |> array_values(...);
         } catch (\Throwable $t) {
             throw RepositoryException::fromThrowable($t);
         }

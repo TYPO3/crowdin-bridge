@@ -1,0 +1,46 @@
+{
+	"data": [
+		{
+			"data": {
+				"id": 1285659,
+				"projectId": 368815,
+				"status": "finished",
+				"progress": 100,
+				"createdAt": "2026-11-19T16:03:19+00:00",
+				"updatedAt": "2026-11-19T16:11:57+00:00",
+				"finishedAt": "2026-11-19T16:11:57+00:00",
+				"attributes": {
+					"branchId": null,
+					"directoryId": null,
+					"targetLanguageIds": [],
+					"skipUntranslatedStrings": true,
+					"skipUntranslatedFiles": false,
+					"exportApprovedOnly": true
+				}
+			}
+		},
+		{
+			"data": {
+				"id": 1285660,
+				"projectId": 368815,
+				"status": "inProgress",
+				"progress": 80,
+				"createdAt": "2026-11-19T16:12:19+00:00",
+				"updatedAt": "2026-11-19T16:15:57+00:00",
+				"finishedAt": "2026-11-19T16:15:57+00:00",
+				"attributes": {
+					"branchId": null,
+					"directoryId": null,
+					"targetLanguageIds": [],
+					"skipUntranslatedStrings": true,
+					"skipUntranslatedFiles": false,
+					"exportApprovedOnly": true
+				}
+			}
+		}
+	],
+	"pagination": {
+		"offset": 0,
+		"limit": 25
+	}
+}

@@ -6,7 +6,11 @@ namespace App\Service;
 
 use App\Api\Wrapper\ProjectApi;
 use App\Api\Wrapper\TranslationApi;
+use App\Crowdin\Entity\TranslationProjectBuild;
+use App\Crowdin\Enum\TranslationProjectBuildStatus;
+use App\Crowdin\Repository\TranslationRepository;
 use App\Entity\ProjectConfiguration;
+use App\Exception\NoFinishedProjectBuildFoundException;
 use App\Exception\NoTranslationsAvailableException;
 use App\File\PathResolver;
 use App\Info\CoreInformation;
@@ -28,7 +32,8 @@ final class DownloadCrowdinTranslationService
         private readonly LoggerInterface $logger,
         private readonly PathResolver $pathResolver,
         private readonly ProjectApi $projectApi,
-        private readonly TranslationApi $translationApi
+        private readonly TranslationApi $translationApi,
+        private readonly TranslationRepository $translationRepository,
     ) {}
 
     public function downloadPackageCore(array $listOfLanguages = []): void
@@ -284,7 +289,7 @@ final class DownloadCrowdinTranslationService
 
         $finalName = $path . '/' . $this->projectIdentifier . '.zip';
         if (!is_file($finalName)) {
-            $buildId = $this->translationApi->getLastFinishedBuildId($localProject->getId());
+            $buildId = $this->getLastFinishedBuildId($localProject->getId());
             $downloadFile = $this->translationApi->downloadProject($localProject->getId(), $buildId);
 
             if (!$downloadFile) {
@@ -301,6 +306,18 @@ final class DownloadCrowdinTranslationService
         $this->logger->info(sprintf('Downloaded "%s" to "%s"', $this->projectIdentifier, $finalName));
 
         return $finalName;
+    }
+
+    private function getLastFinishedBuildId(int $projectId): int
+    {
+        $finishedBuild = array_find(
+            $this->translationRepository->getProjectBuilds($projectId),
+            static fn(TranslationProjectBuild $build): bool => $build->status === TranslationProjectBuildStatus::Finished
+        ) ?? throw new NoFinishedProjectBuildFoundException(
+            sprintf('No finished build found for project "%s"', $projectId)
+        );
+
+        return $finishedBuild->id;
     }
 
     /**

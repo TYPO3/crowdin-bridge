@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 
-namespace App\Tests\Unit\Crowdin\Dto;
+namespace App\Tests\Unit\Crowdin\Entity;
 
-use App\Crowdin\Dto\TranslationProjectBuild;
+use App\Crowdin\Entity\TranslationProjectBuild;
 use App\Crowdin\Enum\TranslationProjectBuildStatus;
 use CrowdinApiClient\Model\TranslationProjectBuild as CrowdinTranslationProjectBuild;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -19,14 +19,16 @@ final class TranslationProjectBuildTest extends TestCase
     public function fromCrowdinTranslationProjectBuildStatusInstantiatesObjectCorrectly(): void
     {
         $build = new CrowdinTranslationProjectBuild([
+            'id' => 42,
             'status' => 'failed',
             'error' => [
                 'message' => 'some error',
             ]
         ]);
 
-        $actual = TranslationProjectBuild::fromCrowdinTranslationProjectBuildStatus($build);
+        $actual = TranslationProjectBuild::fromCrowdinTranslationProjectBuild($build);
 
+        self::assertSame(42, $actual->id);
         self::assertSame(TranslationProjectBuildStatus::Failed, $actual->status);
         self::assertSame('some error', $actual->error);
     }
@@ -41,6 +43,6 @@ final class TranslationProjectBuildTest extends TestCase
             'status' => 'foobar',
         ]);
 
-        TranslationProjectBuild::fromCrowdinTranslationProjectBuildStatus($build);
+        TranslationProjectBuild::fromCrowdinTranslationProjectBuild($build);
     }
 }
