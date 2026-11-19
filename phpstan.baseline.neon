@@ -1,18 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: '#^Method App\\Command\\Extract\\ExtractExtensionCommand\:\:downloadProject\(\) has parameter \$listOfLanguages with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Command/Extract/ExtractExtensionCommand.php
-
-		-
-			message: '#^Property App\\Command\\Extract\\ExtractExtensionCommand\:\:\$skippedExtensions type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Command/Extract/ExtractExtensionCommand.php
-
-		-
 			message: '#^Method App\\Entity\\BridgeConfiguration\:\:add\(\) has parameter \$data with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -80,12 +68,6 @@ parameters:
 
 		-
 			message: '#^Method App\\Service\\DownloadCrowdinTranslationService\:\:downloadPackageCore\(\) has parameter \$listOfLanguages with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Service/DownloadCrowdinTranslationService.php
-
-		-
-			message: '#^Method App\\Service\\DownloadCrowdinTranslationService\:\:downloadPackageExtension\(\) has parameter \$listOfLanguages with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
 			path: src/Service/DownloadCrowdinTranslationService.php

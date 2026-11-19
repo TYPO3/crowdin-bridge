@@ -21,6 +21,9 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 final class ExtractExtensionCommand extends Command
 {
+    /**
+     * @var array<string, string> Key = project name, value can reference an issue or another source
+     */
     private array $skippedExtensions = [
         'typo3-extension-pastereference' => 'https://github.com/Kephson/paste_reference/issues/38',
     ];
@@ -35,15 +38,16 @@ final class ExtractExtensionCommand extends Command
     protected function configure(): void
     {
         $this
-            ->addArgument('project', InputArgument::OPTIONAL, 'Project identifier')
-            ->addArgument('languages', InputArgument::IS_ARRAY, 'Project identifier');
+            ->addArgument('project', InputArgument::OPTIONAL, 'Project identifier (for example: "typo3-extension-news")')
+            ->addArgument('languages', InputArgument::IS_ARRAY, 'Language ISO Codes (for example: "de fr")');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
         $projectIdentifier = $input->getArgument('project');
-        $languages = (array)$input->getArgument('languages');
+        $languages = (array)$input->getArgument('languages')
+            |> array_values(...);
 
         if ($projectIdentifier) {
             $project = $this->projectCollection->findByIdentifier($projectIdentifier);
@@ -75,6 +79,9 @@ final class ExtractExtensionCommand extends Command
         return Command::SUCCESS;
     }
 
+    /**
+     * @param list<string> $listOfLanguages
+     */
     protected function downloadProject(string $projectIdentifier, array $listOfLanguages, bool $verbose, SymfonyStyle $io): void
     {
         if ($projectIdentifier === 'typo3-cms') {

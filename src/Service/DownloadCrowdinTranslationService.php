@@ -58,6 +58,9 @@ final class DownloadCrowdinTranslationService
         $this->moveAllToRsyncDestination();
     }
 
+    /**
+     * @param list<string> $listOfLanguages
+     */
     public function downloadPackageExtension(string $projectIdentifier, array $listOfLanguages = []): array
     {
         $exportedLanguages = [];
