@@ -12,12 +12,14 @@ class FileHandling
      * @param string $path Absolute path to folder, see PHP rmdir() function. Removes trailing slash internally.
      * @param bool $removeNonEmpty Allow deletion of non-empty directories
      * @return bool TRUE if operation was successful
+     *
+     * @see \TYPO3\CMS\Core\Utility\GeneralUtility::rmdir()
      */
-    public static function rmdir($path, $removeNonEmpty = false)
+    public static function rmdir(string $path, bool $removeNonEmpty = false): bool
     {
         $OK = false;
         // Remove trailing slash
-        $path = preg_replace('|/$|', '', $path);
+        $path = rtrim($path, '/');
         $isWindows = DIRECTORY_SEPARATOR === '\\';
         if (file_exists($path)) {
             $OK = true;
@@ -65,11 +67,14 @@ class FileHandling
     /**
      * Returns an array with the names of folders in a specific path
      * Will return 'error' (string) if there were an error with reading directory content.
+     * Will return null if provided path is false.
      *
      * @param string $path Path to list directories from
-     * @return array Returns an array with the directory entries as values. If no path, the return value is nothing.
+     * @return string[]|string|null Returns an array with the directory entries as values. If no path is provided, the return value will be null.
+     *
+     * @see \TYPO3\CMS\Core\Utility\GeneralUtility::get_dirs()
      */
-    public static function get_dirs($path)
+    public static function get_dirs(string $path): array|string|null
     {
         $dirs = null;
         if ($path) {
@@ -93,8 +98,10 @@ class FileHandling
      *
      * @param string $source Path to source directory, relative to document root or absolute
      * @param string $destination Path to destination directory, relative to document root or absolute
+     *
+     * @see \TYPO3\CMS\Core\Utility\GeneralUtility::copyDirectory()
      */
-    public static function copyDirectory($source, $destination)
+    public static function copyDirectory(string $source, string $destination): void
     {
         static::mkdir_deep($destination);
         $iterator = new \RecursiveIteratorIterator(
@@ -103,7 +110,7 @@ class FileHandling
         );
         /** @var \SplFileInfo $item */
         foreach ($iterator as $item) {
-            $target = $destination . '/' . static::fixWindowsFilePath($iterator->getSubPathName());
+            $target = $destination . '/' . static::fixWindowsFilePath((string)$iterator->getSubPathName());
             if ($item->isDir()) {
                 static::mkdir_deep($target);
             } else {
@@ -113,8 +120,12 @@ class FileHandling
     }
 
     /**
-     * Explodes a string and trims all values for whitespace in the end.
-     * If $onlyNonEmptyValues is set, then all blank ('') values are removed.
+     * Explodes a string and removes whitespace-only values.
+     *
+     * If $removeEmptyValues is set, then all values that contain only whitespace are removed.
+     *
+     * Each item will have leading and trailing whitespace removed. However, if the tail items are
+     * returned as a single array item, their internal whitespace will not be modified.
      *
      * @param string $delim Delimiter string to explode with
      * @param string $string The string to explode
@@ -122,39 +133,58 @@ class FileHandling
      * @param int $limit If limit is set and positive, the returned array will contain a maximum of limit elements with
      *                   the last element containing the rest of string. If the limit parameter is negative, all components
      *                   except the last -limit are returned.
-     * @return array Exploded values
+     * @return ($removeEmptyValues is true ? list<non-empty-string> : list<string>) Exploded values
+     *
+     * @see \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode()
      */
-    public static function trimExplode($delim, $string, $removeEmptyValues = false, $limit = 0)
+    public static function trimExplode(string $delim, string $string, bool $removeEmptyValues = false, int $limit = 0): array
     {
+        if (!$removeEmptyValues) {
+            return array_map(trim(...), $limit === 0 ? explode($delim, $string) : explode($delim, $string, $limit));
+        }
         $result = explode($delim, $string);
-        if ($removeEmptyValues) {
-            $temp = [];
+        if ($limit === 0) {
+            $nonEmptyValues = [];
             foreach ($result as $value) {
-                if (trim($value) !== '') {
-                    $temp[] = $value;
+                $value = trim($value);
+                if ($value !== '') {
+                    $nonEmptyValues[] = $value;
                 }
             }
-            $result = $temp;
+            return $nonEmptyValues;
         }
-        if ($limit > 0 && count($result) > $limit) {
-            $lastElements = array_splice($result, $limit - 1);
-            $result[] = implode($delim, $lastElements);
-        } elseif ($limit < 0) {
-            $result = array_slice($result, 0, $limit);
+        // Remove items that are just whitespace, but leave whitespace intact for the rest.
+        $result = array_values(array_filter($result, static fn(string $item): bool => trim($item) !== ''));
+
+        if ($limit < 0) {
+            // Trim and return just the first $limit elements and ignore the rest.
+            return array_map(trim(...), array_slice($result, 0, $limit));
         }
-        $result = array_map('trim', $result);
-        return $result;
+
+        // Fold the last length - $limit elements into a single trailing item, then trim and return the result.
+        $tail = array_slice($result, $limit - 1);
+        $result = array_slice($result, 0, $limit - 1);
+        if ($tail) {
+            $result[] = implode($delim, $tail);
+        }
+        return array_map(trim(...), $result);
     }
 
-    public static function mkdir_deep($directory)
+    /**
+     * Creates a directory - including parent directories if necessary and
+     * sets permissions on newly created directories.
+     *
+     * @param string $directory Target directory to create
+     * @throws \RuntimeException If directory could not be created
+     *
+     * @see \TYPO3\CMS\Core\Utility\GeneralUtility::mkdir_deep()
+     */
+    public static function mkdir_deep(string $directory): void
     {
-        if (!is_string($directory)) {
-            throw new \InvalidArgumentException('The specified directory is of type "' . gettype($directory) . '" but a string is expected.', 1303662955);
-        }
         // Ensure there is only one slash
-        $fullPath = rtrim($directory, '/') . '/';
-        if ($fullPath !== '/' && !is_dir($fullPath)) {
-            $firstCreatedPath = static::createDirectoryPath($fullPath);
+        $fullPath = rtrim($directory, '/');
+        if ($fullPath !== '' && !is_dir($fullPath)) {
+            $firstCreatedPath = static::createDirectoryPath($fullPath . '/');
             if ($firstCreatedPath !== '') {
                 static::fixPermissions($firstCreatedPath, true);
             }
@@ -166,13 +196,12 @@ class FileHandling
      * functions sets proper permission mask but does not set proper user and
      * group.
      *
-     * @static
-     * @param string $fullDirectoryPath
-     * @return string Path to the the first created directory in the hierarchy
+     * @return string Path to the first created directory in the hierarchy
      * @throws \RuntimeException If directory could not be created
-     * @see \TYPO3\CMS\Core\Utility\GeneralUtility::mkdir_deep
+     *
+     * @see \TYPO3\CMS\Core\Utility\GeneralUtility::createDirectoryPath()
      */
-    protected static function createDirectoryPath($fullDirectoryPath)
+    protected static function createDirectoryPath(string $fullDirectoryPath): string
     {
         $currentPath = $fullDirectoryPath;
         $firstCreatedPath = '';
@@ -180,9 +209,9 @@ class FileHandling
         if (!@is_dir($currentPath)) {
             do {
                 $firstCreatedPath = $currentPath;
-                $separatorPosition = strrpos($currentPath, DIRECTORY_SEPARATOR);
+                $separatorPosition = (int)strrpos($currentPath, DIRECTORY_SEPARATOR);
                 $currentPath = substr($currentPath, 0, $separatorPosition);
-            } while (!is_dir($currentPath) && $separatorPosition !== false);
+            } while (!is_dir($currentPath) && $separatorPosition > 0);
             $result = @mkdir($fullDirectoryPath, $permissionMask, true);
             // Check existence of directory again to avoid race condition. Directory could have get created by another process between previous is_dir() and mkdir()
             if (!$result && !@is_dir($fullDirectoryPath)) {
@@ -197,16 +226,17 @@ class FileHandling
      *
      * @param string $path Path of file or folder, must not be escaped. Path can be absolute or relative
      * @param bool $recursive If set, also fixes permissions of files and folders in the folder (if $path is a folder)
-     * @return mixed TRUE on success, FALSE on error, always TRUE on Windows OS
+     * @return bool TRUE on success, FALSE on error, always TRUE on Windows OS
+     *
+     * @see \TYPO3\CMS\Core\Utility\GeneralUtility::fixPermissions()
      */
-    public static function fixPermissions($path, $recursive = false)
+    public static function fixPermissions(string $path, bool $recursive = false): bool
     {
-
         $result = false;
-        // Make path absolute
         if ($path[0] !== '/') {
             throw new \RuntimeException('Path must be absolute', 1573762656);
         }
+
         if (@is_file($path)) {
             $targetPermissions = '0644';
         } elseif (@is_dir($path)) {
@@ -222,7 +252,7 @@ class FileHandling
 
         // Call recursive if recursive flag if set and $path is directory
         if ($recursive && @is_dir($path)) {
-            $handle = opendir($path);
+            $handle = @opendir($path);
             if (is_resource($handle)) {
                 while (($file = readdir($handle)) !== false) {
                     $recursionResult = null;
@@ -246,10 +276,9 @@ class FileHandling
     /**
      * Fixes a path for windows-backslashes and reduces double-slashes to single slashes
      *
-     * @param string $theFile File path to process
-     * @return string
+     * @see \TYPO3\CMS\Core\Utility\GeneralUtility::fixWindowsFilePath()
      */
-    public static function fixWindowsFilePath($theFile)
+    public static function fixWindowsFilePath(string $theFile): string
     {
         return str_replace(['\\', '//'], '/', $theFile);
     }
@@ -264,9 +293,11 @@ class FileHandling
      * @param bool $prependPath If TRUE, the full path to the file is returned. If FALSE only the file name is returned.
      * @param string $order The sorting order. The default sorting order is alphabetical. Setting $order to 'mtime' will sort the files by modification time.
      * @param string $excludePattern A regular expression pattern of file names to exclude. For example: 'clear.gif' or '(clear.gif|.htaccess)'. The pattern will be wrapped with: '/^' and '$/'.
-     * @return array|string Array of the files found, or an error message in case the path could not be opened.
+     * @return array<string, string>|string Array of the files found, or an error message in case the path could not be opened.
+     *
+     * @see \TYPO3\CMS\Core\Utility\GeneralUtility::getFilesInDir()
      */
-    public static function getFilesInDir($path, $extensionList = '', $prependPath = false, $order = '', $excludePattern = '')
+    public static function getFilesInDir(string $path, string $extensionList = '', bool $prependPath = false, string $order = '', string $excludePattern = ''): array|string
     {
         $excludePattern = (string)$excludePattern;
         $path = rtrim($path, '/');
@@ -291,7 +322,7 @@ class FileHandling
 
             foreach ($allowedFileExtensionArray as $allowedFileExtension) {
                 if (
-                    ($extensionList === ',,' || stripos($extensionList, ',' . substr($entry, strlen($allowedFileExtension) * -1, strlen($allowedFileExtension)) . ',') !== false)
+                    ($extensionList === ',,' || str_ends_with(mb_strtolower($entry), mb_strtolower('.' . $allowedFileExtension)))
                     && ($excludePattern === '' || !preg_match('/^' . $excludePattern . '$/', $entry))
                 ) {
                     if ($order !== 'mtime') {
@@ -312,6 +343,7 @@ class FileHandling
 
         $valuePathPrefix = $prependPath ? $pathPrefix : '';
         $foundFiles = [];
+        /** @noinspection PhpUnusedLocalVariableInspection key is possibly used with "valueName */
         foreach ($files as $key => $value) {
             // Don't change this ever - extensions may depend on the fact that the hash is an md5 of the path! (import/export extension)
             $foundFiles[md5($pathPrefix . ${$valueName})] = $valuePathPrefix . ${$valueName};
@@ -326,11 +358,11 @@ class FileHandling
      * @param string $source Source file, absolute path
      * @param string $destination Destination file, absolute path
      * @return bool Returns TRUE if the file was moved.
-     * @see upload_to_tempfile()
+     *
+     * @see \TYPO3\CMS\Core\Utility\GeneralUtility::getFilesInDir()
      */
-    public static function upload_copy_move($source, $destination)
+    public static function upload_copy_move(string $source, string $destination): bool
     {
-
         $result = false;
         if (is_uploaded_file($source)) {
             // Return the value of move_uploaded_file, and if FALSE the temporary $source is still
@@ -345,5 +377,4 @@ class FileHandling
         // so when returning FALSE the user can try unlink to delete the $source
         return $result;
     }
-
 }

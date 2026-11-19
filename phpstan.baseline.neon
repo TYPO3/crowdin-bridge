@@ -43,7 +43,7 @@ parameters:
 			path: src/Entity/ProjectConfiguration.php
 
 		-
-			message: '#^Argument of an invalid type array\|string supplied for foreach, only iterables are supported\.$#'
+			message: '#^Argument of an invalid type array\<string, string\>\|string supplied for foreach, only iterables are supported\.$#'
 			identifier: foreach.nonIterable
 			count: 1
 			path: src/Service/DownloadCrowdinTranslationService.php
@@ -52,12 +52,6 @@ parameters:
 			message: '#^Binary operation "\." between 0\|0\.0\|array\{\}\|string\|false\|null and string results in an error\.$#'
 			identifier: binaryOp.invalid
 			count: 3
-			path: src/Service/DownloadCrowdinTranslationService.php
-
-		-
-			message: '#^Call to function is_array\(\) with array will always evaluate to true\.$#'
-			identifier: function.alreadyNarrowedType
-			count: 1
 			path: src/Service/DownloadCrowdinTranslationService.php
 
 		-
@@ -187,87 +181,9 @@ parameters:
 			path: src/Status/Core/StatusWriter.php
 
 		-
-			message: '#^Method App\\Utility\\FileHandling\:\:copyDirectory\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/Utility/FileHandling.php
-
-		-
-			message: '#^Method App\\Utility\\FileHandling\:\:getFilesInDir\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Utility/FileHandling.php
-
-		-
-			message: '#^Method App\\Utility\\FileHandling\:\:get_dirs\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Utility/FileHandling.php
-
-		-
-			message: '#^Method App\\Utility\\FileHandling\:\:get_dirs\(\) should return array but returns list\<string\>\|string\|null\.$#'
-			identifier: return.type
-			count: 1
-			path: src/Utility/FileHandling.php
-
-		-
-			message: '#^Method App\\Utility\\FileHandling\:\:mkdir_deep\(\) has no return type specified\.$#'
-			identifier: missingType.return
-			count: 1
-			path: src/Utility/FileHandling.php
-
-		-
-			message: '#^Method App\\Utility\\FileHandling\:\:mkdir_deep\(\) has parameter \$directory with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/Utility/FileHandling.php
-
-		-
-			message: '#^Method App\\Utility\\FileHandling\:\:trimExplode\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Utility/FileHandling.php
-
-		-
-			message: '#^Parameter \#1 \$directory of function opendir expects string, string\|null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/Utility/FileHandling.php
-
-		-
-			message: '#^Parameter \#1 \$directory of function rmdir expects string, string\|null given\.$#'
-			identifier: argument.type
-			count: 3
-			path: src/Utility/FileHandling.php
-
-		-
-			message: '#^Parameter \#1 \$filename of function file_exists expects string, string\|null given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/Utility/FileHandling.php
-
-		-
-			message: '#^Parameter \#1 \$filename of function is_dir expects string, string\|null given\.$#'
-			identifier: argument.type
-			count: 2
-			path: src/Utility/FileHandling.php
-
-		-
-			message: '#^Parameter \#1 \$filename of function is_link expects string, string\|null given\.$#'
-			identifier: argument.type
-			count: 3
-			path: src/Utility/FileHandling.php
-
-		-
-			message: '#^Parameter \#1 \$filename of function unlink expects string, string\|null given\.$#'
-			identifier: argument.type
-			count: 2
-			path: src/Utility/FileHandling.php
-
-		-
 			message: '#^Parameter \#1 \$separator of function explode expects non\-empty\-string, string given\.$#'
 			identifier: argument.type
-			count: 1
+			count: 3
 			path: src/Utility/FileHandling.php
 
 		-
@@ -278,12 +194,6 @@ parameters:
 
 		-
 			message: '#^Parameter \#2 \$permissions of function mkdir expects int, float\|int given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/Utility/FileHandling.php
-
-		-
-			message: '#^Parameter \#3 \$length of function substr expects int\|null, int\|false given\.$#'
 			identifier: argument.type
 			count: 1
 			path: src/Utility/FileHandling.php
