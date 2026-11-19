@@ -41,11 +41,6 @@ final class ProjectConfiguration
         return $this->extensionKey;
     }
 
-    public function getBranch()
-    {
-        return $this->branch;
-    }
-
     /**
      * @param bool $includeT3Language if set, the fake language t3 is aded
      * @return array
@@ -56,11 +51,6 @@ final class ProjectConfiguration
             $this->languages[] = 't3';
         }
         return $this->languages;
-    }
-
-    public function getCrowdinIdentifier(): string
-    {
-        return $this->crowdinIdentifier;
     }
 
     public static function initializeByArray(string $crowdinIdentifier, $configuration): ProjectConfiguration
