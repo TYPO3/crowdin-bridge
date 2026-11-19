@@ -31,7 +31,7 @@
 		"symfony/dotenv": "*",
 		"symfony/filesystem": "*",
 		"symfony/finder": "*",
-		"symfony/flex": "^2.10",
+		"symfony/flex": "^2.12",
 		"symfony/framework-bundle": "*",
 		"symfony/monolog-bundle": "^4.1",
 		"symfony/runtime": "*",
