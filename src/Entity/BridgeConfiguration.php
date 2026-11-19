@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Exception\ExtensionNotAvailableInFileConfigurationException;
 use App\Exception\NoApiCredentialsException;
 
 class BridgeConfiguration
@@ -36,20 +35,6 @@ class BridgeConfiguration
         }
 
         return ProjectConfiguration::initializeByArray($identifier, $data);
-    }
-
-    /**
-     * @return ProjectConfiguration
-     * @throws NoApiCredentialsException|ExtensionNotAvailableInFileConfigurationException
-     */
-    public function getProjectByExtensionKey(string $extensionKey): ProjectConfiguration
-    {
-        foreach ($this->data['projects'] ?? [] as $identifier => $configuration) {
-            if ($configuration['extensionKey'] === $extensionKey) {
-                return ProjectConfiguration::initializeByArray($identifier, $configuration);
-            }
-        }
-        throw new ExtensionNotAvailableInFileConfigurationException(sprintf('No project found for extension key "%s"', $extensionKey));
     }
 
     public function add(string $project, array $data): ProjectConfiguration
