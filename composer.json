@@ -18,6 +18,11 @@
 			"symfony/flex": true,
 			"symfony/runtime": true
 		},
+		"policy": {
+			"cooldown": {
+				"period": "1 day"
+			}
+		},
 		"sort-packages": true
 	},
 	"require": {
