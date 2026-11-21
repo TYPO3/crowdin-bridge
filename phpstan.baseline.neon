@@ -163,12 +163,6 @@ parameters:
 			path: src/Service/DownloadCrowdinTranslationService.php
 
 		-
-			message: '#^Strict comparison using \=\=\= between 0\|1\|2\|3\|4\|5\|6\|7\|8\|9\|10\|11\|12\|13\|14\|15\|16\|17\|18\|19\|20\|21\|22\|23\|24\|25\|26\|27\|28\|29\|30\|31\|32\|33\|34\|35\|true and false will always evaluate to false\.$#'
-			identifier: identical.alwaysFalse
-			count: 1
-			path: src/Service/DownloadCrowdinTranslationService.php
-
-		-
 			message: '#^Cannot assign offset string to array\<string, array\<string, array\<string, int\>\>\|int\>\|string\.$#'
 			identifier: offsetAssign.dimType
 			count: 1

@@ -9,6 +9,7 @@ use App\Crowdin\Dto\DownloadFile;
 use App\Crowdin\Entity\TranslationProjectBuild;
 use App\Crowdin\Enum\TranslationProjectBuildStatus;
 use App\Crowdin\Repository\TranslationRepository;
+use App\Download\ZipExtractor;
 use App\Entity\ProjectConfiguration;
 use App\Exception\NoFinishedProjectBuildFoundException;
 use App\Exception\NoTranslationsAvailableException;
@@ -33,6 +34,7 @@ final class DownloadCrowdinTranslationService
         private readonly PathResolver $pathResolver,
         private readonly ProjectApi $projectApi,
         private readonly TranslationRepository $translationRepository,
+        private readonly ZipExtractor $zipExtractor,
     ) {}
 
     public function downloadPackageCore(array $listOfLanguages = []): void
@@ -269,18 +271,6 @@ final class DownloadCrowdinTranslationService
         return $fileCount;
     }
 
-    protected function unzip(string $file, string $path): bool
-    {
-        $zip = new \ZipArchive();
-        $resource = $zip->open($file);
-        if ($resource === false) {
-            throw new \RuntimeException(sprintf('Could not extract zip "%s"', $file), 1566421924);
-        }
-
-        $zip->extractTo($path);
-        return $zip->close();
-    }
-
     protected function downloadFromCrowdin(ProjectConfiguration $localProject): string
     {
         $path = $this->pathResolver->getExportPath();
@@ -360,7 +350,7 @@ final class DownloadCrowdinTranslationService
         $zipFile = $this->downloadFromCrowdin($localProject);
         FileHandling::rmdir($downloadTarget, true);
         FileHandling::mkdir_deep($downloadTarget);
-        $this->unzip($zipFile, $downloadTarget);
+        $this->zipExtractor->extract($zipFile, $downloadTarget);
         return $downloadTarget;
     }
 
