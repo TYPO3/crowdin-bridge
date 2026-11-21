@@ -18,7 +18,7 @@ final class ProjectNotFoundExceptionTest extends TestCase
     {
         $actual = ProjectNotFoundException::fromProjectIdentifier('some-project-identifier');
 
-        self::assertSame('Project "some-project-identifier" does not exist. Remember: The project name has to start with "typo3-extension-"', $actual->getMessage());
+        self::assertSame('Project "some-project-identifier" does not exist. Remember: The project name for an extension has to start with "typo3-extension-"', $actual->getMessage());
         self::assertSame(1760703485, $actual->getCode());
     }
 }

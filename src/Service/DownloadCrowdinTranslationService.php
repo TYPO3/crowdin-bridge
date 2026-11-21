@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use App\Api\Wrapper\ProjectApi;
+use App\Build\ProjectNotFoundException;
+use App\Configuration\Language;
+use App\Configuration\Project;
+use App\Configuration\ProjectCollection;
 use App\Crowdin\Dto\DownloadFile;
 use App\Crowdin\Entity\TranslationProjectBuild;
 use App\Crowdin\Enum\TranslationProjectBuildStatus;
 use App\Crowdin\Repository\TranslationRepository;
 use App\Download\ZipExtractor;
-use App\Entity\ProjectConfiguration;
 use App\Exception\NoFinishedProjectBuildFoundException;
 use App\Exception\NoTranslationsAvailableException;
 use App\File\PathResolver;
@@ -26,13 +28,12 @@ final class DownloadCrowdinTranslationService
 {
     private string $originalLanguageKey = '';
     private string $finalLanguageKey = '';
-    private string $projectIdentifier;
 
     public function __construct(
         private readonly CoreInformation $coreInformation,
         private readonly LoggerInterface $logger,
         private readonly PathResolver $pathResolver,
-        private readonly ProjectApi $projectApi,
+        private readonly ProjectCollection $projectCollection,
         private readonly TranslationRepository $translationRepository,
         private readonly ZipExtractor $zipExtractor,
     ) {}
@@ -41,13 +42,15 @@ final class DownloadCrowdinTranslationService
     {
         $this->logger->info('Download TYPO3 core translations');
         $projectIdentifier = 'typo3-cms';
-        $this->projectIdentifier = $projectIdentifier;
-        $localProject = $this->projectApi->getConfiguration()->getProject($projectIdentifier);
+        $project = $this->projectCollection->findByIdentifier($projectIdentifier);
+        if (!$project instanceof Project) {
+            throw ProjectNotFoundException::fromProjectIdentifier($projectIdentifier);
+        }
 
         // 1st: Generate base directory
-        $downloadTarget = $this->download($localProject, $projectIdentifier . '/');
+        $downloadTarget = $this->download($project, $projectIdentifier . '/');
 
-        $listOfLanguages = array_unique($listOfLanguages ?: $localProject->getLanguages());
+        $listOfLanguages = array_unique($listOfLanguages) ?: array_map(static fn(Language $language): string => $language->id, $project->languages);
         foreach ($listOfLanguages as $language) {
             $directory = $downloadTarget . $language . '/';
             $this->logger->info('Target directory: ' . $directory);
@@ -70,12 +73,15 @@ final class DownloadCrowdinTranslationService
     public function downloadPackageExtension(string $projectIdentifier, array $listOfLanguages = []): array
     {
         $exportedLanguages = [];
-        $this->projectIdentifier = $projectIdentifier;
-        $localProject = $this->projectApi->getConfiguration()->getProject($projectIdentifier);
+        $project = $this->projectCollection->findByIdentifier($projectIdentifier);
+        if (!$project instanceof Project) {
+            throw ProjectNotFoundException::fromProjectIdentifier($projectIdentifier);
+        }
+
         $this->logger->info(sprintf('==== Download extension "%s"', $projectIdentifier));
 
         // 1st: Generate base directory
-        $downloadTargetBase = $this->download($localProject, $projectIdentifier . '-base/');
+        $downloadTargetBase = $this->download($project, $projectIdentifier . '-base/');
 
         // 2nd: Check branch name, no need to proceed if nothing found
         $branchName = $this->getBranchNameOfExtension($downloadTargetBase);
@@ -83,7 +89,7 @@ final class DownloadCrowdinTranslationService
 
         // 3rd: Duplicate base directory for each language
         $allLanguages = [
-            ...$localProject->getLanguages(),
+            ...array_map(static fn(Language $language): string => $language->id, $project->languages),
             // We add the in-context language manually, as it is not delivered by Crowdin
             SpecialLanguage::IN_CONTEXT->value,
         ];
@@ -121,7 +127,7 @@ final class DownloadCrowdinTranslationService
             //                FileHandling::rmdir($downloadTarget, true);
             //                continue;
             //            }
-            $exportedLanguages[$language] = $this->processDownloadDirectoryExtension($localProject, $downloadTarget, $branchName, $language);
+            $exportedLanguages[$language] = $this->processDownloadDirectoryExtension($project, $downloadTarget, $branchName, $language);
             //            } catch (\Exception $e) {
             // todo logging
             //                echo 'ERROR:' . $e->getMessage();
@@ -183,7 +189,7 @@ final class DownloadCrowdinTranslationService
         }
     }
 
-    protected function processDownloadDirectoryExtension(ProjectConfiguration $localProject, string $directory, string $branchName, $language): int
+    protected function processDownloadDirectoryExtension(Project $project, string $directory, string $branchName, $language): int
     {
         $this->originalLanguageKey = $language;
 
@@ -193,21 +199,19 @@ final class DownloadCrowdinTranslationService
             $dir = $directory . $language . '/' . $branchName;
         }
 
-        $extensionKey = $localProject->getExtensionKey();
-
-        $newDirName = $directory . $extensionKey . '/' . $crowdinLanguageName;
+        $newDirName = $directory . $project->extensionKey . '/' . $crowdinLanguageName;
 
         if (!is_dir($newDirName)) {
             if (!is_dir($dir)) {
-                throw new \UnexpectedValueException(sprintf('Directory "%s" for processing %s in %s does not exist, no translations probably available', $dir, $extensionKey, $language));
+                throw new \UnexpectedValueException(sprintf('Directory "%s" for processing %s in %s does not exist, no translations probably available', $dir, $project->extensionKey, $language));
             }
             $filesystem = new Filesystem();
             $filesystem->rename($dir, $newDirName);
         }
 
         $t3Language = $this->finalLanguageKey = LanguageInformation::getLanguageForTypo3($language);
-        $zipPath = $this->pathResolver->getFinalPath() . sprintf('/%s-l10n-%s.zip', $extensionKey, $t3Language);
-        return $this->zipDir($newDirName, $zipPath, $extensionKey);
+        $zipPath = $this->pathResolver->getFinalPath() . sprintf('/%s-l10n-%s.zip', $project->extensionKey, $t3Language);
+        return $this->zipDir($newDirName, $zipPath, $project->extensionKey);
     }
 
     protected function zipDir($source, $destination, $prefix = ''): int
@@ -271,21 +275,21 @@ final class DownloadCrowdinTranslationService
         return $fileCount;
     }
 
-    protected function downloadFromCrowdin(ProjectConfiguration $localProject): string
+    protected function downloadFromCrowdin(Project $project): string
     {
         $path = $this->pathResolver->getExportPath();
         FileHandling::mkdir_deep($path);
 
-        $finalName = $path . '/' . $this->projectIdentifier . '.zip';
+        $finalName = $path . '/' . $project->identifier . '.zip';
         if (!is_file($finalName)) {
-            $buildId = $this->getLastFinishedBuildId($localProject->getId());
-            $downloadFile = $this->translationRepository->downloadProjectBuild($localProject->getId(), $buildId);
+            $buildId = $this->getLastFinishedBuildId($project);
+            $downloadFile = $this->translationRepository->downloadProjectBuild($project->id, $buildId);
 
             if (!$downloadFile instanceof DownloadFile) {
                 throw new NoTranslationsAvailableException(
                     sprintf(
                         'No download information provided by Crowdin API for %s',
-                        $this->projectIdentifier
+                        $project->identifier
                     )
                 );
             }
@@ -293,22 +297,22 @@ final class DownloadCrowdinTranslationService
             $fileContent = file_get_contents($downloadFile->url->toAsciiString()) ?: '';
 
             if (strlen($fileContent) < 130) {
-                throw new NoTranslationsAvailableException(sprintf('No translations found for %s', $this->projectIdentifier));
+                throw new NoTranslationsAvailableException(sprintf('No translations found for %s', $project->identifier));
             }
             file_put_contents($finalName, $fileContent);
         }
-        $this->logger->info(sprintf('Downloaded "%s" to "%s"', $this->projectIdentifier, $finalName));
+        $this->logger->info(sprintf('Downloaded "%s" to "%s"', $project->identifier, $finalName));
 
         return $finalName;
     }
 
-    private function getLastFinishedBuildId(int $projectId): int
+    private function getLastFinishedBuildId(Project $project): int
     {
         $finishedBuild = array_find(
-            $this->translationRepository->getProjectBuilds($projectId),
+            $this->translationRepository->getProjectBuilds($project->id),
             static fn(TranslationProjectBuild $build): bool => $build->status === TranslationProjectBuildStatus::Finished
         ) ?? throw new NoFinishedProjectBuildFoundException(
-            sprintf('No finished build found for project "%s"', $projectId)
+            sprintf('No finished build found for project "%s"', $project->identifier)
         );
 
         return $finishedBuild->id;
@@ -344,10 +348,10 @@ final class DownloadCrowdinTranslationService
         }
     }
 
-    private function download(ProjectConfiguration $localProject, string $pathSuffix): string
+    private function download(Project $project, string $pathSuffix): string
     {
         $downloadTarget = $this->pathResolver->getDownloadsPath() . '/' . $pathSuffix;
-        $zipFile = $this->downloadFromCrowdin($localProject);
+        $zipFile = $this->downloadFromCrowdin($project);
         FileHandling::rmdir($downloadTarget, true);
         FileHandling::mkdir_deep($downloadTarget);
         $this->zipExtractor->extract($zipFile, $downloadTarget);

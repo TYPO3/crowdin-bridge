@@ -1,48 +1,6 @@
 parameters:
 	ignoreErrors:
 		-
-			message: '#^Method App\\Entity\\BridgeConfiguration\:\:add\(\) has parameter \$data with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Entity/BridgeConfiguration.php
-
-		-
-			message: '#^Property App\\Entity\\BridgeConfiguration\:\:\$data type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Entity/BridgeConfiguration.php
-
-		-
-			message: '#^Method App\\Entity\\ProjectConfiguration\:\:__construct\(\) has parameter \$configuration with no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Entity/ProjectConfiguration.php
-
-		-
-			message: '#^Method App\\Entity\\ProjectConfiguration\:\:getLanguages\(\) return type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Entity/ProjectConfiguration.php
-
-		-
-			message: '#^Method App\\Entity\\ProjectConfiguration\:\:initializeByArray\(\) has parameter \$configuration with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/Entity/ProjectConfiguration.php
-
-		-
-			message: '#^Property App\\Entity\\ProjectConfiguration\:\:\$languages type has no value type specified in iterable type array\.$#'
-			identifier: missingType.iterableValue
-			count: 1
-			path: src/Entity/ProjectConfiguration.php
-
-		-
-			message: '#^Right side of && is always true\.$#'
-			identifier: booleanAnd.rightAlwaysTrue
-			count: 1
-			path: src/Entity/ProjectConfiguration.php
-
-		-
 			message: '#^Argument of an invalid type array\<string, string\>\|string supplied for foreach, only iterables are supported\.$#'
 			identifier: foreach.nonIterable
 			count: 1

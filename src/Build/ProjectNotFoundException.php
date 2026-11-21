@@ -10,7 +10,7 @@ final class ProjectNotFoundException extends \RuntimeException
     {
         return new self(
             sprintf(
-                'Project "%s" does not exist. Remember: The project name has to start with "%s"',
+                'Project "%s" does not exist. Remember: The project name for an extension has to start with "%s"',
                 $projectIdentifier,
                 'typo3-extension-',
             ),
