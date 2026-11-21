@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Crowdin\Repository;
 
+use App\Crowdin\Dto\DownloadFile;
 use App\Crowdin\Entity\TranslationProjectBuild;
 use CrowdinApiClient\Crowdin;
+use CrowdinApiClient\Model\DownloadFile as CrowdinDownloadFile;
 use CrowdinApiClient\Model\TranslationProjectBuild as CrowdinTranslationProjectBuild;
 
 /**
@@ -51,6 +53,22 @@ final readonly class TranslationRepository
                 return TranslationProjectBuild::fromCrowdinTranslationProjectBuild($crowdinTranslationProjectBuild);
             }, iterator_to_array($this->client->translation->getProjectBuilds($projectId)))
                     |> array_values(...);
+        } catch (\Throwable $t) {
+            throw RepositoryException::fromThrowable($t);
+        }
+    }
+
+    /**
+     * @link https://developer.crowdin.com/api/v2/#operation/api.projects.translations.builds.download.download Documentation
+     */
+    public function downloadProjectBuild(int $projectId, int $buildId): ?DownloadFile
+    {
+        try {
+            $downloadFile = $this->client->translation->downloadProjectBuild($projectId, $buildId);
+            if ($downloadFile instanceof CrowdinDownloadFile) {
+                return DownloadFile::fromCrowdinDownloadFile($downloadFile);
+            }
+            return null;
         } catch (\Throwable $t) {
             throw RepositoryException::fromThrowable($t);
         }

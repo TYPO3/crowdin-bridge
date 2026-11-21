@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Api\Wrapper\ProjectApi;
-use App\Api\Wrapper\TranslationApi;
+use App\Crowdin\Dto\DownloadFile;
 use App\Crowdin\Entity\TranslationProjectBuild;
 use App\Crowdin\Enum\TranslationProjectBuildStatus;
 use App\Crowdin\Repository\TranslationRepository;
@@ -32,7 +32,6 @@ final class DownloadCrowdinTranslationService
         private readonly LoggerInterface $logger,
         private readonly PathResolver $pathResolver,
         private readonly ProjectApi $projectApi,
-        private readonly TranslationApi $translationApi,
         private readonly TranslationRepository $translationRepository,
     ) {}
 
@@ -290,13 +289,18 @@ final class DownloadCrowdinTranslationService
         $finalName = $path . '/' . $this->projectIdentifier . '.zip';
         if (!is_file($finalName)) {
             $buildId = $this->getLastFinishedBuildId($localProject->getId());
-            $downloadFile = $this->translationApi->downloadProject($localProject->getId(), $buildId);
+            $downloadFile = $this->translationRepository->downloadProjectBuild($localProject->getId(), $buildId);
 
-            if (!$downloadFile) {
-                throw new NoTranslationsAvailableException(sprintf('No download information provided by Crowdin API for %s', $this->projectIdentifier));
+            if (!$downloadFile instanceof DownloadFile) {
+                throw new NoTranslationsAvailableException(
+                    sprintf(
+                        'No download information provided by Crowdin API for %s',
+                        $this->projectIdentifier
+                    )
+                );
             }
 
-            $fileContent = file_get_contents($downloadFile->getUrl());
+            $fileContent = file_get_contents($downloadFile->url->toAsciiString()) ?: '';
 
             if (strlen($fileContent) < 130) {
                 throw new NoTranslationsAvailableException(sprintf('No translations found for %s', $this->projectIdentifier));
