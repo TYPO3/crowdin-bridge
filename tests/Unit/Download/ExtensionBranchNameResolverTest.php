@@ -18,7 +18,11 @@ final class ExtensionBranchNameResolverTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->subject = new ExtensionBranchNameResolver(new NullLogger());
+        $this->subject = new ExtensionBranchNameResolver(new NullLogger(), [
+            'main',
+            'master',
+            'develop',
+        ]);
     }
 
     #[Test]

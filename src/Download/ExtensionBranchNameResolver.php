@@ -9,19 +9,12 @@ use Symfony\Component\Finder\Finder;
 
 final readonly class ExtensionBranchNameResolver
 {
-    // The first branch name that is found will be returned.
-    // So we have an explicit order here!
-    private const array CONSIDERED_BRANCH_NAMES = [
-        'main',
-        'master',
-        'release',
-        'develop',
-        'dev',
-        'development',
-    ];
-
+    /**
+     * @param list<string> $allowedBranchNames
+     */
     public function __construct(
-        private LoggerInterface $logger
+        private LoggerInterface $logger,
+        private array $allowedBranchNames,
     ) {}
 
     public function getBranchName(string $directory): string
@@ -34,7 +27,7 @@ final readonly class ExtensionBranchNameResolver
             $allBranchNames[] = $branches->getBasename();
         }
 
-        foreach (self::CONSIDERED_BRANCH_NAMES as $possibleName) {
+        foreach ($this->allowedBranchNames as $possibleName) {
             if (in_array($possibleName, $allBranchNames, true)) {
                 $branchName = $possibleName;
                 break;

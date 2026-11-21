@@ -36,5 +36,18 @@ services:
     App\Configuration\ProjectCollection:
       factory: ['@App\Configuration\ProjectCollectionFactory', 'createProjectCollection']
 
+    # The first branch name that is found will be used.
+    # So we have an explicit order here!
+    App\Download\ExtensionBranchNameResolver:
+      arguments:
+        $allowedBranchNames:
+          - 'main'
+          - 'master'
+          - 'release'
+          - 'develop'
+          - 'dev'
+          - 'development'
+
+
     Psr\Clock\ClockInterface:
       factory: ['Lcobucci\Clock\SystemClock', 'fromUTC']
