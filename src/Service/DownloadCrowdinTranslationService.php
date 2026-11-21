@@ -12,6 +12,7 @@ use App\Crowdin\Dto\DownloadFile;
 use App\Crowdin\Entity\TranslationProjectBuild;
 use App\Crowdin\Enum\TranslationProjectBuildStatus;
 use App\Crowdin\Repository\TranslationRepository;
+use App\Download\ExtensionBranchNameResolver;
 use App\Download\ZipExtractor;
 use App\Exception\NoFinishedProjectBuildFoundException;
 use App\Exception\NoTranslationsAvailableException;
@@ -31,6 +32,7 @@ final class DownloadCrowdinTranslationService
 
     public function __construct(
         private readonly CoreInformation $coreInformation,
+        private readonly ExtensionBranchNameResolver $extensionBranchNameResolver,
         private readonly LoggerInterface $logger,
         private readonly PathResolver $pathResolver,
         private readonly ProjectCollection $projectCollection,
@@ -84,7 +86,7 @@ final class DownloadCrowdinTranslationService
         $downloadTargetBase = $this->download($project, $projectIdentifier . '-base/');
 
         // 2nd: Check branch name, no need to proceed if nothing found
-        $branchName = $this->getBranchNameOfExtension($downloadTargetBase);
+        $branchName = $this->extensionBranchNameResolver->getBranchName($downloadTargetBase);
         $this->logger->info(sprintf('Used branch "%s"', $branchName));
 
         // 3rd: Duplicate base directory for each language
@@ -356,31 +358,5 @@ final class DownloadCrowdinTranslationService
         FileHandling::mkdir_deep($downloadTarget);
         $this->zipExtractor->extract($zipFile, $downloadTarget);
         return $downloadTarget;
-    }
-
-    protected function getBranchNameOfExtension(string $directory): string
-    {
-        $firstDirFinder = new Finder();
-
-        $branchName = '';
-        $allowedBranchNames = ['main', 'master', 'release', 'develop', 'dev', 'development'];
-        $allBranchNames = [];
-        foreach ($firstDirFinder->directories()->in($directory)->depth(0) as $branches) {
-            $allBranchNames[] = $branches->getBasename();
-        }
-
-        foreach ($allowedBranchNames as $possibleName) {
-            if (!$branchName && in_array($possibleName, $allBranchNames, true)) {
-                $branchName = $possibleName;
-                break;
-            }
-        }
-
-        if (!$branchName) {
-            $error = sprintf('No branch found in: %s, found: %s', $directory, implode(', ', $allBranchNames));
-            $this->logger->error($error);
-            throw new \RuntimeException($error, 1566422270);
-        }
-        return $branchName;
     }
 }

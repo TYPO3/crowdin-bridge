@@ -55,12 +55,6 @@ parameters:
 			path: src/Service/DownloadCrowdinTranslationService.php
 
 		-
-			message: '#^Negated boolean expression is always true\.$#'
-			identifier: booleanNot.alwaysTrue
-			count: 1
-			path: src/Service/DownloadCrowdinTranslationService.php
-
-		-
 			message: '#^Parameter \#1 \$dirname of method ZipArchive\:\:addEmptyDir\(\) expects string, array\|float\|int\|string\|false\|null given\.$#'
 			identifier: argument.type
 			count: 1
