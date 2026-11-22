@@ -19,18 +19,6 @@ parameters:
 			path: src/Service/DownloadCrowdinTranslationService.php
 
 		-
-			message: '#^Method App\\Service\\DownloadCrowdinTranslationService\:\:processDownloadDirectoryCore\(\) has parameter \$language with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/Service/DownloadCrowdinTranslationService.php
-
-		-
-			message: '#^Method App\\Service\\DownloadCrowdinTranslationService\:\:processDownloadDirectoryExtension\(\) has parameter \$language with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/Service/DownloadCrowdinTranslationService.php
-
-		-
 			message: '#^Parameter \#1 \$file of method App\\Service\\DownloadCrowdinTranslationService\:\:modifyFile\(\) expects string, string\|false given\.$#'
 			identifier: argument.type
 			count: 1

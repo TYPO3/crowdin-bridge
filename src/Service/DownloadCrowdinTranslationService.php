@@ -25,19 +25,16 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 
-final class DownloadCrowdinTranslationService
+final readonly class DownloadCrowdinTranslationService
 {
-    private string $originalLanguageKey = '';
-    private string $finalLanguageKey = '';
-
     public function __construct(
-        private readonly CoreInformation $coreInformation,
-        private readonly ExtensionBranchNameResolver $extensionBranchNameResolver,
-        private readonly LoggerInterface $logger,
-        private readonly PathResolver $pathResolver,
-        private readonly ProjectCollection $projectCollection,
-        private readonly TranslationRepository $translationRepository,
-        private readonly ZipFileExtractor $zipFileExtractor,
+        private CoreInformation $coreInformation,
+        private ExtensionBranchNameResolver $extensionBranchNameResolver,
+        private LoggerInterface $logger,
+        private PathResolver $pathResolver,
+        private ProjectCollection $projectCollection,
+        private TranslationRepository $translationRepository,
+        private ZipFileExtractor $zipFileExtractor,
     ) {}
 
     public function downloadPackageCore(array $listOfLanguages = []): void
@@ -61,10 +58,8 @@ final class DownloadCrowdinTranslationService
             // and remove all files that are not for the current language
             $this->removeFilesFromDifferentLanguage($directory, $language);
 
-            $this->originalLanguageKey = $language;
-            $this->finalLanguageKey = LanguageInformation::getLanguageForTypo3($language);
-
-            $this->processDownloadDirectoryCore($directory, $language);
+            $typo3Language = LanguageInformation::getLanguageForTypo3($language);
+            $this->processDownloadDirectoryCore($directory, $language, $typo3Language);
         }
         $this->moveAllToRsyncDestination();
     }
@@ -156,7 +151,7 @@ final class DownloadCrowdinTranslationService
         }
     }
 
-    protected function processDownloadDirectoryCore(string $directory, $language): void
+    protected function processDownloadDirectoryCore(string $directory, string $originalLanguage, string $typo3Language): void
     {
         $branches = $this->coreInformation->getAllCoreBranches();
         foreach ($branches as $branch) {
@@ -174,49 +169,45 @@ final class DownloadCrowdinTranslationService
 
             $exportPath = $this->pathResolver->getFinalPath();
             FileHandling::mkdir_deep($exportPath);
-            $language = LanguageInformation::getLanguageForTypo3($language);
             $zipBranchName = $this->coreInformation->getVersionForBranchName($branch);
             foreach ($sysExtList as $extensionKey) {
                 $source = $sysExtDir . $extensionKey;
                 if (in_array($extensionKey, $this->coreInformation->getAllCoreExtensionKeys(), true)) {
-                    $zipPath = $exportPath . sprintf('/%s-l10n-%s.v%s.zip', $extensionKey, $language, $zipBranchName);
+                    $zipPath = $exportPath . sprintf('/%s-l10n-%s.v%s.zip', $extensionKey, $typo3Language, $zipBranchName);
                 } else {
-                    $zipPath = $exportPath . sprintf('/%s-l10n-%s.zip', $extensionKey, $language);
+                    $zipPath = $exportPath . sprintf('/%s-l10n-%s.zip', $extensionKey, $typo3Language);
                 }
 
-                $this->logger->info(sprintf('Zip for "%s" in branch "%s" in "%s" ', $extensionKey, $zipBranchName, $language), ['source' => $source]);
+                $this->logger->info(sprintf('Zip for "%s" in branch "%s" in "%s" ', $extensionKey, $zipBranchName, $typo3Language), ['source' => $source]);
 
-                $fileCount = $this->zipDir($source, $zipPath, $extensionKey);
+                $fileCount = $this->zipDir($source, $zipPath, $extensionKey, $originalLanguage, $typo3Language);
             }
         }
     }
 
-    protected function processDownloadDirectoryExtension(Project $project, string $directory, string $branchName, $language): int
+    protected function processDownloadDirectoryExtension(Project $project, string $directory, string $branchName, string $originalLanguage): int
     {
-        $this->originalLanguageKey = $language;
-
-        $crowdinLanguageName = LanguageInformation::getLanguageForTypo3($language);
+        $typo3Language = LanguageInformation::getLanguageForTypo3($originalLanguage);
         $dir = $directory . $branchName;
         if (!is_dir($dir)) {
-            $dir = $directory . $language . '/' . $branchName;
+            $dir = $directory . $originalLanguage . '/' . $branchName;
         }
 
-        $newDirName = $directory . $project->extensionKey . '/' . $crowdinLanguageName;
+        $newDirName = $directory . $project->extensionKey . '/' . $typo3Language;
 
         if (!is_dir($newDirName)) {
             if (!is_dir($dir)) {
-                throw new \UnexpectedValueException(sprintf('Directory "%s" for processing %s in %s does not exist, no translations probably available', $dir, $project->extensionKey, $language));
+                throw new \UnexpectedValueException(sprintf('Directory "%s" for processing %s in %s does not exist, no translations probably available', $dir, $project->extensionKey, $originalLanguage));
             }
             $filesystem = new Filesystem();
             $filesystem->rename($dir, $newDirName);
         }
 
-        $t3Language = $this->finalLanguageKey = LanguageInformation::getLanguageForTypo3($language);
-        $zipPath = $this->pathResolver->getFinalPath() . sprintf('/%s-l10n-%s.zip', $project->extensionKey, $t3Language);
-        return $this->zipDir($newDirName, $zipPath, $project->extensionKey);
+        $zipPath = $this->pathResolver->getFinalPath() . sprintf('/%s-l10n-%s.zip', $project->extensionKey, $typo3Language);
+        return $this->zipDir($newDirName, $zipPath, $project->extensionKey, $originalLanguage, $typo3Language);
     }
 
-    protected function zipDir(string $source, string $destination, string $prefix): int
+    protected function zipDir(string $source, string $destination, string $prefix, string $originalLanguage, string $typo3Language): int
     {
         $prefix = trim($prefix, '/') . '/';
 
@@ -250,7 +241,7 @@ final class DownloadCrowdinTranslationService
                 if (is_dir($file)) {
                     $zip->addEmptyDir($prefix . str_replace($source . '/', '', $file . '/'));
                 } elseif (is_file($file)) {
-                    $fileHasContent = $this->modifyFile($file);
+                    $fileHasContent = $this->modifyFile($file, $originalLanguage, $typo3Language);
                     if (!$fileHasContent) {
                         unlink($file);
                         continue;
@@ -322,14 +313,14 @@ final class DownloadCrowdinTranslationService
      * Modify file's content
      * @see https://github.com/TYPO3-Initiatives/crowdin/issues/32
      */
-    protected function modifyFile(string $file): bool
+    protected function modifyFile(string $file, string $originalLanguage, string $typo3Language): bool
     {
         $content = file_get_contents($file);
         if (!str_contains($content, '<trans-unit')) {
             //            return false;
         }
-        if ($this->finalLanguageKey !== $this->originalLanguageKey && is_file($file)) {
-            $content = str_replace(' target-language="' . $this->originalLanguageKey . '"', ' target-language="' . $this->finalLanguageKey . '"', $content);
+        if ($typo3Language !== $originalLanguage && is_file($file)) {
+            $content = str_replace(' target-language="' . $originalLanguage . '"', ' target-language="' . $typo3Language . '"', $content);
 
             file_put_contents($file, $content);
         }
