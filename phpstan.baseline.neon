@@ -7,12 +7,6 @@ parameters:
 			path: src/Service/DownloadCrowdinTranslationService.php
 
 		-
-			message: '#^Binary operation "\." between 0\|0\.0\|array\{\}\|string\|false\|null and string results in an error\.$#'
-			identifier: binaryOp.invalid
-			count: 3
-			path: src/Service/DownloadCrowdinTranslationService.php
-
-		-
 			message: '#^Method App\\Service\\DownloadCrowdinTranslationService\:\:downloadPackageCore\(\) has parameter \$listOfLanguages with no value type specified in iterable type array\.$#'
 			identifier: missingType.iterableValue
 			count: 1
@@ -33,30 +27,6 @@ parameters:
 		-
 			message: '#^Method App\\Service\\DownloadCrowdinTranslationService\:\:processDownloadDirectoryExtension\(\) has parameter \$language with no type specified\.$#'
 			identifier: missingType.parameter
-			count: 1
-			path: src/Service/DownloadCrowdinTranslationService.php
-
-		-
-			message: '#^Method App\\Service\\DownloadCrowdinTranslationService\:\:zipDir\(\) has parameter \$destination with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/Service/DownloadCrowdinTranslationService.php
-
-		-
-			message: '#^Method App\\Service\\DownloadCrowdinTranslationService\:\:zipDir\(\) has parameter \$prefix with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/Service/DownloadCrowdinTranslationService.php
-
-		-
-			message: '#^Method App\\Service\\DownloadCrowdinTranslationService\:\:zipDir\(\) has parameter \$source with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: src/Service/DownloadCrowdinTranslationService.php
-
-		-
-			message: '#^Parameter \#1 \$dirname of method ZipArchive\:\:addEmptyDir\(\) expects string, array\|float\|int\|string\|false\|null given\.$#'
-			identifier: argument.type
 			count: 1
 			path: src/Service/DownloadCrowdinTranslationService.php
 

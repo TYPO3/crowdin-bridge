@@ -216,13 +216,11 @@ final class DownloadCrowdinTranslationService
         return $this->zipDir($newDirName, $zipPath, $project->extensionKey);
     }
 
-    protected function zipDir($source, $destination, $prefix = ''): int
+    protected function zipDir(string $source, string $destination, string $prefix): int
     {
-        if (!empty($prefix)) {
-            $prefix = trim($prefix, '/') . '/';
-        }
-        $zip = new \ZipArchive();
+        $prefix = trim($prefix, '/') . '/';
 
+        $zip = new \ZipArchive();
         if (!$zip->open($destination, \ZipArchive::CREATE)) {
             throw new \RuntimeException(sprintf('Could not create zip "%s"', $destination), 1566421924);
         }
