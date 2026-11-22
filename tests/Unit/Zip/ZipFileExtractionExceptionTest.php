@@ -3,20 +3,20 @@
 declare(strict_types=1);
 
 
-namespace App\Tests\Unit\Download;
+namespace App\Tests\Unit\Zip;
 
-use App\Download\ZipExtractionException;
+use App\Zip\ZipFileExtractionException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(ZipExtractionException::class)]
-final class ZipExtractionExceptionTest extends TestCase
+#[CoversClass(ZipFileExtractionException::class)]
+final class ZipFileExtractionExceptionTest extends TestCase
 {
     #[Test]
     public function fromOpenZipFile(): void
     {
-        $actual = ZipExtractionException::fromOpenZipFile('/some/file.zip');
+        $actual = ZipFileExtractionException::fromOpenZipFile('/some/file.zip');
 
         self::assertSame('Could not open ZIP file "/some/file.zip"', $actual->getMessage());
         self::assertSame(1566421924, $actual->getCode());
@@ -25,7 +25,7 @@ final class ZipExtractionExceptionTest extends TestCase
     #[Test]
     public function fromExtractingZipFile(): void
     {
-        $actual = ZipExtractionException::fromExtractingZipFile('/some/file.zip', '/some/path');
+        $actual = ZipFileExtractionException::fromExtractingZipFile('/some/file.zip', '/some/path');
 
         self::assertSame('Could not extract ZIP file "/some/file.zip" to path "/some/path"', $actual->getMessage());
         self::assertSame(1795291955, $actual->getCode());

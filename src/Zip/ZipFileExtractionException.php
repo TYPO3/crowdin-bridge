@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Download;
+namespace App\Zip;
 
-final class ZipExtractionException extends \RuntimeException
+final class ZipFileExtractionException extends \RuntimeException
 {
     public static function fromOpenZipFile(string $zipFile): self
     {

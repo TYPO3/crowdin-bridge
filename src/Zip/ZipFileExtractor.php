@@ -2,21 +2,21 @@
 
 declare(strict_types=1);
 
-namespace App\Download;
+namespace App\Zip;
 
-final readonly class ZipExtractor
+final readonly class ZipFileExtractor
 {
     public function extract(string $zipFile, string $pathTo): void
     {
         $zip = new \ZipArchive();
         $openResult = $zip->open($zipFile);
         if ($openResult !== true) {
-            throw ZipExtractionException::fromOpenZipFile($zipFile);
+            throw ZipFileExtractionException::fromOpenZipFile($zipFile);
         }
 
         $extractionResult = @$zip->extractTo($pathTo);
         if ($extractionResult === false) {
-            throw ZipExtractionException::fromExtractingZipFile($zipFile, $pathTo);
+            throw ZipFileExtractionException::fromExtractingZipFile($zipFile, $pathTo);
         }
         $zip->close();
     }

@@ -13,13 +13,13 @@ use App\Crowdin\Entity\TranslationProjectBuild;
 use App\Crowdin\Enum\TranslationProjectBuildStatus;
 use App\Crowdin\Repository\TranslationRepository;
 use App\Download\ExtensionBranchNameResolver;
-use App\Download\ZipExtractor;
 use App\Exception\NoFinishedProjectBuildFoundException;
 use App\Exception\NoTranslationsAvailableException;
 use App\File\PathResolver;
 use App\Info\CoreInformation;
 use App\Info\LanguageInformation;
 use App\Utility\FileHandling;
+use App\Zip\ZipFileExtractor;
 use FriendsOfTYPO3\CrowdinBase\Language\SpecialLanguage;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Filesystem\Filesystem;
@@ -37,7 +37,7 @@ final class DownloadCrowdinTranslationService
         private readonly PathResolver $pathResolver,
         private readonly ProjectCollection $projectCollection,
         private readonly TranslationRepository $translationRepository,
-        private readonly ZipExtractor $zipExtractor,
+        private readonly ZipFileExtractor $zipFileExtractor,
     ) {}
 
     public function downloadPackageCore(array $listOfLanguages = []): void
@@ -356,7 +356,7 @@ final class DownloadCrowdinTranslationService
         $zipFile = $this->downloadFromCrowdin($project);
         FileHandling::rmdir($downloadTarget, true);
         FileHandling::mkdir_deep($downloadTarget);
-        $this->zipExtractor->extract($zipFile, $downloadTarget);
+        $this->zipFileExtractor->extract($zipFile, $downloadTarget);
         return $downloadTarget;
     }
 }
