@@ -175,6 +175,15 @@ header .logo-wrapper {
     color: #f00;
 }
 
+.t3-cell-core-branch {
+    cursor: pointer;
+    display: block;
+    font-weight: 700;
+}
+.t3-cell-core-extension {
+    padding-left: 1.5em;
+}
+
 .t3-cell-element {
     font-size: calc(var(--ag-font-size) * 0.75);
     padding: 2px;

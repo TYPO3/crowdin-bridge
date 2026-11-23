@@ -1,5 +1,4 @@
-// View - projects (extensions) from status.json
-const sourceCrowdin = 'https://crowdin.com/project/';
+import { crowdinUrl, escapeHtml } from '../render-language.js';
 
 export default {
     source: 'status.json',
@@ -15,12 +14,12 @@ export default {
         width: 260,
     },
     isUsable: (row) => row.usable,
-    crowdinUrl: (row, languageKey) => `${sourceCrowdin}${row.crowdinKey}/${languageKey}`,
+    crowdinUrlPath: (row, languageKey) => `${row.crowdinKey}/${languageKey}`,
 };
 
-// Render extension with link to crowdin project & source (currently TER only)
+// Render extension with link to crowdin project
 function renderCellExtension(params) {
-    const link_crowdin = `<a href="${sourceCrowdin}${params.data.crowdinKey}" target="_blank" title="Crowdin">${params.data.extensionKey}</a>`;
+    const link_crowdin = `<a href="${crowdinUrl(params.data.crowdinKey)}" target="_blank" title="Crowdin">${escapeHtml(params.data.extensionKey)}</a>`;
     // Render admonition for extension state (translationsAvailable)
     let availability = '';
     if (params.data.translationsAvailable === false) {

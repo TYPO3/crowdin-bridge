@@ -38,6 +38,7 @@ export async function loadGrid(view) {
             headerHeight: 110,
             tooltipShowDelay: 500,
             tooltipHideDelay: 5000,
+            ...view.gridOptions,
         };
 
         const gridDiv = document.querySelector('#ag-grid');
