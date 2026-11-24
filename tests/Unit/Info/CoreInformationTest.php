@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace App\Tests\Unit\Info;
 
 use App\Info\CoreInformation;
@@ -18,12 +17,12 @@ final class CoreInformationTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->subject = new class extends CoreInformation {
+        $this->subject = new class () extends CoreInformation {
             protected array $versions = [
                 15,
                 14,
                 13,
-                12
+                12,
             ];
 
             protected array $branchMapping = [
@@ -56,7 +55,7 @@ final class CoreInformationTest extends TestCase
         $this->expectExceptionCode(1792838931);
         $this->expectExceptionMessageIs('Latest Core version could not be determined!');
 
-        $subject = new class extends CoreInformation {
+        $subject = new class () extends CoreInformation {
             protected array $versions = [];
         };
 

@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace App\Tests\Unit\Status\Overview;
 
 use App\Configuration\Language;
@@ -29,12 +28,12 @@ final class StatusWriterTest extends TestCase
         $rsyncPath = '/tmp/crowdin-bridge-status-writer-test-' . uniqid();
         mkdir($rsyncPath);
 
-        $pathResolverStub = $this->createStub(PathResolver::class);
+        $pathResolverStub = self::createStub(PathResolver::class);
         $pathResolverStub
             ->method('getRsyncPath')
             ->willReturn($rsyncPath);
         $jsonStatusWriter = new JsonStatusWriter($pathResolverStub);
-        $frontendWriterStub = $this->createStub(FrontendWriter::class);
+        $frontendWriterStub = self::createStub(FrontendWriter::class);
 
         $project1 = new Project(
             1,
@@ -69,7 +68,7 @@ final class StatusWriterTest extends TestCase
             'typo3-extension-nonusable-project',
             'nonusable_project',
             [
-                new Language('de', 'German')
+                new Language('de', 'German'),
             ]
         );
         $project5 = new Project(
@@ -77,12 +76,12 @@ final class StatusWriterTest extends TestCase
             'typo3-extension-project-without-approvals',
             'project_without_approvals',
             [
-                new Language('de', 'German')
+                new Language('de', 'German'),
             ]
         );
         $projectCollection = new ProjectCollection($project1, $project2, $project3, $project4, $project5);
 
-        $translationStatusRepositoryStub = $this->createStub(TranslationStatusRepository::class);
+        $translationStatusRepositoryStub = self::createStub(TranslationStatusRepository::class);
         $translationStatusRepositoryStub
             ->method('findByProjectId')
             ->willReturnMap([
@@ -92,37 +91,37 @@ final class StatusWriterTest extends TestCase
                         new TranslationProgress('de', 85, 85, 30, 20, 10),
                         new TranslationProgress('it', 33, 22, 31, 21, 11),
                         new TranslationProgress('ro', 48, 41, 32, 22, 12),
-                    ]
+                    ],
                 ],
                 [
                     2,
                     [
                         new TranslationProgress('de', 48, 42, 80, 70, 60),
                         new TranslationProgress('fr', 12, 3, 81, 71, 61),
-                    ]
+                    ],
                 ],
                 [
                     3,
                     [
                         new TranslationProgress('it', 100, 72, 90, 80, 70),
                         new TranslationProgress('ro', 27, 27, 91, 81, 71),
-                    ]
+                    ],
                 ],
                 [
                     4,
                     [
                         new TranslationProgress('de', 0, 0, 60, 50, 40),
-                    ]
+                    ],
                 ],
                 [
-                5,
+                    5,
                     [
                         new TranslationProgress('de', 3, 0, 50, 40, 30),
-                    ]
-                ]
+                    ],
+                ],
             ]);
 
-        $outputDummy = new class implements OutputInterface {
+        $outputDummy = new class () implements OutputInterface {
             public function start(int $max): void
             {
                 // do nothing
@@ -139,8 +138,11 @@ final class StatusWriterTest extends TestCase
             }
         };
 
-        $subject = new StatusWriter(new FrozenClock(new \DateTimeImmutable('2026-08-07 00:00:00',
-            new \DateTimeZone('UTC'))),
+        $subject = new StatusWriter(
+            new FrozenClock(new \DateTimeImmutable(
+                '2026-08-07 00:00:00',
+                new \DateTimeZone('UTC')
+            )),
             $jsonStatusWriter,
             $frontendWriterStub,
             $projectCollection,
@@ -174,7 +176,7 @@ final class StatusWriterTest extends TestCase
             ->method('findByProjectId')
             ->willThrowException(new \Exception('Some foo error'));
 
-        $outputStub = new class implements OutputInterface {
+        $outputStub = new class () implements OutputInterface {
             public array $errors = [];
 
             public function start(int $max): void
@@ -193,8 +195,11 @@ final class StatusWriterTest extends TestCase
             }
         };
 
-        $subject = new StatusWriter(new FrozenClock(new \DateTimeImmutable('2026-08-07 00:00:00',
-            new \DateTimeZone('UTC'))),
+        $subject = new StatusWriter(
+            new FrozenClock(new \DateTimeImmutable(
+                '2026-08-07 00:00:00',
+                new \DateTimeZone('UTC')
+            )),
             $jsonStatusWriter,
             $frontendWriterDummy,
             $projectCollection,

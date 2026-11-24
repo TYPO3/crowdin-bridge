@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-
 namespace App\Tests\Functional\Crowdin\Repository;
-
 
 use CrowdinApiClient\Crowdin;
 use donatj\MockWebServer\MockWebServer;

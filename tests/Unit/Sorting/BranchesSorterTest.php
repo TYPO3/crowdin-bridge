@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace App\Tests\Unit\Sorting;
 
 use App\Crowdin\Entity\Branch;

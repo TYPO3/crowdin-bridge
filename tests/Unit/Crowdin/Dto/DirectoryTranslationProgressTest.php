@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace App\Tests\Unit\Crowdin\Dto;
 
 use App\Crowdin\Dto\DirectoryTranslationProgress;
@@ -41,7 +40,7 @@ final class DirectoryTranslationProgressTest extends TestCase
                 'de' => 50,
                 'fr' => 51,
                 'it' => 52,
-            ]
+            ],
         ], $actual);
     }
 }

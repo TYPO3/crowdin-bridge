@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace App\Tests\Unit\Status\Overview;
 
 use App\File\PathResolver;
@@ -21,7 +20,7 @@ final class JsonStatusWriterTest extends TestCase
         $path = '/tmp/crowdin-brigde-json-status-writer-test-' . uniqid();
         mkdir($path);
 
-        $pathResolverStub = $this->createStub(PathResolver::class);
+        $pathResolverStub = self::createStub(PathResolver::class);
         $pathResolverStub
             ->method('getRsyncPath')
             ->willReturn($path);
@@ -41,7 +40,7 @@ final class JsonStatusWriterTest extends TestCase
 
         $path = '/tmp/crowdin-brigde-json-status-writer-test-' . uniqid();
 
-        $pathResolverStub = $this->createStub(PathResolver::class);
+        $pathResolverStub = self::createStub(PathResolver::class);
         $pathResolverStub
             ->method('getRsyncPath')
             ->willReturn($path);

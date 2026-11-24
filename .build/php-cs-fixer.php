@@ -12,7 +12,10 @@ return (new \PhpCsFixer\Config())
     ->setFinder(
         (new PhpCsFixer\Finder())
             ->ignoreVCSIgnored(true)
-            ->in(realpath(__DIR__ . '/../src'))
+            ->in([
+                realpath(__DIR__ . '/../src'),
+                realpath(__DIR__ . '/../tests'),
+            ])
     )
     ->setRiskyAllowed(true)
     ->setRules([

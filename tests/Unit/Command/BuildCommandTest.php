@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace App\Tests\Unit\Command;
 
 use App\Build\Builder;
@@ -35,7 +34,7 @@ final class BuildCommandTest extends TestCase
         $projectIdentifier = 'invalid-identifier';
 
         $this->builderMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('build')
             ->with($projectIdentifier, self::anything())
             ->willThrowException(ProjectNotFoundException::fromProjectIdentifier($projectIdentifier));
@@ -52,7 +51,7 @@ final class BuildCommandTest extends TestCase
         $projectIdentifier = 'valid-identifier';
 
         $this->builderMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('build')
             ->with($projectIdentifier, self::anything());
 
@@ -66,7 +65,7 @@ final class BuildCommandTest extends TestCase
     public function callingBuilderForAllProjectsReturnsSuccessInNonVerboseMode(): void
     {
         $this->builderMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('build')
             ->with('', self::anything());
 

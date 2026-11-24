@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace App\Tests\Unit\Command\Status;
 
 use App\Command\Status\CoreStatusCommand;
@@ -30,7 +29,7 @@ final class CoreStatusCommandTest extends TestCase
         $commandTester = new CommandTester($command);
 
         $translationStatusExporterMock
-            ->expects(self::once())
+            ->expects($this->once())
             ->method('exportProject')
             ->with($coreProject, self::anything());
 
@@ -51,7 +50,7 @@ final class CoreStatusCommandTest extends TestCase
         $commandTester = new CommandTester($command);
 
         $translationStatusExporterMock
-            ->expects(self::never())
+            ->expects($this->never())
             ->method('exportProject');
 
         $commandTester->execute([]);

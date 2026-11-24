@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace App\Tests\Unit\Status\Project;
 
 use App\Crowdin\Dto\Language;
@@ -21,7 +20,7 @@ final class StatusWriterTest extends TestCase
 
     protected function setUp(): void
     {
-        $languageRepositoryStub = $this->createStub(LanguageRepository::class);
+        $languageRepositoryStub = self::createStub(LanguageRepository::class);
         $languageRepositoryStub
             ->method('findById')
             ->willReturnMap([
@@ -37,7 +36,7 @@ final class StatusWriterTest extends TestCase
     public function writeWritesStatusFileCorrectly(): void
     {
         $translationProgresses = [
-            new TranslationProgress('de', 85,42,50, 40, 30),
+            new TranslationProgress('de', 85, 42, 50, 40, 30),
             new TranslationProgress('tpi', 43, 28, 51, 41, 31),
             new TranslationProgress('es-ES', 44, 29, 52, 42, 32),
         ];
@@ -59,7 +58,7 @@ final class StatusWriterTest extends TestCase
         $this->expectExceptionCode(1763293453);
 
         $translationProgresses = [
-            new TranslationProgress('de', 85,42,50, 40, 30),
+            new TranslationProgress('de', 85, 42, 50, 40, 30),
             new TranslationProgress('tpi', 43, 28, 51, 41, 31),
         ];
 

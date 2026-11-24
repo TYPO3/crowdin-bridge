@@ -90,7 +90,7 @@ final class TargetLanguageModifierTest extends TestCase
 
     private function getLoggerStub(): LoggerInterface
     {
-        return new class implements LoggerInterface {
+        return new class () implements LoggerInterface {
             public string $warningMessage = '';
 
             public function emergency(\Stringable|string $message, array $context = []): void

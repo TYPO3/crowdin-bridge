@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace App\Tests\Unit\Status\Overview;
 
 use App\Configuration\Language;

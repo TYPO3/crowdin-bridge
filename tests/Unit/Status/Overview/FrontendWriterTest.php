@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace App\Tests\Unit\Status\Overview;
 
 use App\File\PathResolver;
@@ -20,7 +19,7 @@ final class FrontendWriterTest extends TestCase
         $path = '/tmp/crowdin-brigde-frontend-writer-test-' . uniqid();
         mkdir($path);
 
-        $pageResolverStub = $this->createStub(PathResolver::class);
+        $pageResolverStub = self::createStub(PathResolver::class);
         $pageResolverStub
             ->method('getFrontendPath')
             ->willReturn(__DIR__ . '/Fixtures/Frontend');

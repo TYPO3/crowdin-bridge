@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace App\Tests\Unit\Crowdin\Entity;
 
 use App\Crowdin\Entity\TranslationProjectBuild;
@@ -23,7 +22,7 @@ final class TranslationProjectBuildTest extends TestCase
             'status' => 'failed',
             'error' => [
                 'message' => 'some error',
-            ]
+            ],
         ]);
 
         $actual = TranslationProjectBuild::fromCrowdinTranslationProjectBuild($build);

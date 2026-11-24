@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace App\Tests\Unit\Status\Core;
 
 use App\Configuration\Project;
@@ -84,7 +83,7 @@ final class TranslationStatusExporterTest extends TestCase
             $languageRepositoryStub,
         );
 
-        $this->translationStatusRepositoryStub = $this->createStub(TranslationStatusRepository::class);
+        $this->translationStatusRepositoryStub = self::createStub(TranslationStatusRepository::class);
 
         $this->translationStatusExporter = new TranslationStatusExporter(
             $this->branchRepositoryStub,
@@ -125,9 +124,9 @@ final class TranslationStatusExporterTest extends TestCase
 
         $this->translationStatusRepositoryStub
             ->method('findByBranchId')
-            ->willReturnCallback(static function(int $projectId, int $branchId): array {
+            ->willReturnCallback(static function (int $projectId, int $branchId): array {
                 if ($projectId === 1) {
-                    return match($branchId) {
+                    return match ($branchId) {
                         101 => [
                             new TranslationProgress('de', 70, 50, 0, 0, 0),
                             new TranslationProgress('fr', 80, 60, 0, 0, 0),

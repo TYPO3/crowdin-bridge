@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace App\Tests\Unit\Crowdin\Repository;
 
 use App\Crowdin\Dto\Language;
@@ -19,7 +18,7 @@ final class LanguageRepositoryTest extends TestCase
 
     protected function setUp(): void
     {
-        $pathResolverStub = $this->createStub(PathResolver::class);
+        $pathResolverStub = self::createStub(PathResolver::class);
         $pathResolverStub
             ->method('getAssetsPath')
             ->willReturn(__DIR__ . '/Fixtures');
@@ -52,7 +51,7 @@ final class LanguageRepositoryTest extends TestCase
         $this->expectExceptionCode(1763660710);
         $this->expectExceptionMessageMatches('#The language file ".*/tests/Unit/Crowdin/Repository/Fixtures/NotAvailable/languages.json" cannot be read!#');
 
-        $pathResolverStub = $this->createStub(PathResolver::class);
+        $pathResolverStub = self::createStub(PathResolver::class);
         $pathResolverStub
             ->method('getAssetsPath')
             ->willReturn(__DIR__ . '/Fixtures/NotAvailable');

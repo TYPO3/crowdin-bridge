@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace App\Tests\Unit\Status\Core;
 
 use App\Crowdin\Dto\BranchTranslationProgress;

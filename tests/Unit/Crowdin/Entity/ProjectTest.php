@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace App\Tests\Unit\Crowdin\Entity;
 
 use App\Crowdin\Entity\Project;
