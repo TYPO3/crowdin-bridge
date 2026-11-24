@@ -19,7 +19,7 @@ parameters:
 			path: src/Service/DownloadCrowdinTranslationService.php
 
 		-
-			message: '#^Parameter \#1 \$file of method App\\Service\\DownloadCrowdinTranslationService\:\:modifyFile\(\) expects string, string\|false given\.$#'
+			message: '#^Parameter \#1 \$filePath of method App\\Download\\TargetLanguageModifier\:\:modify\(\) expects string, string\|false given\.$#'
 			identifier: argument.type
 			count: 1
 			path: src/Service/DownloadCrowdinTranslationService.php
@@ -49,12 +49,6 @@ parameters:
 			path: src/Service/DownloadCrowdinTranslationService.php
 
 		-
-			message: '#^Parameter \#1 \$haystack of function str_contains expects string, string\|false given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/Service/DownloadCrowdinTranslationService.php
-
-		-
 			message: '#^Parameter \#1 \$haystack of function str_starts_with expects string, string\|false given\.$#'
 			identifier: argument.type
 			count: 1
@@ -69,7 +63,7 @@ parameters:
 		-
 			message: '#^Parameter \#3 \$subject of function str_replace expects array\<string\>\|string, string\|false given\.$#'
 			identifier: argument.type
-			count: 3
+			count: 2
 			path: src/Service/DownloadCrowdinTranslationService.php
 
 		-

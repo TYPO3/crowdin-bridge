@@ -13,6 +13,7 @@ use App\Crowdin\Entity\TranslationProjectBuild;
 use App\Crowdin\Enum\TranslationProjectBuildStatus;
 use App\Crowdin\Repository\TranslationRepository;
 use App\Download\ExtensionBranchNameResolver;
+use App\Download\TargetLanguageModifier;
 use App\Exception\NoFinishedProjectBuildFoundException;
 use App\Exception\NoTranslationsAvailableException;
 use App\File\PathResolver;
@@ -33,6 +34,7 @@ final readonly class DownloadCrowdinTranslationService
         private LoggerInterface $logger,
         private PathResolver $pathResolver,
         private ProjectCollection $projectCollection,
+        private TargetLanguageModifier $targetLanguageModifier,
         private TranslationRepository $translationRepository,
         private ZipFileExtractor $zipFileExtractor,
     ) {}
@@ -241,7 +243,7 @@ final readonly class DownloadCrowdinTranslationService
                 if (is_dir($file)) {
                     $zip->addEmptyDir($prefix . str_replace($source . '/', '', $file . '/'));
                 } elseif (is_file($file)) {
-                    $fileHasContent = $this->modifyFile($file, $originalLanguage, $typo3Language);
+                    $fileHasContent = $this->targetLanguageModifier->modify($file, $originalLanguage, $typo3Language);
                     if (!$fileHasContent) {
                         unlink($file);
                         continue;
@@ -307,24 +309,6 @@ final readonly class DownloadCrowdinTranslationService
         );
 
         return $finishedBuild->id;
-    }
-
-    /**
-     * Modify file's content
-     * @see https://github.com/TYPO3-Initiatives/crowdin/issues/32
-     */
-    protected function modifyFile(string $file, string $originalLanguage, string $typo3Language): bool
-    {
-        $content = file_get_contents($file);
-        if (!str_contains($content, '<trans-unit')) {
-            //            return false;
-        }
-        if ($typo3Language !== $originalLanguage && is_file($file)) {
-            $content = str_replace(' target-language="' . $originalLanguage . '"', ' target-language="' . $typo3Language . '"', $content);
-
-            file_put_contents($file, $content);
-        }
-        return true;
     }
 
     private function removeFilesFromDifferentLanguage(string $downloadLanguageTarget, string $language): void
