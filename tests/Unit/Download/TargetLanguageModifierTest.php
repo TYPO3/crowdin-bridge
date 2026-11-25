@@ -52,23 +52,100 @@ final class TargetLanguageModifierTest extends TestCase
         $actual = $subject->modify($filePath, 'sv-SE', 'sv');
 
         self::assertFalse($actual);
-        self::assertSame('Content from file "' . $filePath . '" cannot be read', $loggerStub->warningMessage);
+        self::assertSame('Cannot open file \'' . $filePath . '\'', $loggerStub->warningMessage);
     }
 
     #[Test]
-    public function modifyModifiesTheTargetLanguageCorrectlyAndReturnsTrue(): void
+    public function modifyReturnsFalseIfXliffVersionCannotBeDetermined(): void
+    {
+        $loggerStub = $this->getLoggerStub();
+        $subject = new TargetLanguageModifier($loggerStub);
+
+        $filePath = sys_get_temp_dir() . '/crowdin-bridge-target-language-modifier-' . bin2hex(random_bytes(12));
+        file_put_contents($filePath, '<xliff/>');
+
+        $actual = $subject->modify($filePath, 'sv-SE', 'sv');
+
+        self::assertFalse($actual);
+        self::assertSame('File "' . $filePath . '" has no XLIFF version attribute', $loggerStub->warningMessage);
+    }
+
+    #[Test]
+    public function modifyReturnsFalseIfXliff1HasNoTargetLanguageAttribute(): void
+    {
+        $loggerStub = $this->getLoggerStub();
+        $subject = new TargetLanguageModifier($loggerStub);
+
+        $filePath = sys_get_temp_dir() . '/crowdin-bridge-target-language-modifier-' . bin2hex(random_bytes(12));
+        file_put_contents($filePath, '<xliff version="1.2"><file/></xliff>');
+
+        $actual = $subject->modify($filePath, 'sv-SE', 'sv');
+
+        self::assertFalse($actual);
+        self::assertSame('File "' . $filePath . '" has errors processing XLIFF: target-language on file node not set', $loggerStub->warningMessage);
+    }
+
+    #[Test]
+    public function modifyReturnsFalseIfXliff2HasNoTrgLangAttribute(): void
+    {
+        $loggerStub = $this->getLoggerStub();
+        $subject = new TargetLanguageModifier($loggerStub);
+
+        $filePath = sys_get_temp_dir() . '/crowdin-bridge-target-language-modifier-' . bin2hex(random_bytes(12));
+        file_put_contents($filePath, '<xliff version="2.0"/>');
+
+        $actual = $subject->modify($filePath, 'sv-SE', 'sv');
+
+        self::assertFalse($actual);
+        self::assertSame('File "' . $filePath . '" has errors processing XLIFF: trgLang on xliff node not set', $loggerStub->warningMessage);
+    }
+
+    #[Test]
+    public function modifyModifiesTheTargetLanguageForXliff1CorrectlyAndReturnsTrue(): void
     {
         $subject = new TargetLanguageModifier(new NullLogger());
 
-        $fixtureFilePath = __DIR__ . '/Fixtures/sv.locallang.xlf';
-        $expectedFilePath = __DIR__ . '/Fixtures/sv.locallang.expected.xlf';
+        $fixtureFilePath = __DIR__ . '/Fixtures/sv.xliff1.xlf';
+        $expectedFilePath = __DIR__ . '/Fixtures/sv.xliff1.expected.xlf';
         $filePath = sys_get_temp_dir() . '/crowdin-bridge-target-language-modifier-' . bin2hex(random_bytes(12));
         copy($fixtureFilePath, $filePath);
 
         $actual = $subject->modify($filePath, 'sv-SE', 'sv');
 
         self::assertTrue($actual);
-        self::assertFileEquals($expectedFilePath, $filePath);
+        self::assertXmlFileEqualsXmlFile($expectedFilePath, $filePath);
+    }
+
+    #[Test]
+    public function modifyModifiesTheTargetLanguageForXliff20CorrectlyAndReturnsTrue(): void
+    {
+        $subject = new TargetLanguageModifier(new NullLogger());
+
+        $fixtureFilePath = __DIR__ . '/Fixtures/sv.xliff20.xlf';
+        $expectedFilePath = __DIR__ . '/Fixtures/sv.xliff20.expected.xlf';
+        $filePath = sys_get_temp_dir() . '/crowdin-bridge-target-language-modifier-' . bin2hex(random_bytes(12));
+        copy($fixtureFilePath, $filePath);
+
+        $actual = $subject->modify($filePath, 'sv-SE', 'sv');
+
+        self::assertTrue($actual);
+        self::assertXmlFileEqualsXmlFile($expectedFilePath, $filePath);
+    }
+
+    #[Test]
+    public function modifyModifiesTheTargetLanguageForXliff22CorrectlyAndReturnsTrue(): void
+    {
+        $subject = new TargetLanguageModifier(new NullLogger());
+
+        $fixtureFilePath = __DIR__ . '/Fixtures/sv.xliff22.xlf';
+        $expectedFilePath = __DIR__ . '/Fixtures/sv.xliff22.expected.xlf';
+        $filePath = sys_get_temp_dir() . '/crowdin-bridge-target-language-modifier-' . bin2hex(random_bytes(12));
+        copy($fixtureFilePath, $filePath);
+
+        $actual = $subject->modify($filePath, 'sv-SE', 'sv');
+
+        self::assertTrue($actual);
+        self::assertXmlFileEqualsXmlFile($expectedFilePath, $filePath);
     }
 
     #[Test]
@@ -77,7 +154,7 @@ final class TargetLanguageModifierTest extends TestCase
         $loggerStub = $this->getLoggerStub();
         $subject = new TargetLanguageModifier($loggerStub);
 
-        $fixtureFilePath = __DIR__ . '/Fixtures/sv.locallang.xlf';
+        $fixtureFilePath = __DIR__ . '/Fixtures/sv.xliff1.xlf';
         $filePath = sys_get_temp_dir() . '/crowdin-bridge-target-language-modifier-' . bin2hex(random_bytes(12));
         copy($fixtureFilePath, $filePath);
         chmod($filePath, 0444);
@@ -85,7 +162,23 @@ final class TargetLanguageModifierTest extends TestCase
         $actual = $subject->modify($filePath, 'sv-SE', 'sv');
 
         self::assertFalse($actual);
-        self::assertSame('Content cannot be written to file "' . $filePath . '"', $loggerStub->warningMessage);
+        self::assertSame('XLIFF document cannot be written to file "' . $filePath . '"', $loggerStub->warningMessage);
+    }
+
+    #[Test]
+    public function modifyReturnsFalseIfXliffVersionIsNotValid(): void
+    {
+        $loggerStub = $this->getLoggerStub();
+        $subject = new TargetLanguageModifier($loggerStub);
+
+        $fixtureFilePath = __DIR__ . '/Fixtures/sv.xliff9.xlf';
+        $filePath = sys_get_temp_dir() . '/crowdin-bridge-target-language-modifier-' . bin2hex(random_bytes(12));
+        copy($fixtureFilePath, $filePath);
+
+        $actual = $subject->modify($filePath, 'sv-SE', 'sv');
+
+        self::assertFalse($actual);
+        self::assertSame('File "' . $filePath . '" has errors processing XLIFF: XLIFF version "9.9" is not supported', $loggerStub->warningMessage);
     }
 
     private function getLoggerStub(): LoggerInterface
